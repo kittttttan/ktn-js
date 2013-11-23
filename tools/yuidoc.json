@@ -1,0 +1,12 @@
+{
+  "name": "ktn-js",
+  "description": "JavaScript laboratory.",
+  "version": "0.1.0",
+  "url": "https://github.com/kittttttan/ktn-js",
+  "options": {
+    "paths": [
+      "../src"
+    ],
+    "outdir": "./doc"
+  }
+}

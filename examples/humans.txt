@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PC向けにフリーウェアの紹介,プログラミング,flashゲーム,数学など。モバイル向けに小説,コピペなど。管理人「きっ☆たん」がとにかく気になったものをかき集めるページ。">
+<link rel="alternate" hreflang="en" href="index.html.en">
+<link rel="author" type="text/plain" href="humans.txt">
+<title>きったんの頭ん中 | 興味のあるものをかき集めるページ</title>
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="stylesheet" media="screen,projection" href="css/base.css">
+<link rel="stylesheet" media="handheld,tty" href="css/mobile.css">
+</head>
+<body>
+  <div id="wrapper">
+    <header>
+    <div id="header">
+      <h1 id="title">きったんの頭<sub>ん</sub>中<em>☆</em></h1>
+      <div id="share"><a href="//twitter.com/share" class="twitter-share-button" data-via="kittttttan" data-lang="ja">ツイート</a></div>
+      <nav><div id="nav"><ul>
+<li><a href="ez/">ケータイ向け</a>
+<li><a href="search" rel="search">検索</a>
+<li><a href="index.html.en">English</a>
+</ul>
+</div></nav>
+    </div>
+    </header>
+
+    <section>
+    <div id="content">
+<h2>コンテンツ</h2>
+<p>メインは水樹奈々の情報まとめ。主にリンク集。
+<ul>
+<li><a href="mizuki-nana">水樹奈々</a> - 声優・歌手
+<li><a href="daisyxdaisy">Daisy×Daisy</a> - 歌手
+<li><a href="work/">プログラミング</a> - <a href="ktn/">ktn</a>
+<li><a href="music">音楽</a> - 楽譜, MIDI
+<li><a href="math/">数学</a>
+<li><a href="xul/">Firefox拡張</a>
+</ul>
+<section>
+<h3>リンク集</h3>
+<ul>
+<li><a href="game">ゲーム</a> - Flashゲームなど
+<li><a href="4beginners">ツール</a> - フリーウェア紹介
+<li><a href="words">ドキュメント</a> - 名言, コピペ, Web漫画
+<li><a href="images">画像</a>
+<li><a href="icon">フォント／アイコン</a>
+<li><a href="aa">AA</a> - アスキーアート
+<li><a href="vocaloid">VOCALOID</a>
+</ul>
+</section>
+    </div>
+    </section>
+
+    <footer>
+    <div id="footer">
+      <p>&copy; 2008-2013 <a href="//plus.google.com/116387695926961519893?rel=author" rel="external">きっ☆たん</a>
+    </div>
+    </footer>
+  </div>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript"><!--
+var fhp_c_pc = navigator.userAgent.toLowerCase();
+var fhp_ie = ((fhp_c_pc.indexOf("msie") != -1) && (fhp_c_pc.indexOf("opera") == -1));
+var fhp_cs, fhp_wt, fhp_dm;
+var fhp_rnd = Math.floor(Math.random()*99999999999);
+if (fhp_ie) {
+        fhp_cs = document.charset;
+}else{
+        fhp_cs = document.characterSet;
+}
+fhp_dm = document.location;
+fhp_wt = '<' + 'script src="http://web.fc2.com/footer/footer.php?cs=' + fhp_cs + '&dm=' + fhp_dm + '&rnd=' + fhp_rnd + '" charset="UTF-8"><' + '/script>';
+document.write(fhp_wt);
+//--></script>
+<!-- FC2, inc.-->
+<img src="http://media.fc2.com/counter_img.php?id=50" style="visibility:hidden" alt="inserted by FC2 system" width="0" height="0" />
+<!-- FC2, inc.-->
+</body></html>

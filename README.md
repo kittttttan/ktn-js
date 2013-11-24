@@ -1,5 +1,7 @@
 # ktn-js
 
+[![Build Status](https://travis-ci.org/kittttttan/ktn-js.png?branch=master)](https://travis-ci.org/kittttttan/ktn-js)
+
 <https://github.com/kittttttan/ktn-js>
 
 ## Working with Grunt

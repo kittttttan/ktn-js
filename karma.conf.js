@@ -12,6 +12,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'src/ktn.js',
+      'src/integer.js',
+      'src/string.js',
+      'src/complex.js',
       'src/**/*.js',
       'test/**/*.js'
     ],

@@ -1,10 +1,11 @@
 (function(exports){
 'use strict';
 
-var StringUtil = exports.StringUtil;
-if (typeof require !== 'undefined') {
-  StringUtil = require('./string.js').StringUtil;
+if (typeof exports.StringUtil === 'undefined' &&
+    typeof require !== 'undefined') {
+  exports.StringUtil = require('./string.js').StringUtil;
 }
+var StringUtil = exports.StringUtil;
 var repeat = StringUtil.repeat;
 
 /**

@@ -1,7 +1,8 @@
 (function(exports){
 'use strict';
 
-if (typeof require !== 'undefined') {
+if (typeof exports.Complex === 'undefined' &&
+    typeof require !== 'undefined') {
   exports.Complex = require('./complex.js').Complex;
 }
 var Complex = exports.Complex;

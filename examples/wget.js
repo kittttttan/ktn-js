@@ -45,7 +45,7 @@ function wget(targetUrl, opt) {
 function main() {
   var opt = {
     method: 'GET',
-    filepath: 'wget_res.html',
+    filepath: 'wget_res.log',
     callback: function(err) {
       if (err) {
         console.log(err);

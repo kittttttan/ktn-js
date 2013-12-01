@@ -1,12 +1,10 @@
-if (typeof require !== 'undefined') {
-  Util = require('../src/utils.js').Util;
-  StringUtil = require('../src/string.js').StringUtil;
-  uuid = require('../src/uuid.js').uuid;
-  ArrayUtil = require('../src/array.js').ArrayUtil;
-  StringConverter = require('../src/strconv.js').StringConverter;
-  Random = require('../src/random.js').Random;
-  DateUtil = require('../src/date.js').DateUtil;
-}
+var Util = require('../../js/utils.js').Util,
+    StringUtil = require('../../js/string.js').StringUtil,
+    uuid = require('../../js/uuid.js').uuid,
+    ArrayUtil = require('../../js/array.js').ArrayUtil,
+    StringConverter = require('../../js/strconv.js').StringConverter,
+    Random = require('../../js/random.js').Random,
+    DateUtil = require('../../js/date.js').DateUtil;
 
 var assert = Util.assert;
 var range = ArrayUtil.range;

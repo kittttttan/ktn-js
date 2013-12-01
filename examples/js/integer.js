@@ -1,13 +1,7 @@
 /**
  * @file Samples for Integer
  */
-(function(G) {
-"use strict";
-
-if (typeof require !== 'undefined') {
-  G.Integer = require('../src/integer.js').Integer;
-}
-var Integer = G.Integer;
+var Integer = require('../../js/integer.js').Integer;
 
 /**
  * Basic operations
@@ -162,5 +156,3 @@ console.log('\n-- pi --');
 console.log('pi(77) = ');
 console.log(pi(77).toString());
 console.log('\nTime: '+ (Date.now() - d) + 'ms');
-
-}(this));

@@ -1,3 +1,5 @@
+var StringUtil = require('../js/string.js').StringUtil;
+
 describe("StringUtil", function() {
 
   it("repeat", function() {

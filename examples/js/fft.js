@@ -1,10 +1,6 @@
-var Fft = this.Fft;
-if (typeof require !== 'undefined') {
-  Fft = require('../src/fft.js').Fft;
-}
+var Fft = require('../../js/fft.js').Fft;
 var fft = Fft.fftFloat;
 var ifft = Fft.ifft;
-
 var cos = Math.cos;
 
 function test(size, show) {

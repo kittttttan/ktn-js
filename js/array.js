@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 /**
  * ArrayUtil
  * @class ArrayUtil
@@ -187,5 +184,3 @@ var ArrayUtil = {
 
 // exports
 exports.ArrayUtil = ArrayUtil;
-
-}(typeof exports !== 'undefined' ? exports : this));

@@ -1,9 +1,9 @@
 var fs = require('fs'),
     util = require('util'),
     
-    DateUtil = require('../src/date').DateUtil,
+    DateUtil = require('../js/date').DateUtil,
     dateFormat = DateUtil.format,
-    StringUtil = require('../src/string').StringUtil,
+    StringUtil = require('../js/string').StringUtil,
     endsWith = StringUtil.endsWith,
 
     domain = 'http://kittttttan.web.fc2.com',

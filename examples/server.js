@@ -2,7 +2,7 @@ var http = require('http'),
     fs = require('fs'),
     qs = require('querystring'),
     url = require('url'),
-    DateUtil = require('../src/date').DateUtil,
+    DateUtil = require('../js/date').DateUtil,
     dateFormat = DateUtil.format,
     
     ROOT = __dirname,

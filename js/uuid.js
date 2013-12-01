@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 var rnd = Math.random;
 
 /**
@@ -227,5 +224,3 @@ function uuid(ver) {
 
 // exports
 exports.uuid = uuid;
-
-}(typeof exports !== 'undefined' ? exports : this));

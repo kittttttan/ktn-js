@@ -1,11 +1,4 @@
-(function(exports){
-'use strict';
-
-if (typeof exports.Complex === 'undefined' &&
-    typeof require !== 'undefined') {
-  exports.Complex = require('./complex.js').Complex;
-}
-var Complex = exports.Complex;
+var Complex = require('./complex.js').Complex;
 
 var cos = Math.cos;
 var sin = Math.sin;
@@ -175,5 +168,3 @@ var Fft = {
 
 // exports
 exports.Fft = Fft;
-
-}(typeof exports !== 'undefined' ? exports : this));

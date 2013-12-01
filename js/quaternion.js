@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 var _sqrt = Math.sqrt;
 var _cos = Math.cos;
 var _sin = Math.sin;
@@ -120,10 +117,10 @@ Quaternion.prototype = {
    * @return {Quaternion}
    */
   normalize: function() {
-    var norm = this.norm();
-    if (!norm) { return undefined; }
-    return new Quaternion(this.w / norm,
-        this.x / norm, this.y / norm, this.z / norm);
+    var n = this.norm();
+    if (!n) { return undefined; }
+    return new Quaternion(this.w / n,
+        this.x / n, this.y / n, this.z / n);
   },
   
   /**
@@ -131,17 +128,15 @@ Quaternion.prototype = {
    * @return {Quaternion}
    */
   inverse: function() {
-    var norm = this.w * this.w +
+    var n = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
-    if (!norm) { return undefined; }
+    if (!n) { return undefined; }
     
-    var q = new Quaternion(this.w / norm,
-        this.x / norm, this.y / norm, this.z / norm);
+    var q = new Quaternion(this.w / n,
+        this.x / n, this.y / n, this.z / n);
     return q;
   }
 };
 
 // exports
 exports.Quaternion = Quaternion;
-
-}(typeof exports !== 'undefined' ? exports : this));

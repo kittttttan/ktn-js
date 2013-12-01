@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 /**
  * @param {boolean} b
  * @param {string} s
@@ -60,5 +57,3 @@ var Util = {
 
 // exports
 exports.Util = Util;
-
-}(typeof exports !== 'undefined' ? exports : this));

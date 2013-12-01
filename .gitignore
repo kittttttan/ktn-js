@@ -1,4 +1,7 @@
-build/
 coverage/
+karma_html/
 node_modules/
+*.map
+*.bundle.js
+*.min.js
 *.log

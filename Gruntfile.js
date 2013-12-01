@@ -1,20 +1,41 @@
 module.exports = function(grunt) {
+  'use strict';
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    clean: {
-      build:{
-        src: ['build/']
+    browserify: {
+      test: {
+        src: ['test/**/*.js'],
+        dest: 'test/test.bundle.js'
       },
-      coverage:{
-        src: ['build/', 'coverage/']
+      examples: {
+        files: [{
+          expand: true,
+          cwd: 'examples/',
+          src: 'js/**/*.js',
+          dest: 'examples/',
+          ext: '.bundle.js'
+        }]
+      }
+    },
+
+    clean: {
+      examples: {
+        src: ['examples/js/**/*.bundle.js','examples/js/**/*.min.js']
+      },
+      min: {
+        src: ['js/**/*.min.js', 'js/**/*.map']
+      },
+      coverage: {
+        src: ['coverage/']
       }
     },
 
     eslint: {
-      target: ['src/**/*.js'],
+      target: ['Gruntfile.js', 'js/**/*.js'],
       options: {
-        config: 'eslint.json'
+        config: 'config/eslint.json'
       }
     },
 
@@ -26,7 +47,19 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        report: 'min',
+        banner: '/*! <%= pkg.name %> <%= pkg.version %>'+
+                ' <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        sourceMapRoot: '../',
+        //sourceMapRoot: 'https://github.com/kittttttan/ktn-js/raw/master/',
+        sourceMapPrefix : 0,
+        sourceMap: function(path) {
+          return path.replace(/(\.min)?\.js$/, '.map');
+        },
+        sourceMappingURL: function(path) {
+          var fname = path.split('/').pop();
+          return fname.replace(/(\.min)?\.js$/, '.map');
+        },
         global_defs: {
           'DEBUG': false
         }
@@ -34,25 +67,35 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'src/',
-          src: '*.js',
-          dest: 'build/'
+          cwd: './',
+          src: 'js/**/*.js',
+          dest: './',
+          ext: '.min.js'
+        }]
+      },
+      examples: {
+        files: [{
+          expand: true,
+          cwd: 'examples/',
+          src: '**/*.js',
+          dest: 'examples/',
+          ext: '.min.js'
         }]
       }
     }
   });
 
-  //grunt.loadTasks('tasks');
-
   // grunt plugins
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-karma');
 
   // tasks
-  grunt.registerTask('build', ['clean:build','uglify']);
+  grunt.registerTask('examples', ['clean:examples','browserify:examples']);
+  grunt.registerTask('min', ['clean:min','uglify:dist']);
   grunt.registerTask('lint', ['eslint']);
   grunt.registerTask('test', ['karma']);
-  grunt.registerTask('default', ['test','build']);
+  grunt.registerTask('default', ['test','min']);
 };

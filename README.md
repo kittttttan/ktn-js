@@ -21,8 +21,14 @@ cd /path/to/ktn-js
 npm install
 ```
 
-run
+build
 
 ```bash
 grunt
+```
+
+build examples for browser (with [browserify](http://browserify.org/))
+
+```bash
+grunt examples
 ```

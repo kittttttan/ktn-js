@@ -8,9 +8,6 @@
  *   (r.real2() * 7 | 0) + 1; // 1 to 7
  */
 
-(function(exports){
-'use strict';
-
 /**
  * @const
  * @type number
@@ -213,5 +210,3 @@ Random.prototype.real3 = function() {
 
 // exports
 exports.Random = Random;
-
-}(typeof exports !== 'undefined' ? exports : this));

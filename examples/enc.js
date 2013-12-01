@@ -1,4 +1,4 @@
-var Enc = require('../src/enc.js');
+var Enc = require('../js/enc.js');
 Encode = Enc.Encode;
 Decode = Enc.Decode;
 

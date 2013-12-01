@@ -5,7 +5,7 @@
 "use strict";
 
 if (typeof require !== 'undefined') {
-  G.Integer = require('../src/integer.js').Integer;
+  G.Integer = require('../js/integer.js').Integer;
 }
 var Integer = G.Integer;
 

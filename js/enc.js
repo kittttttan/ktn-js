@@ -1,11 +1,4 @@
-(function(exports){
-'use strict';
-
-if (typeof exports.StringUtil === 'undefined' &&
-    typeof require !== 'undefined') {
-  exports.StringUtil = require('./string.js').StringUtil;
-}
-var StringUtil = exports.StringUtil;
+var StringUtil = require('./string.js').StringUtil;
 var repeat = StringUtil.repeat;
 
 /**
@@ -288,5 +281,3 @@ var Decode = {
 // exports
 exports.Encode = Encode;
 exports.Decode = Decode;
-
-}(typeof exports !== 'undefined' ? exports : this));

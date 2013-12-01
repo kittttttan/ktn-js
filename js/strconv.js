@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 /**
  * StringConverter
  * @class StringConverter
@@ -152,5 +149,3 @@ var StringConverter = {
 
 // exports
 exports.StringConverter = StringConverter;
-
-}(typeof exports !== 'undefined' ? exports : this));

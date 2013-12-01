@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 var _sqrt = Math.sqrt;
 
 /**
@@ -99,5 +96,3 @@ Vector.prototype = {
 
 // exports
 exports.Vector = Vector;
-
-}(typeof exports !== 'undefined' ? exports : this));

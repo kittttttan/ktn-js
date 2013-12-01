@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 /**
  * StringUtil
  * @class StringUtil
@@ -187,5 +184,3 @@ var repeat = StringUtil.repeat;
 
 // exports
 exports.StringUtil = StringUtil;
-
-}(typeof exports !== 'undefined' ? exports : this));

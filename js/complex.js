@@ -1,6 +1,3 @@
-(function(exports){
-'use strict';
-
 /**
  * Complex
  * @class Complex
@@ -57,5 +54,3 @@ Complex.prototype = {
 
 // exports
 exports.Complex = Complex;
-
-}(typeof exports !== 'undefined' ? exports : this));

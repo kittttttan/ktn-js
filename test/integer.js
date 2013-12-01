@@ -1,18 +1,21 @@
-describe("Integer", function() {
+var Integer = require('../js/integer.js').Integer;
 
-  it("const", function() {
-    expect(Integer.zero().toString()).toEqual(Integer.str('0').toString());
-    expect(Integer.one().toString()).toEqual(Integer.str('1').toString());
+describe("Integer", function() {
+  it("zero", function() {
+    expect(Integer.zero().toString()).toEqual('0');
+  });
+
+  it("one", function() {
+    expect(Integer.one().toString()).toEqual('1');
   });
 
   it("num", function() {
-    expect(Integer.num(0).toString()).toEqual(Integer.str('0').toString());
-    expect(Integer.num(1).toString()).toEqual(Integer.str('1').toString());
-
-    expect(Integer.num(123456789).toString()).toEqual(Integer.str('123456789').toString());
-    expect(Integer.num(2147483647).toString()).toEqual(Integer.str('2147483647').toString());
-    expect(Integer.num(1234567890).toString()).toEqual(Integer.str('1234567890').toString());
-    expect(Integer.num(0x7fffffff).toString()).toEqual(Integer.str('7fffffff', 16).toString());
+    expect(Integer.num(0).toString()).toEqual('0');
+    expect(Integer.num(1).toString()).toEqual('1');
+    expect(Integer.num(123456789).toString()).toEqual('123456789');
+    expect(Integer.num(-2147483647).toString()).toEqual('-2147483647');
+    expect(Integer.num(1234567890).toString()).toEqual('1234567890');
+    expect(Integer.num(0x7fffffff).toString(16)).toEqual('7fffffff');
   });
 
   it("str", function() {
@@ -25,8 +28,8 @@ describe("Integer", function() {
 
   it("any", function() {
     expect(Integer.any(null).eq(Integer.zero())).toBe(true);
-    expect(Integer.any(12345678900).toString()).toEqual(Integer.str('12345678900').toString());
-    expect(Integer.any(-0x7fffffff).toString()).toEqual(Integer.str('-7fffffff', 16).toString());
+    expect(Integer.any(12345678900).toString()).toEqual('12345678900');
+    expect(Integer.any(-0x7fffffff).toString(16)).toEqual('-7fffffff');
     expect(Integer.any(1234567).toString()).toEqual('1234567');
     expect(Integer.any(3.14).toString()).toEqual('3');
     expect(Integer.any('7654321').toString()).toEqual('7654321');
@@ -34,6 +37,17 @@ describe("Integer", function() {
     expect(Integer.any(1e7).toString()).toEqual('10000000');
     expect(Integer.any(1.23e5).toString()).toEqual('123000');
     expect(Integer.any(1.23456e2).toString()).toEqual('123');
+  });
+
+  it("equal", function() {
+    expect(Integer.num(0).equal(Integer.zero())).toBe(true);
+    expect(Integer.num(1).equal(Integer.one())).toBe(true);
+
+    expect(Integer.str('0').equal(Integer.zero())).toBe(true);
+    expect(Integer.str('1').equal(Integer.one())).toBe(true);
+
+    expect(Integer.any('0').equal(Integer.zero())).toBe(true);
+    expect(Integer.any('1').equal(Integer.one())).toBe(true);
   });
 
   it("basic", function() {
@@ -137,6 +151,15 @@ describe("Integer", function() {
     expect(Integer.factorial(3).toString()).toEqual('6');
     expect(Integer.factorial(10).toString()).toEqual('3628800');
     expect(Integer.factorial(17).toString()).toEqual('355687428096000');
+  });
+
+  it("sqrt", function () {
+    expect(Integer.zero().sqrt().toString()).toEqual('0');
+    expect(Integer.one().sqrt().toString()).toEqual('1');
+    expect(Integer.num(4).sqrt().toString()).toEqual('2');
+    expect(Integer.num(77).sqrt().toString()).toEqual('8');
+    expect(Integer.str('1000000').sqrt().toString()).toEqual('1000');
+    expect(Integer.str('10000000000').sqrt().toString()).toEqual('100000');
   });
 
   var fib = function(a) {

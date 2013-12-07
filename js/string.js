@@ -70,12 +70,12 @@ var StringUtil = {
         }
         ++index;
         if (width > s.length) {
-          var prefix = repeat((flag === '0' ? '0': ' '), width);
           if (flag === '-') {
-            s += prefix;
-          } else {
-            s = prefix + s;
+            s += repeat((flag === '0' ? '0': ' '), width - s.length);
+            return s;
           }
+
+          s = repeat((flag === '0' ? '0': ' '), width) + s;
           return s.slice(-width);
         }
         return s;
@@ -106,7 +106,7 @@ var StringUtil = {
    * @return {string}
    */
   trimLeft: function(s) {
-    return s.replace(/^\s+$/, '');
+    return s.replace(/^\s+/, '');
   },
 
   /**
@@ -122,7 +122,7 @@ var StringUtil = {
    * @return {string}
    */
   trim: function(s) {
-    return s.replace(/^\s+|\s+$/, '');
+    return s.replace(/^\s+|\s+$/g, '');
   },
 
   /**

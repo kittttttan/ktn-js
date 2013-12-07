@@ -89,7 +89,7 @@ Integer.zero = function() { return new Integer(); };
  * Converts integer to Integer.
  * @static
  * @method Integer.num
- * @param {number} n
+ * @param {number} n -0x7fffffff <= n <= 0x7fffffff
  * @return {Integer}
  * @example
  *   Integer.num(0);       // 0
@@ -109,16 +109,10 @@ Integer.num = function(n) {
 
   a._d[0] = n & MASK;
 
-  n >>>= SHIFT;
+  n = n >>> SHIFT;
   if (n) {
     a._d[1] = n & MASK;
     a._l = 2;
-  }
-
-  n >>>= SHIFT;
-  if (n) {
-    a._d[2] = n & MASK;
-    a._l = 3;
   }
 
   return a;
@@ -126,7 +120,7 @@ Integer.num = function(n) {
 var longNum = Integer.num;
 
 /**
- * Converts string to Integer.
+ * Converts digit string to Integer.
  * @static
  * @method Integer.str
  * @param {string} str For example '-9' or 'FF' etc.
@@ -144,21 +138,21 @@ Integer.str = function(str, base) {
   var index = 0;
   var sign = true;
   if (str.charAt(index) === '+') {
-    ++index;
+    index = index + 1;
   } else if (str.charAt(index) === '-') {
     sign = false;
-    ++index;
+    index = index + 1;
   }
 
   // Ignore following zeros. '00102' is regarded as '102'.
-  while (str.charAt(index) === '0') { ++index; }
+  while (str.charAt(index) === '0') { index = index + 1; }
   if (!str.charAt(index)) { return new Integer(); }
 
   var len = 0;
   if (base === 8) {
     len = 3 * (str.length + 1 - index);
   } else {
-    if (!str.charAt(index)) { --index; }
+    if (!str.charAt(index)) { index = index - 1; }
     len = (str.length + 1 - index) << 2;
   }
   len = (len >>> 4) + 1;
@@ -173,26 +167,65 @@ Integer.str = function(str, base) {
   var i = 0;
   for (;;) {
     c = str.charAt(index);
-    ++index;
+    index = index + 1;
     if (!c) { break; }
 
     n = parseInt(c, base);
     for (i = 0;;) {
-      for (; i < bl; ++i) {
-        n += zd[i] * base;
+      for (; i < bl; i = i + 1) {
+        n = n + zd[i] * base;
         zd[i] = n & MASK;
-        n >>>= SHIFT;
+        n = n >>> SHIFT;
       }
 
       if (!n) { break; }
 
-      ++bl;
+      bl = bl + 1;
     }
   }
 
   return norm(z);
 };
 var longStr = Integer.str;
+
+/**
+ * Converts exponential string to Integer.
+ * @static
+ * @method Integer.exp
+ * @param {String} a
+ * @return {Integer}
+ * @example
+ *   Integer.exp("7");      // 7
+ *   Integer.exp("7e3");    // 7000
+ *   Integer.exp("314e-2"); // 3
+ */
+Integer.exp = function(a) {
+  var i = a.indexOf('e', 0);
+  if (i < 0) {
+    // 'e' is not found
+    return longStr(a);
+  }
+
+  var s = a.substr(0, i);
+  var e = parseInt(a.substr(i + 1, a.length - (i + 1)), 10);
+  var fpt = s.indexOf('.', 0);
+
+  if (fpt >= 0) {
+    // '.' is found
+    var np = s.length - (fpt + 1);
+    s = s.substr(0, fpt) + s.substr(fpt + 1, np);
+    e = e - np;
+  }
+
+  if (e < 0) {
+    s = s.slice(0, e);
+  } else {
+    for (; e > 0; e = e - 1) { s = s + '0'; }
+  }
+
+  return longStr(s);
+};
+var longExp = Integer.exp;
 
 /**
  * Converts anything to Integer.
@@ -212,35 +245,16 @@ Integer.any = function(a) {
     return new Integer();
   }
 
-  if (typeof a === 'string') {
-    return longStr(a);
-  }
-
   if (typeof a === 'number') {
     if (-0x7fffffff <= a && a <= 0x7fffffff) {
       return longNum(a);
     }
 
-    var s = a + '';
-    var i = s.indexOf('e', 0);
-    if (i < 0) {
-      // 'e' is not found
-      return longStr(s);
-    }
+    a = a + '';
+  }
 
-    var ss = s.substr(0, i);
-    var e = parseInt(s.substr(i + 1, s.length - (i + 1)), 10);
-    var fpt = ss.indexOf('.', 0);
-
-    if (fpt >= 0) {
-      // '.' is found
-      var np = ss.length - (fpt + 1);
-      ss = ss.substr(0, fpt) + ss.substr(fpt + 1, np);
-      e -= np;
-    }
-    for (; e > 0; --e) { ss += '0'; }
-
-    return longStr(ss);
+  if (typeof a === 'string') {
+    return longExp(a);
   }
 
   return new Integer();
@@ -259,7 +273,7 @@ Integer.random = function(a) {
   var r = longAlloc(a, true);
   var rd = r._d;
 
-  for (var i = 0; i < a; ++i) {
+  for (var i = 0; i < a; i = i + 1) {
     rd[i] = _random() * BASE | 0;
   }
 
@@ -352,7 +366,6 @@ function longAlloc(length, sign) {
   } else {
     a._d.length = length;
   }
-  //console.log(a);
 
   return a;
 }
@@ -388,7 +401,6 @@ function norm(a) {
 
   // -0 -> +0
   if (!l && !d[l]) { a._s = true; }
-  //console.log(a);
 
   return a;
 }
@@ -403,7 +415,7 @@ function longHalf(a) {
   var d = a._d;
   var l = a._l - 1;
 
-  for (var i = 0; i < l; ++i) {
+  for (var i = 0; i < l; i = i + 1) {
     d[i] = (((d[i + 1] & 1) << SHIFT) + d[i]) >>> 1;
   }
   d[l] >>>= 1;
@@ -422,7 +434,7 @@ function longDouble(a) {
   var l = a._l;
   var c = 0;
 
-  for (var i = 0, t = 0; i < l; ++i) {
+  for (var i = 0, t = 0; i < l; i = i + 1) {
     t = (d[i] << 1) + c;
     d[i] = t & MASK;
     c = t >>> SHIFT;
@@ -437,7 +449,7 @@ function longDouble(a) {
     } else {
       d[l] = c;
     }
-    ++a._l;
+    a._l = a._l + 1;
   }
 
   return norm(a);
@@ -512,19 +524,19 @@ Integer.prototype = {
     var hbase = 0;
     switch (b) {
     case 16:
-      j = (i << 3) + 2;
+      j = (i << 3) + 2 | 0;
       hbase = 0x10000;
       break;
     case 8:
-      j = (i << 4) + 2;
+      j = (i << 4) + 2 | 0;
       hbase = 0x1000;
       break;
     case 2:
-      j = (i << 4) + 2;
+      j = (i << 4) + 2 | 0;
       hbase = 0x10;
       break;
     case 10: default:
-      j = (i * 241 / 50 | 0) + 2;
+      j = (i * 241 / 50 | 0) + 2 | 0;
       hbase = 10000;
       break;
     }
@@ -542,14 +554,14 @@ Integer.prototype = {
       while (k--) {
         n = (n << SHIFT) | d[k];
         d[k] = n / hbase | 0;
-        n %= hbase;
+        n = n % hbase | 0;
       }
-      if (!d[i - 1]) { --i; }
+      if (!d[i - 1]) { i = i - 1 | 0; }
 
       k = 4;
       while (k--) {
-        s = digits.charAt(n % b) + s;
-        --j;
+        s = digits.charAt(n % b | 0) + s;
+        j = j - 1 | 0;
         n = n / b | 0;
         if (!i && !n) { break; }
       }
@@ -567,39 +579,39 @@ Integer.prototype = {
    * @return {number}
    */
   valueOf: function() {
-    var f = +0;
+    var f = .0;
     var d = this._d;
-    var i = this._l;
+    var i = this._l | 0;
 
     while (i--) { f = d[i] + BASE * f; }
     if (!this._s) { f = -f; }
 
-    return f;
+    return +f;
   },
 
   /**
-   * @method Integer#getDigits
+   * @method Integer#digits
    * @return {number[]}
    */
-  getDigits: function() { return this._d; },
+  digits: function() { return this._d; },
 
   /**
-   * @method Integer#getCapacity
+   * @method Integer#capacity
    * @return {number}
    */
-  getCapacity: function() { return this._d.length; },
+  capacity: function() { return this._d.length | 0; },
 
   /**
-   * @method Integer#getLength
+   * @method Integer#arrayLength
    * @return {number}
    */
-  getLength: function() { return this._l; },
+  arrayLength: function() { return this._l | 0; },
 
   /**
-   * @method Integer#getSign
+   * @method Integer#sign
    * @return {boolean}
    */
-  getSign: function() { return this._s; },
+  sign: function() { return this._s; },
 
   /**
    * Copy Integer.
@@ -623,18 +635,18 @@ Integer.prototype = {
 
   /**
    * Add zeros and shift decimal.
-   * @method Integer#addzero
+   * @method Integer#addZero
    * @param {number} b Number of zeros.
    * @return {Integer} this * 10<sup>n</sup>
    */
-  addzero: function(b) {
+  addZero: function(b) {
     b = b | 0;
 
     var zeros = '';
     var z = '0';
 
-    for (; b > 0; b >>>= 1, z += z) {
-      if (b & 1) { zeros += z; }
+    for (; b > 0; b = b >>> 1, z = z + z) {
+      if (b & 1) { zeros = zeros + z; }
     }
 
     return longStr(this.toString() + zeros);
@@ -653,7 +665,7 @@ Integer.prototype = {
     var ad = a._d;
     var l = a._l | 0;
     var d = (b / SHIFT) | 0;
-    var cl = l + d + 1;
+    var cl = l + d + 1 | 0;
     var bb = b % SHIFT;
     var c = longAlloc(cl, a._s);
     var cd = c._d;
@@ -694,7 +706,7 @@ Integer.prototype = {
     var cd = c._d;
     var i = 0;
 
-    for (; i < cl - 1; ++i) {
+    for (; i < cl - 1; i = i + 1) {
       cd[i] = ((ad[i + d + 1] & mask) << (SHIFT - bb)) + (ad[i + d] >> bb);
     }
     cd[i] = ad[i + d] >> bb;
@@ -718,7 +730,7 @@ Integer.prototype = {
    * @method Integer#isNonZero
    * @return {boolean}
    */
-  isNonZero: function() { return (this._l > 1 || this._d[0]); },
+  isNonZero: function() { return (this._l > 1 || this._d[0] !== 0); },
 
   /**
    * Fast squaring.
@@ -738,14 +750,14 @@ Integer.prototype = {
     var uv = 0;
     var u = 0;
     var v = 0;
-    for (; i < t; ++i) {
+    for (; i < t; i = i + 1) {
       uv = w[i << 1] + x[i] * x[i];
       u = uv >>> SHIFT;
       v = uv & MASK;
       w[i << 1] = v;
       c = u;
 
-      for (j = i + 1; j < t; ++j) {
+      for (j = i + 1; j < t; j = j + 1) {
         // uv = w[i + j] + (x[j] * x[i] << 1) + c
         // can overflow.
         uv = x[j] * x[i];
@@ -753,7 +765,7 @@ Integer.prototype = {
         v = (uv & MASK) << 1;
         v += w[i + j] + c;
         u += v >>> SHIFT;
-        v &= MASK;
+        v = v & MASK;
         w[i + j] = v;
         c = u;
       }
@@ -894,17 +906,17 @@ Integer.prototype = {
     var i = 0;
     var num = 0;
 
-    for (; i < bl; ++i) {
+    for (; i < bl; i = i + 1) {
       num += ad[i] + bd[i];
       zd[i] = num & MASK;
       num >>>= SHIFT;
     }
-    for (; num && i < al; ++i) {
+    for (; num && i < al; i = i + 1) {
       num += ad[i];
       zd[i] = num & MASK;
       num >>>= SHIFT;
     }
-    for (; i < al; ++i) {
+    for (; i < al; i = i + 1) {
       zd[i] = ad[i];
     }
     zd[i] = num & MASK;
@@ -932,7 +944,7 @@ Integer.prototype = {
     var i = 0;
     var c = 0;
 
-    for (; i < bl; ++i) {
+    for (; i < bl; i = i + 1) {
       c = ad[i] - bd[i] - c;
       if (c < 0) {
         zd[i] = c & MASK;
@@ -943,7 +955,7 @@ Integer.prototype = {
       }
     }
 
-    for (; i < al; ++i) {
+    for (; i < al; i = i + 1) {
       c = ad[i] - c;
       if (c < 0) {
         zd[i] = c & MASK;
@@ -1032,6 +1044,16 @@ Integer.prototype = {
   },
 
   /**
+   * Multiplication with karatsuba method.
+   * @method Integer#kmul
+   * @param {Integer} b
+   * @return {Integer} this * b
+   */
+  kmul: function(b) {
+    return longK(this, b);
+  },
+
+  /**
    * Division or Mod.
    * @method Integer#divmod
    * @param {Integer} b
@@ -1100,7 +1122,7 @@ Integer.prototype = {
       var bb = b.clone();
       var td = bb._d;
 
-      for (; j < nb; ++j) {
+      for (; j < nb; j = j + 1) {
         num += bd[j] * dd;
         td[j] = num & MASK;
         num >>>= SHIFT;
@@ -1109,7 +1131,7 @@ Integer.prototype = {
       bd = td;
       j = num = 0;
 
-      for (; j < na; ++j) {
+      for (; j < na; j = j + 1) {
         num += ad[j] * dd;
         zd[j] = num & MASK;
         num >>>= SHIFT;
@@ -1142,7 +1164,7 @@ Integer.prototype = {
         num += zd[j - nb + i] - t;
         while (num) {
           i = num = 0;
-          --q;
+          q = q - 1;
 
           do {
             ee = num + bd[i];
@@ -1151,7 +1173,7 @@ Integer.prototype = {
             num >>= SHIFT;
           } while (++i < nb);
 
-          --num;
+          num = num - 1;
         }
       }
 
@@ -1178,7 +1200,7 @@ Integer.prototype = {
     }
 
     j = (albl ? na + 2 : na + 1) - nb;
-    for (i = 0; i < j; ++i) { zd[i] = zd[i + nb]; }
+    for (i = 0; i < j; i = i + 1) { zd[i] = zd[i + nb]; }
     if (!_ta) { zd.length = j; }
     div._l = j;
 
@@ -1265,7 +1287,7 @@ Integer.prototype = {
     if (al < bl) { return -1; }
     if (al > bl) { return 1; }
 
-    do { --al; } while (al && ad[al] === bd[al]);
+    do { al = al - 1; } while (al && ad[al] === bd[al]);
     if (!al && ad[0] === bd[0]) { return 0; }
 
     return ad[al] > bd[al] ? 1 : -1;
@@ -1292,7 +1314,7 @@ Integer.prototype = {
     if (al < bl) { return this._s ? -1 : 1; }
     if (al > bl) { return this._s ? 1 : -1; }
 
-    do { --al; } while (al && ad[al] === bd[al]);
+    do { al = al - 1; } while (al && ad[al] === bd[al]);
     if (!al && ad[0] === bd[0]) {
       return (this._s ? 1 : 0) - (b._s ? 1 : 0);
     }
@@ -1318,7 +1340,7 @@ Integer.prototype = {
     var l = this._l;
     if (l !== b._l) { return false; }
 
-    for (var i = 0; i < l; ++i) {
+    for (var i = 0; i < l; i = i + 1) {
       if (ad[i] !== bd[i]) { return false; }
     }
 
@@ -1341,7 +1363,7 @@ Integer.prototype = {
     var l = this._l;
     if (l !== b._l) { return false; }
 
-    for (var i = 0; i < l; ++i) {
+    for (var i = 0; i < l; i = i + 1) {
       if (ad[i] !== bd[i]) { return false; }
     }
 

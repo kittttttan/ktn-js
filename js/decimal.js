@@ -151,7 +151,7 @@ Decimal.prototype = {
       }
       return '0.' + zeros + str;
     }
-    return this._l.addzero(this._e).toString();
+    return this._l.addZero(this._e).toString();
   },
 
   /**
@@ -248,10 +248,10 @@ Decimal.prototype = {
   add: function(b) {
     var diff = this._e - b._e;
     if (diff > 0) {
-      return new Decimal(this._l.addzero(diff).add(b._l), b._e);
+      return new Decimal(this._l.addZero(diff).add(b._l), b._e);
     }
     if (diff < 0) {
-      return new Decimal(this._l.add(b._l.addzero(-diff)), this._e);
+      return new Decimal(this._l.add(b._l.addZero(-diff)), this._e);
     }
     return new Decimal(this._l.add(b.l), this._e);
   },
@@ -264,10 +264,10 @@ Decimal.prototype = {
   sub: function(b) {
     var diff = this._e - b._e;
     if (diff > 0) {
-      return new Decimal(this._l.addzero(diff).sub(b._l), b._e);
+      return new Decimal(this._l.addZero(diff).sub(b._l), b._e);
     }
     if (diff < 0) {
-      return new Decimal(this._l.sub(b._l.addzero(-diff)), this._e);
+      return new Decimal(this._l.sub(b._l.addZero(-diff)), this._e);
     }
     return new Decimal(this._l.sub(b._l), this._e);
   },
@@ -294,10 +294,10 @@ Decimal.prototype = {
         e = this._e - b._e,
         f = b._e;
     if (diff < 0) {
-      return new Decimal(this._l.addzero(c - diff + 1 - f).div(b._l),
+      return new Decimal(this._l.addZero(c - diff + 1 - f).div(b._l),
                                  -c + diff - 1 + e + f).trim();
     }
-    return new Decimal(this._l.addzero(c - f).div(b._l), -c + e + f).trim();
+    return new Decimal(this._l.addZero(c - f).div(b._l), -c + e + f).trim();
   },
 
   /**

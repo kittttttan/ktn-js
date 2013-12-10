@@ -32,6 +32,13 @@ module.exports = function(grunt) {
       }
     },
 
+    coveralls: {
+        options: {
+            debug: true,
+            coverage_dir: 'coverage'
+        }
+    },
+
     eslint: {
       target: ['Gruntfile.js', 'js/**/*.js'],
       options: {
@@ -91,11 +98,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-karma-coveralls');
 
   // tasks
   grunt.registerTask('examples', ['clean:examples','browserify:examples']);
   grunt.registerTask('min', ['clean:min','uglify:dist']);
   grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('test', ['karma']);
+  grunt.registerTask('test', ['karma', 'coveralls']);
   grunt.registerTask('default', ['test','min']);
 };

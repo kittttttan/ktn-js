@@ -1,14 +1,15 @@
 # ktn-js
 [![Build Status](https://travis-ci.org/kittttttan/ktn-js.png?branch=master)](https://travis-ci.org/kittttttan/ktn-js)
+[![Coverage Status](https://coveralls.io/repos/kittttttan/ktn-js/badge.png)](https://coveralls.io/r/kittttttan/ktn-js)
 [![Dependency Status](https://gemnasium.com/kittttttan/ktn-js.png)](https://gemnasium.com/kittttttan/ktn-js)
 
 <https://github.com/kittttttan/ktn-js>
 
-## Working with [Grunt](http://gruntjs.com/)
+## Working with Grunt
 
 install [node.js](http://nodejs.org/)
 
-install Grunt
+install [Grunt](http://gruntjs.com/)
 
 ```bash
 npm install -g grunt-cli

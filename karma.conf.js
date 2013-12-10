@@ -12,14 +12,14 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'js/*',
-      'test/*'
+      'js/*.js',
+      'test/*.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-      
+      'js/*.min.js'
     ],
 
 
@@ -31,7 +31,7 @@ module.exports = function(config) {
       'test/**/*.js': ['commonjs']
     },
     coverageReporter: {
-      type: 'html',
+      type: 'lcov',
       dir : 'coverage/'
     },
     htmlReporter: {

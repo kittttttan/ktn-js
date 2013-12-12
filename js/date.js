@@ -65,19 +65,19 @@ function dateFormat(s, d) {
           return ('0' + (d.getMonth() + 1)).slice(-2);
         }
         if (token === 'M') {
-          return (d.getMonth() + 1)+'';
+          return (d.getMonth() + 1) + '';
         }
         if (token === 'dd') {
           return ('0' + d.getDate()).slice(-2);
         }
         if (token === 'd') {
-          return d.getDate()+'';
+          return d.getDate() + '';
         }
         if (token === 'HH') {
           return ('0' + d.getHours()).slice(-2);
         }
         if (token === 'H') {
-          return d.getHours()+'';
+          return d.getHours() + '';
         }
         var h = 0;
         if (token === 'hh') {
@@ -88,7 +88,7 @@ function dateFormat(s, d) {
         if (token === 'h') {
           h = d.getHours();
           if (h > 12) { h -= 12; }
-          return !h ? '12' : h+'';
+          return !h ? '12' : h + '';
         }
         if (token === 'a') {
           return d.getHours() < 12 ? 'AM' : 'PM';
@@ -97,7 +97,7 @@ function dateFormat(s, d) {
           return ('0' + d.getMinutes()).slice(-2);
         }
         if (token === 'm') {
-          return d.getMinutes()+'';
+          return d.getMinutes() + '';
         }
         if (token === 'ss') {
           return ('0' + d.getSeconds()).slice(-2);
@@ -105,8 +105,14 @@ function dateFormat(s, d) {
         if (token === 's') {
           return d.getSeconds()+'';
         }
+        if (token === 'SS') {
+          return ('0' + d.getMilliseconds()).substring(0, 2);
+        }
+        if (token === 'S') {
+          return d.getMilliseconds() + '';
+        }
         if (token.charAt(0) === 'S') {
-          return d.getMilliseconds()+'';
+          return ('00' + d.getMilliseconds()).slice(-3);
         }
         if (token.charAt(0) === 'Z') {
           var t = d.getTimezoneOffset(), z = -t / 60, str;

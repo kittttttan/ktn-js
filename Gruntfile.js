@@ -104,6 +104,7 @@ module.exports = function(grunt) {
   grunt.registerTask('examples', ['clean:examples','browserify:examples']);
   grunt.registerTask('min', ['clean:min','uglify:dist']);
   grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('test', ['karma', 'coveralls']);
+  grunt.registerTask('test', ['karma']);
+  grunt.registerTask('travis', ['test', 'coveralls']);
   grunt.registerTask('default', ['test','min']);
 };

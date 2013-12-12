@@ -33,4 +33,16 @@ describe("StringUtil", function() {
     expect(StringUtil.trim(blank)).toEqual('bl an  k');
   });
 
+  it("nobr", function() {
+    expect(StringUtil.nobr('multi\r\nline\r\n')).toEqual('multiline');
+  });
+
+  it("with", function() {
+    var src = 'Nana';
+    expect(StringUtil.startsWith(src, 'N')).toBe(true);
+    expect(StringUtil.startsWith(src, 'n')).toBe(false);
+    expect(StringUtil.endsWith(src, 'na')).toBe(true);
+    expect(StringUtil.endsWith(src, 'A')).toBe(false);
+  });
+
 });

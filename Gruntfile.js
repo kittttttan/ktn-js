@@ -28,14 +28,14 @@ module.exports = function(grunt) {
         src: ['js/**/*.min.js', 'js/**/*.map']
       },
       coverage: {
-        src: ['coverage/']
+        src: ['test/coverage/']
       }
     },
 
     coveralls: {
         options: {
             debug: true,
-            coverage_dir: 'coverage'
+            coverage_dir: 'test/coverage'
         }
     },
 

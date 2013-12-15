@@ -20,6 +20,8 @@ var Integer = require('./integer.js').Integer;
  * @param {number} e
  */
 function Decimal(l, e) {
+  e = e | 0;
+
   /**
    * @private
    * @property {Integer} Decimal#_l
@@ -144,7 +146,7 @@ Decimal.prototype = {
    * @return {Decimal}
    */
   clone: function() {
-    return new Decimal(this._l, this._e);
+    return new Decimal(this._l.clone(), this._e);
   },
 
   /**
@@ -152,19 +154,27 @@ Decimal.prototype = {
    * @return {string}
    */
   toString: function() {
-    if (this._e < 0) {
-      var str = this._l.toString(),
-          n = -this._e - str.length;
-      if (n < 0) {
-        return str.slice(0, this._e) + '.' + str.slice(this._e);
-      }
-      var zeros = '';
-      for (var z = '0'; n > 0; n >>>= 1, z += z) {
-        if (n & 1) { zeros += z; }
-      }
-      return '0.' + zeros + str;
+    if (this._e >= 0) {
+      return this._l.addZero(this._e).toString();
     }
-    return this._l.addZero(this._e).toString();
+
+    var sign = this._l._s;
+    var str = this._l.toString();
+    var n = -this._e - str.length;
+    if (!sign) { n = n + 1; }
+
+    if (n < 0) {
+      return str.slice(0, this._e) + '.' + str.slice(this._e);
+    }
+
+    var zeros = '';
+    for (var z = '0'; n > 0; n >>>= 1, z += z) {
+      if (n & 1) { zeros += z; }
+    }
+    if (!sign) {
+      return '-0.' + zeros + str.substring(1);
+    }
+    return '0.' + zeros + str;
   },
 
   /**
@@ -226,6 +236,26 @@ Decimal.prototype = {
       }
       a._l = Integer.str(str + zeros);
     }
+    return a;
+  },
+
+  /**
+   * @method Decimal#abs
+   * @return {Decimal}
+   */
+  abs: function() {
+    var a = this.clone();
+    a._l._s = true;
+    return a;
+  },
+
+  /**
+   * @method Decimal#neg
+   * @return {Decimal}
+   */
+  neg: function() {
+    var a = this.clone();
+    a._l._s = !a._l._s;
     return a;
   },
 

@@ -14,19 +14,11 @@ var toZenkaku = StringConverter.toZenkaku;
 var sprintf = StringUtil.format;
 var dateFormat = DateUtil.format;
 
-if (typeof console == 'undefined') {
-  console={
-    log: function(a){
-      document.writeln(a);
-    }
-  };
-}
-
 function uuidTest() {
   console.log('Test uuid ...');
   var u = uuid();
-  console.log('version: '+ u.version());
-  console.log('variant: '+ u.variant());
+  console.log('version: '+ u.version);
+  console.log('variant: '+ u.variant);
   var id = u.generate();
   console.log(id);
   u.fromString(id);

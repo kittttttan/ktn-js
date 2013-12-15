@@ -159,12 +159,12 @@ function ifftFloat(x) {
  * Fast Fourier transform
  * @class Fft
  */
-var Fft = {
+var Fft = Object.freeze({
   fftFloat: fftFloat,
   ifftFloat: ifftFloat,
   fft: fft,
   ifft: ifft
-};
+});
 
 // exports
 exports.Fft = Fft;

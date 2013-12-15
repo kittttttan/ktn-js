@@ -125,7 +125,7 @@ Object.defineProperty(Rational, 'str', {
  * @throws {Error} ZeroDivisionError
  * @return {Rational}
  */
-var rat = function(a, b) {
+var ratAny = function(a, b) {
   if (!arguments.length) {
     return Rational.zero;
   }
@@ -136,16 +136,13 @@ var rat = function(a, b) {
   }
   if (!b) {
     throw new Error('zero division');
-    //if (!a) { return NaN; }
-    //if (a < 0) { return -Infinity; }
-    //return Infinity;
   }
   if (!a) { return Rational.zero; }
   return new Rational(Integer.any(a), Integer.any(b));
 };
 
 Object.defineProperty(Rational, 'any', {
-  value: rat
+  value: ratAny
 });
 
 Rational.prototype = {
@@ -178,7 +175,7 @@ Rational.prototype = {
    */
   toString: function() {
     //if (this._d == 1) {return this._n.toString();}
-    return '(' + [this._n, this._d].join('/') + ')';
+    return [this._n, this._d].join('/');
   },
   
   /**
@@ -218,7 +215,7 @@ Rational.prototype = {
    * @return {boolean} this == b.
    */
   eq: function(b) {
-    b = rat(b);
+    b = ratAny(b);
     if (this._n.eq(b._n) && this._d.eq(b._d)) { return true; }
     return false;
   },
@@ -252,10 +249,13 @@ Rational.prototype = {
    * @return {Rational}
    */
   inv: function() {
-    if (!this._n.isNonZero()) {
-      if (!this._d.isNonZero()) { return NaN; }
-      if (this._d._s) { return Infinity; }
-      return -Infinity;
+    var n = this._n;
+    var d = this._d;
+    if (!n.isNonZero()) {
+      throw new Error('zero division');
+    }
+    if (!n._s) {
+      return new Rational(this._d.neg(), this._n.neg(), true);
     }
     return new Rational(this._d, this._n, true);
   },

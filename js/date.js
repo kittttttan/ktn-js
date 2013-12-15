@@ -58,7 +58,6 @@ function dateFormat(s, d) {
           case 9: return 'Oct';
           case 10: return 'Nov';
           case 11: return 'Dec';
-          default: throw 'unexpected month';
           }
         }
         if (token === 'MM') {
@@ -132,7 +131,6 @@ function dateFormat(s, d) {
           case 4: return 'Thu';
           case 5: return 'Fri';
           case 6: return 'Sat';
-          default: throw 'unexpected day';
           }
         }
       });

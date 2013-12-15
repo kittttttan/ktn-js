@@ -44,7 +44,7 @@ var ArrayUtil = {
   filter: function(a, f) {
     var aNew = [];
     for (var i = 0, l = a.length; i < l; ++i) {
-      if (f(aNew[i])) {
+      if (f(a[i])) {
         aNew.push(a[i]);
       }
     }
@@ -69,8 +69,10 @@ var ArrayUtil = {
    * @return {Array}
    */
   map: function(a, f) {
-    var n = [], i = a.length;
-    while (--i) {
+    var n = [];
+    var i = a.length;
+    if (i < 1) { return n; }
+    while (i--) {
       n[i] = f(a[i]);
     }
     return n;

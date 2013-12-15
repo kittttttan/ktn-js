@@ -32,11 +32,11 @@ module.exports = function(config) {
     },
     coverageReporter: {
       type: 'lcov',
-      dir : 'coverage/'
+      dir : 'test/coverage/'
     },
     htmlReporter: {
-      outputDir: 'karma_html',
-      templatePath: 'karma_html/template.html'
+      outputDir: 'test/karma_html',
+      templatePath: 'test/karma_html/template.html'
     },
 
     // web server port

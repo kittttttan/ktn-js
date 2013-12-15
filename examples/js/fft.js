@@ -55,7 +55,7 @@ function test2(size) {
 }
 
 var t0 = Date.now();
-test(4, true);
+test(2, true);
 test(1024 * 8);
 //test2(2);
 console.log((Date.now() - t0) + 'ms');

@@ -1,13 +1,8 @@
 /**
  * @file Samples for Integer
  */
-(function(G) {
-"use strict";
 
-if (typeof require !== 'undefined') {
-  G.Integer = require('../js/integer.js').Integer;
-}
-var Integer = G.Integer;
+var Integer = require('../../js/integer.js').Integer;
 
 /**
  * Factorial
@@ -15,7 +10,7 @@ var Integer = G.Integer;
  * @return {Integer} a!
  */
 function fact(a) {
-  var f = Integer.one();
+  var f = Integer.one;
   for (var i = 2; i < a + 1; ++i) {
     f = f.mul(Integer.num(i));
   }
@@ -47,5 +42,3 @@ for (var i = 0, l = arr.length; i < l; ++i) {
   
   console.log(pad(arr[i], 6) + pad(t1 - t0, 8) + pad(t2 - t1, 8));
 }
-
-}(this));

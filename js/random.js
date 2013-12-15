@@ -151,9 +151,9 @@ Random.prototype.int32 = function() {
 	var kk = 0;
 	var mt = this.mt;
 	if (this.mti >= N) { /* generate N words at one time */
-		if (this.mti === N + 1) {   /* if init() has not been called, */
-			this.init(5489); /* a default initial seed is used */
-		}
+		//if (this.mti === N + 1) {   /* if init() has not been called, */
+		//	this.init(5489); /* a default initial seed is used */
+		//}
 
 		for (kk = 0; kk < N - M; kk = kk+1|0) {
 			y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);

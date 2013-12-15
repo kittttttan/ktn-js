@@ -43,6 +43,18 @@ describe("StringUtil", function() {
     expect(StringUtil.startsWith(src, 'n')).toBe(false);
     expect(StringUtil.endsWith(src, 'na')).toBe(true);
     expect(StringUtil.endsWith(src, 'A')).toBe(false);
+    expect(StringUtil.endsWith(src, '7777777')).toBe(false);
+  });
+
+  it("genRandomString", function() {
+    expect(StringUtil.genRandomString(0)).toEqual('');
+    expect(StringUtil.genRandomString(1, 0)).toEqual('');
+
+    var s = StringUtil.genRandomString(0, StringUtil.Types.SIGN);
+    expect(s).toEqual('');
+
+    s = StringUtil.genRandomString(1, StringUtil.Types.UNDERSCORE);
+    expect(s).toEqual('_');
   });
 
 });

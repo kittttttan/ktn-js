@@ -1,4 +1,4 @@
-var Quaternion = require('../src/quaternion.js').Quaternion;
+var Quaternion = require('../../js/quaternion.js').Quaternion;
 
 var PI = Math.PI;
 var q = Quaternion.create(1, 2, 3);

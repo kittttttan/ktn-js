@@ -1,13 +1,8 @@
 /**
  * @file Samples for Integer
  */
-(function(G) {
-"use strict";
 
-if (typeof require !== 'undefined') {
-  G.Integer = require('../js/integer.js').Integer;
-}
-var Integer = G.Integer;
+var Integer = require('../../js/integer.js').Integer;
 
 function pad(value, n) {
   return ('        '+ value).slice(-n);
@@ -45,5 +40,3 @@ function gcdTest(a) {
 }
 
 gcdTest(10);
-
-}(this));

@@ -34,8 +34,8 @@ function basic() {
  * @returns {Integer} <var>a</var>th fibonacchi number
  */
 function fib(a) {
-  var b = Integer.zero();
-  for (var i = 0, c = Integer.one(), d; i < a; ++i) {
+  var b = Integer.zero;
+  for (var i = 0, c = Integer.one, d; i < a; ++i) {
     d = b.clone();
     b = b.add(c);
     c = d;

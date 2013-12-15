@@ -10,12 +10,6 @@
  */
 
 /**
- * use of TypedArray
- * @type boolean
- */
-var _ta = typeof Uint32Array !== 'undefined';
-
-/**
  * cache
  * @type function
  */
@@ -31,7 +25,7 @@ function Integer() {
    * @private
    * @property {number[]} Integer#_d
    */
-  this._d = _ta ? new Uint32Array(3) : [0];
+  this._d = new Uint32Array(3);
 
   /**
    * Sign +, -. `false` means -.
@@ -75,7 +69,9 @@ var MASK = BASE - 1;
  * @method Integer.one
  * @return {Integer} 1.
  */
-Integer.one = function() { return longNum(1); };
+Object.defineProperty(Integer, 'one', {
+  get: function() { return longNum(1); }
+});
 
 /**
  * 0
@@ -83,7 +79,9 @@ Integer.one = function() { return longNum(1); };
  * @method Integer.zero
  * @return {Integer} 0.
  */
-Integer.zero = function() { return new Integer(); };
+Object.defineProperty(Integer, 'zero', {
+  get: function() { return new Integer(); }
+});
 
 /**
  * Converts integer to Integer.
@@ -96,7 +94,7 @@ Integer.zero = function() { return new Integer(); };
  *   Integer.num(1234567); // 1234567
  *   Integer.num(-37);     // -37
  */
-Integer.num = function(n) {
+var longNum = function(n) {
   n = n | 0;
 
   var a = new Integer();
@@ -117,7 +115,11 @@ Integer.num = function(n) {
 
   return a;
 };
-var longNum = Integer.num;
+
+Object.defineProperty(Integer, 'num', {
+  value: longNum
+});
+
 
 /**
  * Converts digit string to Integer.
@@ -131,7 +133,7 @@ var longNum = Integer.num;
  *   Integer.str('ff', 16); // 255
  *   Integer.str('111', 2); // 7
  */
-Integer.str = function(str, base) {
+var longStr = function(str, base) {
   base = base | 0;
   if (!base) { base = 10; }
 
@@ -186,7 +188,10 @@ Integer.str = function(str, base) {
 
   return norm(z);
 };
-var longStr = Integer.str;
+
+Object.defineProperty(Integer, 'str', {
+  value: longStr
+});
 
 /**
  * Converts exponential string to Integer.
@@ -199,7 +204,7 @@ var longStr = Integer.str;
  *   Integer.exp("7e3");    // 7000
  *   Integer.exp("314e-2"); // 3
  */
-Integer.exp = function(a) {
+var longExp = function(a) {
   var i = a.indexOf('e', 0);
   if (i < 0) {
     // 'e' is not found
@@ -225,7 +230,10 @@ Integer.exp = function(a) {
 
   return longStr(s);
 };
-var longExp = Integer.exp;
+
+Object.defineProperty(Integer, 'exp', {
+  value: longExp
+});
 
 /**
  * Converts anything to Integer.
@@ -239,7 +247,7 @@ var longExp = Integer.exp;
  *   Integer.any(-12.34567); // -12
  *   Integer.any("37");      // 37
  */
-Integer.any = function(a) {
+var any = function(a) {
   if (typeof a === 'object') {
     if (a instanceof Integer) { return a.clone(); }
     return new Integer();
@@ -259,7 +267,10 @@ Integer.any = function(a) {
 
   return new Integer();
 };
-var any = Integer.any;
+
+Object.defineProperty(Integer, 'any', {
+  value: any
+});
 
 /**
  * Random.
@@ -288,7 +299,7 @@ Integer.random = function(a) {
 function factOdd(n) {
   n = n | 0;
 
-  var m = Integer.one();
+  var m = Integer.one;
   var mi = 0;
   var mj = 0;
   var i = 0;
@@ -332,7 +343,7 @@ function factEven(n) {
     s = s + n;
   }
 
-  return Integer.one().leftShift(s);
+  return Integer.one.leftShift(s);
 }
 
 /**
@@ -345,7 +356,7 @@ function factEven(n) {
  */
 Integer.factorial = function(n) {
   n = n | 0;
-  if (n < 1) { return Integer.one(); }
+  if (n < 1) { return Integer.one; }
   return factOdd(n).mul(factEven(n));
 };
 
@@ -361,11 +372,7 @@ function longAlloc(length, sign) {
   var a = new Integer();
   a._s = sign ? true : false;
   a._l = length;
-  if (_ta) {
-    a._d = new Uint32Array(length);
-  } else {
-    a._d.length = length;
-  }
+  a._d = new Uint32Array(length);
 
   return a;
 }
@@ -397,7 +404,6 @@ function norm(a) {
 
   do { l = l - 1 | 0; } while (l && !d[l]);
   a._l = l + 1 | 0;
-  if (!_ta) { d.length = a._l; }
 
   // -0 -> +0
   if (!l && !d[l]) { a._s = true; }
@@ -440,8 +446,7 @@ function longDouble(a) {
     c = t >>> SHIFT;
   }
   if (c) {
-    // TODO:
-    if (_ta && l >= a._d.length) {
+    if (l >= a._d.length) {
       var ta = new Uint32Array(l);
       ta.set(d);
       ta[l] = c;
@@ -593,25 +598,25 @@ Integer.prototype = {
    * @method Integer#digits
    * @return {number[]}
    */
-  digits: function() { return this._d; },
+  get digits() { return this._d; },
 
   /**
    * @method Integer#capacity
    * @return {number}
    */
-  capacity: function() { return this._d.length | 0; },
+  get capacity() { return this._d.length | 0; },
 
   /**
    * @method Integer#arrayLength
    * @return {number}
    */
-  arrayLength: function() { return this._l | 0; },
+  get arrayLength() { return this._l | 0; },
 
   /**
    * @method Integer#sign
    * @return {boolean}
    */
-  sign: function() { return this._s; },
+  get sign() { return this._s; },
 
   /**
    * Copy Integer.
@@ -622,13 +627,9 @@ Integer.prototype = {
     var b = new Integer();
     b._s = this._s;
     b._l = this._l;
-    if (_ta) {
-      //b._d = this._d.subarray(0, this._l);
-      b._d = new Uint32Array(this._l);
-      b._d.set(this._d.subarray(0, this._l));
-    } else {
-      b._d = Array.prototype.concat.call(this._d);
-    }
+    //b._d = this._d.subarray(0, this._l);
+    b._d = new Uint32Array(this._l);
+    b._d.set(this._d.subarray(0, this._l));
 
     return b;
   },
@@ -785,7 +786,7 @@ Integer.prototype = {
     if (!this.isNonZero()) { return this; }
 
     var b = this.clone();
-    var c = Integer.one();
+    var c = Integer.one;
 
     while (b.cmp(c) > 0) {
       longHalf(b);
@@ -809,11 +810,11 @@ Integer.prototype = {
    */
   pow: function(b) {
     b = +b;
-    if (!b) { return Integer.one(); }
+    if (!b) { return Integer.one; }
 
     if (b > 0 && b === (b | 0)) {
       b = b | 0;
-      var p = Integer.one();
+      var p = Integer.one;
       var a = this.clone();
 
       for (; b > 0; b >>= 1, a = a.square()) {
@@ -852,8 +853,9 @@ Integer.prototype = {
    */
   gcdBin: function(b) {
     if (this.cmpAbs(b) < 0) { return b.gcdBin(this); }
+    if (!b.isNonZero()){ throw new Error('Zero Division'); }
 
-    var g = Integer.one();
+    var g = Integer.one;
     var a = this.abs();
     b = b.abs();
     while (!(a._d[0] & 1) && !(b._d[0] & 1)) {
@@ -1192,7 +1194,6 @@ Integer.prototype = {
           t %= dd;
         }
       }
-      if (!_ta) { zd.length = nb; }
       div._l = nb;
       div._s = a._s;
 
@@ -1201,7 +1202,6 @@ Integer.prototype = {
 
     j = (albl ? na + 2 : na + 1) - nb;
     for (i = 0; i < j; i = i + 1) { zd[i] = zd[i + nb]; }
-    if (!_ta) { zd.length = j; }
     div._l = j;
 
     return norm(div);
@@ -1226,46 +1226,6 @@ Integer.prototype = {
   mod: function(b) {
     return this.divmod(b, true);
   },
-
-  /**
-   * @private
-   * @method Integer#_add_
-   * @param {object} a
-   * @return {Integer}
-   */
-  _add_: function(a) { return this.add(any(a)); },
-
-  /**
-   * @private
-   * @method Integer#_sub_
-   * @param {object} a
-   * @return {Integer}
-   */
-  _sub_: function(a) { return this.sub(any(a)); },
-
-  /**
-   * @private
-   * @method Integer#_mul_
-   * @param {object} a
-   * @return {Integer}
-   */
-  _mul_: function(a) { return this.mul(any(a)); },
-
-  /**
-   * @private
-   * @method Integer#_div_
-   * @param {object} a
-   * @return {Integer}
-   */
-  _div_: function(a) { return this.divmod(any(a), false); },
-
-  /**
-   * @private
-   * @method Integer#_mod_
-   * @param {object} a
-   * @return {Integer}
-   */
-  _mod_: function(a) { return this.divmod(any(a), true); },
 
   /**
    * Compare between two absolute values of Integer objects.
@@ -1369,13 +1329,6 @@ Integer.prototype = {
 
     return true;
   },
-
-  /**
-   * @private
-   * @method Integer#_co_
-   * @return {number}
-   */
-  _co_: function() { return 1; },
 
   /**
    * Absolute Integer.

@@ -1,4 +1,21 @@
 /**
+ * repeat string
+ * @method StringUtil.repeat
+ * @param {string} str
+ * @param {number} repeat
+ * @return {string}
+ */
+var repeatString = function(str, repeat) {
+  var result = '';
+  for (; repeat > 0; repeat >>= 1, str += str) {
+    if (repeat & 1) {
+      result += str;
+    }
+  }
+  return result;
+};
+
+/**
  * StringUtil
  * @class StringUtil
  */
@@ -10,22 +27,7 @@ var StringUtil = {
   regLineComment: /\/\/.*$/gm,
   regDoubleQuote: /"([^\\"\n]|\\.)*"/g, // "
 
-  /**
-   * repeat string
-   * @method StringUtil.repeat
-   * @param {string} str
-   * @param {number} repeat
-   * @return {string}
-   */
-  repeat: function(str, repeat) {
-    var result = '';
-    for (; repeat > 0; repeat >>= 1, str += str) {
-      if (repeat & 1) {
-        result += str;
-      }
-    }
-    return result;
-  },
+  repeat: repeatString,
 
   /**
    * sprintf
@@ -71,11 +73,11 @@ var StringUtil = {
         ++index;
         if (width > s.length) {
           if (flag === '-') {
-            s += repeat((flag === '0' ? '0': ' '), width - s.length);
+            s += repeatString((flag === '0' ? '0': ' '), width - s.length);
             return s;
           }
 
-          s = repeat((flag === '0' ? '0': ' '), width) + s;
+          s = repeatString((flag === '0' ? '0': ' '), width) + s;
           return s.slice(-width);
         }
         return s;
@@ -87,8 +89,9 @@ var StringUtil = {
    * @return {string}
    */
   escapeHTML: function(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/'/g, '&apos;').replace(/"/g, '&quot;'); // '
+    return s.
+        replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').
+        replace(/'/g, '&apos;').replace(/"/g, '&quot;');
   },
 
   /**
@@ -96,9 +99,9 @@ var StringUtil = {
    * @return {string}
    */
   escapeJS: function(s) {
-    return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
-        .replace(/'/g, '\\\'').replace(/\//g, '\\/'); // '
-        // .replace(/</g, '\\x3c').replace(/>/g, '\\x3e');
+    return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"').
+        replace(/'/g, '\\\'').replace(/\//g, '\\/');
+        // replace(/</g, '\\x3c').replace(/>/g, '\\x3e');
   },
 
   /**
@@ -180,7 +183,7 @@ var StringUtil = {
   }
 };
 
-var repeat = StringUtil.repeat;
+Object.freeze(StringUtil);
 
 // exports
 exports.StringUtil = StringUtil;

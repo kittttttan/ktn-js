@@ -73,7 +73,7 @@ function Random() {
    */
 	this.mti = N + 1;
 
-	var seed = (new Date()).getTime()|0;
+	var seed = Date.now() | 0;
 	this.init(seed);
 	//this.initByArray([seed], 1);
 }
@@ -83,13 +83,13 @@ function Random() {
  * @param {number} seed
  */
 Random.prototype.init = function(seed) {
-	seed = seed|0;
+	seed = seed | 0;
 	
 	var mt = this.mt;
 	mt[0] = seed;
 	
 	var s = 0;
-	for (var i = 1; i < N; i = i+1|0) {
+	for (var i = 1; i < N; i = i + 1 | 0) {
 		s = mt[i - 1] ^ (mt[i - 1] >>> 30);
 		mt[i] = (((((s & 0xffff0000) >>> 16) * 1812433253) << 16) +
 		    (s & 0x0000ffff) * 1812433253) + i;
@@ -169,7 +169,8 @@ Random.prototype.int32 = function() {
 		this.mti = 0;
 	}
 
-	y = mt[this.mti++];
+	y = mt[this.mti];
+	this.mti = this.mti + 1;
 
 	// Tempering
 	y ^= (y >>> 11);

@@ -58,7 +58,6 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= pkg.version %>'+
                 ' <%= grunt.template.today("yyyy-mm-dd") %> */\n',
         sourceMapRoot: '../',
-        //sourceMapRoot: 'https://github.com/kittttttan/ktn-js/raw/master/',
         sourceMapPrefix : 0,
         sourceMap: function(path) {
           return path.replace(/(\.min)?\.js$/, '.map');
@@ -104,7 +103,7 @@ module.exports = function(grunt) {
   grunt.registerTask('examples', ['clean:examples','browserify:examples']);
   grunt.registerTask('min', ['clean:min','uglify:dist']);
   grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('test', ['karma']);
+  grunt.registerTask('test', ['karma:unit']);
   grunt.registerTask('travis', ['test', 'coveralls']);
   grunt.registerTask('default', ['test','min']);
 };

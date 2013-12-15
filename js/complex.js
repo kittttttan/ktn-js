@@ -5,7 +5,7 @@
 function Complex(r, i) {
   this.r_ = +r;
   this.i_ = +i;
-};
+}
 
 Complex.prototype = {
 //  constructor: Complex,

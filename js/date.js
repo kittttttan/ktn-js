@@ -142,11 +142,11 @@ function dateFormat(s, d) {
  * DateUtil
  * @class DateUtil
  */
-var DateUtil = {
+var DateUtil = Object.freeze({
   isLeapYear: isLeapYear,
   getDaysInMonth: getDaysInMonth,
   format: dateFormat
-};
+});
 
 // exports
 exports.DateUtil = DateUtil;

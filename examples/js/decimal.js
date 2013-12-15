@@ -1,15 +1,9 @@
 /**
  * @file Samples for Decimal
  */
-(function(G) {
-"use strict";
 
-if (typeof require !== 'undefined') {
-  G.Rational = require('../../js/rational.js').Rational;
-  G.Decimal = require('../../js/decimal.js').Decimal;
-}
-var Rational = G.Rational;
-var Decimal = G.Decimal;
+var Rational = require('../../js/rational.js').Rational;
+var Decimal = require('../../js/decimal.js').Decimal;
 
 function basic() {
   var a = Decimal.dec(1, 2);
@@ -48,5 +42,3 @@ console.log('e ~= ' + e.toString());
 console.log('  ~= ' + Decimal.rat(e, 30).toString());
 
 console.log('\nTime: '+ (Date.now() - d) + 'ms');
-
-}(this));

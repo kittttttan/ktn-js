@@ -41,7 +41,7 @@ function Decimal(l, e) {
  * @param {string} n
  * @return {Decimal}
  */
-Decimal.str = function(str) {
+var decStr = function(str) {
   var index = str.indexOf('.');
   if (index < 0) {
     // '.' is not found
@@ -53,7 +53,10 @@ Decimal.str = function(str) {
   if (i) { trim = trim.substring(i); }
   return new Decimal(Integer.str(trim), index - str.length + 1);
 };
-var decStr = Decimal.str;
+
+Object.defineProperty(Decimal, 'str', {
+  value: decStr
+});
 
 /**
  * Convert Number to Decimal.
@@ -63,10 +66,13 @@ var decStr = Decimal.str;
  * @param {number} b
  * @return {Decimal}
  */
-Decimal.num = function(a, b) {
+var decNum = function(a, b) {
   return new Decimal(Integer.num(a), b);
 };
-var decNum = Decimal.num;
+
+Object.defineProperty(Decimal, 'num', {
+  value: decNum
+});
 
 /**
  * Convert anything to Decimal.
@@ -76,7 +82,7 @@ var decNum = Decimal.num;
  * @param {object} e
  * @return {Decimal}
  */
-Decimal.dec = function(l, e) {
+var decimal = function(l, e) {
   if (!arguments.length) {
     return new Decimal(new Integer(), 0);
   }
@@ -87,7 +93,10 @@ Decimal.dec = function(l, e) {
   }
   return new Decimal(Integer.any(l), e | 0);
 };
-var decimal = Decimal.dec;
+
+Object.defineProperty(Decimal, 'dec', {
+  value: decimal
+});
 
 /**
  * Convert Fraction to Decimal.
@@ -107,7 +116,9 @@ Decimal.rat = function(a, b) {
  * @method Decimal.one
  * @return {Decimal} 1.
  */
-Decimal.one = function() { return decNum(1, 0); };
+Object.defineProperty(Decimal, 'one', {
+  get: function() { return decNum(1, 0); }
+});
 
 /**
  * 0
@@ -115,7 +126,9 @@ Decimal.one = function() { return decNum(1, 0); };
  * @method Decimal.zero
  * @return {Decimal} 0.
  */
-Decimal.zero = function() { return decNum(0, 0); };
+Object.defineProperty(Decimal, 'zero', {
+  get: function() { return decNum(0, 0); }
+});
 
 Decimal.prototype = {
   /**
@@ -177,13 +190,6 @@ Decimal.prototype = {
   valueOf: function() {
     return this._l.valueOf() * Math.pow(10, this._e);
   },
-
-  /**
-   * @private
-   * @method Decimal#_co_
-   * @return {number}
-   */
-  _co_: function() { return 3; },
 
   /**
    * @method Decimal#dot
@@ -298,39 +304,7 @@ Decimal.prototype = {
                                  -c + diff - 1 + e + f).trim();
     }
     return new Decimal(this._l.addZero(c - f).div(b._l), -c + e + f).trim();
-  },
-
-  /**
-   * @private
-   * @method Decimal#_add_
-   * @param {object} a
-   * @return {Decimal}
-   */
-  _add_: function(a) { return this.add(decimal(a)); },
-
-  /**
-   * @private
-   * @method Decimal#_sub_
-   * @param {object} a
-   * @return {Decimal}
-   */
-  _sub_: function(a) { return this.sub(decimal(a)); },
-
-  /**
-   * @private
-   * @method Decimal#_mul_
-   * @param {object} a
-   * @return {Decimal}
-   */
-  _mul_: function(a) { return this.mul(decimal(a)); },
-
-  /**
-   * @private
-   * @method Decimal#_div_
-   * @param {object} a
-   * @return {Decimal}
-   */
-  _div_: function(a, b) { return this.div(decimal(a), b); }
+  }
 };
 
 exports.Decimal = Decimal;

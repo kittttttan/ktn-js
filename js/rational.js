@@ -1,7 +1,7 @@
 /**
  * @fileOverview Rational in JavaScript.
  * @example
- *    var Rational = require('/path/to/decimal.js').Rational;
+ *    var Rational = require('/path/to/rational.js').Rational;
  *    var a = Rational.num(2, 3);
  *    var b = Rational.str('-3/12');
  *    var c = a.add(b);
@@ -66,9 +66,11 @@ function Rational(n, d, f) {
  * @method Rational.one
  * @return {Rational} 1/1.
  */
-Rational.one = function() {
-  return new Rational(Integer.num(1), Integer.num(1), true);
-};
+Object.defineProperty(Rational, 'one', {
+  get: function() {
+    return new Rational(Integer.one, Integer.one, true);
+  }
+});
 
 /**
  * 0/1
@@ -76,9 +78,11 @@ Rational.one = function() {
  * @method Rational.zero
  * @return {Rational} 0/1.
  */
-Rational.zero = function() {
-  return new Rational(new Integer(), Integer.num(1), true);
-};
+Object.defineProperty(Rational, 'zero', {
+  get: function() {
+    return new Rational(Integer.zero, Integer.one, true);
+  }
+});
 
 /**
  * Convert Number to Rational.
@@ -91,7 +95,7 @@ Rational.zero = function() {
  */
 Rational.num = function(a, b, c) {
   if (!b) {
-    return new Rational(Integer.num(a), Integer.num(1), true);
+    return new Rational(Integer.num(a), Integer.one, true);
   }
   return new Rational(Integer.num(a), Integer.num(b), c);
 };
@@ -103,11 +107,14 @@ Rational.num = function(a, b, c) {
  * @param {string} a ex.'-1/2'.
  * @return {Rational}
  */
-Rational.str = function(a) {
+var ratStr = function(a) {
   a = a.split('/');
   return new Rational(Integer.str(a[0]), Integer.str(a[1] || '1'));
 };
-var ratStr = Rational.str;
+
+Object.defineProperty(Rational, 'str', {
+  value: ratStr
+});
 
 /**
  * Convert anything to Rational.
@@ -118,14 +125,14 @@ var ratStr = Rational.str;
  * @throws {Error} ZeroDivisionError
  * @return {Rational}
  */
-Rational.any = function(a, b) {
+var rat = function(a, b) {
   if (!arguments.length) {
-    return new Rational(new Integer(), Integer.num(1), true);
+    return Rational.zero;
   }
   if (arguments.length === 1) {
     if (a instanceof Rational) { return a.clone(); }
     if (typeof a === 'string') { return ratStr(a); }
-    return new Rational(Integer.any(a), Integer.num(1), true);
+    return new Rational(Integer.any(a), Integer.one, true);
   }
   if (!b) {
     throw new Error('zero division');
@@ -133,10 +140,13 @@ Rational.any = function(a, b) {
     //if (a < 0) { return -Infinity; }
     //return Infinity;
   }
-  if (!a) { return new Rational(new Integer(), Integer.num(1), true); }
+  if (!a) { return Rational.zero; }
   return new Rational(Integer.any(a), Integer.any(b));
 };
-var rat = Rational.any;
+
+Object.defineProperty(Rational, 'any', {
+  value: rat
+});
 
 Rational.prototype = {
   /**
@@ -251,13 +261,6 @@ Rational.prototype = {
   },
 
   /**
-   * @private
-   * @method Rational#_co_
-   * @return {number}
-   */
-  _co_: function() { return 2; },
-
-  /**
    * @method Rational#add
    * @param {Rational} b
    * @return {Rational} this + b.
@@ -302,39 +305,7 @@ Rational.prototype = {
    */
   pow: function(b) {
     return new Rational(this._n.pow(b), this._d.pow(b), true);
-  },
-
-  /**
-   * @private
-   * @method Rational#_add_
-   * @param {object} a
-   * @return {Rational}
-   */
-  _add_: function(a) { return this.add(rat(a)); },
-
-  /**
-   * @private
-   * @method Rational#_sub_
-   * @param {object} a
-   * @return {Rational}
-   */
-  _sub_: function(a) { return this.sub(rat(a)); },
-
-  /**
-   * @private
-   * @method Rational#_mul_
-   * @param {object} a
-   * @return {Rational}
-   */
-  _mul_: function(a) { return this.mul(rat(a)); },
-
-  /**
-   * @private
-   * @method Rational#_div_
-   * @param {object} a
-   * @return {Rational}
-   */
-  _div_: function(a) { return this.div(rat(a)); }
+  }
 };
 
 exports.Rational = Rational;

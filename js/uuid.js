@@ -200,12 +200,12 @@ Uuid.prototype = {
   /**
    * @return {number}
    */
-  version: function() { return this._version; },
+  get version() { return this._version; },
   
   /**
    * @return {number}
    */
-  variant: function() { return this._variant; }
+  get variant() { return this._variant; }
 };
 
 /**

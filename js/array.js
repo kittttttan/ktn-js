@@ -4,15 +4,6 @@
  */
 var ArrayUtil = {
   /**
-   * @method ArrayUtil.isArray
-   * @param {Object} o
-   * @return {boolean}
-   */
-  isArray: function(o) {
-    return Object.prototype.toString.call(o) === '[object Array]';
-  },
-
-  /**
    * @method ArrayUtil.some
    * @param {Array} a
    * @param {function} f
@@ -181,6 +172,7 @@ var ArrayUtil = {
     return a;
   }
 };
+Object.freeze(ArrayUtil);
 
 // exports
 exports.ArrayUtil = ArrayUtil;

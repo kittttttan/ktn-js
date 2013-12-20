@@ -92,18 +92,31 @@ module.exports = function(grunt) {
   });
 
   // grunt plugins
-  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-karma-coveralls');
 
   // tasks
-  grunt.registerTask('examples', ['clean:examples','browserify:examples']);
-  grunt.registerTask('min', ['clean:min','uglify:dist']);
-  grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('test', ['karma:unit']);
-  grunt.registerTask('travis', ['test', 'coveralls']);
+  grunt.registerTask('examples', [], function() {
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.task.run('clean:examples');
+    grunt.task.run('browserify:examples');
+  });
+  grunt.registerTask('min', [], function() {
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.task.run('clean:min');
+    grunt.task.run('uglify:dist');
+  });
+  grunt.registerTask('lint', [], function() {
+    grunt.loadNpmTasks('grunt-eslint');
+    grunt.task.run('eslint');
+  });
+  grunt.registerTask('test', [], function() {
+    grunt.loadNpmTasks('grunt-karma');
+    grunt.task.run('karma:unit');
+  });
+  grunt.registerTask('travis', [], function() {
+    grunt.loadNpmTasks('grunt-karma-coveralls');
+    grunt.task.run('test');
+    grunt.task.run('coveralls');
+  });
   grunt.registerTask('default', ['test','min']);
 };

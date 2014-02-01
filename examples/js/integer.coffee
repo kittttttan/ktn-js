@@ -1,4 +1,4 @@
-Integer = if require? then require('./integer').Integer else @Integer
+Integer = if require? then require('../../coffee/integer').Integer else @Integer
 
 basic = ->
   r = (Math.random() * 4 | 0) + 3
@@ -24,9 +24,9 @@ gcd(a, b) = #{a.gcd(b).toString()}
 """
 
 fib = (a) ->
-  b = Integer.zero()
+  b = Integer.zero
   i = 0
-  c = Integer.one()
+  c = Integer.one
   while i < a
     d = b.clone()
     b = b.add c
@@ -46,7 +46,7 @@ pi = (a) ->
     a = c.div m
     b = a.clone()
     m2 = m.square()
-    k = Integer.one()
+    k = Integer.one
     s = true
     l2 = Integer.num 2
     while c.isNonZero()

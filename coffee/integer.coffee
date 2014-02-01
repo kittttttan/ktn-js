@@ -1,74 +1,193 @@
 _random = Math.random
 
-SHIFT = 16
-BASE = 1 << SHIFT
-MASK = BASE - 1
+Function::property_ ?= (prop, desc) ->
+  Object.defineProperty @prototype, prop, desc
 
+Function::const_ ?= (prop, desc) ->
+  Object.defineProperty @, prop, desc
+
+SHIFT_ = 16
+BASE_ = 1 << SHIFT_
+MASK_ = BASE_ - 1
+
+###
+@class Integer
+###
 class @Integer
   constructor: ->
+    ###
+    @property {number} Integer#_d
+    ###
     @_d = new Uint32Array 3
+
+    ###
+    @property {number} Integer#_s
+    ###
     @_s = true
+
+    ###
+    @property {number} Integer#_l
+    ###
     @_l = 1
 
-  @one: -> longNum 1
-  @zero: -> new Integer()
-  @num: (a) -> longNum a
-  @str: (a) -> longStr a
-  @exp: (a) -> longExp a
-  @any: (a) -> any a
+  # constant
+  ###
+  @property {Integer} Integer.zero
+  ###
+  @const_ 'zero',
+    get: -> new Integer()
+
+  ###
+  @property {Integer} Integer.zero
+  ###
+  @const_ 'one',
+    get: -> num_ 1
+
+  ###
+  @property {number[]} Integer#digits
+  ###
+  @property_ 'digits',
+    get: -> @_d
+
+  ###
+  @property {number} Integer#capacity
+  ###
+  @property_ 'capacity',
+    get: -> @_d.length
+
+  ###
+  @property {number} Integer#arrayLength
+  ###
+  @property_ 'arrayLength',
+    get: -> @_l
+
+  ###
+  @property {boolean} Integer#sign
+  ###
+  @property_ 'sign',
+    get: -> @_s
+
+  ###
+  @method Integer#isOdd
+  @return {boolean}
+  ###
+  isOdd: -> !!(@_d[0] & 1)
+
+  ###
+  @method Integer#isEven
+  @return {boolean}
+  ###
+  isEven: -> !(@_d[0] & 1)
+
+  ###
+  @method Integer#isNonZero
+  @return {boolean}
+  ###
+  isNonZero: -> @_l > 1 || @_d[0] isnt 0
+
+  # static
+  ###
+  @method Integer.num
+  @param {number} a
+  @return {Integer}
+  ###
+  @num: (a) -> num_ a
+
+  ###
+  @method Integer.str
+  @param {string} a
+  @return {Integer}
+  ###
+  @str: (a, b) -> str_ a, b
+
+  ###
+  @method Integer.exp
+  @param {string} a
+  @return {Integer}
+  ###
+  @exp: (a) -> exp_ a
+
+  ###
+  @method Integer.any
+  @param {object} a
+  @return {Integer}
+  ###
+  @any: (a) -> any_ a
+
+  ###
+  @method Integer.factorial
+  @param {number} n
+  @return {Integer}
+  ###
   @factorial: (n) ->
-    n = n | 0
     if n < 1
-      return Integer.one()
-    factOdd(n).mul factEven n
+      Integer.one
+    else
+      factOdd_ n
+        .mul factEven_ n
+
+  ###
+  @method Integer.random
+  @param {number} a
+  @return {Integer}
+  ###
   @random: (a) ->
-    a = a | 0
-    r = longAlloc a, true
+    r = alloc_ a, true
     rd = r._d
-    i = 0
-    while i < a
-      rd[i] = _random() * BASE | 0
-      i = i + 1
-    norm r
+    for i in [0...a] by 1
+      rd[i] = _random() * BASE_ | 0
+    norm_ r
 
-  digits: -> @_d
-  capacity: -> @_d.length | 0
-  arrayLength: -> @_l | 0
-  sign: -> @_s
-
+  ###
+  @method Integer#clone
+  @return {Integer}
+  ###
   clone: ->
     b = new Integer()
     b._s = @_s
     b._l = @_l
     b._d = new Uint32Array @_l
     b._d.set @_d.subarray 0, @_l
-    return b
+    b
 
+  ###
+  @method Integer#valueOf
+  @return {number}
+  ###
   valueOf: ->
     f = .0
     d = @_d
-    i = @_l | 0
+    i = @_l
     while i--
-      f = d[i] + BASE * f
+      f = d[i] + BASE_ * f
     if !@_s
       f = -f
-    return +f
+    +f
 
-  isOdd: -> !!(@_d[0] & 1)
-  isEven: -> !(@_d[0] & 1)
-  isNonZero: -> @_l > 1 || @_d[0] isnt 0
-
+  ###
+  @method Integer#abs
+  @return {Integer}
+  ###
   abs: ->
     z = @clone()
     z._s = true
-    return z
+    z
 
+  ###
+  @method Integer#neg
+  @return {Integer}
+  ###
   neg: ->
     z = @clone()
     if z.isNonZero()
       z._s = !z._s
-    return z
+    z
 
+  ###
+  @method Integer#toString
+  @param {number} b
+  @return {string}
+  ###
   toString: (b) ->
     b = b | 0
     if !b
@@ -80,16 +199,16 @@ class @Integer
     hbase = 0
     switch b
       when 16
-        j = (i << 3) + 2 | 0
+        j = (i << 3) + 2
         hbase = 0x10000
       when 8
-        j = (i << 4) + 2 | 0
+        j = (i << 4) + 2
         hbase = 0x1000
       when 2
-        j = (i << 4) + 2 | 0
+        j = (i << 4) + 2
         hbase = 0x10
       else
-        j = (i * 241 / 50 | 0) + 2 | 0
+        j = (i * 241 / 50 | 0) + 2
         hbase = 10000
     t = @clone()
     d = t._d
@@ -101,25 +220,29 @@ class @Integer
       k = i
       n = 0
       while k--
-        n = (n << SHIFT) | d[k]
+        n = (n << SHIFT_) | d[k]
         d[k] = n / hbase | 0
         n = n % hbase | 0
       if !d[i - 1]
-        i = i - 1 | 0
+        --i
       k = 4
       while k--
         s = digits.charAt(n % b | 0) + s
-        j = j - 1 | 0
+        --j
         n = n / b | 0
         if !i && !n
           break
     s = s.replace /^0+/, ''
     if !@_s
       s = '-' + s
-    return s
+    s
 
+  ###
+  @method Integer#addZero
+  @param {number} b
+  @return {Integer}
+  ###
   addZero: (b) ->
-    b = b | 0
     zeros = ''
     z = '0'
     while b > 0
@@ -127,152 +250,182 @@ class @Integer
         zeros = zeros + z
       b = b >>> 1
       z = z + z
-    longStr @toString() + zeros
+    str_ @toString() + zeros
 
+  ###
+  @method Integer#leftShift
+  @param {number} b
+  @return {Integer}
+  ###
   leftShift: (b) ->
-    b = b | 0
-    a = this
+    a = @
     ad = a._d
-    l = a._l | 0
-    d = (b / SHIFT) | 0
-    cl = l + d + 1 | 0
-    bb = b % SHIFT
-    c = longAlloc cl, a._s
+    l = a._l
+    d = (b / SHIFT_) | 0
+    cl = l + d + 1
+    bb = b % SHIFT_
+    c = alloc_ cl, a._s
     cd = c._d
     i = 0
     carry = 0
-    while (i | 0) < (d | 0)
+    while i < d
       cd[i] = 0
-      i = i + 1 | 0
+      ++i
     t = 0
     i = 0
-    while (i | 0) < (l | 0)
+    while i < l
       t = (ad[i] << bb) + carry
-      cd[i + d] = t & MASK
-      carry = t >> SHIFT
-      i = i + 1 | 0
+      cd[i + d] = t & MASK_
+      carry = t >> SHIFT_
+      ++i
     cd[i + d] = carry
-    norm c
+    norm_ c
 
+  ###
+  @method Integer#rightShift
+  @param {number} b
+  @return {Integer}
+  ###
   rightShift: (b) ->
-    a = this
+    a = @
     ad = a._d
     l = a._l
-    d = (b / SHIFT) | 0
+    d = (b / SHIFT_) | 0
     if l <= d
-      return new Integer()
-    bb = b % SHIFT
+      return Integer.zero
+    bb = b % SHIFT_
     mask = (1 << bb) - 1
     cl = l - d
-    c = longAlloc cl, a._s
+    c = alloc_ cl, a._s
     cd = c._d
     i = 0
     while i < cl - 1
-      cd[i] = ((ad[i + d + 1] & mask) << (SHIFT - bb)) + (ad[i + d] >> bb)
+      cd[i] = ((ad[i + d + 1] & mask) << (SHIFT_ - bb)) + (ad[i + d] >> bb)
       i = i + 1
     cd[i] = ad[i + d] >> bb
-    norm c
+    norm_ c
 
+  ###
+  @method Integer#square
+  @return {Integer}
+  ###
   square: ->
-    x = @_d
+    xs = @_d
     t = @_l
-    s = longAlloc t << 1, true
+    s = alloc_ t << 1, true
     w = s._d
-    longFillZero s, s._l
-    i = 0
-    j = 0
-    c = 0
-    uv = 0
-    u = 0
-    v = 0
-    while i < t
-      uv = w[i << 1] + x[i] * x[i]
-      u = uv >>> SHIFT
-      v = uv & MASK
+    fillZero_ s, s._l
+    for i in [0...t] by 1
+      x = xs[i]
+      uv = w[i << 1] + x * x
+      u = uv >>> SHIFT_
+      v = uv & MASK_
       w[i << 1] = v
       c = u
-      j = i + 1
-      while j < t
+      for j in [i + 1...t] by 1
         # uv = w[i + j] + (x[j] * x[i] << 1) + c
         # can overflow.
-        uv = x[j] * x[i]
-        u = (uv >>> SHIFT) << 1
-        v = (uv & MASK) << 1
+        uv = xs[j] * x
+        u = (uv >>> SHIFT_) << 1
+        v = (uv & MASK_) << 1
         v += w[i + j] + c
-        u += v >>> SHIFT
-        v = v & MASK
+        u += v >>> SHIFT_
+        v = v & MASK_
         w[i + j] = v
         c = u
-        j = j + 1
       w[i + t] = u
-      i = i + 1
-    norm s
+    norm_ s
 
+  ###
+  @method Integer#sqrt
+  @return {Integer}
+  ###
   sqrt: ->
     if !@isNonZero()
-      return this
+      return @
     b = @clone()
-    c = Integer.one()
+    c = Integer.one
     while 0 < b.cmp c
-      longHalf b
-      longDouble c
+      half_ b
+      double_ c
     loop
       b = c.clone()
       c = @divmod c, false
         .add c
-      longHalf c
+      half_ c
       break unless 0 < b.cmp c
-    return b
+    b
 
+  ###
+  @method Integer#pow
+  @param {Integer} b
+  @return {Integer|number}
+  ###
   pow: (b) ->
-    b = +b
     if !b
-      return Integer.one()
+      return Integer.one
     if b > 0 && b is (b | 0)
       b = b | 0
-      p = Integer.one()
+      p = Integer.one
       a = @clone()
       while b > 0
-        if b & 1 then p = p.mul a
+        if b & 1
+          p = p.mul a
         b >>= 1
         a = a.square()
       return p
     @valueOf() ** b
 
+  ###
+  @method Integer#gcd
+  @param {Integer} b
+  @return {Integer}
+  ###
   gcd: (b) ->
     a = @abs()
     while (c = a.divmod b, true).isNonZero()
       a = b
       b = c
-    return b
+    b
 
+  ###
+  @method Integer#gcdBin
+  @param {Integer} b
+  @return {Integer}
+  ###
   gcdBin: (b) ->
     if 0 > @cmpAbs b
-      return b.gcdBin this
+      return b.gcdBin @
     if !b.isNonZero()
       throw new Error 'Zero Division'
-    g = Integer.one()
+    g = Integer.one
     a = @abs()
     b = b.abs()
     while !(a._d[0] & 1) && !(b._d[0] & 1)
-      longHalf a
-      longHalf b
-      longDouble g
+      half_ a
+      half_ b
+      double_ g
     while a.isNonZero()
       while !(a._d[0] & 1)
-        longHalf a
+        half_ a
       while !(b._d[0] & 1)
-        longHalf b
+        half_ b
       if 0 > a.cmpAbs b
         b = b.sub a
-        longHalf b
+        half_ b
       else
         a = a.sub b
-        longHalf a
+        half_ a
     g.mul b
 
+  ###
+  @method Integer#divmod
+  @param {Integer} b
+  @param {boolean} modulus
+  @return {Integer}
+  ###
   divmod: (b, modulus) ->
-    a = this
+    a = @
     ad = a._d
     bd = b._d
     na = a._l
@@ -285,7 +438,7 @@ class @Integer
     if na < nb || (albl && ad[na - 1] < bd[nb - 1])
       if modulus
         return a
-      return new Integer()
+      return Integer.zero
     dd = 0
     t = 0
     i = 0
@@ -295,20 +448,20 @@ class @Integer
       zd = z._d
       i = na
       while i--
-        t = ((t << SHIFT) | zd[i]) >>> 0
-        zd[i] = (t / dd) & MASK
+        t = ((t << SHIFT_) | zd[i]) >>> 0
+        zd[i] = (t / dd) & MASK_
         t %= dd
       if modulus
         if !a._s
-          return longNum -t
-        return longNum t
+          return num_ -t
+        return num_ t
       z._s = a._s is b._s
-      return norm(z)
+      return norm_(z)
 
-    z = longAlloc (if albl then na + 2 else na + 1), a._s is b._s
+    z = alloc_ (if albl then na + 2 else na + 1), a._s is b._s
     zd = z._d
-    longFillZero z, z._l
-    dd = BASE / (bd[nb - 1] + 1) & MASK
+    fillZero_ z, z._l
+    dd = BASE_ / (bd[nb - 1] + 1) & MASK_
 
     j = 0
     num = 0
@@ -321,49 +474,49 @@ class @Integer
       td = bb._d
       while j < nb
         num += bd[j] * dd
-        td[j] = num & MASK
-        num >>>= SHIFT
+        td[j] = num & MASK_
+        num >>>= SHIFT_
         j = j + 1
       bd = td
       j = num = 0
       while j < na
         num += ad[j] * dd
-        zd[j] = num & MASK
-        num >>>= SHIFT
+        zd[j] = num & MASK_
+        num >>>= SHIFT_
         j = j + 1
-      zd[j] = num & MASK
+      zd[j] = num & MASK_
 
     q = 0
     ee = 0
     j = if albl then na + 1 else na
     loop
       if zd[j] is bd[nb - 1]
-        q = MASK
+        q = MASK_
       else
-        q = (((zd[j] << SHIFT) | zd[j - 1]) >>> 0) / bd[nb - 1] & MASK
+        q = (((zd[j] << SHIFT_) | zd[j - 1]) >>> 0) / bd[nb - 1] & MASK_
       if q
         i = num = t = 0
         loop
           t += bd[i] * q
-          ee = (t & MASK) - num
+          ee = (t & MASK_) - num
           num = zd[j - nb + i] - ee
           if ee
-            zd[j - nb + i] = num & MASK
-          num >>= SHIFT
-          t >>>= SHIFT
+            zd[j - nb + i] = num & MASK_
+          num >>= SHIFT_
+          t >>>= SHIFT_
           break unless ++i < nb
         num += zd[j - nb + i] - t
         while num
           i = num = 0
-          q = q - 1
+          --q
           loop
             ee = num + bd[i]
             num = zd[j - nb + i] + ee
             if ee
-               zd[j - nb + i] = num & MASK
-            num >>= SHIFT
+               zd[j - nb + i] = num & MASK_
+            num >>= SHIFT_
             break unless ++i < nb
-          num = num - 1
+          --num
       zd[j] = q
       break unless --j >= nb
 
@@ -374,12 +527,12 @@ class @Integer
         t = 0
         i = nb
         while i--
-          t = ((t << SHIFT) | zd[i]) >>> 0
-          zd[i] = (t / dd) & MASK
+          t = ((t << SHIFT_) | zd[i]) >>> 0
+          zd[i] = (t / dd) & MASK_
           t %= dd
       div._l = nb
       div._s = a._s
-      return norm(div)
+      return norm_(div)
 
     j = (if albl then na + 2 else na + 1) - nb
     i = 0
@@ -387,13 +540,29 @@ class @Integer
       zd[i] = zd[i + nb]
       i = i + 1
     div._l = j
-    return norm(div)
+    norm_(div)
 
+  ###
+  @method Integer#div
+  @param {Integer} b
+  @return {Integer}
+  ###
   div: (b) -> @divmod b, false
+
+  ###
+  @method Integer#mod
+  @param {Integer} b
+  @return {Integer}
+  ###
   mod: (b) -> @divmod b, true
 
+  ###
+  @method Integer#cmpAbs
+  @param {Integer} b
+  @return {number} -1, 0, 1
+  ###
   cmpAbs: (b) ->
-    if this is b
+    if @ is b
       return 0
     ad = @_d
     bd = b._d
@@ -410,8 +579,13 @@ class @Integer
       return 0
     return if ad[al] > bd[al] then 1 else -1
 
+  ###
+  @method Integer#cmp
+  @param {Integer} b
+  @return {number} -1, 0, 1
+  ###
   cmp: (b) ->
-    if this is b
+    if @ is b
       return 0
     if @_s isnt b._s
       return if @_s then 1 else -1
@@ -432,10 +606,15 @@ class @Integer
       return if @_s then 1 else -1
     return if @_s then -1 else 1
 
+  ###
+  @method Integer#eq
+  @param {Integer} b
+  @return {boolean}
+  ###
   eq: (b) ->
-    if this is b
+    if @ is b
       return true
-    b = any(b)
+    b = any_ b
     if @_s isnt b._s
       return false
     ad = @_d
@@ -447,11 +626,16 @@ class @Integer
     while i < l
       if ad[i] isnt bd[i]
         return false
-      i = i + 1
+      ++i
     return true
 
+  ###
+  @method Integer#equal
+  @param {Integer} b
+  @return {boolean}
+  ###
   equal: (b) ->
-    if this is b
+    if @ is b
       return true
     if !(b instanceof Integer)
       return false
@@ -466,9 +650,15 @@ class @Integer
     while i < l
       if ad[i] isnt bd[i]
         return false
-      i = i + 1
+      ++i
     return true
 
+  ###
+  @method Integer#addAbs
+  @param {Integer} b
+  @param {boolean} sign
+  @return {Integer}
+  ###
   addAbs: (b, sign) ->
     if @_l < b._l
       return b.addAbs this, sign
@@ -476,166 +666,206 @@ class @Integer
     bd = b._d
     al = @_l
     bl = b._l
-    z = longAlloc al + 1, sign
+    z = alloc_ al + 1, sign
     zd = z._d
     i = 0
     num = 0
     while i < bl
       num += ad[i] + bd[i]
-      zd[i] = num & MASK
-      num >>>= SHIFT
-      i = i + 1
+      zd[i] = num & MASK_
+      num >>>= SHIFT_
+      ++i
     while num && i < al
       num += ad[i]
-      zd[i] = num & MASK
-      num >>>= SHIFT
-      i = i + 1
+      zd[i] = num & MASK_
+      num >>>= SHIFT_
+      ++i
     while i < al
       zd[i] = ad[i]
-      i = i + 1
-    zd[i] = num & MASK
-    norm z
+      ++i
+    zd[i] = num & MASK_
+    norm_ z
 
+  ###
+  @method Integer#subAbs
+  @param {Integer} b
+  @param {boolean} sign
+  @return {Integer}
+  ###
   subAbs: (b, sign) ->
     ad = @_d
     bd = b._d
     al = @_l
     bl = b._l
-    z = longAlloc al, sign
+    z = alloc_ al, sign
     zd = z._d
     i = 0
     c = 0
     while i < bl
       c = ad[i] - bd[i] - c
       if c < 0
-        zd[i] = c & MASK
+        zd[i] = c & MASK_
         c = 1
       else
         zd[i] = c
         c = 0
-      i = i + 1
+      ++i
     while i < al
       c = ad[i] - c
       if c < 0
-        zd[i] = c & MASK
+        zd[i] = c & MASK_
         c = 1
       else
         zd[i] = c
         c = 0
-      i = i + 1
-    norm z
+      ++i
+    norm_ z
 
+  ###
+  @method Integer#add
+  @param {Integer} b
+  @return {Integer}
+  ###
   add: (b) ->
     if @_s isnt b._s
       if 0 > @cmpAbs b
-        return b.subAbs this, b._s
+        return b.subAbs @, b._s
       return @subAbs b, @_s
     return @addAbs b, @_s
 
+  ###
+  @method Integer#sub
+  @param {Integer} b
+  @return {Integer}
+  ###
   sub: (b) ->
     if @_s is b._s
       if 0 > @cmpAbs b
-          return b.subAbs this, !b._s
+          return b.subAbs @, !b._s
       return @subAbs b, @_s
     return @addAbs b, @_s
 
+  ###
+  @method Integer#mul
+  @param {Integer} b
+  @return {Integer}
+  ###
   mul: (b) ->
     # if @equal(b) then return @square()
     ad = @_d
     bd = b._d
-    al = @_l | 0
-    bl = b._l | 0
-    # if al > 125 && bl > 125 then return longK(this, b)
-    j = al + bl | 0
-    z = longAlloc j, @_s is b._s
-    longFillZero z, j
-    i = 0
+    al = @_l
+    bl = b._l
+    # if al > 125 && bl > 125 then return kmul_ @, b
+    j = al + bl
+    z = alloc_ j, @_s is b._s
+    fillZero_ z, j
     n = 0
     d = 0
     e = 0
     zd = z._d
-    while (i | 0) < (al | 0)
+    for i in [0...al] by 1
       d = ad[i]
-      if !d then continue
+      if !d
+        continue
       n = 0
       j = 0
-      while (j | 0) < (bl | 0)
+      while j < bl
         e = n + d * bd[j]
         n = zd[i + j] + e
-        if e then zd[i + j] = n & MASK
-        n >>>= SHIFT
-        j = j + 1 | 0
-      if n then zd[i + j] = n | 0
-      i = i + 1 | 0
-    norm z
+        if e
+          zd[i + j] = n & MASK_
+        n >>>= SHIFT_
+        ++j
+      if n
+        zd[i + j] = n
+    norm_ z
 
-  kmul: (b) -> longK this, b
+  ###
+  @method Integer#kmul
+  @param {Integer} b
+  @return {Integer}
+  ###
+  kmul: (b) -> kmul_ @, b
 
-longAlloc = (length, sign) ->
+###
+@param {number} length
+@param {boolean} sign
+@return {Integer}
+###
+alloc_ = (length, sign) ->
   length = length | 0
-  a = new Integer
+  a = new Integer()
   a._s = if sign then true else false
   a._l = length
   a._d = new Uint32Array length
-  return a
+  a
 
-norm = (a) ->
+###
+@param {Integer} a
+@return {Integer}
+###
+norm_ = (a) ->
   d = a._d
   l = a._l | 0
   loop
-    l = l - 1 | 0
+    --l
     break if !l || d[l]
-  a._l = l + 1 | 0
+  a._l = l + 1
   # -0 -> +0
   if !l && !d[l]
     a._s = true
-  return a
+  a
 
-longNum = (n) ->
-  n = n | 0
+###
+@param {number} n
+@return {Integer}
+###
+num_ = (n) ->
   a = new Integer()
   if !n
     return a
   if n < 0
     n = -n
     a._s = false
-  a._d[0] = n & MASK
-  n = n >>> SHIFT
+  a._d[0] = n & MASK_
+  n = n >>> SHIFT_
   if n
-    a._d[1] = n & MASK
+    a._d[1] = n & MASK_
     a._l = 2
-  return a
+  a
 
-longStr = (str, base) ->
+###
+@param {string} str
+@param {string} base
+@return {Integer}
+###
+str_ = (str, base) ->
   base = base | 0
   if !base
     base = 10
   index = 0
   sign = true
   if '+' is str.charAt index
-    index = index + 1
+    ++index
   else if '-' is str.charAt index
     sign = false
-    index = index + 1
-
+    ++index
   # Ignore following zeros. '00102' is regarded as '102'.
   while '0' is str.charAt index
-    index = index + 1
+    ++index
   if !str.charAt index
-    return new Integer()
-
+    return Integer.zero
   len = 0
   if base is 8
     len = 3 * (str.length + 1 - index)
   else 
     if !str.charAt index
-      index = index - 1
+      --index
     len = (str.length + 1 - index) << 2
   len = (len >>> 4) + 1
-
-  z = longAlloc len, sign
-  longFillZero z, len
-
+  z = alloc_ len, sign
+  fillZero_ z, len
   zd = z._d
   bl = 1
   c = ''
@@ -643,29 +873,31 @@ longStr = (str, base) ->
   i = 0
   loop
     c = str.charAt index
-    index = index + 1
-    if !c then break
-
+    ++index
+    if !c
+      break
     n = parseInt c, base
     i = 0
     loop
       while i < bl
         n = n + zd[i] * base
-        zd[i] = n & MASK
-        n = n >>> SHIFT
-        i = i + 1
+        zd[i] = n & MASK_
+        n = n >>> SHIFT_
+        ++i
+      if !n
+        break
+      ++bl
+  norm_ z
 
-      if !n then break
-
-      bl = bl + 1
-
-  norm z
-
-longExp = (a) ->
+###
+@param {string} a
+@return {Integer}
+###
+exp_ = (a) ->
   i = a.indexOf 'e', 0
   if i < 0
     # 'e' is not found
-    return longStr a
+    return str_ a
   s = a.substr 0, i
   e = parseInt (a.substr i + 1, a.length - (i + 1)), 10
   fpt = s.indexOf '.', 0
@@ -673,37 +905,44 @@ longExp = (a) ->
     # '.' is found
     np = s.length - (fpt + 1)
     s = (s.substr 0, fpt) + (s.substr fpt + 1, np)
-    e = e - np
+    e -= np
   if e < 0
     s = s.slice 0, e
   else
     while e > 0
-      s = s + '0'
-      e = e - 1
-  longStr s
+      s += '0'
+      --e
+  str_ s
 
-any = (a) ->
+###
+@param {object} a
+@return {Integer}
+###
+any_ = (a) ->
   if typeof a is 'object'
     if a instanceof Integer
       return a.clone()
-    return new Integer()
+    return Integer.zero
   if typeof a is 'number'
     if -0x7fffffff <= a && a <= 0x7fffffff
-      return longNum a
+      return num_ a
     a = a + ''
   if typeof a is 'string'
-    return longExp a
-  return new Integer()
+    return exp_ a
+  Integer.zero
 
-factOdd = (n) ->
-  n = n | 0
-  m = Integer.one()
+###
+@param {number} n
+@return {Integer}
+###
+factOdd_ = (n) ->
+  m = Integer.one
   mi = 0
   mj = 0
   i = 0
   j = 0
   l = 0
-  limit = 1 << ((SHIFT - 1) << 1)
+  limit = 1 << ((SHIFT_ - 1) << 1)
 
   loop
     l = (n / (1 << i)) | 0
@@ -712,78 +951,98 @@ factOdd = (n) ->
     mi = 1
     mj = 1
     j = 3
-    while (j | 0) <= (l | 0)
+    while j <= l
       mi = mi * j
       if mi > limit
         m = m.mul Integer.num mj
         mi = mj = j
       else
         mj = mi
-      j = j + 2 | 0
-    i = i + 1 | 0
-    if (mj | 0) > 1
+      j += 2
+    ++i
+    if mj > 1
       m = m.mul Integer.num mj
-  return m
+  m
 
-factEven = (n) ->
-  n = n | 0
+###
+@param {number} n
+@return {Integer}
+###
+factEven_ = (n) ->
   s = 0
   while n
     n = n >>> 1
-    s = s + n
+    s += n
   Integer
-    .one()
+    .one
     .leftShift s
 
-longFillZero = (a, b) ->
-  b = b | 0
+###
+@param {Integer} a
+@param {number} b
+@return {Integer}
+###
+fillZero_ = (a, b) ->
   d = a._d
   while b--
     d[b] = 0
-  return a
+  a
 
-longHalf = (a) ->
+###
+@param {Integer} a
+@return {Integer}
+###
+half_ = (a) ->
   d = a._d
   l = a._l - 1
-  i = 0
-  while i < l
-    d[i] = (((d[i + 1] & 1) << SHIFT) + d[i]) >>> 1
-    i = i + 1
+  for i in [0...l] by 1
+    d[i] = (((d[i + 1] & 1) << SHIFT_) + d[i]) >>> 1
   d[l] >>>= 1
-  norm a
+  norm_ a
 
-longDouble = (a) ->
+###
+@param {Integer} a
+@return {Integer}
+###
+double_ = (a) ->
   d = a._d
   l = a._l
   c = 0
-  i = 0
   t = 0
-  while i < l
+  for i in [0...l] by 1
     t = (d[i] << 1) + c
-    d[i] = t & MASK
-    c = t >>> SHIFT
-    i = i + 1
+    d[i] = t & MASK_
+    c = t >>> SHIFT_
   if c
     if l >= a._d.length
       ta = new Uint32Array l
-      ta.set(d)
+      ta.set d
       ta[l] = c
       a._d = ta
     else
       d[l] = c
-    a._l = a._l + 1
-  norm a
+    ++a._l
+  norm_ a
 
-longBitLength = (a) ->
+###
+@param {number} a
+@return {number}
+###
+bitLength_ = (a) ->
   ad = a._d
   l = a._l
   return ad[l - 1]
     .toString 2
     .length + ((l - 1) << 4)
 
-longK = (x, y) ->
-  N = longBitLength x
-  l = longBitLength y
+###
+@param {Integer} x
+@param {Integer} y
+@return {Integer}
+###
+kmul_ = (x, y) ->
+  N = bitLength_ x
+  l = bitLength_ y
 
   if N < l
     N = l
@@ -795,27 +1054,30 @@ longK = (x, y) ->
 
   # x = a + b 2^N, y = c + d 2^N
   b = x.rightShift N
-  a = x.sub b
-      .leftShift N
+  a = x.sub b.leftShift N
   d = y.rightShift N
-  c = y.sub d
-      .leftShift N
-  ac = longK a, c
-  bd = longK b, d
-  abcd = longK a.add b, c.add d
+  c = y.sub d.leftShift N
+  ac = kmul_ a, c
+  bd = kmul_ b, d
+  abcd = kmul_(
+    a.add b
+    c.add d)
 
   # xy
   # = (a + 2^N b) (c + 2^N d)
   # = ac + 2^N ((a + b) (c + d) - ac - bd) + 2^(N + 1) bd
-  return ac.add(
-    abcd
-      .sub ac
-      .sub bd
-      .leftShift N)
-    .add bd
-    .leftShift N << 1
+  ac
+    .add(
+      abcd
+        .sub ac
+        .sub bd
+        .leftShift N
+    )
+    .add(
+      bd
+        .leftShift N << 1
+    )
 
 Integer = @Integer
 
-if exports?
-  exports.Integer = Integer
+exports.Integer = Integer

@@ -13,6 +13,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'js/*.js',
+      'coffee/*.js',
       'test/*.js'
     ],
 
@@ -28,6 +29,7 @@ module.exports = function(config) {
     reporters: ['progress', 'coverage', 'html'],
     preprocessors: {
       'js/**/*.js': ['coverage','commonjs'],
+      'coffee/**/*.js': ['coverage','commonjs'],
       'test/**/*.js': ['commonjs']
     },
     coverageReporter: {

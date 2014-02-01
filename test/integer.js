@@ -1,4 +1,4 @@
-var Integer = require('../js/integer.js').Integer;
+var Integer = require('../coffee/integer.js').Integer;
 
 describe("Integer", function() {
   it("zero", function() {

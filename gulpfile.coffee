@@ -32,7 +32,7 @@ gulp.task 'examples', ->
       ext: '.bundle.js'
     .pipe gulp.dest 'examples'
 
-gulp.task 'test', ->
+gulp.task 'test', ['coffee'], ->
   gulp.src ['js/**/*.js', 'coffee/**/*.js', 'test/**/*.js']
     .pipe karma
       configFile: 'karma.conf.js'

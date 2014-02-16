@@ -4,6 +4,7 @@
 *.log
 coffee/*.js
 coverage/
+doc/
 karma_html/
 node_modules/
 tools/doc/

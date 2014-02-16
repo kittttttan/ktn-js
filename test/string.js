@@ -1,4 +1,4 @@
-var StringUtil = require('../js/string.js').StringUtil;
+var StringUtil = require('../coffee/string.js').StringUtil;
 
 describe("StringUtil", function() {
 

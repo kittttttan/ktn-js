@@ -1,0 +1,8 @@
+--name "ktn-js"
+--readme README.md
+--title "ktn-js Documentation"
+--theme "default"
+--extension coffee
+--output doc/
+--private
+coffee/

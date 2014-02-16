@@ -1,4 +1,4 @@
-var StringUtil = require('./string.js').StringUtil;
+var StringUtil = require('../coffee/string.js').StringUtil;
 var repeat = StringUtil.repeat;
 
 /**

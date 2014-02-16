@@ -1,4 +1,4 @@
-var DateUtil = require('../js/date.js').DateUtil;
+var DateUtil = require('../coffee/date.js').DateUtil;
 
 describe("DateUtil", function() {
 

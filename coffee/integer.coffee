@@ -1,8 +1,11 @@
+# @nodoc
 _random = Math.random
 
+# @nodoc
 Function::property_ ?= (prop, desc) ->
   Object.defineProperty @prototype, prop, desc
 
+# @nodoc
 Function::const_ ?= (prop, desc) ->
   Object.defineProperty @, prop, desc
 
@@ -11,7 +14,7 @@ BASE_ = 1 << SHIFT_
 MASK_ = BASE_ - 1
 
 ###
-@class Integer
+Integer
 ###
 class @Integer
   constructor: ->
@@ -30,7 +33,6 @@ class @Integer
     ###
     @_l = 1
 
-  # constant
   ###
   @property {Integer} Integer.zero
   ###
@@ -74,48 +76,40 @@ class @Integer
   isOdd: -> !!(@_d[0] & 1)
 
   ###
-  @method Integer#isEven
   @return {boolean}
   ###
   isEven: -> !(@_d[0] & 1)
 
   ###
-  @method Integer#isNonZero
   @return {boolean}
   ###
   isNonZero: -> @_l > 1 || @_d[0] isnt 0
 
-  # static
   ###
-  @method Integer.num
   @param {number} a
   @return {Integer}
   ###
   @num: (a) -> num_ a
 
   ###
-  @method Integer.str
   @param {string} a
   @return {Integer}
   ###
   @str: (a, b) -> str_ a, b
 
   ###
-  @method Integer.exp
   @param {string} a
   @return {Integer}
   ###
   @exp: (a) -> exp_ a
 
   ###
-  @method Integer.any
   @param {object} a
   @return {Integer}
   ###
   @any: (a) -> any_ a
 
   ###
-  @method Integer.factorial
   @param {number} n
   @return {Integer}
   ###
@@ -127,7 +121,6 @@ class @Integer
         .mul factEven_ n
 
   ###
-  @method Integer.random
   @param {number} a
   @return {Integer}
   ###
@@ -139,7 +132,6 @@ class @Integer
     norm_ r
 
   ###
-  @method Integer#clone
   @return {Integer}
   ###
   clone: ->
@@ -151,7 +143,6 @@ class @Integer
     b
 
   ###
-  @method Integer#valueOf
   @return {number}
   ###
   valueOf: ->
@@ -165,7 +156,6 @@ class @Integer
     +f
 
   ###
-  @method Integer#abs
   @return {Integer}
   ###
   abs: ->
@@ -174,7 +164,6 @@ class @Integer
     z
 
   ###
-  @method Integer#neg
   @return {Integer}
   ###
   neg: ->
@@ -184,7 +173,6 @@ class @Integer
     z
 
   ###
-  @method Integer#toString
   @param {number} b
   @return {string}
   ###
@@ -238,7 +226,6 @@ class @Integer
     s
 
   ###
-  @method Integer#addZero
   @param {number} b
   @return {Integer}
   ###
@@ -253,7 +240,6 @@ class @Integer
     str_ @toString() + zeros
 
   ###
-  @method Integer#leftShift
   @param {number} b
   @return {Integer}
   ###
@@ -282,7 +268,6 @@ class @Integer
     norm_ c
 
   ###
-  @method Integer#rightShift
   @param {number} b
   @return {Integer}
   ###
@@ -306,7 +291,6 @@ class @Integer
     norm_ c
 
   ###
-  @method Integer#square
   @return {Integer}
   ###
   square: ->
@@ -337,7 +321,6 @@ class @Integer
     norm_ s
 
   ###
-  @method Integer#sqrt
   @return {Integer}
   ###
   sqrt: ->
@@ -357,7 +340,6 @@ class @Integer
     b
 
   ###
-  @method Integer#pow
   @param {Integer} b
   @return {Integer|number}
   ###
@@ -377,7 +359,6 @@ class @Integer
     @valueOf() ** b
 
   ###
-  @method Integer#gcd
   @param {Integer} b
   @return {Integer}
   ###
@@ -389,7 +370,6 @@ class @Integer
     b
 
   ###
-  @method Integer#gcdBin
   @param {Integer} b
   @return {Integer}
   ###
@@ -419,7 +399,6 @@ class @Integer
     g.mul b
 
   ###
-  @method Integer#divmod
   @param {Integer} b
   @param {boolean} modulus
   @return {Integer}
@@ -543,21 +522,18 @@ class @Integer
     norm_(div)
 
   ###
-  @method Integer#div
   @param {Integer} b
   @return {Integer}
   ###
   div: (b) -> @divmod b, false
 
   ###
-  @method Integer#mod
   @param {Integer} b
   @return {Integer}
   ###
   mod: (b) -> @divmod b, true
 
   ###
-  @method Integer#cmpAbs
   @param {Integer} b
   @return {number} -1, 0, 1
   ###
@@ -580,7 +556,6 @@ class @Integer
     return if ad[al] > bd[al] then 1 else -1
 
   ###
-  @method Integer#cmp
   @param {Integer} b
   @return {number} -1, 0, 1
   ###
@@ -607,7 +582,6 @@ class @Integer
     return if @_s then -1 else 1
 
   ###
-  @method Integer#eq
   @param {Integer} b
   @return {boolean}
   ###
@@ -630,7 +604,6 @@ class @Integer
     return true
 
   ###
-  @method Integer#equal
   @param {Integer} b
   @return {boolean}
   ###
@@ -654,7 +627,6 @@ class @Integer
     return true
 
   ###
-  @method Integer#addAbs
   @param {Integer} b
   @param {boolean} sign
   @return {Integer}
@@ -687,7 +659,6 @@ class @Integer
     norm_ z
 
   ###
-  @method Integer#subAbs
   @param {Integer} b
   @param {boolean} sign
   @return {Integer}
@@ -722,7 +693,6 @@ class @Integer
     norm_ z
 
   ###
-  @method Integer#add
   @param {Integer} b
   @return {Integer}
   ###
@@ -734,7 +704,6 @@ class @Integer
     return @addAbs b, @_s
 
   ###
-  @method Integer#sub
   @param {Integer} b
   @return {Integer}
   ###
@@ -746,7 +715,6 @@ class @Integer
     return @addAbs b, @_s
 
   ###
-  @method Integer#mul
   @param {Integer} b
   @return {Integer}
   ###
@@ -782,7 +750,6 @@ class @Integer
     norm_ z
 
   ###
-  @method Integer#kmul
   @param {Integer} b
   @return {Integer}
   ###
@@ -1078,6 +1045,7 @@ kmul_ = (x, y) ->
         .leftShift N << 1
     )
 
+# @nodoc
 Integer = @Integer
-
+# @nodoc
 exports.Integer = Integer

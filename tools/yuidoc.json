@@ -5,8 +5,7 @@
   "url": "https://github.com/kittttttan/ktn-js",
   "options": {
     "paths": [
-      "../js",
-      "../coffee"
+      "../js"
     ],
     "outdir": "./doc"
   }

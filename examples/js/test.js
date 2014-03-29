@@ -1,12 +1,12 @@
-var Util = require('../../js/utils.js').Util,
+var Util = require('../../coffee/utils.js').Util,
     StringUtil = require('../../coffee/string.js').StringUtil,
     uuid = require('../../js/uuid.js').uuid,
     ArrayUtil = require('../../js/array.js').ArrayUtil,
-    StringConverter = require('../../js/strconv.js').StringConverter,
+    StringConverter = require('../../coffee/strconv.js').StringConverter,
     Random = require('../../js/random.js').Random,
     DateUtil = require('../../coffee/date.js').DateUtil;
 
-var assert = Util.assert;
+var timeit = Util.timeit;
 var range = ArrayUtil.range;
 var genRandomString = StringUtil.genRandomString;
 var proper = StringConverter.proper;
@@ -105,8 +105,6 @@ function randomTest() {
 }
 
 function mainTest() {
-  var d = Date.now();
-  
   uuidTest();
   sprintfTest();
   rangeTest();
@@ -114,9 +112,6 @@ function mainTest() {
   strConvTest();
   dateFormatTest();
   randomTest();
-
-  console.log((Date.now() - d) +'ms');
 }
 
-mainTest();
-//assert(false, 'assert test');
+console.log(timeit(mainTest, 1) + 'ms');

@@ -1,4 +1,4 @@
-var StringConverter = require('../js/strconv.js').StringConverter;
+var StringConverter = require('../coffee/strconv.js').StringConverter;
 
 describe("StringConverter", function() {
 

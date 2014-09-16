@@ -9,7 +9,17 @@
 
 install [node.js](http://nodejs.org/)
 
+install [gulp](http://gulpjs.com/)
+
+or
+
 install [Grunt](http://gruntjs.com/)
+
+```bash
+npm install -g gulp
+```
+
+or
 
 ```bash
 npm install -g grunt-cli
@@ -25,10 +35,22 @@ npm install
 build
 
 ```bash
+gulp
+```
+
+or
+
+```bash
 grunt
 ```
 
 build examples for browser (with [browserify](http://browserify.org/))
+
+```bash
+gulp examples
+```
+
+or
 
 ```bash
 grunt examples

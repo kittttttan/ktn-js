@@ -28,8 +28,10 @@ gulp.task 'examples', ->
       insertGlobals : true
       transform: ['coffeeify']
       extensions: ['.coffee']
-    .pipe rename
-      ext: '.bundle.js'
+    .pipe rename (path, file) ->
+      path.basename += '.bundle'
+      path.extname = '.js'
+      return
     .pipe gulp.dest 'examples'
 
 gulp.task 'test', ['coffee'], ->

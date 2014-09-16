@@ -103,6 +103,106 @@ class @StringUtil
         s
 
   ###
+  str.format in Python
+  http://docs.python.jp/2/library/string.html#formatspec
+
+  @param {string} str
+  @return {string}
+  ###
+  @pyformat: (str) ->
+    argv = arguments
+    cnt = 0
+    index = 1
+    
+    typeFormat = (src, type, prefix) ->
+      if type is undefined
+        return src
+      isPrefix = prefix is '#'
+      switch type
+        when 's'
+          return src.toString()
+        when 'b'
+          pre = if isPrefix then '0b' else ''
+          return pre + src.toString 2
+        when 'c'
+          # TODO: number to Unicode
+          return String.fromCharCode src
+        when 'd'
+          return src.toString 10
+        when 'o'
+          pre = if isPrefix then '0' else ''
+          return pre + src.toString 8
+        when 'x'
+          pre = if isPrefix then '0x' else ''
+          return pre + src.toString 16
+        when 'X'
+          pre = if isPrefix then '0x' else ''
+          return pre + src.toString 16
+        when 'n'
+          # TODO: insert separator
+          return src.toString 10
+        when ' '
+          return src.toString 10
+        else
+          return src.toString()
+    
+    alignFormat = (src, width, align, fill) ->
+      if width < 1
+        return src
+      if align is undefined
+        return src
+      str = src.toString()
+      ch = if fill is undefined then ' ' else fill
+      isFilled = width > str.length
+      add = if isFilled then StringUtil.repeat ch, width - str.length else ''
+      # TODO:
+      switch align
+        when '<'
+          return (str + add).substring 0, width
+        when '>'
+          return (add + str).slice -width
+        when '='
+          return src.toString()
+        when '^'
+          return add.substring(0, width >> 1) + src.toString() + add.substring(width >> 1, width)
+        else
+          return src.toString()
+
+    str.replace /{(?!{)([0-9a-zA-Z_\[\]]+)?(?::(?:([^}])?([<>=^]))?([ +-])?(#)?(0)?(\d+)?(\.\d+)?([sbcdoxXn ])?)?}(?!})/g,
+      (src, fieldName, fill, align, sign, prefix, zero, width, prec, type) ->
+        ###
+        console.log
+          src: src
+          fieldName: fieldName
+          fill: fill
+          align: align
+          sign: sign
+          prefix: prefix
+          zero: zero
+          width: width
+          prec: prec
+          type: type
+        ###
+        ++cnt
+
+        if zero is '0'
+          fill = '0'
+          align = '='
+
+        if fieldName is undefined
+          index = cnt
+          value = typeFormat argv[index], type
+        else if fieldName.match /\d+/
+          index = (fieldName | 0) + 1
+          value = typeFormat argv[index], type, prefix
+        else
+          value = typeFormat this[fieldName], type, prefix
+
+        value = alignFormat value, width, align, fill
+
+        value
+
+  ###
   @param {string} s
   @return {string}
   ###

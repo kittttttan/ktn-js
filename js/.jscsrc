@@ -1,0 +1,20 @@
+{
+  "preset": "google",//"airbnb", "crockford", "google", "jquery", "mdcs", "wikimedia", "yandex"
+  "fileExtensions": [".js"],
+  "esnext": true,
+
+  "requireParenthesesAroundIIFE": true,
+  "maximumLineLength": 120,
+  "validateLineBreaks": "CRLF",
+  "validateIndentation": 2,
+
+  "disallowKeywords": ["with"],
+//  "disallowSpacesInsideObjectBrackets": null,
+  "disallowImplicitTypeConversion": ["string"],
+
+  "safeContextKeyword": "_this",
+
+  "excludeFiles": [
+    "test/data/**"
+  ]
+}

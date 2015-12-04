@@ -363,6 +363,8 @@ class @Integer
   @return {Integer}
   ###
   gcd: (b) ->
+    if !b.isNonZero()
+      return @
     a = @abs()
     while (c = a.divmod b, true).isNonZero()
       a = b
@@ -377,7 +379,7 @@ class @Integer
     if 0 > @cmpAbs b
       return b.gcdBin @
     if !b.isNonZero()
-      throw new Error 'Zero Division'
+      return @
     g = Integer.one
     a = @abs()
     b = b.abs()

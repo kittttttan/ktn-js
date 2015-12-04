@@ -234,14 +234,14 @@ describe("Integer", function() {
   it("gcd", function () {
     var a = Integer.exp('1e20');
 
-    expect(function(){ a.gcd(Integer.zero); }).toThrow();
+    expect(a.gcd(Integer.zero)).toEqual(a);
     expect(a.gcd(Integer.one).toString()).toEqual('1');
     expect(a.gcd(a).toString()).toEqual(a.toString());
     expect(a.gcd(Integer.num(10)).toString()).toEqual('10');
     expect(a.gcd(Integer.exp('1e10')).toString()).
         toEqual(Integer.exp('1e10').toString());
 
-    expect(function(){ a.gcdBin(Integer.zero); }).toThrow();
+    expect(a.gcdBin(Integer.zero)).toEqual(a);
     expect(a.gcdBin(Integer.one).toString()).toEqual('1');
     expect(a.gcdBin(a).toString()).toEqual(a.toString());
     expect(a.gcdBin(Integer.num(10)).toString()).toEqual('10');

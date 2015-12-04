@@ -834,6 +834,7 @@ Integer.prototype = {
    * @return {Integer}
    */
   gcd: function(b) {
+    if (!b.isNonZero()){ return this; }
     var c;
     var a = this.abs();
 
@@ -853,7 +854,7 @@ Integer.prototype = {
    */
   gcdBin: function(b) {
     if (this.cmpAbs(b) < 0) { return b.gcdBin(this); }
-    if (!b.isNonZero()){ throw new Error('Zero Division'); }
+    if (!b.isNonZero()){ return this; }
 
     var g = Integer.one;
     var a = this.abs();

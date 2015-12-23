@@ -1,4 +1,3 @@
-// node --harmony complex-test.js
 'use strict';
 
 //import Complex from './complex'

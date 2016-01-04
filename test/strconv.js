@@ -1,37 +1,37 @@
-var StringConverter = require('../coffee/strconv.js').StringConverter;
+import {StringConverter} from '../es6/strconv.js';
 
-describe("StringConverter", function() {
+describe("StringConverter", ()=> {
 
-  it("toZenkaku", function() {
+  it("toZenkaku", ()=> {
     expect(StringConverter.toZenkaku('abcDEF')).toEqual('ａｂｃＤＥＦ');
   });
 
-  it("toZenkakuKatakana", function() {
+  it("toZenkakuKatakana", ()=> {
     expect(StringConverter.toZenkakuKatakana('ｱｲｳｴｵ')).toEqual('アイウエオ');
   });
 
-  it("toHankaku", function() {
+  it("toHankaku", ()=> {
     expect(StringConverter.toHankaku('ａｂｃＤＥＦ')).toEqual('abcDEF');
   });
 
-  it("toHankakuKatakana", function() {
+  it("toHankakuKatakana", ()=> {
     expect(StringConverter.toHankakuKatakana('アイウエオ')).toEqual('ｱｲｳｴｵ');
   });
 
-  it("toKatakana", function() {
+  it("toKatakana", ()=> {
     expect(StringConverter.toKatakana('あいうえお')).toEqual('アイウエオ');
   });
 
-  it("toHiragana", function() {
+  it("toHiragana", ()=> {
     expect(StringConverter.toHiragana('アイウエオ')).toEqual('あいうえお');
   });
 
-  it("proper", function() {
+  it("proper", ()=> {
     expect(StringConverter.proper('abc DEF')).toEqual('Abc Def');
   });
 
-  it("convert", function() {
-    var src = 'aB あい ｳ ｃＤ';
+  it("convert", ()=> {
+    const src = 'aB あい ｳ ｃＤ';
 
     expect(StringConverter.convert(src, 0)).toEqual('AB あい ｳ ＣＤ');
     expect(StringConverter.convert(src, 1)).toEqual('ab あい ｳ ｃｄ');

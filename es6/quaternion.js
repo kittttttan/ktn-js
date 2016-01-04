@@ -1,79 +1,74 @@
-var _sqrt = Math.sqrt;
-var _cos = Math.cos;
-var _sin = Math.sin;
-var PI = Math.PI;
+'use strict';
+
+const _sqrt = Math.sqrt;
+const _cos = Math.cos;
+const _sin = Math.sin;
+const PI = Math.PI;
 
 /**
  * Quaternion
  *
  * @class Quaternion
  */
-function Quaternion(w, x, y, z) {
-  this.w = +w;
-  this.x = +x;
-  this.y = +y;
-  this.z = +z;
-}
-
-/**
- * @static
- * @method Quaternion.create
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @return {Quaternion}
- */
-Quaternion.create = function(x, y, z) {
-  return new Quaternion(0, +x, +y, +z);
-};
-
-Quaternion.prototype = {
+ export class Quaternion {
   /**
-   * @const
-   * @property Quaternion#constructor
-   * @type Quaternion
+   * @static
+   * @method Quaternion.create
+   * @param {number} x
+   * @param {number} y
+   * @param {number} z
+   * @return {Quaternion}
    */
-  constructor: Quaternion,
+  static create(x, y, z) {
+    return new Quaternion(0, +x, +y, +z);
+  }
 
-  /**
+  constructor(w, x, y, z) {
+    this.w = +w;
+    this.x = +x;
+    this.y = +y;
+    this.z = +z;
+  }
+ 
+   /**
    * @method Quaternion#toString
    * @return {string}
    */
-  toString: function() {
+  toString() {
     return '('+ this.w +';'+ this.x +','+ this.y +','+ this.z +')';
-  },
+  }
 
   /**
    * @method Quaternion#clone
    * @return {Quaternion}
    */
-  clone: function() {
+  clone() {
     var q = new Quaternion(this.w, this.x, this.y, this.z);
     return q;
-  },
+  }
   
   /**
    * @method Quaternion#conjugate
    * @return {Quaternion}
    */
-  conjugate: function() {
+  conjugate() {
     var q = new Quaternion(this.w, -this.x, -this.y, -this.z);
     return q;
-  },
+  }
 
   /**
    * @method Quaternion#mul
    * @param {Quaternion} q
    * @return {Quaternion}
    */
-  mul: function(q) {
+  mul(q) {
     var r = new Quaternion(
       this.w * q.w - this.x * q.x - this.y * q.y - this.z * q.z,
       this.w * q.x + this.x * q.w + this.y * q.z - this.z * q.y,
       this.w * q.y - this.x * q.z + this.y * q.w + this.z * q.x,
       this.w * q.z + this.x * q.y - this.y * q.x + this.z * q.w);
     return r;
-  },
+  }
     
   /**
    * @method Quaternion#rotate
@@ -83,7 +78,7 @@ Quaternion.prototype = {
    * @param {number} z
    * @return {Quaternion}
    */
-  rotate: function(r, x, y, z) {
+  rotate(r, x, y, z) {
     var n = _sqrt(x * x + y * y + z * z);
     if (!n) {
       throw new Error('Invalid arguments: '+ arguments);
@@ -100,34 +95,34 @@ Quaternion.prototype = {
     var qq = new Quaternion(cos, -x * sin, -y * sin, -z * sin);
     
     return rq.mul(this).mul(qq);
-  },
+  }
   
   /**
    * @method Quaternion#norm
    * @return {number}
    */
-  norm: function() {
+  norm() {
     var n = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     return _sqrt(n);
-  },
+  }
   
   /**
    * @method Quaternion#normalize
    * @return {Quaternion}
    */
-  normalize: function() {
+  normalize() {
     var n = this.norm();
     if (!n) { return undefined; }
     return new Quaternion(this.w / n,
         this.x / n, this.y / n, this.z / n);
-  },
+  }
   
   /**
    * @method Quaternion#inverse
    * @return {Quaternion}
    */
-  inverse: function() {
+  inverse() {
     var n = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     if (!n) { return undefined; }
@@ -136,7 +131,4 @@ Quaternion.prototype = {
         this.x / n, this.y / n, this.z / n);
     return q;
   }
-};
-
-// exports
-exports.Quaternion = Quaternion;
+}

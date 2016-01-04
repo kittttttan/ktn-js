@@ -10,150 +10,87 @@
  *    c.toString();  // '0.7007'
  * @author kittttttan
  */
+'use strict';
 
-var Integer = require('./integer.js').Integer;
+import {Integer} from './integer.js';
 
-/**
- * Decimal
- * @class Decimal
- * @param {Integer} l
- * @param {number} e
- */
-function Decimal(l, e) {
-  e = e | 0;
+export class Decimal {
+  /**
+   * 1
+   * @static
+   * @method Decimal.one
+   * @return {Decimal} 1.
+   */
+  static get one() { return decNum(1, 0); }
 
   /**
-   * @private
-   * @property {Integer} Decimal#_l
+   * 0
+   * @static
+   * @method Decimal.zero
+   * @return {Decimal} 0.
    */
-  this._l = l;
+  static get zero() { return decNum(0, 0); }
 
   /**
-   * @private
-   * @property {number} Decimal#_e
+   * Convert Fraction to Decimal.
+   * @static
+   * @method Decimal.rat
+   * @param {Rational} a
+   * @param {number} b
+   * @return {Decimal}
    */
-  this._e = e;
-}
-
-// static method
-/**
- * Convert String to Decimal.
- * @static
- * @method Decimal.str
- * @param {string} n
- * @return {Decimal}
- */
-var decStr = function(str) {
-  var index = str.indexOf('.');
-  if (index < 0) {
-    // '.' is not found
-    return new Decimal(Integer.str(str), 0);
+  static rat(a, b) {
+    return new Decimal(a._n, 0).div(new Decimal(a._d, 0), b);
   }
-  var trim = str.substring(0, index) + str.substring(index + 1);
-  var i = 0;
-  while (trim.charAt(i) === '0') { ++i; }
-  if (i) { trim = trim.substring(i); }
-  return new Decimal(Integer.str(trim), index - str.length + 1);
-};
 
-Object.defineProperty(Decimal, 'str', {
-  value: decStr
-});
-
-/**
- * Convert Number to Decimal.
- * @static
- * @method Decimal.num
- * @param {number} a
- * @param {number} b
- * @return {Decimal}
- */
-var decNum = function(a, b) {
-  return new Decimal(Integer.num(a), b);
-};
-
-Object.defineProperty(Decimal, 'num', {
-  value: decNum
-});
-
-/**
- * Convert anything to Decimal.
- * @static
- * @method Decimal.dec
- * @param {object} l
- * @param {object} e
- * @return {Decimal}
- */
-var decimal = function(l, e) {
-  if (!arguments.length) {
-    return new Decimal(new Integer(), 0);
+  static str(s) {
+    return decStr(s);
   }
-  if (arguments.length === 1) {
-    if (l instanceof Decimal) { return l.clone(); }
-    if (typeof l === 'string') { return decStr(l); }
-    return new Decimal(Integer.any(l), 0);
+
+  static num(a, b) {
+    return decNum(a, b);
   }
-  return new Decimal(Integer.any(l), e | 0);
-};
 
-Object.defineProperty(Decimal, 'dec', {
-  value: decimal
-});
+  static dec(l, e) {
+    return decimal(l, e);
+  }
 
-/**
- * Convert Fraction to Decimal.
- * @static
- * @method Decimal.rat
- * @param {Rational} a
- * @param {number} b
- * @return {Decimal}
- */
-Decimal.rat = function(a, b) {
-  return new Decimal(a._n, 0).div(new Decimal(a._d, 0), b);
-};
-
-/**
- * 1
- * @static
- * @method Decimal.one
- * @return {Decimal} 1.
- */
-Object.defineProperty(Decimal, 'one', {
-  get: function() { return decNum(1, 0); }
-});
-
-/**
- * 0
- * @static
- * @method Decimal.zero
- * @return {Decimal} 0.
- */
-Object.defineProperty(Decimal, 'zero', {
-  get: function() { return decNum(0, 0); }
-});
-
-Decimal.prototype = {
   /**
-   * @const
-   * @property Decimal#constructor
-   * @type Decimal
+   * Decimal
+   * @class Decimal
+   * @param {Integer} l
+   * @param {number} e
    */
-  constructor: Decimal,
+  constructor(l, e) {
+    e = e | 0;
+
+    /**
+     * @private
+     * @property {Integer} Decimal#_l
+     */
+    this._l = l;
+
+    /**
+     * @private
+     * @property {number} Decimal#_e
+     */
+    this._e = e;
+  }
 
   /**
    * Copy Decimal.
    * @method Decimal#clone
    * @return {Decimal}
    */
-  clone: function() {
+  clone() {
     return new Decimal(this._l.clone(), this._e);
-  },
+  }
 
   /**
    * @method Decimal#toString
    * @return {string}
    */
-  toString: function() {
+  toString() {
     if (this._e >= 0) {
       return this._l.addZero(this._e).toString();
     }
@@ -175,54 +112,54 @@ Decimal.prototype = {
       return '-0.' + zeros + str.substring(1);
     }
     return '0.' + zeros + str;
-  },
+  }
 
   /**
    * @method Decimal#html
    * @return {string}
    */
-  html: function() {
+  html() {
     return this._l.toString() + '&times;10<sup>' + this._e + '</sup>';
-  },
+  }
 
   /**
    * @method Decimal#tex
    * @return {string}
    */
-  tex: function() {
+  tex() {
     return this._l.toString() + '\times 10^' + this._e;
-  },
+  }
 
   /**
    * @method Decimal#valueOf
    * @return {number}
    */
-  valueOf: function() {
+  valueOf() {
     return this._l.valueOf() * Math.pow(10, this._e);
-  },
+  }
 
   /**
    * @method Decimal#dot
    * @return {number}
    */
-  dot: function() {
+  dot() {
     var e = this._e < 0 ? -this._e : 0;
     return this._l.toString().length - e;
-  },
+  }
 
   /**
    * @method Decimal#floor
    * @return {Integer}
    */
-  floor: function() {
+  floor() {
     return Integer.str(this._l.toString().substring(0, this.dot()));
-  },
+  }
 
   /**
    * @method Decimal#setLen
    * @return {Decimal}
    */
-  setLen: function(n) {
+  setLen(n) {
     var a = this.clone(),
         str = a._l.toString(),
         diff = n - str.length;
@@ -237,33 +174,33 @@ Decimal.prototype = {
       a._l = Integer.str(str + zeros);
     }
     return a;
-  },
+  }
 
   /**
    * @method Decimal#abs
    * @return {Decimal}
    */
-  abs: function() {
+  abs() {
     var a = this.clone();
     a._l._s = true;
     return a;
-  },
+  }
 
   /**
    * @method Decimal#neg
    * @return {Decimal}
    */
-  neg: function() {
+  neg() {
     var a = this.clone();
     a._l._s = !a._l._s;
     return a;
-  },
+  }
 
   /**
    * @method Decimal#trim
    * @return {Decimal}
    */
-  trim: function() {
+  trim() {
     var a = this.clone(),
         str = a._l.toString(),
         i = str.length - 1;
@@ -274,14 +211,14 @@ Decimal.prototype = {
     str = str.substring(0, i + 1);
     a._l = Integer.str(str);
     return a;
-  },
+  }
 
   /**
    * @method Decimal#add
    * @param {Decimal} b
    * @return {Decimal}
    */
-  add: function(b) {
+  add(b) {
     var diff = this._e - b._e;
     if (diff > 0) {
       return new Decimal(this._l.addZero(diff).add(b._l), b._e);
@@ -290,14 +227,14 @@ Decimal.prototype = {
       return new Decimal(this._l.add(b._l.addZero(-diff)), this._e);
     }
     return new Decimal(this._l.add(b.l), this._e);
-  },
+  }
 
   /**
    * @method Decimal#sub
    * @param {Decimal} b
    * @return {Decimal}
    */
-  sub: function(b) {
+  sub(b) {
     var diff = this._e - b._e;
     if (diff > 0) {
       return new Decimal(this._l.addZero(diff).sub(b._l), b._e);
@@ -306,17 +243,17 @@ Decimal.prototype = {
       return new Decimal(this._l.sub(b._l.addZero(-diff)), this._e);
     }
     return new Decimal(this._l.sub(b._l), this._e);
-  },
+  }
 
   /**
    * @method Decimal#mul
    * @param {Decimal} b
    * @return {Decimal}
    */
-  mul: function(b) {
+  mul(b) {
     var diff = this._e + b._e;
     return new Decimal(this._l.mul(b._l), diff);
-  },
+  }
 
   /**
    * @method Decimal#div
@@ -324,7 +261,7 @@ Decimal.prototype = {
    * @param {number} c
    * @return {Decimal}
    */
-  div: function(b, c) {
+  div(b, c) {
     c = c || 20;
     var diff = this._l.toString().length - b._l.toString().length,
         e = this._e - b._e,
@@ -335,6 +272,57 @@ Decimal.prototype = {
     }
     return new Decimal(this._l.addZero(c - f).div(b._l), -c + e + f).trim();
   }
-};
+}
 
-exports.Decimal = Decimal;
+// static method
+/**
+ * Convert String to Decimal.
+ * @static
+ * @method Decimal.str
+ * @param {string} n
+ * @return {Decimal}
+ */
+function decStr(str) {
+  var index = str.indexOf('.');
+  if (index < 0) {
+    // '.' is not found
+    return new Decimal(Integer.str(str), 0);
+  }
+  var trim = str.substring(0, index) + str.substring(index + 1);
+  var i = 0;
+  while (trim.charAt(i) === '0') { ++i; }
+  if (i) { trim = trim.substring(i); }
+  return new Decimal(Integer.str(trim), index - str.length + 1);
+}
+
+/**
+ * Convert Number to Decimal.
+ * @static
+ * @method Decimal.num
+ * @param {number} a
+ * @param {number} b
+ * @return {Decimal}
+ */
+function decNum(a, b) {
+  return new Decimal(Integer.num(a), b);
+}
+
+/**
+ * Convert anything to Decimal.
+ * @static
+ * @method Decimal.dec
+ * @param {object} l
+ * @param {object} e
+ * @return {Decimal}
+ */
+function decimal(l, e) {
+  if (!arguments.length) {
+    return new Decimal(new Integer(), 0);
+  }
+  if (arguments.length === 1) {
+    if (l instanceof Decimal) { return l.clone(); }
+    if (typeof l === 'string') { return decStr(l); }
+    return new Decimal(Integer.any(l), 0);
+  }
+  return new Decimal(Integer.any(l), e | 0);
+}

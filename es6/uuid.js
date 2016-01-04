@@ -1,3 +1,5 @@
+'use strict';
+
 var rnd = Math.random;
 
 /**

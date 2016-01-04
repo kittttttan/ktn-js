@@ -1,74 +1,74 @@
-var Fft = require('../js/fft.js').Fft;
-var Complex = require('../js/complex.js').Complex;
+import {Fft} from '../es6/fft.js';
+import {Complex} from '../es6/complex.js';
 
-describe("Fft", function() {
+describe("Fft", ()=> {
 
-  it("fft2", function() {
-    var inputs = [];
-    var cos = Math.cos;
-    var size = 2;
-    for (var i = 0; i < size; ++i) {
+  it("fft2", ()=> {
+    const inputs = [];
+    const cos = Math.cos;
+    const size = 2;
+    for (let i = 0; i < size; ++i) {
       inputs[i] = cos(i);
     }
 
-    var trans = Fft.fftFloat(inputs);
-    var inverse = Fft.ifft(trans);
+    const trans = Fft.fftFloat(inputs);
+    const inverse = Fft.ifft(trans);
 
-    var expectTr = [
+    const expectTr = [
       1.5403023058681398,
       0.45969769413186023
     ];
-    var expectInv = [
+    const expectInv = [
       1,
       0.5403023058681398
     ];
-    for (i = 0; i < size; ++i) {
+    for (let i = 0; i < size; ++i) {
       expect(trans[i].r_).toEqual(expectTr[i]);
       expect(inverse[i].r_).toEqual(expectInv[i]);
     }
   });
 
-  it("fft4", function() {
-    var inputs = [];
-    var cos = Math.cos;
-    var size = 4;
-    for (var i = 0; i < size; ++i) {
+  it("fft4", ()=> {
+    const inputs = [];
+    const cos = Math.cos;
+    const size = 4;
+    for (let i = 0; i < size; ++i) {
       inputs[i] = cos(i);
     }
 
-    var trans = Fft.fftFloat(inputs);
-    var inverse = Fft.ifft(trans);
+    const trans = Fft.fftFloat(inputs);
+    const inverse = Fft.ifft(trans);
 
-    var expectTr = [
+    const expectTr = [
       0.134162972720552,
       1.4161468365471424,
       1.0335433541851633,
       1.4161468365471424
     ];
-    var expectInv = [
+    const expectInv = [
       1,
       0.5403023058681398,
       -0.41614683654714235,
       -0.9899924966004454
     ];
-    for (i = 0; i < size; ++i) {
+    for (let i = 0; i < size; ++i) {
       expect(trans[i].r_).toEqual(expectTr[i]);
       expect(inverse[i].r_).toEqual(expectInv[i]);
     }
   });
 
-  it("fft8", function() {
-    var inputs = [];
-    var cos = Math.cos;
-    var size = 8;
-    for (var i = 0; i < size; ++i) {
+  it("fft8", ()=> {
+    const inputs = [];
+    const cos = Math.cos;
+    const size = 8;
+    for (let i = 0; i < size; ++i) {
       inputs[i] = cos(i);
     }
 
-    var trans = Fft.fftFloat(inputs);
-    var inverse = Fft.ifft(trans);
+    const trans = Fft.fftFloat(inputs);
+    const inverse = Fft.ifft(trans);
 
-    var expectTr = [
+    const expectTr = [
       1.4782540783138367,
       3.068235394394409,
       -0.1976670709668354,
@@ -78,7 +78,7 @@ describe("Fft", function() {
       -0.1976670709668355,
       3.068235394394409
     ];
-    var expectInv = [
+    const expectInv = [
       1,
       0.5403023058681398,
       -0.41614683654714246,
@@ -88,7 +88,7 @@ describe("Fft", function() {
       0.960170286650366,
       0.7539022543433045
     ];
-    for (i = 0; i < size; ++i) {
+    for (let i = 0; i < size; ++i) {
       expect(trans[i].r_).toEqual(expectTr[i]);
       expect(inverse[i].r_).toEqual(expectInv[i]);
     }

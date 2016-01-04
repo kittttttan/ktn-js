@@ -1,6 +1,6 @@
-/*
-range like python3
-*/
+/**
+ * range like python3
+ */
 'use strict';
 
 /**
@@ -9,7 +9,7 @@ range like python3
  * @param {number} step
  * @return {Iterator}
  */
-let range = (start, end, step) => {
+export function range(start, end, step) {
     return (function*(start, end, step) {
         if (typeof(step) === 'undefined') {
             step = 1;
@@ -38,8 +38,4 @@ let range = (start, end, step) => {
             }
         }
     }(start, end, step));
-};
-
-module.exports = {
-  range: range
-};
+}

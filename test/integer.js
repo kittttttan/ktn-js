@@ -1,15 +1,15 @@
-var Integer = require('../coffee/integer.js').Integer;
+import {Integer} from '../es6/integer.js';
 
-describe("Integer", function() {
-  it("zero", function() {
+describe("Integer", ()=> {
+  it("zero", ()=> {
     expect(Integer.zero.toString()).toEqual('0');
   });
 
-  it("one", function() {
+  it("one", ()=> {
     expect(Integer.one.toString()).toEqual('1');
   });
 
-  it("num", function() {
+  it("num", ()=> {
     expect(Integer.num(0).toString()).toEqual('0');
     expect(Integer.num(1).toString()).toEqual('1');
     expect(Integer.num(123456789).toString()).toEqual('123456789');
@@ -18,7 +18,7 @@ describe("Integer", function() {
     expect(Integer.num(0x7fffffff).toString(16)).toEqual('7fffffff');
   });
 
-  it("str", function() {
+  it("str", ()=> {
     expect(Integer.str('0').eq(Integer.zero)).toBe(true);
     expect(Integer.str('00').eq(Integer.zero)).toBe(true);
     expect(Integer.str('+111', 2).toString()).toEqual('7');
@@ -26,14 +26,14 @@ describe("Integer", function() {
     expect(Integer.str('ffffffff', 16).toString()).toEqual('4294967295');
   });
 
-  it("exp", function() {
+  it("exp", ()=> {
     expect(Integer.exp('1000').toString()).toEqual('1000');
     expect(Integer.exp('1e3').toString()).toEqual('1000');
     expect(Integer.exp('3.14e+4').toString()).toEqual('31400');
     expect(Integer.exp('314e-2').toString()).toEqual('3');
   });
 
-  it("any", function() {
+  it("any", ()=> {
     expect(Integer.any(null).eq(Integer.zero)).toBe(true);
     expect(Integer.any(12345678900).toString()).toEqual('12345678900');
     expect(Integer.any(-0x7fffffff).toString(16)).toEqual('-7fffffff');
@@ -43,7 +43,7 @@ describe("Integer", function() {
     expect(Integer.any('1e3').toString()).toEqual('1000');
   });
 
-  it("equal", function() {
+  it("equal", ()=> {
     expect(Integer.num(0).equal(Integer.zero)).toBe(true);
     expect(Integer.num(1).equal(Integer.one)).toBe(true);
 
@@ -54,8 +54,8 @@ describe("Integer", function() {
     expect(Integer.any('1').equal(Integer.one)).toBe(true);
   });
 
-  it("toString", function() {
-    var a = Integer.str('1234567890');
+  it("toString", ()=> {
+    const a = Integer.str('1234567890');
 
     expect(a.toString()).toEqual('1234567890');
     expect(a.toString(2)).toEqual('1001001100101100000001011010010');
@@ -63,17 +63,17 @@ describe("Integer", function() {
     expect(a.toString(16)).toEqual('499602d2');
   });
 
-  it("valueOf", function() {
-    var a = Integer.one.addZero(10);
+  it("valueOf", ()=> {
+    const a = Integer.one.addZero(10);
 
     expect(a.toString()).toEqual('10000000000');
     expect(a.valueOf()).toEqual(10000000000);
     expect(a.neg().valueOf()).toEqual(-10000000000);
   });
 
-  it("is", function() {
-    var a = Integer.str('1234567890987654321');
-    var z = Integer.zero;
+  it("is", ()=> {
+    const a = Integer.str('1234567890987654321');
+    const z = Integer.zero;
 
     expect(a.isOdd()).toBe(true);
     expect(a.isEven()).toBe(false);
@@ -84,21 +84,21 @@ describe("Integer", function() {
     expect(z.isNonZero()).toBe(false);
   });
 
-  it("get", function() {
-    var a = Integer.num((1 << 16) + 2);
+  it("get", ()=> {
+    const a = Integer.num((1 << 16) + 2);
 
     expect(a.sign).toBe(true);
     expect(a.arrayLength).toEqual(2);
     expect(a.capacity >= a.arrayLength).toBe(true);
 
-    var ds = a.digits;
+    const ds = a.digits;
     expect(ds[1]).toEqual(1);
     expect(ds[0]).toEqual(2);
   });
 
-  it("basic", function() {
-    var a = Integer.str('1234567890');
-    var b = Integer.num(10).pow(7);
+  it("basic", ()=> {
+    const a = Integer.str('1234567890');
+    const b = Integer.num(10).pow(7);
 
     expect(a.toString()).toEqual('1234567890');
     expect(a.clone().toString()).toEqual('1234567890');
@@ -119,10 +119,10 @@ describe("Integer", function() {
     expect(b.gcdBin(a).toString()).toEqual('10');
   });
 
-  it("add", function() {
-    var a = Integer.num(1e7);
-    var one = Integer.one;
-    var mOne = one.neg();
+  it("add", ()=> {
+    const a = Integer.num(1e7);
+    const one = Integer.one;
+    const mOne = one.neg();
     
     expect(a.add(Integer.zero).toString()).toEqual('10000000');
     expect(a.add(one).toString()).toEqual('10000001');
@@ -131,10 +131,10 @@ describe("Integer", function() {
     expect(a.add(a).toString()).toEqual('20000000');
   });
 
-  it("sub", function() {
-    var a = Integer.num(1e7);
-    var one = Integer.one;
-    var mOne = one.neg();
+  it("sub", ()=> {
+    const a = Integer.num(1e7);
+    const one = Integer.one;
+    const mOne = one.neg();
     
     expect(a.sub(Integer.zero).toString()).toEqual('10000000');
     expect(a.sub(one).toString()).toEqual('9999999');
@@ -145,8 +145,8 @@ describe("Integer", function() {
     expect(Integer.zero.sub(a).toString()).toEqual('-10000000');
   });
 
-  it("mul", function() {
-    var a = Integer.num(1e7);
+  it("mul", ()=> {
+    const a = Integer.num(1e7);
     
     expect(a.mul(Integer.zero).toString()).toEqual('0');
     expect(a.mul(Integer.one).toString()).toEqual('10000000');
@@ -154,8 +154,8 @@ describe("Integer", function() {
     expect(Integer.one.neg().mul(a).toString()).toEqual('-10000000');
   });
 
-  it("kmul", function() {
-    var a = Integer.exp('1e777');
+  it("kmul", ()=> {
+    const a = Integer.exp('1e777');
     
     expect(a.kmul(Integer.zero).toString()).toEqual('0');
     expect(Integer.zero.kmul(a).toString()).toEqual('0');
@@ -163,32 +163,32 @@ describe("Integer", function() {
     expect(a.kmul(a).toString()).toEqual(Integer.exp('1e1554').toString()); 
   });
 
-  it("div", function() {
-    var a = Integer.num(1e7);
+  it("div", ()=> {
+    const a = Integer.num(1e7);
     
-    expect(function(){ a.div(Integer.zero); }).toThrow();
+    expect(()=>{ a.div(Integer.zero); }).toThrow();
     expect(a.div(Integer.one).toString()).toEqual('10000000');
     expect(a.div(a).toString()).toEqual('1'); 
     expect(Integer.one.neg().div(a).toString()).toEqual('0');
   });
 
-  it("mod", function() {
-    var a = Integer.num(1e7);
+  it("mod", ()=> {
+    const a = Integer.num(1e7);
     
-    expect(function(){ a.mod(Integer.zero); }).toThrow();
+    expect(()=>{ a.mod(Integer.zero); }).toThrow();
     expect(a.mod(Integer.one).toString()).toEqual('0');
     expect(a.mod(a).toString()).toEqual('0'); 
     expect(Integer.one.neg().mod(a).toString()).toEqual('-1');
   });
 
-  it("shift", function() {
-    var one = Integer.one;
-    var two = Integer.num(2);
-    var ls7 = one.leftShift(7);
-    var ls17 = one.leftShift(17);
-    var ls27 = one.leftShift(27);
-    var ls37 = one.leftShift(37);
-    var ls47 = one.leftShift(47);
+  it("shift", ()=> {
+    const one = Integer.one;
+    const two = Integer.num(2);
+    const ls7 = one.leftShift(7);
+    const ls17 = one.leftShift(17);
+    const ls27 = one.leftShift(27);
+    const ls37 = one.leftShift(37);
+    const ls47 = one.leftShift(47);
 
     expect(ls7.toString()).toEqual('128');
     expect(ls17.toString()).toEqual('131072');
@@ -232,7 +232,7 @@ describe("Integer", function() {
   });
 
   it("gcd", function () {
-    var a = Integer.exp('1e20');
+    const a = Integer.exp('1e20');
 
     expect(a.gcd(Integer.zero)).toEqual(a);
     expect(a.gcd(Integer.one).toString()).toEqual('1');
@@ -249,10 +249,10 @@ describe("Integer", function() {
         toEqual(Integer.exp('1e10').toString());
   });
 
-  it("fib", function(){
-    var fib = function(a) {
-      var b = Integer.zero;
-      for (var i = 0, c = Integer.one, d; i < a; ++i) {
+  it("fib", ()=>{
+    const fib = (a)=> {
+      let b = Integer.zero;
+      for (let i = 0, c = Integer.one, d; i < a; ++i) {
         d = b.clone();
         b = b.add(c);
         c = d;
@@ -268,10 +268,10 @@ describe("Integer", function() {
     expect(fib(38).toString()).toEqual('39088169');
   });
 
-  it("pi", function(){
-    var pi = function(a) {
+  it("pi", ()=>{
+    const pi = (a)=> {
       if (!a) { a = 1; }
-      var n = Integer.num(10).pow(a);
+      const n = Integer.num(10).pow(a);
 
       function arccot(m) {
         var c = n, a = c.div(m), b = a.clone(), m2 = m.square(),
@@ -290,11 +290,11 @@ describe("Integer", function() {
         return a;
       }
 
-      var a5 = arccot(Integer.num(5));
-      var a239 = arccot(Integer.num(239));
+      const a5 = arccot(Integer.num(5));
+      const a239 = arccot(Integer.num(239));
       return a5.leftShift(2).sub(a239).leftShift(2);
     };
-    var p = '314159265358979323846264338327950288419716939937510582097494459230781640628620948';
+    const p = '314159265358979323846264338327950288419716939937510582097494459230781640628620948';
 
     expect(pi(80).toString()).toEqual(p);
   });

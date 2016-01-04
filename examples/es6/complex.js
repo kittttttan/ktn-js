@@ -1,7 +1,6 @@
 'use strict';
 
-//import Complex from './complex'
-const Complex = require('./complex').Complex;
+import {Complex} from '../../es6/complex.js';
 
 let main = () => {
   let c1 = new Complex(1,2);

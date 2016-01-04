@@ -4,8 +4,7 @@
  * Complex
  * @class Complex
  */
-//export default
-class Complex {
+export class Complex {
   constructor(r, i) {
     this.r_ = +r;
     this.i_ = +i;
@@ -68,7 +67,3 @@ class Complex {
         this.r_ * a.i_ + this.i_ * a.r_);
   }
 }
-
-module.exports = {
-  Complex: Complex
-};

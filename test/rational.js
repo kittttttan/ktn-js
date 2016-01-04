@@ -1,15 +1,15 @@
-var Rational = require('../js/rational.js').Rational;
+import {Rational} from '../es6/rational.js';
 
-describe("Rational", function() {
-  it("zero", function() {
+describe("Rational", ()=> {
+  it("zero", ()=> {
     expect(Rational.zero.toString()).toEqual('0/1');
   });
 
-  it("one", function() {
+  it("one", ()=> {
     expect(Rational.one.toString()).toEqual('1/1');
   });
 
-  it("num", function() {
+  it("num", ()=> {
     expect(Rational.num(0).toString()).toEqual('0/1');
     expect(Rational.num(1).toString()).toEqual('1/1');
     expect(Rational.num(123456789).toString()).toEqual('123456789/1');
@@ -17,14 +17,14 @@ describe("Rational", function() {
     expect(Rational.num(36, -1024).toString()).toEqual('-9/256');
   });
 
-  it("str", function() {
+  it("str", ()=> {
     expect(Rational.str('0').eq(Rational.zero)).toBe(true);
     expect(Rational.str('00').eq(Rational.zero)).toBe(true);
     expect(Rational.str('7').toString()).toEqual('7/1');
     expect(Rational.str('-777/7777').toString()).toEqual('-111/1111');
   });
 
-  it("equal", function() {
+  it("equal", ()=> {
     expect(Rational.num(0).equal(Rational.zero)).toBe(true);
     expect(Rational.num(1).equal(Rational.one)).toBe(true);
 
@@ -32,34 +32,34 @@ describe("Rational", function() {
     expect(Rational.str('1').equal(Rational.one)).toBe(true);
   });
 
-  it("output", function() {
-    var r = Rational.num(1, 3);
+  it("output", ()=> {
+    const r = Rational.num(1, 3);
     expect(r.html()).toEqual('1/3');
     expect(r.tex()).toEqual('\\frac{1}{3}');
   });
 
-  it("valueOf", function() {
+  it("valueOf", ()=> {
     expect(Rational.num(4, 2).valueOf()).toEqual(2.0);
     expect(Rational.num(-1, 2).valueOf()).toEqual(-0.5);
   });
 
-  it("sign", function() {
-    var r = Rational.num(1, 3);
+  it("sign", ()=> {
+    const r = Rational.num(1, 3);
     expect(r.neg().toString()).toEqual('-1/3');
     expect(r.abs().toString()).toEqual('1/3');
     expect(r.neg().abs().toString()).toEqual('1/3');
   });
 
-  it("inv", function() {
+  it("inv", ()=> {
     expect(Rational.num(2, 3).inv().toString()).toEqual('3/2');
     expect(Rational.num(-6, 10).inv().toString()).toEqual('-5/3');
 
-    expect(function(){ Rational.zero.inv(); }).toThrow();
+    expect(()=>{ Rational.zero.inv(); }).toThrow();
   });
 
-  it("basic", function() {
-    var a = Rational.num(2, 3);
-    var b = Rational.num(1, 6);
+  it("basic", ()=> {
+    const a = Rational.num(2, 3);
+    const b = Rational.num(1, 6);
 
     expect(a.add(b).toString()).toEqual('5/6');
     expect(a.sub(b).toString()).toEqual('1/2');

@@ -1,9 +1,9 @@
-var DateUtil = require('../coffee/date.js').DateUtil;
+import {DateUtil} from '../es6/date.js';
 
-describe("DateUtil", function() {
+describe("DateUtil", ()=> {
 
-  it("format", function() {
-    var dt = new Date(1980, 1-1, 21, 13, 2, 3, 4);
+  it("format", ()=> {
+    let dt = new Date(1980, 1-1, 21, 13, 2, 3, 4);
 
     expect(DateUtil.format('yyyy-MM-dd HH:mm:ss.SSS', dt)).toEqual('1980-01-21 13:02:03.004');
     expect(DateUtil.format('yy-M-d H:m:s', dt)).toEqual('80-1-21 13:2:3');
@@ -38,7 +38,7 @@ describe("DateUtil", function() {
         toEqual('Dec, Sun');
   });
 
-  it("getDaysInMonth", function() {
+  it("getDaysInMonth", ()=> {
     expect(DateUtil.getDaysInMonth(1999, 2)).toEqual(28);
     expect(DateUtil.getDaysInMonth(2000, 1)).toEqual(31);
     expect(DateUtil.getDaysInMonth(2000, 2)).toEqual(29);

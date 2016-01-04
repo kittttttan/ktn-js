@@ -13,33 +13,34 @@
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
   "scripts": {
-    "test": "gulp --require coffee-script/register"
+    "test": "gulp",
+    "doc": "esdoc -c esdoc.json"
+  },
+  "dependencies": {
+    "babel-plugin-transform-runtime": "",
+    "babel-polyfill": "",
+    "babel-preset-es2015": "",
+    "babelify": "",
+    "browserify": ""
   },
   "devDependencies": {
-    "browserify": "",
+    "browserify-istanbul": "",
     "coffee-script": "",
-    "coffeeify": "",
+    "esdoc": "",
     "gulp": "",
-    "gulp-browserify": "",
     "gulp-coffee": "",
     "gulp-karma": "",
     "gulp-rename": "",
     "gulp-uglify": "",
-    "gulp-util": "",
+    "isparta": "",
+    "jasmine-core": "",
     "karma": "",
-    "karma-coffee-preprocessor": "",
-    "karma-commonjs": "",
+    "karma-browserify": "",
     "karma-coverage": "",
     "karma-html-reporter": "",
-    "karma-html2js-preprocessor": "",
-    "jasmine-core": "",
     "karma-jasmine": "",
-    "phantomjs": "",
     "karma-phantomjs-launcher": "",
-    "karma-requirejs": "",
-    "requirejs": "",
-    "karma-firefox-launcher": "",
-    "karma-chrome-launcher": "",
-    "karma-script-launcher": ""
+    "phantomjs": "",
+    "vinyl-source-stream": ""
   }
 }

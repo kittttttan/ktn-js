@@ -10,8 +10,9 @@
  *    c.toString();  // '(5/12)'
  * @author kittttttan
  */
- 
-var Integer = require('./integer.js').Integer;
+ 'use strict';
+
+import {Integer} from './integer.js';
 
 /**
  * @private

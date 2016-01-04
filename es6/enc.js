@@ -1,18 +1,19 @@
-var StringUtil = require('../coffee/string.js').StringUtil;
-var repeat = StringUtil.repeat;
+'use strict';
+
+import 'babel-polyfill';
 
 /**
  * Encode
  * @class Encode
  */
-var Encode = {
+export class Encode {
   /**
    * @method Encode.unary
    * @param {number}  n     natural number
    * @param {boolean} [alt]   
    * @return {string} unary coding
    */
-  unary: function(n, alt) {
+  static unary(n, alt) {
     if (n < 0) { return undefined; }
     
     var former;
@@ -25,40 +26,40 @@ var Encode = {
       latter = '0';
     }
     
-    return repeat(former, n) + latter;
-  },
+    return former.repeat(n) + latter;
+  }
   
   /**
    * @method Encode.eliasGamma
    * @param {number}  n     natural number
    * @return {string} Elias gamma coding
    */
-  eliasGamma: function(n) {
+  static eliasGamma(n) {
     if (n < 1) { return undefined; }
     
     var bin = n.toString(2);
-    return repeat('0', bin.length - 1) + bin;
-  },
+    return '0'.repeat(bin.length - 1) + bin;
+  }
   
   /**
    * @method Encode.eliasDelta
    * @param {number} n natural number
    * @return {string} Elias delta coding
    */
-  eliasDelta: function(n) {
+  static eliasDelta(n) {
     if (n < 1) { return undefined; }
     
     var bin = n.toString(2);
     var gamma = Encode.eliasGamma(bin.length);
     return gamma + bin.substring(1);
-  },
+  }
   
   /**
    * @method Encode.eliasOmega
    * @param {number} n natural number
    * @return {string} Elias omega coding
    */
-  eliasOmega: function(n) {
+  static eliasOmega(n) {
     if (n < 1) { return undefined; }
     
     var res = '0';
@@ -70,7 +71,7 @@ var Encode = {
     }
     
     return res;
-  },
+  }
   
   /**
    * @method Encode.golomb
@@ -78,7 +79,7 @@ var Encode = {
    * @param {number} [m] 
    * @return {string} Golomb coding
    */
-  golomb: function(n, m) {
+  static golomb(n, m) {
     if (n < 0) { return undefined; }
 
     m = (m | 0) || 8;
@@ -92,13 +93,13 @@ var Encode = {
     
     var res = Encode.unary(q, true);
     if (isBin) {
-      res += (repeat('0', b) + r.toString(2)).slice(-b);
+      res += ('0'.repeat(b) + r.toString(2)).slice(-b);
     } else {
       ++b;
       if (r < (1 << b) - m) {
-        res += (repeat('0', b - 1) + r.toString(2)).slice(-(b - 1));
+        res += ('0'.repeat(b - 1) + r.toString(2)).slice(-(b - 1));
       } else {
-        res += (repeat('0', b) + (r + (1 << b) - m).toString(2)).slice(-b);
+        res += ('0'.repeat(b) + (r + (1 << b) - m).toString(2)).slice(-b);
       }
     }
     //console.log('m=%d, b=%d (bin=%s), 2^b-m=%d, r=%d',
@@ -106,20 +107,20 @@ var Encode = {
     
     return res;
   }
-};
+}
 
 /**
  * Decode
  * @class Decode
  */
-var Decode = {
+export class Decode {
   /**
    * @method Decode.unary
    * @param {string}  str
    * @param {boolean} alt
    * @return {number[]} natural number
    */
-  unary: function(str, alt) {
+  static unary(str, alt) {
     var res = [];
     if (!str) { return res; }
     
@@ -150,14 +151,14 @@ var Decode = {
     }
     
     return res;
-  },
+  }
   
   /**
    * @method Decode.eliasGamma
    * @param {string} str
    * @return {number[]} natural number
    */
-  eliasGamma: function(str) {
+  static eliasGamma(str) {
     var res = [];
     if (!str) { return res; }
     
@@ -188,14 +189,14 @@ var Decode = {
     }
     
     return res;
-  },
+  }
   
   /**
    * @method Decode.eliasDelta
    * @param {string} str
    * @return {number[]} natural number
    */
-  eliasDelta: function(str) {
+  static eliasDelta(str) {
     var res = [];
     if (!str) { return res; }
     
@@ -239,14 +240,14 @@ var Decode = {
     }
     
     return res;
-  },
+  }
   
   /**
    * @method Decode.eliasOmega
    * @param {string} str
    * @return {number[]} natural number
    */
-  eliasOmega: function(str) {
+  static eliasOmega(str) {
     var res = [];
     if (!str) { return res; }
     
@@ -276,8 +277,4 @@ var Decode = {
     
     return res;
   }
-};
-
-// exports
-exports.Encode = Encode;
-exports.Decode = Decode;
+}

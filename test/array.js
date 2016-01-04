@@ -1,9 +1,9 @@
-var ArrayUtil = require('../js/array.js').ArrayUtil;
+import {ArrayUtil} from '../es6/array.js';
 
-describe("ArrayUtil", function() {
+describe("ArrayUtil", ()=> {
 
-  it("some", function() {
-    var filter = function(a) {
+  it("some", ()=> {
+    const filter = (a)=> {
       return (a & 1) === 0;
     };
 
@@ -11,11 +11,11 @@ describe("ArrayUtil", function() {
     expect(ArrayUtil.some([1, 3, 5], filter)).toBe(false);
 
     expect(ArrayUtil.some([], filter)).toBe(false);
-    expect(function(){ ArrayUtil.some(null, filter); }).toThrow();
+    expect(()=>{ ArrayUtil.some(null, filter); }).toThrow();
   });
 
-  it("every", function() {
-    var filter = function(a) {
+  it("every", ()=> {
+    const filter = (a)=> {
       return (a & 1) === 0;
     };
 
@@ -23,84 +23,84 @@ describe("ArrayUtil", function() {
     expect(ArrayUtil.every([1, 2, 3], filter)).toBe(false);
 
     expect(ArrayUtil.every([], filter)).toBe(true);
-    expect(function(){ ArrayUtil.every(null, filter); }).toThrow();
+    expect(()=>{ ArrayUtil.every(null, filter); }).toThrow();
   });
 
-  it("filter", function() {
-    var filter = function(a) {
+  it("filter", ()=> {
+    const filter = (a)=> {
       return (a & 1) === 0;
     };
 
     expect(ArrayUtil.filter([1, 2, 3, 4], filter)).toEqual([2, 4]);
 
-    expect(function(){ ArrayUtil.filter(null, filter); }).toThrow();
+    expect(()=>{ ArrayUtil.filter(null, filter); }).toThrow();
   });
 
-  it("forEach", function() {
-    var sum = 0;
-    var add = function(a) {
+  it("forEach", ()=> {
+    let sum = 0;
+    const add = (a)=> {
       return sum += a;
     };
-    var dest = ArrayUtil.forEach([1, 2, 3], add);
+    const dest = ArrayUtil.forEach([1, 2, 3], add);
 
     expect(sum).toEqual(6);
 
-    expect(function(){ ArrayUtil.forEach(null, x2); }).toThrow();
+    expect(()=>{ ArrayUtil.forEach(null, x2); }).toThrow();
   });
 
-  it("map", function() {
-    var x2 = function(a) {
+  it("map", ()=> {
+    const x2 = (a)=> {
       return 2 * a;
     };
 
     expect(ArrayUtil.map([1, 2, 3], x2)).toEqual([2, 4, 6]);
 
-    expect(function(){ ArrayUtil.map(null, x2); }).toThrow();
+    expect(()=>{ ArrayUtil.map(null, x2); }).toThrow();
     expect(ArrayUtil.map([], x2)).toEqual([]);
   });
 
-  it("reduce", function() {
-    var sub = function(a, b) {
+  it("reduce", ()=> {
+    const sub = (a, b)=> {
       return a - b;
     };
 
     // 1 - 2 - 3
     expect(ArrayUtil.reduce([1, 2, 3], sub)).toEqual(-4);
 
-    expect(function(){ ArrayUtil.reduce(null, sub); }).toThrow();
+    expect(()=>{ ArrayUtil.reduce(null, sub); }).toThrow();
   });
 
-  it("reduceRight", function() {
-    var sub = function(a, b) {
+  it("reduceRight", ()=> {
+    const sub = (a, b)=> {
       return a - b;
     };
 
     // 3 - 2 - 1
     expect(ArrayUtil.reduceRight([1, 2, 3], sub)).toEqual(0);
 
-    expect(function(){ ArrayUtil.reduceRight(null, sub); }).toThrow();
+    expect(()=>{ ArrayUtil.reduceRight(null, sub); }).toThrow();
   });
 
-  it("sum", function() {
+  it("sum", ()=> {
     expect(ArrayUtil.sum([1, 2, 3])).toEqual(6);
 
-    expect(function(){ ArrayUtil.sum(null); }).toThrow();
+    expect(()=>{ ArrayUtil.sum(null); }).toThrow();
   });
 
-  it("average", function() {
+  it("average", ()=> {
     expect(ArrayUtil.average([1, 2, 3])).toEqual(2.0);
 
     expect(isNaN(ArrayUtil.average([]))).toBe(true);
-    expect(function(){ ArrayUtil.average(null); }).toThrow();
+    expect(()=>{ ArrayUtil.average(null); }).toThrow();
   });
 
-  it("unique", function() {
+  it("unique", ()=> {
     expect(ArrayUtil.unique([0, 0, 1, 0, 1])).toEqual([0, 1]);
 
-    expect(function(){ ArrayUtil.unique(null); }).toThrow();
+    expect(()=>{ ArrayUtil.unique(null); }).toThrow();
   });
 
-  it("range", function() {
+  it("range", ()=> {
     expect(ArrayUtil.range(0)).toEqual([]);
     expect(ArrayUtil.range(3)).toEqual([0, 1, 2]);
     expect(ArrayUtil.range(-3)).toEqual([0, -1, -2]);

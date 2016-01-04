@@ -1,5 +1,6 @@
 'use strict';
-const Integer = require('./integer').Integer;
+
+import {Integer} from '../../es6/integer.js';
 
 const basic = () => {
   const r = (Math.random() * 4 | 0) + 3;
@@ -66,13 +67,13 @@ const pi = (a) => {
 
 const d = Date.now();
 
-//console.log('-- basic operations --');
-//basic();
+console.log('-- basic operations --');
+basic();
 
-const a0 = 7777;
+const a0 = 77;
 console.log(`-- fibonacchi --
 fib(${a0}) = ${fib(a0)}`);
-//console.log(`-- pi --
-//pi(${a0}) = ${pi(a0)}`);
+console.log(`-- pi --
+pi(${a0}) = ${pi(a0)}`);
 
 console.log(`Time: ${Date.now() - d}ms`);

@@ -14,365 +14,39 @@
  * cache
  * @type function
  */
-let _random = Math.random;
+const _random = Math.random;
 
-const SHIFT = 16;
-const BASE = 1 << SHIFT;
-const MASK = BASE - 1;
-
-const longNum = (n) => {
-  n = n | 0;
-
-  const a = new Integer();
-  if (!n) { return a; }
-
-  if (n < 0) {
-    n = -n;
-    a._s = false;
-  }
-
-  a._d[0] = n & MASK;
-
-  n = n >>> SHIFT;
-  if (n) {
-    a._d[1] = n & MASK;
-    a._l = 2;
-  }
-
-  return a;
-};
-
-const longStr = (str, base) => {
-  base = base | 0;
-  if (!base) { base = 10; }
-
-  let index = 0;
-  let sign = true;
-  if (str.charAt(index) === '+') {
-    index = index + 1;
-  } else if (str.charAt(index) === '-') {
-    sign = false;
-    index = index + 1;
-  }
-
-  // Ignore following zeros. '00102' is regarded as '102'.
-  while (str.charAt(index) === '0') { index = index + 1; }
-  if (!str.charAt(index)) { return new Integer(); }
-
-  let len = 0;
-  if (base === 8) {
-    len = 3 * (str.length + 1 - index);
-  } else {
-    if (!str.charAt(index)) { index = index - 1; }
-    len = (str.length + 1 - index) << 2;
-  }
-  len = (len >>> 4) + 1;
-
-  const z = longAlloc(len, sign);
-  longFillZero(z, len);
-
-  const zd = z._d;
-  let bl = 1;
-  let c = '';
-  let n = 0;
-  let i = 0;
-  for (;;) {
-    c = str.charAt(index);
-    index = index + 1;
-    if (!c) { break; }
-
-    n = parseInt(c, base);
-    for (i = 0;;) {
-      for (; i < bl; i = i + 1) {
-        n = n + zd[i] * base;
-        zd[i] = n & MASK;
-        n = n >>> SHIFT;
-      }
-
-      if (!n) { break; }
-
-      bl = bl + 1;
-    }
-  }
-
-  return norm(z);
-};
-
-const longExp = (a) => {
-  const i = a.indexOf('e', 0);
-  if (i < 0) {
-    // 'e' is not found
-    return longStr(a);
-  }
-
-  let s = a.substr(0, i);
-  const e = parseInt(a.substr(i + 1, a.length - (i + 1)), 10);
-  const fpt = s.indexOf('.', 0);
-
-  if (fpt >= 0) {
-    // '.' is found
-    const np = s.length - (fpt + 1);
-    s = s.substr(0, fpt) + s.substr(fpt + 1, np);
-    e = e - np;
-  }
-
-  if (e < 0) {
-    s = s.slice(0, e);
-  } else {
-    for (; e > 0; e = e - 1) { s = s + '0'; }
-  }
-
-  return longStr(s);
-};
-
-const any = (a) => {
-  if (typeof a === 'object') {
-    if (a instanceof Integer) { return a.clone(); }
-    return new Integer();
-  }
-
-  if (typeof a === 'number') {
-    if (-0x7fffffff <= a && a <= 0x7fffffff) {
-      return longNum(a);
-    }
-
-    a = a + '';
-  }
-
-  if (typeof a === 'string') {
-    return longExp(a);
-  }
-
-  return new Integer();
-};
-
-/**
- * @private
- * @param {number} n
- * @return {Integer}
- */
-const factOdd = (n) => {
-  n = n | 0;
-
-  let m = Integer.one;
-  let mi = 0;
-  let mj = 0;
-  let i = 0;
-  let j = 0;
-  let l = 0;
-  let limit = 1 << ((SHIFT - 1) << 1);
-
-  for (;; i = i + 1 | 0) {
-    l = (n / (1 << i)) | 0;
-    if (l < 3) { break; }
-
-    mi = 1;
-    mj = 1;
-    for (j = 3; (j | 0) <= (l | 0); j = j + 2 | 0) {
-      mi = mi * j;
-      if (mi > limit) {
-        m = m.mul(Integer.num(mj));
-        mi = mj = j;
-      } else {
-        mj = mi;
-      }
-    }
-
-    if ((mj | 0) > 1) { m = m.mul(Integer.num(mj)); }
-  }
-
-  return m;
-};
-
-/**
- * @private
- * @param {number} n
- * @return {Integer}
- */
-const factEven = (n) => {
-  n = n | 0;
-
-  let s = 0;
-  while (n) {
-    n = n >>> 1;
-    s = s + n;
-  }
-
-  return Integer.one.leftShift(s);
-};
-
-
-/**
- * Set length.
- * @private
- * @param {number} length
- * @param {boolean} sign
- */
-const longAlloc = (length, sign) => {
-  length = length | 0;
-
-  const a = new Integer();
-  a._s = sign ? true : false;
-  a._l = length;
-  a._d = new Uint32Array(length);
-
-  return a;
-};
-
-/**
- * Assign zero to initialize.
- * @private
- * @param {Integer} a
- * @param {number} b Length.
- * @return {Integer}
- */
-const longFillZero = (a, b) => {
-  b = b | 0;
-  const d = a._d;
-  while (b--) { d[b] = 0; }
-
-  return a;
-};
-
-/**
- * Delete following zeros. [2, 0, 1, 0, 0] -> [2, 0, 1]
- * @private
- * @param {Integer} a
- * @return {Integer}
- */
-const norm = (a) => {
-  const d = a._d;
-  let l = a._l | 0;
-
-  do { l = l - 1 | 0; } while (l && !d[l]);
-  a._l = l + 1 | 0;
-
-  // -0 -> +0
-  if (!l && !d[l]) { a._s = true; }
-
-  return a;
-};
-
-/**
- * Right shift by 1.
- * @private
- * @param {Integer} a
- * @return {Integer} a >> 1
- */
-const longHalf = (a) => {
-  const d = a._d;
-  const l = a._l - 1;
-
-  for (let i = 0; i < l; i = i + 1) {
-    d[i] = (((d[i + 1] & 1) << SHIFT) + d[i]) >>> 1;
-  }
-  d[l] >>>= 1;
-
-  return norm(a);
-};
-
-/**
- * Left shift by 1.
- * @private
- * @param {Integer} a
- * @return {Integer} a << 1
- */
-const longDouble = (a) => {
-  const d = a._d;
-  const l = a._l;
-  let c = 0;
-
-  for (let i = 0, t = 0; i < l; i = i + 1) {
-    t = (d[i] << 1) + c;
-    d[i] = t & MASK;
-    c = t >>> SHIFT;
-  }
-  if (c) {
-    if (l >= a._d.length) {
-      const ta = new Uint32Array(l);
-      ta.set(d);
-      ta[l] = c;
-      a._d = ta;
-    } else {
-      d[l] = c;
-    }
-    a._l = a._l + 1;
-  }
-
-  return norm(a);
-};
-
-/**
- * Get length of bit
- * @private
- * @param {Integer} a
- * @return {number}
- */
-const longBitLength = (a) => {
-  const ad = a._d;
-  const l = a._l;
-  return ad[l - 1].toString(2).length + ((l - 1) << 4);
-};
-
-/**
- * Multiply with Karatsuba Method.
- * @private
- * @param {Integer} x
- * @param {Integer} y
- * @return {Integer} x * y
- */
-const longK = (x, y) => {
-  let N = longBitLength(x);
-  const l = longBitLength(y);
-
-  if (N < l) { N = l; }
-  if (N < 2001) { return x.mul(y); }
-
-  // number of bits divided by 2, rounded up
-  N = (N >>> 1) + (N & 1);
-
-  // x = a + b 2^N, y = c + d 2^N
-  const b = x.rightShift(N),
-      a = x.sub(b.leftShift(N)),
-      d = y.rightShift(N),
-      c = y.sub(d.leftShift(N)),
-      ac = longK(a, c),
-      bd = longK(b, d),
-      abcd = longK(a.add(b), c.add(d));
-
-  // xy
-  // = (a + 2^N b) (c + 2^N d)
-  // = ac + 2^N ((a + b) (c + d) - ac - bd) + 2^(N + 1) bd
-  return ac.add(abcd.sub(ac).sub(bd).leftShift(N)).add(bd.leftShift(N << 1));
-};
+const _SHIFT = 16;
+const _BASE = 1 << _SHIFT;
+const _MASK = _BASE - 1;
 
 /**
  * Integer
  * @class Integer
  */
-class Integer {
+export class Integer {
 
   /**
-   * @private
    * @const
    * @type number
    */
-  static get SHIFT() { return SHIFT; }
+  static get SHIFT() { return _SHIFT; }
 
   /**
-   * @private
    * @const
    * @type number
    */
-  static get BASE() { return BASE; }
+  static get BASE() { return _BASE; }
 
   /**
-   * @private
    * @const
    * @type number
    */
-  static get MASK() { return MASK; }
+  static get MASK() { return _MASK; }
 
+  /**
+   * Initialize 0
+   */
   constructor() {
     /**
      * Digits [d0, d1, ..., dn]
@@ -437,7 +111,7 @@ class Integer {
    *   Integer.str('ff', 16); // 255
    *   Integer.str('111', 2); // 7
    */
-  static str(str) { return longStr(str); }
+  static str(str, base) { return longStr(str, base); }
 
   /**
    * Converts exponential string to Integer.
@@ -450,7 +124,7 @@ class Integer {
    *   Integer.exp("7e3");    // 7000
    *   Integer.exp("314e-2"); // 3
    */
-  //static exp = longExp;
+  static exp(a) { return longExp(a); }
 
   /**
    * Converts anything to Integer.
@@ -464,7 +138,7 @@ class Integer {
    *   Integer.any(-12.34567); // -12
    *   Integer.any("37");      // 37
    */
-  //static any = any;
+  static any(a) { return any(a); }
 
   /**
    * Random.
@@ -480,7 +154,7 @@ class Integer {
     const rd = r._d;
 
     for (let i = 0; i < a; i = i + 1) {
-      rd[i] = _random() * BASE | 0;
+      rd[i] = _random() * _BASE | 0;
     }
 
     return norm(r);
@@ -545,7 +219,7 @@ class Integer {
       k = i;
       n = 0;
       while (k--) {
-        n = (n << SHIFT) | d[k];
+        n = (n << _SHIFT) | d[k];
         d[k] = n / hbase | 0;
         n = n % hbase | 0;
       }
@@ -576,7 +250,7 @@ class Integer {
     let f = .0;
     let i = this._l | 0;
 
-    while (i--) { f = d[i] + BASE * f; }
+    while (i--) { f = d[i] + _BASE * f; }
     if (!this._s) { f = -f; }
 
     return +f;
@@ -653,9 +327,9 @@ class Integer {
     const a = this;
     const ad = a._d;
     const l = a._l | 0;
-    const d = (b / SHIFT) | 0;
+    const d = (b / _SHIFT) | 0;
     const cl = l + d + 1 | 0;
-    const bb = b % SHIFT;
+    const bb = b % _SHIFT;
     const c = longAlloc(cl, a._s);
     const cd = c._d;
     let i = 0;
@@ -666,8 +340,8 @@ class Integer {
     let t = 0;
     for (i = 0; (i | 0) < (l | 0); i = i + 1 | 0) {
       t = (ad[i] << bb) + carry;
-      cd[i + d] = t & MASK;
-      carry = t >> SHIFT;
+      cd[i + d] = t & _MASK;
+      carry = t >> _SHIFT;
     }
     cd[i + d] = carry;
 
@@ -684,11 +358,11 @@ class Integer {
     const a = this;
     const ad = a._d;
     const l = a._l;
-    const d = (b / SHIFT) | 0;
+    const d = (b / _SHIFT) | 0;
 
     if (l <= d) { return new Integer(); }
 
-    const bb = b % SHIFT;
+    const bb = b % _SHIFT;
     const mask = (1 << bb) - 1;
     const cl = l - d;
     const c = longAlloc(cl, a._s);
@@ -696,7 +370,7 @@ class Integer {
     let i = 0;
 
     for (; i < cl - 1; i = i + 1) {
-      cd[i] = ((ad[i + d + 1] & mask) << (SHIFT - bb)) + (ad[i + d] >> bb);
+      cd[i] = ((ad[i + d + 1] & mask) << (_SHIFT - bb)) + (ad[i + d] >> bb);
     }
     cd[i] = ad[i + d] >> bb;
 
@@ -741,8 +415,8 @@ class Integer {
     let v = 0;
     for (; i < t; i = i + 1) {
       uv = w[i << 1] + x[i] * x[i];
-      u = uv >>> SHIFT;
-      v = uv & MASK;
+      u = uv >>> _SHIFT;
+      v = uv & _MASK;
       w[i << 1] = v;
       c = u;
 
@@ -750,11 +424,11 @@ class Integer {
         // uv = w[i + j] + (x[j] * x[i] << 1) + c
         // can overflow.
         uv = x[j] * x[i];
-        u = (uv >>> SHIFT) << 1;
-        v = (uv & MASK) << 1;
+        u = (uv >>> _SHIFT) << 1;
+        v = (uv & _MASK) << 1;
         v += w[i + j] + c;
-        u += v >>> SHIFT;
-        v = v & MASK;
+        u += v >>> _SHIFT;
+        v = v & _MASK;
         w[i + j] = v;
         c = u;
       }
@@ -899,18 +573,18 @@ class Integer {
 
     for (; i < bl; i = i + 1) {
       num += ad[i] + bd[i];
-      zd[i] = num & MASK;
-      num >>>= SHIFT;
+      zd[i] = num & _MASK;
+      num >>>= _SHIFT;
     }
     for (; num && i < al; i = i + 1) {
       num += ad[i];
-      zd[i] = num & MASK;
-      num >>>= SHIFT;
+      zd[i] = num & _MASK;
+      num >>>= _SHIFT;
     }
     for (; i < al; i = i + 1) {
       zd[i] = ad[i];
     }
-    zd[i] = num & MASK;
+    zd[i] = num & _MASK;
     //console.log(z);
 
     return norm(z);
@@ -938,7 +612,7 @@ class Integer {
     for (; i < bl; i = i + 1) {
       c = ad[i] - bd[i] - c;
       if (c < 0) {
-        zd[i] = c & MASK;
+        zd[i] = c & _MASK;
         c = 1;
       } else {
         zd[i] = c;
@@ -949,7 +623,7 @@ class Integer {
     for (; i < al; i = i + 1) {
       c = ad[i] - c;
       if (c < 0) {
-        zd[i] = c & MASK;
+        zd[i] = c & _MASK;
         c = 1;
       } else {
         zd[i] = c;
@@ -1024,8 +698,8 @@ class Integer {
       for (j = 0; (j | 0) < (bl | 0); j = j + 1 | 0) {
         e = n + d * bd[j];
         n = zd[i + j] + e;
-        if (e) { zd[i + j] = n & MASK; }
-        n >>>= SHIFT;
+        if (e) { zd[i + j] = n & _MASK; }
+        n >>>= _SHIFT;
       }
 
       if (n) { zd[i + j] = n | 0; }
@@ -1084,8 +758,8 @@ class Integer {
       i = na;
 
       while (i--) {
-        t = ((t << SHIFT) | zd[i]) >>> 0;
-        zd[i] = (t / dd) & MASK;
+        t = ((t << _SHIFT) | zd[i]) >>> 0;
+        zd[i] = (t / dd) & _MASK;
         t %= dd;
       }
 
@@ -1102,7 +776,7 @@ class Integer {
     z = longAlloc(albl ? na + 2 : na + 1, a._s === b._s);
     zd = z._d;
     longFillZero(z, z._l);
-    dd = BASE / (bd[nb - 1] + 1) & MASK;
+    dd = _BASE / (bd[nb - 1] + 1) & _MASK;
 
     let j = 0;
     let num = 0;
@@ -1115,8 +789,8 @@ class Integer {
 
       for (; j < nb; j = j + 1) {
         num += bd[j] * dd;
-        td[j] = num & MASK;
-        num >>>= SHIFT;
+        td[j] = num & _MASK;
+        num >>>= _SHIFT;
       }
 
       bd = td;
@@ -1124,11 +798,11 @@ class Integer {
 
       for (; j < na; j = j + 1) {
         num += ad[j] * dd;
-        zd[j] = num & MASK;
-        num >>>= SHIFT;
+        zd[j] = num & _MASK;
+        num >>>= _SHIFT;
       }
 
-      zd[j] = num & MASK;
+      zd[j] = num & _MASK;
     }
 
     let q = 0;
@@ -1136,20 +810,20 @@ class Integer {
     j = albl ? na + 1 : na;
     do {
       if (zd[j] === bd[nb - 1]) {
-        q = MASK;
+        q = _MASK;
       } else {
-        q = (((zd[j] << SHIFT) | zd[j - 1]) >>> 0) / bd[nb - 1] & MASK;
+        q = (((zd[j] << _SHIFT) | zd[j - 1]) >>> 0) / bd[nb - 1] & _MASK;
       }
 
       if (q) {
         i = num = t = 0;
         do {
           t += bd[i] * q;
-          ee = (t & MASK) - num;
+          ee = (t & _MASK) - num;
           num = zd[j - nb + i] - ee;
-          if (ee) { zd[j - nb + i] = num & MASK; }
-          num >>= SHIFT;
-          t >>>= SHIFT;
+          if (ee) { zd[j - nb + i] = num & _MASK; }
+          num >>= _SHIFT;
+          t >>>= _SHIFT;
         } while (++i < nb);
 
         num += zd[j - nb + i] - t;
@@ -1160,8 +834,8 @@ class Integer {
           do {
             ee = num + bd[i];
             num = zd[j - nb + i] + ee;
-            if (ee) { zd[j - nb + i] = num & MASK; }
-            num >>= SHIFT;
+            if (ee) { zd[j - nb + i] = num & _MASK; }
+            num >>= _SHIFT;
           } while (++i < nb);
 
           num = num - 1;
@@ -1178,8 +852,8 @@ class Integer {
         t = 0;
         i = nb;
         while (i--) {
-          t = ((t << SHIFT) | zd[i]) >>> 0;
-          zd[i] = (t / dd) & MASK;
+          t = ((t << _SHIFT) | zd[i]) >>> 0;
+          zd[i] = (t / dd) & _MASK;
           t %= dd;
         }
       }
@@ -1342,6 +1016,328 @@ class Integer {
   }
 }
 
-module.exports = {
-  Integer: Integer
+const longNum = (n) => {
+  n = n | 0;
+
+  const a = new Integer();
+  if (!n) { return a; }
+
+  if (n < 0) {
+    n = -n;
+    a._s = false;
+  }
+
+  a._d[0] = n & _MASK;
+
+  n = n >>> _SHIFT;
+  if (n) {
+    a._d[1] = n & _MASK;
+    a._l = 2;
+  }
+
+  return a;
+};
+
+const longStr = (str, base) => {
+  base = base | 0;
+  if (!base) { base = 10; }
+
+  let index = 0;
+  let sign = true;
+  if (str.charAt(index) === '+') {
+    index = index + 1;
+  } else if (str.charAt(index) === '-') {
+    sign = false;
+    index = index + 1;
+  }
+
+  // Ignore following zeros. '00102' is regarded as '102'.
+  while (str.charAt(index) === '0') { index = index + 1; }
+  if (!str.charAt(index)) { return new Integer(); }
+
+  let len = 0;
+  if (base === 8) {
+    len = 3 * (str.length + 1 - index);
+  } else {
+    if (!str.charAt(index)) { index = index - 1; }
+    len = (str.length + 1 - index) << 2;
+  }
+  len = (len >>> 4) + 1;
+
+  const z = longAlloc(len, sign);
+  longFillZero(z, len);
+
+  const zd = z._d;
+  let bl = 1;
+  let c = '';
+  let n = 0;
+  let i = 0;
+  for (;;) {
+    c = str.charAt(index);
+    index = index + 1;
+    if (!c) { break; }
+
+    n = parseInt(c, base);
+    for (i = 0;;) {
+      for (; i < bl; i = i + 1) {
+        n = n + zd[i] * base;
+        zd[i] = n & _MASK;
+        n = n >>> _SHIFT;
+      }
+
+      if (!n) { break; }
+
+      bl = bl + 1;
+    }
+  }
+
+  return norm(z);
+};
+
+const longExp = (a) => {
+  const i = a.indexOf('e', 0);
+  if (i < 0) {
+    // 'e' is not found
+    return longStr(a);
+  }
+
+  let s = a.substr(0, i);
+  let e = parseInt(a.substr(i + 1, a.length - (i + 1)), 10);
+  const fpt = s.indexOf('.', 0);
+
+  if (fpt >= 0) {
+    // '.' is found
+    const np = s.length - (fpt + 1);
+    s = s.substr(0, fpt) + s.substr(fpt + 1, np);
+    e = e - np;
+  }
+
+  if (e < 0) {
+    s = s.slice(0, e);
+  } else {
+    for (; e > 0; e = e - 1) { s = s + '0'; }
+  }
+
+  return longStr(s);
+};
+
+const any = (a) => {
+  if (typeof a === 'object') {
+    if (a instanceof Integer) { return a.clone(); }
+    return new Integer();
+  }
+
+  if (typeof a === 'number') {
+    if (-0x7fffffff <= a && a <= 0x7fffffff) {
+      return longNum(a);
+    }
+
+    a = a + '';
+  }
+
+  if (typeof a === 'string') {
+    return longExp(a);
+  }
+
+  return new Integer();
+};
+
+/**
+ * @private
+ * @param {number} n
+ * @return {Integer}
+ */
+const factOdd = (n) => {
+  n = n | 0;
+
+  let m = Integer.one;
+  let mi = 0;
+  let mj = 0;
+  let i = 0;
+  let j = 0;
+  let l = 0;
+  let limit = 1 << ((_SHIFT - 1) << 1);
+
+  for (;; i = i + 1 | 0) {
+    l = (n / (1 << i)) | 0;
+    if (l < 3) { break; }
+
+    mi = 1;
+    mj = 1;
+    for (j = 3; (j | 0) <= (l | 0); j = j + 2 | 0) {
+      mi = mi * j;
+      if (mi > limit) {
+        m = m.mul(Integer.num(mj));
+        mi = mj = j;
+      } else {
+        mj = mi;
+      }
+    }
+
+    if ((mj | 0) > 1) { m = m.mul(Integer.num(mj)); }
+  }
+
+  return m;
+};
+
+/**
+ * @private
+ * @param {number} n
+ * @return {Integer}
+ */
+const factEven = (n) => {
+  n = n | 0;
+
+  let s = 0;
+  while (n) {
+    n = n >>> 1;
+    s = s + n;
+  }
+
+  return Integer.one.leftShift(s);
+};
+
+
+/**
+ * Set length.
+ * @private
+ * @param {number} length
+ * @param {boolean} sign
+ */
+const longAlloc = (length, sign) => {
+  length = length | 0;
+
+  const a = new Integer();
+  a._s = sign ? true : false;
+  a._l = length;
+  a._d = new Uint32Array(length);
+
+  return a;
+};
+
+/**
+ * Assign zero to initialize.
+ * @private
+ * @param {Integer} a
+ * @param {number} b Length.
+ * @return {Integer}
+ */
+const longFillZero = (a, b) => {
+  b = b | 0;
+  const d = a._d;
+  while (b--) { d[b] = 0; }
+
+  return a;
+};
+
+/**
+ * Delete following zeros. [2, 0, 1, 0, 0] -> [2, 0, 1]
+ * @private
+ * @param {Integer} a
+ * @return {Integer}
+ */
+const norm = (a) => {
+  const d = a._d;
+  let l = a._l | 0;
+
+  do { l = l - 1 | 0; } while (l && !d[l]);
+  a._l = l + 1 | 0;
+
+  // -0 -> +0
+  if (!l && !d[l]) { a._s = true; }
+
+  return a;
+};
+
+/**
+ * Right shift by 1.
+ * @private
+ * @param {Integer} a
+ * @return {Integer} a >> 1
+ */
+const longHalf = (a) => {
+  const d = a._d;
+  const l = a._l - 1;
+
+  for (let i = 0; i < l; i = i + 1) {
+    d[i] = (((d[i + 1] & 1) << _SHIFT) + d[i]) >>> 1;
+  }
+  d[l] >>>= 1;
+
+  return norm(a);
+};
+
+/**
+ * Left shift by 1.
+ * @private
+ * @param {Integer} a
+ * @return {Integer} a << 1
+ */
+const longDouble = (a) => {
+  const d = a._d;
+  const l = a._l;
+  let c = 0;
+
+  for (let i = 0, t = 0; i < l; i = i + 1) {
+    t = (d[i] << 1) + c;
+    d[i] = t & _MASK;
+    c = t >>> _SHIFT;
+  }
+  if (c) {
+    if (l >= a._d.length) {
+      const ta = new Uint32Array(l);
+      ta.set(d);
+      ta[l] = c;
+      a._d = ta;
+    } else {
+      d[l] = c;
+    }
+    a._l = a._l + 1;
+  }
+
+  return norm(a);
+};
+
+/**
+ * Get length of bit
+ * @private
+ * @param {Integer} a
+ * @return {number}
+ */
+const longBitLength = (a) => {
+  const ad = a._d;
+  const l = a._l;
+  return ad[l - 1].toString(2).length + ((l - 1) << 4);
+};
+
+/**
+ * Multiply with Karatsuba Method.
+ * @private
+ * @param {Integer} x
+ * @param {Integer} y
+ * @return {Integer} x * y
+ */
+const longK = (x, y) => {
+  let N = longBitLength(x);
+  const l = longBitLength(y);
+
+  if (N < l) { N = l; }
+  if (N < 2001) { return x.mul(y); }
+
+  // number of bits divided by 2, rounded up
+  N = (N >>> 1) + (N & 1);
+
+  // x = a + b 2^N, y = c + d 2^N
+  const b = x.rightShift(N),
+      a = x.sub(b.leftShift(N)),
+      d = y.rightShift(N),
+      c = y.sub(d.leftShift(N)),
+      ac = longK(a, c),
+      bd = longK(b, d),
+      abcd = longK(a.add(b), c.add(d));
+
+  // xy
+  // = (a + 2^N b) (c + 2^N d)
+  // = ac + 2^N ((a + b) (c + d) - ac - bd) + 2^(N + 1) bd
+  return ac.add(abcd.sub(ac).sub(bd).leftShift(N)).add(bd.leftShift(N << 1));
 };

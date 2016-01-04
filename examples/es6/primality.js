@@ -1,16 +1,16 @@
 'use strict';
 
-const range = require('./range').range;
-const prim = require('./primality');
+import {range} from '../../es6/range.js';
+import {Primality as prim} from '../../es6/primality.js';
 
-let test = () => {
+function test() {
   const n = 10;
   console.log(`primeTop(${n})`);
-  for (let p of prim.primeTop(n)) {
+  for (let p of prim.top(n)) {
     console.log(p);
   }
   console.log(`primeMax(${n})`);
-  for (let p of prim.primeMax(n)) {
+  for (let p of prim.max(n)) {
     console.log(p);
   }
   console.log(`sieveMax(${n})`);
@@ -25,12 +25,12 @@ let test = () => {
   }
 }
 
-let testSieve = () => {
+function testSieve() {
   const n = 10000;
   console.log(`primeMax(${n})`);
   const t0 = Date.now();
   let a = [];
-  for (let p of prim.primeMax(n)) {
+  for (let p of prim.max(n)) {
     a.push(p);
   }
   const t1 = Date.now();

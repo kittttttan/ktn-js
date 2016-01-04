@@ -1,9 +1,9 @@
-var Random = require('../js/random.js').Random;
+import {Random} from '../es6/random.js';
 
-describe("Random", function() {
+describe("Random", ()=> {
 
-  it("random", function() {
-    var r = new Random();
+  it("random", ()=> {
+    const r = new Random();
 
     r.init(0);
     expect(r.int32()).toEqual(2357136044);

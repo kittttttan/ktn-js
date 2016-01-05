@@ -7,12 +7,12 @@ import 'babel-polyfill';
 export class Encode {
   /**
    * @method Encode.unary
-   * @param {number}  n     natural number
-   * @param {boolean} [alt]
-   * @return {string} unary coding
+   * @param {!number}  n     natural number
+   * @param {boolean=} [alt]
+   * @return {!string} unary coding
    */
   static unary(n, alt) {
-    if (n < 0) { return undefined; }
+    if (n < 0) { throw new Error(`unary(n, alt): n=${n} must >= 0`); }
 
     let former;
     let latter;
@@ -29,11 +29,11 @@ export class Encode {
 
   /**
    * @method Encode.eliasGamma
-   * @param {number}  n     natural number
-   * @return {string} Elias gamma coding
+   * @param {!number}  n     natural number
+   * @return {!string} Elias gamma coding
    */
   static eliasGamma(n) {
-    if (n < 1) { return undefined; }
+    if (n < 1) { throw new Error(`eliasGamma(n): n=${n} must >= 1`); }
 
     let bin = n.toString(2);
     return '0'.repeat(bin.length - 1) + bin;
@@ -41,11 +41,11 @@ export class Encode {
 
   /**
    * @method Encode.eliasDelta
-   * @param {number} n natural number
-   * @return {string} Elias delta coding
+   * @param {!number} n natural number
+   * @return {!string} Elias delta coding
    */
   static eliasDelta(n) {
-    if (n < 1) { return undefined; }
+    if (n < 1) { throw new Error(`eliasDelta(n): n=${n} must >= 1`); }
 
     let bin = n.toString(2);
     let gamma = Encode.eliasGamma(bin.length);
@@ -54,11 +54,11 @@ export class Encode {
 
   /**
    * @method Encode.eliasOmega
-   * @param {number} n natural number
-   * @return {string} Elias omega coding
+   * @param {!number} n natural number
+   * @return {!string} Elias omega coding
    */
   static eliasOmega(n) {
-    if (n < 1) { return undefined; }
+    if (n < 1) { throw new Error(`eliasOmega(n): n=${n} must >= 1`); }
 
     let res = '0';
     let bin;
@@ -73,15 +73,15 @@ export class Encode {
 
   /**
    * @method Encode.golomb
-   * @param {number} n   natural number
-   * @param {number} [m]
-   * @return {string} Golomb coding
+   * @param {!number} n   natural number
+   * @param {number=} [m=8]
+   * @return {!string} Golomb coding
    */
   static golomb(n, m) {
-    if (n < 0) { return undefined; }
+    if (n < 0) { throw new Error(`golomb(n, m): n=${n} must >= 0`); }
 
     m = (m | 0) || 8;
-    if (m < 1) { return undefined; }
+    if (m < 1) { throw new Error(`golomb(n, m): m=${m} must >= 1`); }
 
     const q = n / m | 0;
     const r = n % m;
@@ -114,9 +114,9 @@ export class Encode {
 export class Decode {
   /**
    * @method Decode.unary
-   * @param {string}  str
-   * @param {boolean} alt
-   * @return {Array<number>} natural number
+   * @param {!string}  str
+   * @param {boolean=} alt
+   * @return {!Array<number>} natural number
    */
   static unary(str, alt) {
     let res = [];
@@ -153,8 +153,8 @@ export class Decode {
 
   /**
    * @method Decode.eliasGamma
-   * @param {string} str
-   * @return {Array<number>} natural number
+   * @param {!string} str
+   * @return {!Array<number>} natural number
    */
   static eliasGamma(str) {
     let res = [];
@@ -182,8 +182,8 @@ export class Decode {
 
   /**
    * @method Decode.eliasDelta
-   * @param {string} str
-   * @return {Array<number>} natural number
+   * @param {!string} str
+   * @return {!Array<number>} natural number
    */
   static eliasDelta(str) {
     let res = [];
@@ -217,8 +217,8 @@ export class Decode {
 
   /**
    * @method Decode.eliasOmega
-   * @param {string} str
-   * @return {Array<number>} natural number
+   * @param {!string} str
+   * @return {!Array<number>} natural number
    */
   static eliasOmega(str) {
     let res = [];

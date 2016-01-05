@@ -1,5 +1,5 @@
 /**
- * @fileOverview Rational in JavaScript.
+ * Rational in JavaScript.
  * @example
  *    var Rational = require('/path/to/rational.js').Rational;
  *    var a = Rational.num(2, 3);
@@ -63,7 +63,8 @@ export class Rational {
    * @return {!Rational}
    */
   static str(a) {
-    return ratStr(a);
+    const as = a.split('/');
+    return new Rational(Integer.str(as[0]), Integer.str(as[1] || '1'));
   }
 
   /**
@@ -76,7 +77,19 @@ export class Rational {
    * @return {!Rational}
    */
   static any(a, b) {
-    return ratAny(a, b);
+    if (!arguments.length) {
+      return Rational.zero;
+    }
+    if (arguments.length === 1) {
+      if (a instanceof Rational) { return a.clone(); }
+      if (typeof a === 'string') { return Rational.str(a); }
+      return new Rational(Integer.any(a), Integer.one, true);
+    }
+    if (!b) {
+      throw new Error('zero division');
+    }
+    if (!a) { return Rational.zero; }
+    return new Rational(Integer.any(a), Integer.any(b));
   }
 
   /**
@@ -84,10 +97,17 @@ export class Rational {
    * @method Rational.cancel
    * @param {!Integer} a
    * @param {!Integer} b
-   * @return {!Array<Integer>}
+   * @return {!Array<!Integer>}
    */
   static cancel(a, b) {
-    return cancel(a, b);
+    const g = a.gcd(b);
+    a = a.div(g);
+    b = b.div(g);
+    if (!b._s) {
+      a._s = !a._s;
+      b._s = true;
+    }
+    return [a, b];
   }
 
   /**
@@ -113,7 +133,7 @@ export class Rational {
        */
       this._d = d;
     } else {
-      const t = cancel(n, d);
+      const t = Rational.cancel(n, d);
       this._n = t[0];
       this._d = t[1];
     }
@@ -181,7 +201,7 @@ export class Rational {
    * @return {!boolean} this == b.
    */
   eq(b) {
-    b = ratAny(b);
+    b = Rational.any(b);
     if (this._n.eq(b._n) && this._d.eq(b._d)) { return true; }
     return false;
   }
@@ -275,35 +295,3 @@ export class Rational {
     return new Rational(this._n.pow(b), this._d.pow(b), true);
   }
 };
-
-function ratStr(a) {
-  a = a.split('/');
-  return new Rational(Integer.str(a[0]), Integer.str(a[1] || '1'));
-}
-
-function ratAny(a, b) {
-  if (!arguments.length) {
-    return Rational.zero;
-  }
-  if (arguments.length === 1) {
-    if (a instanceof Rational) { return a.clone(); }
-    if (typeof a === 'string') { return ratStr(a); }
-    return new Rational(Integer.any(a), Integer.one, true);
-  }
-  if (!b) {
-    throw new Error('zero division');
-  }
-  if (!a) { return Rational.zero; }
-  return new Rational(Integer.any(a), Integer.any(b));
-}
-
-function cancel(a, b) {
-  const g = a.gcd(b);
-  a = a.div(g);
-  b = b.div(g);
-  if (!b._s) {
-    a._s = !a._s;
-    b._s = true;
-  }
-  return [a, b];
-}

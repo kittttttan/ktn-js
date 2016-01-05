@@ -1,5 +1,5 @@
 /**
- * @fileOverview Big Integer in JavaScript.
+ * Big Integer in JavaScript.
  * @example
  *   var Integer = require('/path/to/integer.js').Integer;
  *   var a = Integer.str('12345678909876543210');
@@ -17,17 +17,17 @@ const _random = Math.random;
 
 /**
  * @const
- * @type number
+ * @type !number
  */
 const _SHIFT = 16;
 /**
  * @const
- * @type number
+ * @type !number
  */
 const _BASE = 1 << _SHIFT;
 /**
  * @const
- * @type number
+ * @type !number
  */
 const _MASK = _BASE - 1;
 
@@ -36,22 +36,24 @@ const _MASK = _BASE - 1;
  * @class Integer
  */
 export class Integer {
-
   /**
+   * @static
    * @const
-   * @type number
+   * @property {!number} SHIFT
    */
   static get SHIFT() { return _SHIFT; }
 
   /**
+   * @static
    * @const
-   * @type number
+   * @property {!number} BASE
    */
   static get BASE() { return _BASE; }
 
   /**
+   * @static
    * @const
-   * @type number
+   * @property {!number} MASK
    */
   static get MASK() { return _MASK; }
 
@@ -61,21 +63,18 @@ export class Integer {
   constructor() {
     /**
      * Digits [d0, d1, ..., dn]
-     * @private
-     * @property {Array<number>} Integer#_d
+     * @property {Uint32Array} Integer#_d
      */
     this._d = new Uint32Array(3);
 
     /**
      * Sign +, -. `false` means -.
-     * @private
      * @property {boolean} Integer#_s
      */
     this._s = true;
 
     /**
      * Length of digits
-     * @private
      * @property {number} Integer#_l
      */
     this._l = 1;
@@ -87,7 +86,7 @@ export class Integer {
    * @method Integer.one
    * @return {!Integer} 1.
    */
-  static get one() { return longNum(1); }
+  static get one() { return Integer.num(1); }
 
   /**
    * 0
@@ -108,7 +107,27 @@ export class Integer {
    *   Integer.num(1234567); // 1234567
    *   Integer.num(-37);     // -37
    */
-  static num(n) { return longNum(n); }
+  static num(n) {
+    n = n | 0;
+
+    const a = new Integer();
+    if (!n) { return a; }
+
+    if (n < 0) {
+      n = -n;
+      a._s = false;
+    }
+
+    a._d[0] = n & _MASK;
+
+    n = n >>> _SHIFT;
+    if (n) {
+      a._d[1] = n & _MASK;
+      a._l = 2;
+    }
+
+    return a;
+  }
 
   /**
    * Converts digit string to Integer.
@@ -122,26 +141,105 @@ export class Integer {
    *   Integer.str('ff', 16); // 255
    *   Integer.str('111', 2); // 7
    */
-  static str(str, base) { return longStr(str, base); }
+  static str(str, base) {
+    base = base | 0;
+    if (!base) { base = 10; }
+
+    let index = 0;
+    let sign = true;
+    if (str.charAt(index) === '+') {
+      index = index + 1;
+    } else if (str.charAt(index) === '-') {
+      sign = false;
+      index = index + 1;
+    }
+
+    // Ignore following zeros. '00102' is regarded as '102'.
+    while (str.charAt(index) === '0') { index = index + 1; }
+    if (!str.charAt(index)) { return new Integer(); }
+
+    let len = 0;
+    if (base === 8) {
+      len = 3 * (str.length + 1 - index);
+    } else {
+      if (!str.charAt(index)) { index = index - 1; }
+      len = (str.length + 1 - index) << 2;
+    }
+    len = (len >>> 4) + 1;
+
+    const z = longAlloc(len, sign);
+    longFillZero(z, len);
+
+    const zd = z._d;
+    let bl = 1;
+    let c = '';
+    let n = 0;
+    let i = 0;
+    for (;;) {
+      c = str.charAt(index);
+      index = index + 1;
+      if (!c) { break; }
+
+      n = parseInt(c, base);
+      for (i = 0;;) {
+        for (; i < bl; i = i + 1) {
+          n = n + zd[i] * base;
+          zd[i] = n & _MASK;
+          n = n >>> _SHIFT;
+        }
+
+        if (!n) { break; }
+
+        bl = bl + 1;
+      }
+    }
+
+    return norm(z);
+  }
 
   /**
    * Converts exponential string to Integer.
    * @static
    * @method Integer.exp
-   * @param {!String} a
+   * @param {!string} a
    * @return {!Integer}
    * @example
    *   Integer.exp("7");      // 7
    *   Integer.exp("7e3");    // 7000
    *   Integer.exp("314e-2"); // 3
    */
-  static exp(a) { return longExp(a); }
+  static exp(a) {
+    const i = a.indexOf('e', 0);
+    if (i < 0) {
+      // 'e' is not found
+      return Integer.str(a);
+    }
+
+    let s = a.substr(0, i);
+    let e = parseInt(a.substr(i + 1, a.length - (i + 1)), 10);
+    const fpt = s.indexOf('.', 0);
+
+    if (fpt >= 0) {
+      // '.' is found
+      const np = s.length - (fpt + 1);
+      s = s.substr(0, fpt) + s.substr(fpt + 1, np);
+      e = e - np;
+    }
+
+    if (e < 0) {
+      s = s.slice(0, e);
+    } else {
+      for (; e > 0; e = e - 1) { s = s + '0'; }
+    }
+
+    return Integer.str(s);
+  }
 
   /**
    * Converts anything to Integer.
    * @static
    * @method Integer.any
-   * @param {!Object} a
+   * @param {!*} a
    * @return {!Integer}
    * @example
    *   Integer.any(0);         // 0
@@ -149,7 +247,27 @@ export class Integer {
    *   Integer.any(-12.34567); // -12
    *   Integer.any("37");      // 37
    */
-  static any(a) { return any(a); }
+  static any(a) {
+    if (typeof a === 'object') {
+      if (a instanceof Integer) { return a.clone(); }
+      return new Integer();
+    }
+
+    if (typeof a === 'number') {
+      a = +a;
+      if (-0x7fffffff <= a && a <= 0x7fffffff) {
+        return Integer.num(a);
+      }
+
+      a = a + '';
+    }
+
+    if (typeof a === 'string') {
+      return Integer.exp(a);
+    }
+
+    return new Integer();
+  }
 
   /**
    * Random.
@@ -269,7 +387,7 @@ export class Integer {
 
   /**
    * @method Integer#digits
-   * @return {Array<number>}
+   * @return {Uint32Array}
    */
   get digits() { return this._d; }
 
@@ -323,7 +441,7 @@ export class Integer {
       if (b & 1) { zeros = zeros + z; }
     }
 
-    return longStr(this.toString() + zeros);
+    return Integer.str(this.toString() + zeros);
   }
 
   /**
@@ -479,32 +597,31 @@ export class Integer {
    * Pow.
    * @method Integer#pow
    * @param {!number} b
-   * @return {!Integer|number} this<sup>b</sup>
+   * @return {!Integer} this<sup>b</sup>
    */
   pow(b) {
     b = +b;
+    if (b < 0 || Math.floor(b) !== b) {
+      throw new Error('Not implemented pow(b) if b is neither natural number nor zero.');
+    }
     if (!b) { return Integer.one; }
 
-    if (b > 0 && b === (b | 0)) {
-      b = b | 0;
-      let p = Integer.one;
-      let a = this.clone();
+    b = b | 0;
+    let p = Integer.one;
+    let a = this.clone();
 
-      for (; b > 0; b >>= 1, a = a.square()) {
-        if (b & 1) { p = p.mul(a); }
-      }
-
-      return p;
+    for (; b > 0; b >>= 1, a = a.square()) {
+      if (b & 1) { p = p.mul(a); }
     }
 
-    return Math.pow(this.valueOf(), b);
+    return p;
   }
 
   /**
    * Greatest Common Divisor.
    * @method Integer#gcd
-   * @param {Integer} b
-   * @return {Integer}
+   * @param {!Integer} b
+   * @return {!Integer}
    */
   gcd(b) {
     if (!b.isNonZero()) { return this; }
@@ -522,8 +639,8 @@ export class Integer {
   /**
    * Greatest Common Divisor.
    * @method Integer#gcdBin
-   * @param {Integer} b
-   * @return {Integer}
+   * @param {!Integer} b
+   * @return {!Integer}
    */
   gcdBin(b) {
     if (this.cmpAbs(b) < 0) { return b.gcdBin(this); }
@@ -562,9 +679,9 @@ export class Integer {
   /**
    * Add absolute values of Integer.
    * @method Integer#addAbs
-   * @param {Integer} b
+   * @param {!Integer} b
    * @param {boolean} sign
-   * @return {Integer}
+   * @return {!Integer}
    *        |this| + |b| (sign == true)
    *      -(|this| + |b|) (else)
    */
@@ -604,9 +721,9 @@ export class Integer {
   /**
    * Subtract absolute values of Integer.
    * @method Integer#subAbs
-   * @param {Integer} b
+   * @param {!Integer} b
    * @param {boolean} sign
-   * @return {Integer}
+   * @return {!Integer}
    *      ||this| - |b|| (sign == true)
    *     -||this| - |b|| (else)
    */
@@ -648,8 +765,8 @@ export class Integer {
   /**
    * Addition.
    * @method Integer#add
-   * @param {Integer} b
-   * @return {Integer} this + b
+   * @param {!Integer} b
+   * @return {!Integer} this + b
    */
   add(b) {
     if (this._s !== b._s) {
@@ -666,8 +783,8 @@ export class Integer {
   /**
    * Subtraction.
    * @method Integer#sub
-   * @param {Integer} b
-   * @return {Integer} this - b
+   * @param {!Integer} b
+   * @return {!Integer} this - b
    */
   sub(b) {
     if (this._s === b._s) {
@@ -684,8 +801,8 @@ export class Integer {
   /**
    * Multiplication.
    * @method Integer#mul
-   * @param {Integer} b
-   * @return {Integer} this * b
+   * @param {!Integer} b
+   * @return {!Integer} this * b
    */
   mul(b) {
     // if (this.equal(b)) { return this.square(); }
@@ -722,8 +839,8 @@ export class Integer {
   /**
    * Multiplication with karatsuba method.
    * @method Integer#kmul
-   * @param {Integer} b
-   * @return {Integer} this * b
+   * @param {!Integer} b
+   * @return {!Integer} this * b
    */
   kmul(b) {
     return longK(this, b);
@@ -732,10 +849,10 @@ export class Integer {
   /**
    * Division or Mod.
    * @method Integer#divmod
-   * @param {Integer} b
-   * @param {boolean} modulus If true then mod, else div.
+   * @param {!Integer} b
+   * @param {boolean=} modulus If true then mod, else div.
    * @throws {Error} zero division
-   * @return {Integer}
+   * @return {!Integer}
    *     this % b (modulus == true)
    *     this / b (else)
    */
@@ -775,9 +892,9 @@ export class Integer {
       }
 
       if (modulus) {
-        if (!a._s) { return longNum(-t); }
+        if (!a._s) { return Integer.num(-t); }
 
-        return longNum(t);
+        return Integer.num(t);
       }
 
       z._s = a._s === b._s;
@@ -884,8 +1001,8 @@ export class Integer {
   /**
    * Division.
    * @method Integer#div
-   * @param {Integer} b
-   * @return {Integer} this / b
+   * @param {!Integer} b
+   * @return {!Integer} this / b
    */
   div(b) {
     return this.divmod(b, false);
@@ -894,8 +1011,8 @@ export class Integer {
   /**
    * Modulo.
    * @method Integer#mod
-   * @param {Integer} b
-   * @return {Integer} this % b
+   * @param {!Integer} b
+   * @return {!Integer} this % b
    */
   mod(b) {
     return this.divmod(b, true);
@@ -904,8 +1021,8 @@ export class Integer {
   /**
    * Compare between two absolute values of Integer objects.
    * @method Integer#cmpAbs
-   * @param {Integer} b
-   * @return {number}
+   * @param {!Integer} b
+   * @return {!number}
    *      -1 (|this| < |b|)
    *       0 (|this| = |b|)
    *       1 (|this| > |b|)
@@ -930,8 +1047,8 @@ export class Integer {
   /**
    * Compare between two Integer.
    * @method Integer#cmp
-   * @param {Integer} b
-   * @return {number}
+   * @param {!Integer} b
+   * @return {!number}
    *     -1 (this < b)
    *      0 (this = b)
    *      1 (this > b)
@@ -960,13 +1077,13 @@ export class Integer {
   /**
    * ==
    * @method Integer#eq
-   * @param {Integer} b
-   * @return {boolean}
+   * @param {!Integer} b
+   * @return {!boolean}
    */
   eq(b) {
     if (this === b) { return true; }
 
-    b = any(b);
+    b = Integer.any(b);
     if (this._s !== b._s) { return false; }
 
     const ad = this._d;
@@ -984,8 +1101,8 @@ export class Integer {
   /**
    * ===
    * @method Integer#equal
-   * @param {Integer} b
-   * @return {boolean}
+   * @param {!Integer} b
+   * @return {!boolean}
    */
   equal(b) {
     if (this === b) { return true; }
@@ -1007,7 +1124,7 @@ export class Integer {
   /**
    * Absolute Integer.
    * @method Integer#abs
-   * @return {Integer} |this|.
+   * @return {!Integer} |this|.
    */
   abs() {
     const z = this.clone();
@@ -1018,7 +1135,7 @@ export class Integer {
   /**
    * Negate Integer.
    * @method Integer#neg
-   * @return {Integer} -this.
+   * @return {!Integer} -this.
    */
   neg() {
     const z = this.clone();
@@ -1027,136 +1144,10 @@ export class Integer {
   }
 };
 
-function longNum(n) {
-  n = n | 0;
-
-  const a = new Integer();
-  if (!n) { return a; }
-
-  if (n < 0) {
-    n = -n;
-    a._s = false;
-  }
-
-  a._d[0] = n & _MASK;
-
-  n = n >>> _SHIFT;
-  if (n) {
-    a._d[1] = n & _MASK;
-    a._l = 2;
-  }
-
-  return a;
-}
-
-function longStr(str, base) {
-  base = base | 0;
-  if (!base) { base = 10; }
-
-  let index = 0;
-  let sign = true;
-  if (str.charAt(index) === '+') {
-    index = index + 1;
-  } else if (str.charAt(index) === '-') {
-    sign = false;
-    index = index + 1;
-  }
-
-  // Ignore following zeros. '00102' is regarded as '102'.
-  while (str.charAt(index) === '0') { index = index + 1; }
-  if (!str.charAt(index)) { return new Integer(); }
-
-  let len = 0;
-  if (base === 8) {
-    len = 3 * (str.length + 1 - index);
-  } else {
-    if (!str.charAt(index)) { index = index - 1; }
-    len = (str.length + 1 - index) << 2;
-  }
-  len = (len >>> 4) + 1;
-
-  const z = longAlloc(len, sign);
-  longFillZero(z, len);
-
-  const zd = z._d;
-  let bl = 1;
-  let c = '';
-  let n = 0;
-  let i = 0;
-  for (;;) {
-    c = str.charAt(index);
-    index = index + 1;
-    if (!c) { break; }
-
-    n = parseInt(c, base);
-    for (i = 0;;) {
-      for (; i < bl; i = i + 1) {
-        n = n + zd[i] * base;
-        zd[i] = n & _MASK;
-        n = n >>> _SHIFT;
-      }
-
-      if (!n) { break; }
-
-      bl = bl + 1;
-    }
-  }
-
-  return norm(z);
-}
-
-function longExp(a) {
-  const i = a.indexOf('e', 0);
-  if (i < 0) {
-    // 'e' is not found
-    return longStr(a);
-  }
-
-  let s = a.substr(0, i);
-  let e = parseInt(a.substr(i + 1, a.length - (i + 1)), 10);
-  const fpt = s.indexOf('.', 0);
-
-  if (fpt >= 0) {
-    // '.' is found
-    const np = s.length - (fpt + 1);
-    s = s.substr(0, fpt) + s.substr(fpt + 1, np);
-    e = e - np;
-  }
-
-  if (e < 0) {
-    s = s.slice(0, e);
-  } else {
-    for (; e > 0; e = e - 1) { s = s + '0'; }
-  }
-
-  return longStr(s);
-}
-
-function any(a) {
-  if (typeof a === 'object') {
-    if (a instanceof Integer) { return a.clone(); }
-    return new Integer();
-  }
-
-  if (typeof a === 'number') {
-    if (-0x7fffffff <= a && a <= 0x7fffffff) {
-      return longNum(a);
-    }
-
-    a = a + '';
-  }
-
-  if (typeof a === 'string') {
-    return longExp(a);
-  }
-
-  return new Integer();
-}
-
 /**
  * @private
  * @param {number} n
- * @return {Integer}
+ * @return {!Integer}
  */
 function factOdd(n) {
   n = n | 0;
@@ -1194,7 +1185,7 @@ function factOdd(n) {
 /**
  * @private
  * @param {number} n
- * @return {Integer}
+ * @return {!Integer}
  */
 function factEven(n) {
   n = n | 0;
@@ -1211,8 +1202,8 @@ function factEven(n) {
 /**
  * Set length.
  * @private
- * @param {number} length
- * @param {boolean} sign
+ * @param {!number} length
+ * @param {boolean=} sign
  */
 function longAlloc(length, sign) {
   length = length | 0;
@@ -1228,12 +1219,13 @@ function longAlloc(length, sign) {
 /**
  * Assign zero to initialize.
  * @private
- * @param {Integer} a
- * @param {number} b Length.
- * @return {Integer}
+ * @param {!Integer} a
+ * @param {!number} b Length.
+ * @return {!Integer}
  */
 function longFillZero(a, b) {
   b = b | 0;
+  if (b < 0) { throw new RangeError(`longFillZero(a, b): b must >= 0 but ${b}`); }
   const d = a._d;
   while (b--) { d[b] = 0; }
 
@@ -1243,8 +1235,8 @@ function longFillZero(a, b) {
 /**
  * Delete following zeros. [2, 0, 1, 0, 0] -> [2, 0, 1]
  * @private
- * @param {Integer} a
- * @return {Integer}
+ * @param {!Integer} a
+ * @return {!Integer}
  */
 function norm(a) {
   const d = a._d;
@@ -1262,8 +1254,8 @@ function norm(a) {
 /**
  * Right shift by 1.
  * @private
- * @param {Integer} a
- * @return {Integer} a >> 1
+ * @param {!Integer} a
+ * @return {!Integer} a >> 1
  */
 function longHalf(a) {
   const d = a._d;
@@ -1280,8 +1272,8 @@ function longHalf(a) {
 /**
  * Left shift by 1.
  * @private
- * @param {Integer} a
- * @return {Integer} a << 1
+ * @param {!Integer} a
+ * @return {!Integer} a << 1
  */
 function longDouble(a) {
   const d = a._d;
@@ -1311,8 +1303,8 @@ function longDouble(a) {
 /**
  * Get length of bit
  * @private
- * @param {Integer} a
- * @return {number}
+ * @param {!Integer} a
+ * @return {!number}
  */
 function longBitLength(a) {
   const ad = a._d;
@@ -1323,9 +1315,9 @@ function longBitLength(a) {
 /**
  * Multiply with Karatsuba Method.
  * @private
- * @param {Integer} x
- * @param {Integer} y
- * @return {Integer} x * y
+ * @param {!Integer} x
+ * @param {!Integer} y
+ * @return {!Integer} x * y
  */
 function longK(x, y) {
   let N = longBitLength(x);
@@ -1338,13 +1330,13 @@ function longK(x, y) {
   N = (N >>> 1) + (N & 1);
 
   // x = a + b 2^N, y = c + d 2^N
-  const b = x.rightShift(N),
-      a = x.sub(b.leftShift(N)),
-      d = y.rightShift(N),
-      c = y.sub(d.leftShift(N)),
-      ac = longK(a, c),
-      bd = longK(b, d),
-      abcd = longK(a.add(b), c.add(d));
+  const b = x.rightShift(N);
+  const a = x.sub(b.leftShift(N));
+  const d = y.rightShift(N);
+  const c = y.sub(d.leftShift(N));
+  const ac = longK(a, c);
+  const bd = longK(b, d);
+  const abcd = longK(a.add(b), c.add(d));
 
   // xy
   // = (a + 2^N b) (c + 2^N d)

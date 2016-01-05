@@ -1,5 +1,5 @@
 /**
- * @fileOverview MT19937 for JavaScript
+ * MT19937 for JavaScript
  * @see ported from http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
  * @example
  *   var r = new Random();
@@ -66,7 +66,7 @@ export class Random {
   constructor() {
     /**
      * @private
-     * @property {number[]} Random#mt
+     * @property {Array<number>} Random#mt
      */
     this.mt = new Uint32Array(N);
 
@@ -105,7 +105,7 @@ export class Random {
 
   /**
    * initialize by an array with array-length
-   * @param {number[]} init_key the array for initializing keys
+   * @param {Array<number>} init_key the array for initializing keys
    */
   initByArray(init_key) {
     this.init(19650218);

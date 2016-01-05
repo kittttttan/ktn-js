@@ -6,7 +6,7 @@ gulp.task('min', () => {
   const uglify = require('gulp-uglify');
   const rename = require('gulp-rename');
   return gulp
-    .src(['js/**/*.bundle.js', '!js/**/*.min.js'])
+    .src(['build/**/*.js', '!build/**/*.min.js'])
     .pipe(rename({
       ext: '.min.js'
     }))
@@ -75,7 +75,7 @@ gulp.task('build', function () {
         //output_wrapper: '(function(){\n%output%\n}).call(this)',
         js_output_file: 'app.min.js'
       }))
-    .pipe(gulp.dest('./build'));
+    .pipe(gulp.dest('build'));
 });
 
 gulp.task('default', ['test']);

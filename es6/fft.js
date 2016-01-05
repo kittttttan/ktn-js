@@ -12,8 +12,8 @@ const PI2 = -2 * PI;
 export class Fft {
   /**
    * convert Array<number> to Array<Complex>.
-   * @param {Array<number>} x
-   * @return {Array<Complex>}
+   * @param {!Array<!number>} x
+   * @return {!Array<!Complex>}
    */
   static fl2Comp(x) {
     let c = [];
@@ -25,8 +25,8 @@ export class Fft {
 
   /**
    * transform 2
-   * @param {Array<Complex>} x x.length === 2
-   * @return {Array<Complex>}
+   * @param {!Array<!Complex>} x x.length === 2
+   * @return {!Array<!Complex>}
    */
   static fft2_(x) {
     return [x[0].add(x[1]), x[0].sub(x[1])];
@@ -34,13 +34,10 @@ export class Fft {
 
   /**
    * transform 4
-   * @param {Array<Complex>} x x.length === 4
-   * @return {Array<Complex>}
+   * @param {!Array<!Complex>} x x.length === 4
+   * @return {!Array<!Complex>}
    */
   static fft4_(x) {
-  //  var q = fft2_([x[0], x[2]]);
-  //  var r = fft2_([x[1], x[3]]);
-  //  var wk = r[1].mul(new Complex(0, -1));
     const q = [x[0].add(x[2]), x[0].sub(x[2])];
     const r = [x[1].add(x[3]), x[1].sub(x[3])];
     const wk = new Complex(r[1].i_, -r[1].r_);
@@ -55,8 +52,8 @@ export class Fft {
 
   /**
    * transform
-   * @param {Array<Complex>} x
-   * @return {Array<Complex>}
+   * @param {!Array<!Complex>} x
+   * @return {!Array<!Complex>}
    */
   static fft_(x) {
     const N = x.length;
@@ -99,8 +96,8 @@ export class Fft {
   /**
    * Fast Fourier transform
    * @method Fft.fft
-   * @param {Array<Complex>} x
-   * @return {Array<Complex>}
+   * @param {!Array<!Complex>} x
+   * @return {!Array<!Complex>}
    */
   static fft(x) {
     const N = x.length;
@@ -115,8 +112,8 @@ export class Fft {
   /**
    * inverse
    * @method Fft.ifft
-   * @param {Array<Complex>} x
-   * @return {Array<Complex>}
+   * @param {!Array<!Complex>} x
+   * @return {!Array<!Complex>}
    */
   static ifft(x) {
     const N = x.length;
@@ -139,8 +136,8 @@ export class Fft {
   /**
    * transform from numbers
    * @method Fft.fftFloat
-   * @param {Array<number>} x
-   * @return {Array<Complex>}
+   * @param {!Array<!number>} x
+   * @return {!Array<!Complex>}
    */
   static fftFloat(x) {
     return this.fft(this.fl2Comp(x));
@@ -149,8 +146,8 @@ export class Fft {
   /**
    * inverse from numbers
    * @method Fft.ifftFloat
-   * @param {Array<number>} x
-   * @return {Array<Complex>}
+   * @param {!Array<!number>} x
+   * @return {!Array<!Complex>}
    */
   static ifftFloat(x) {
     return this.ifft(this.fl2Comp(x));

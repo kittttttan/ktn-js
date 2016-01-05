@@ -2,7 +2,7 @@
 *.bundle.js
 *.min.js
 *.log
-coffee/*.js
+build/
 coverage/
 doc/
 karma_html/

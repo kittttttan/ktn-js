@@ -4,17 +4,17 @@
  */
 export class DateUtil {
   /**
-   * @param {numer} y year
-   * @return {boolean}
+   * @param {number} y year
+   * @return {!boolean}
    */
   static isLeapYear(y) {
-    return !(y & 3) && (y % 100 || !(y % 400));
+    return (y > 7) && !(y & 3) && ((y % 100 > 0) || !(y % 400));
   }
 
   /**
-   * @param {number} y year
-   * @param {number} m month
-   * @return {number} number of days in month
+   * @param {!number} y year
+   * @param {!number} m month
+   * @return {!number} number of days in month
    */
   static getDaysInMonth(y, m) {
     switch (m) {
@@ -30,13 +30,14 @@ export class DateUtil {
       case 11:
         return 30;
     }
+    if (m < 1 || m > 12) { return 0; }
     return 31;
   }
 
   /**
-   * @param {string} s format string
-   * @param {date} d date
-   * @return {string}
+   * @param {!string} s format string
+   * @param {!Date} d date
+   * @return {!string}
    */
   static format(s, d) {
     return s.replace(

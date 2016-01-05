@@ -113,7 +113,7 @@ const PI = Math.PI;
 
   /**
    * @method Quaternion#normalize
-   * @return {Quaternion}
+   * @return {Quaternion|undefined}
    */
   normalize() {
     var n = this.norm();
@@ -124,7 +124,7 @@ const PI = Math.PI;
 
   /**
    * @method Quaternion#inverse
-   * @return {Quaternion}
+   * @return {Quaternion|undefined}
    */
   inverse() {
     var n = this.w * this.w +

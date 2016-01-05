@@ -31,7 +31,7 @@ function* generate() {
  *
  * @param {!Array<number>} a
  * @param {!Array<number>} b
- * @return {Array<number>}
+ * @return {!Array<number>}
  */
 function mmul(a, b) {
   let ad = a[0] * b[0];

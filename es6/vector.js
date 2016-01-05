@@ -1,100 +1,106 @@
-'use strict';
-
-var _sqrt = Math.sqrt;
+/**
+ * @type function(number): number
+ */
+const _sqrt = Math.sqrt;
 
 /**
  * Vector
  *
  * @class Vector
  */
-function Vector(x, y, z) {
-  this.x = +x;
-  this.y = +y;
-  this.z = +z;
-}
-
-Vector.prototype = {
+export class Vector {
   /**
-   * @const
-   * @property Vector#constructor
-   * @type Vector
+   * Initialize
+   * @param {number} x
+   * @param {number} y
+   * @param {number} z
    */
-  constructor: Vector,
+  constructor(x, y, z) {
+    /**
+     * @property {!number} Vector#x
+     */
+    this.x = +x;
+    /**
+     * @property {!number} Vector#y
+     */
+    this.y = +y;
+    /**
+     * @property {!number} Vector#z
+     */
+    this.z = +z;
+  }
 
   /**
    * @method Vector#toString
-   * @return {string}
+   * @return {!string}
    */
-  toString: function() {
-    return '('+ this.x +','+ this.y +','+ this.z +')';
-  },
+  toString() {
+    return `(${this.x},${this.y},${this.z})`;
+  }
 
   /**
    * @method Vector#clone
-   * @return {Vector}
+   * @return {!Vector}
    */
-  clone: function() {
-    var v = new Vector(this.x, this.y, this.z);
+  clone() {
+    const v = new Vector(this.x, this.y, this.z);
     return v;
-  },
+  }
 
   /**
    * @method Vector#norm
-   * @return {number}
-   */  
-  norm: function() {
+   * @return {!number}
+   */
+  norm() {
     return _sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
-  },
+  }
 
   /**
    * @method Vector#add
-   * @param {Vector} v
-   * @return {Vector}
+   * @param {!Vector} v
+   * @return {!Vector}
    */
-  add: function(v) {
-    var w = new Vector(this.x + v.x, this.y + v.y, this.z + v.z);
+  add(v) {
+    const w = new Vector(this.x + v.x, this.y + v.y, this.z + v.z);
     return w;
-  },
+  }
 
   /**
    * @method Vector#sub
-   * @param {Vector} v
-   * @return {Vector}
+   * @param {!Vector} v
+   * @return {!Vector}
    */
-  sub: function(v) {
-    var w = new Vector(this.x - v.x, this.y - v.y, this.z - v.z);
+  sub(v) {
+    const w = new Vector(this.x - v.x, this.y - v.y, this.z - v.z);
     return w;
-  },
+  }
 
   /**
    * @method Vector#mul
-   * @param {number} n
-   * @return {number}
+   * @param {!number} n
+   * @return {!Vector}
    */
-  mul: function(n) {
-    var v = new Vector(n * this.x, n * this.y, n * this.z);
+  mul(n) {
+    const v = new Vector(n * this.x, n * this.y, n * this.z);
     return v;
-  },
+  }
 
   /**
    * @method Vector#cross
-   * @param {Vector} v
-   * @return {Matrix}
+   * @param {!Vector} v
+   * @return {!Matrix}
    */
-  //cross: function(n) {
+  //cross(n) {
   //  var m = new Matrix(this.x, this.y, this.z);
   //  return m;
   //},
 
   /**
    * @method Vector#dot
-   * @param {Vector} v
-   * @return {number}
+   * @param {!Vector} v
+   * @return {!number}
    */
-  dot: function(v) {
+  dot(v) {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
 };
-
-// exports
-exports.Vector = Vector;

@@ -8,12 +8,14 @@
  *    a.toString();  // '0.007'
  *    b.toString();  // '100.1'
  *    c.toString();  // '0.7007'
- * @author kittttttan
  */
-'use strict';
 
-import {Integer} from './integer.js';
+import {Integer} from './integer';
 
+/**
+ * Decimal
+ * @class Decimal
+ */
 export class Decimal {
   /**
    * 1
@@ -43,21 +45,42 @@ export class Decimal {
     return new Decimal(a._n, 0).div(new Decimal(a._d, 0), b);
   }
 
+  /**
+   * Convert String to Decimal.
+   * @static
+   * @method Decimal.str
+   * @param {string} s
+   * @return {Decimal}
+   */
   static str(s) {
     return decStr(s);
   }
 
+  /**
+   * Convert Number to Decimal.
+   * @static
+   * @method Decimal.num
+   * @param {number} a
+   * @param {number} b
+   * @return {Decimal}
+   */
   static num(a, b) {
     return decNum(a, b);
   }
 
+  /**
+   * Convert anything to Decimal.
+   * @static
+   * @method Decimal.dec
+   * @param {object} l
+   * @param {object} e
+   * @return {Decimal}
+   */
   static dec(l, e) {
     return decimal(l, e);
   }
 
   /**
-   * Decimal
-   * @class Decimal
    * @param {Integer} l
    * @param {number} e
    */
@@ -272,16 +295,9 @@ export class Decimal {
     }
     return new Decimal(this._l.addZero(c - f).div(b._l), -c + e + f).trim();
   }
-}
+};
 
 // static method
-/**
- * Convert String to Decimal.
- * @static
- * @method Decimal.str
- * @param {string} n
- * @return {Decimal}
- */
 function decStr(str) {
   var index = str.indexOf('.');
   if (index < 0) {
@@ -295,26 +311,10 @@ function decStr(str) {
   return new Decimal(Integer.str(trim), index - str.length + 1);
 }
 
-/**
- * Convert Number to Decimal.
- * @static
- * @method Decimal.num
- * @param {number} a
- * @param {number} b
- * @return {Decimal}
- */
 function decNum(a, b) {
   return new Decimal(Integer.num(a), b);
 }
 
-/**
- * Convert anything to Decimal.
- * @static
- * @method Decimal.dec
- * @param {object} l
- * @param {object} e
- * @return {Decimal}
- */
 function decimal(l, e) {
   if (!arguments.length) {
     return new Decimal(new Integer(), 0);

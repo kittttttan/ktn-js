@@ -1,7 +1,5 @@
-'use strict';
-
-import {range} from '../../es6/range.js';
-import {Fibonacci as fib} from '../../es6/fib.js';
+import {range} from '../../es6/range';
+import {Fibonacci as fib} from '../../es6/fib';
 
 function testFib() {
     console.log(`_fib() arg [0..9]`);

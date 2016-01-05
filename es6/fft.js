@@ -1,21 +1,23 @@
-'use strict';
-
-import {Complex} from './complex.js';
+import {Complex} from './complex';
 
 const cos = Math.cos;
 const sin = Math.sin;
 const PI = Math.PI;
 const PI2 = -2 * PI;
 
+/**
+ * Fft
+ * @class Fft
+ */
 export class Fft {
   /**
-   * convert number[] to Complex[].
-   * @param {number[]}
-   * @return {Complex[]}
+   * convert Array<number> to Array<Complex>.
+   * @param {Array<number>} x
+   * @return {Array<Complex>}
    */
   static fl2Comp(x) {
-    var c = [];
-    for (var i = 0, l = x.length; i < l; ++i) {
+    let c = [];
+    for (let i = 0, l = x.length; i < l; ++i) {
       c[i] = new Complex(x[i], 0.0);
     }
     return c;
@@ -23,8 +25,8 @@ export class Fft {
 
   /**
    * transform 2
-   * @param {Complex[]} x x.length === 2
-   * @return {Complex[]}
+   * @param {Array<Complex>} x x.length === 2
+   * @return {Array<Complex>}
    */
   static fft2_(x) {
     return [x[0].add(x[1]), x[0].sub(x[1])];
@@ -32,16 +34,16 @@ export class Fft {
 
   /**
    * transform 4
-   * @param {Complex[]} x x.length === 4
-   * @return {Complex[]}
+   * @param {Array<Complex>} x x.length === 4
+   * @return {Array<Complex>}
    */
   static fft4_(x) {
   //  var q = fft2_([x[0], x[2]]);
   //  var r = fft2_([x[1], x[3]]);
   //  var wk = r[1].mul(new Complex(0, -1));
-    var q = [x[0].add(x[2]), x[0].sub(x[2])];
-    var r = [x[1].add(x[3]), x[1].sub(x[3])];
-    var wk = new Complex(r[1].i_, -r[1].r_);
+    const q = [x[0].add(x[2]), x[0].sub(x[2])];
+    const r = [x[1].add(x[3]), x[1].sub(x[3])];
+    const wk = new Complex(r[1].i_, -r[1].r_);
 
     return [
       q[0].add(r[0]),
@@ -53,41 +55,38 @@ export class Fft {
 
   /**
    * transform
-   * @param {Complex[]} x
-   * @return {Complex[]}
+   * @param {Array<Complex>} x
+   * @return {Array<Complex>}
    */
   static fft_(x) {
-    var N = x.length;
+    const N = x.length;
     if (N === 4) { return this.fft4_(x); }
 
-    var N2 = N >> 1;
-    
-    var even = [];
-  //  var odd = [];
-    var k = 0;
-    for (; k < N2; ++k) {
+    const N2 = N >> 1;
+    const even = [];
+    // const odd = [];
+    for (let k = 0; k < N2; ++k) {
       even[k] = x[k << 1];
-  //    odd[k] = x[(k << 1) + 1];
+      // odd[k] = x[(k << 1) + 1];
     }
-    var q = this.fft_(even);
-  //  var r = this.fft_(odd);
+    const q = this.fft_(even);
+    // const r = this.fft_(odd);
 
     // reuse the array
-    var odd = even;
-    for (k = 0; k < N2; ++k) {
+    const odd = even;
+    for (let k = 0; k < N2; ++k) {
       odd[k] = x[(k << 1) + 1];
     }
-    var r = this.fft_(odd);
+    const r = this.fft_(odd);
 
-    var y = [];
-    var th = PI2 / N;
-    var kth = 0.0;
-
-    var wk = r[0].mul(new Complex(1, 0));
+    const th = PI2 / N;
+    let y = [];
+    let kth = 0.0;
+    let wk = r[0].mul(new Complex(1, 0));
     y[0] = q[0].add(wk);
     y[N2] = q[0].sub(wk);
-    
-    for (k = 1; k < N2; ++k) {
+
+    for (let k = 1; k < N2; ++k) {
       kth = k * th;
       wk = r[k].mul(new Complex(cos(kth), sin(kth)));
       y[k] = q[k].add(wk);
@@ -100,11 +99,11 @@ export class Fft {
   /**
    * Fast Fourier transform
    * @method Fft.fft
-   * @param {Complex[]} x
-   * @return {Complex[]}
+   * @param {Array<Complex>} x
+   * @return {Array<Complex>}
    */
   static fft(x) {
-    var N = x.length;
+    const N = x.length;
     if (N < 1 || (N & (N - 1))) {
       throw new Error('length of data must be a power of 2.');
     }
@@ -116,23 +115,22 @@ export class Fft {
   /**
    * inverse
    * @method Fft.ifft
-   * @param {Complex[]} x
-   * @return {Complex[]}
+   * @param {Array<Complex>} x
+   * @return {Array<Complex>}
    */
   static ifft(x) {
-    var N = x.length;
-    var y = [];
-    var i = 0;
-    for (; i < N; ++i) {
+    const N = x.length;
+    let y = [];
+    for (let i = 0; i < N; ++i) {
       y[i] = x[i].conj();
     }
 
     y = this.fft(y);
 
-    var div = 1.0 / N;
-    for (i = 0; i < N; ++i) {
-      y[i].r_ *= div;
-      y[i].i_ *= -div;
+    const div = 1.0 / N;
+    for (let yi of y) {
+      yi.r_ *= div;
+      yi.i_ *= -div;
     }
 
     return y;
@@ -141,8 +139,8 @@ export class Fft {
   /**
    * transform from numbers
    * @method Fft.fftFloat
-   * @param {number[]} x
-   * @return {Complex[]}
+   * @param {Array<number>} x
+   * @return {Array<Complex>}
    */
   static fftFloat(x) {
     return this.fft(this.fl2Comp(x));
@@ -151,10 +149,10 @@ export class Fft {
   /**
    * inverse from numbers
    * @method Fft.ifftFloat
-   * @param {number[]} x
-   * @return {Complex[]}
+   * @param {Array<number>} x
+   * @return {Array<Complex>}
    */
   static ifftFloat(x) {
     return this.ifft(this.fl2Comp(x));
   }
-}
+};

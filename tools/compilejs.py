@@ -1,16 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""Compile JavaScript with Closure Compiler
+https://developers.google.com/closure/compiler/
+
+
+"""
+
 import subprocess
 from os import listdir, path, sep, chdir
 
-comp_path = "D:\\Documents\\js\\compiler-latest\\compiler.jar"
+comp_path = "D:\\Documents\\develop\\tool\\compiler-latest\\compiler.jar"
 cur_dir = path.abspath(path.dirname(__file__))
 root_dir = path.abspath(path.join(cur_dir, '..'))
 
 def compile_js(fname):
     cmd = (
-        "java -jar %(comp_path)s --language_in=ECMASCRIPT5_STRICT"
+        "java -jar %(comp_path)s"
+        " --language_in=ECMASCRIPT6_STRICT"
+        " --language_out=ECMASCRIPT5_STRICT"
+        #" --compilation_level ADVANCED_OPTIMIZATIONS"
+        #" --compilation_level WHITESPACE_ONLY"
+        " --js_module_root ../.."
         " --source_map_format=V3"
         " --create_source_map %(fname)s.map"
         " --js %(fname)s.js --js_output_file %(fname)s.min.js"
@@ -25,7 +36,7 @@ def compile_js(fname):
         f.write("//# sourceMappingURL=%s.map" % fname)
 
 def main():
-    exe(root_dir, 'js')
+    exe(root_dir, 'es6')
     chdir(cur_dir)
 
 def exe(curr, src_dir):

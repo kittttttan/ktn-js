@@ -1,6 +1,4 @@
-'use strict';
-
-import {Integer} from '../../es6/integer.js';
+import {Integer} from '../../es6/integer';
 
 const basic = () => {
   const r = (Math.random() * 4 | 0) + 3;

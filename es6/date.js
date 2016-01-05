@@ -1,5 +1,7 @@
-'use strict';
-
+/**
+ * DateUtil
+ * @class DateUtil
+ */
 export class DateUtil {
   /**
    * @param {numer} y year
@@ -37,7 +39,9 @@ export class DateUtil {
    * @return {string}
    */
   static format(s, d) {
-    return s.replace(/(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g, function(src, token) {
+    return s.replace(
+        /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
+        function(src, token) {
       var h, str, t, z;
       if (token === 'yyyy') {
         return d.getFullYear() + '';
@@ -46,32 +50,11 @@ export class DateUtil {
         return (d.getFullYear() + '').substring(2, 4);
       }
       if (token === 'MMM') {
-        switch (d.getMonth()) {
-          case 0:
-            return 'Jan';
-          case 1:
-            return 'Feb';
-          case 2:
-            return 'May';
-          case 3:
-            return 'Apr';
-          case 4:
-            return 'Mar';
-          case 5:
-            return 'Jun';
-          case 6:
-            return 'Jul';
-          case 7:
-            return 'Aug';
-          case 8:
-            return 'Sep';
-          case 9:
-            return 'Oct';
-          case 10:
-            return 'Nov';
-          case 11:
-            return 'Dec';
-        }
+        const mon = [
+            'Jan', 'Feb', 'May', 'Apr', 'Mar', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+        return mon[d.getMonth()];
       }
       if (token === 'MM') {
         return ('0' + (d.getMonth() + 1)).slice(-2);
@@ -139,10 +122,11 @@ export class DateUtil {
       if (token === 'S') {
         return d.getMilliseconds() + '';
       }
-      if (token.charAt(0) === 'S') {
+      const ch = token.charAt(0);
+      if (ch === 'S') {
         return ('00' + d.getMilliseconds()).slice(-3);
       }
-      if (token.charAt(0) === 'Z') {
+      if (ch === 'Z') {
         t = d.getTimezoneOffset();
         z = -t / 60;
         if (z < 0) {
@@ -152,24 +136,10 @@ export class DateUtil {
         }
         return str + ('0' + t % 60).slice(-2);
       }
-      if (token.charAt(0) === 'E') {
-        switch (d.getDay()) {
-          case 0:
-            return 'Sun';
-          case 1:
-            return 'Mon';
-          case 2:
-            return 'Tue';
-          case 3:
-            return 'Wed';
-          case 4:
-            return 'Thu';
-          case 5:
-            return 'Fri';
-          case 6:
-            return 'Sat';
-        }
+      if (ch === 'E') {
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        return days[d.getDay()];
       }
     });
   }
-}
+};

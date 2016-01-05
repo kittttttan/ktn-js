@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * ArrayUtil
  * @class ArrayUtil
@@ -7,9 +5,9 @@
 export class ArrayUtil {
   /**
    * @method ArrayUtil.some
-   * @param {Array} a
-   * @param {function} f
-   * @return {boolean}
+   * @param {!Array} a
+   * @param {!function} f
+   * @return {!boolean}
    */
   static some(a, f) {
     var i = a.length;
@@ -23,9 +21,9 @@ export class ArrayUtil {
 
   /**
    * @method ArrayUtil.every
-   * @param {Array} a
-   * @param {function} f
-   * @return {boolean}
+   * @param {!Array} a
+   * @param {!function} f
+   * @return {!boolean}
    */
   static every(a, f) {
     var i = a.length;
@@ -39,15 +37,15 @@ export class ArrayUtil {
 
   /**
    * @method ArrayUtil.filter
-   * @param {Array} a
-   * @param {function} f
-   * @return {function}
+   * @param {!Array} a
+   * @param {!function} f
+   * @return {Array<?>}
    */
   static filter(a, f) {
     var aNew = [];
-    for (var i = 0, l = a.length; i < l; ++i) {
-      if (f(a[i])) {
-        aNew.push(a[i]);
+    for (let ai of a) {
+      if (f(ai)) {
+        aNew.push(ai);
       }
     }
     return aNew;
@@ -55,20 +53,20 @@ export class ArrayUtil {
 
   /**
    * @method ArrayUtil.forEach
-   * @param {Array} a
-   * @param {function} f
+   * @param {!Array} a
+   * @param {!function} f
    */
   static forEach(a, f) {
-    for (var i = 0, l = a.length; i < l; ++i) {
-      f(a[i]);
+    for (let ai of a) {
+      f(ai);
     }
   }
 
   /**
    * @method ArrayUtil.map
-   * @param {Array} a
-   * @param {function} f
-   * @return {Array}
+   * @param {!Array} a
+   * @param {!function} f
+   * @return {!Array}
    */
   static map(a, f) {
     var n = [];
@@ -82,9 +80,9 @@ export class ArrayUtil {
 
   /**
    * @method ArrayUtil.reduce
-   * @param {Array} a
-   * @param {function} f
-   * @return {Array}
+   * @param {!Array} a
+   * @param {!function} f
+   * @return {object}
    */
   static reduce(a, f) {
     var out = a[0];
@@ -96,9 +94,9 @@ export class ArrayUtil {
 
   /**
    * @method ArrayUtil.reduceRight
-   * @param {Array} a
-   * @param {function} f
-   * @return {Array}
+   * @param {!Array} a
+   * @param {!function} f
+   * @return {object}
    */
   static reduceRight(a, f) {
     var i = a.length - 1, out = a[i];
@@ -110,21 +108,21 @@ export class ArrayUtil {
 
   /**
    * @method ArrayUtil.sum
-   * @param {Array.<number>} a
-   * @return {number}
+   * @param {!Array<number>} a
+   * @return {!number}
    */
   static sum(a) {
     var s = 0;
-    for (var i = 0, l = a.length; i < l; ++i) {
-      s += a[i];
+    for (let ai of a) {
+      s += ai;
     }
     return s;
   }
 
   /**
    * @method ArrayUtil.average
-   * @param {Array.<number>} a
-   * @return {number}
+   * @param {!Array<number>} a
+   * @return {!number}
    */
   static average(a) {
     var s = 0, l = a.length;
@@ -136,8 +134,8 @@ export class ArrayUtil {
 
   /**
    * @method ArrayUtil.unique
-   * @param {Array} a
-   * @return {Array}
+   * @param {!Array} a
+   * @return {!Array}
    */
   static unique(a) {
     var b = [];
@@ -150,8 +148,9 @@ export class ArrayUtil {
   /**
    * @method ArrayUtil.range
    * @param {number} start
-   * @param {number} opt_last
-   * @param {number} opt_step
+   * @param {number=} opt_last
+   * @param {number=} opt_step
+   * @return {!Array}
    */
   static range(start, opt_last, opt_step) {
     var a = [], i;
@@ -172,7 +171,7 @@ export class ArrayUtil {
         a.push(i);
       }
     }
-    
+
     return a;
   }
-}
+};

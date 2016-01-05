@@ -1,9 +1,9 @@
-var http = require('http'),
+'use strict';
+
+const http = require('http'),
     fs = require('fs'),
     qs = require('querystring'),
     url = require('url'),
-    DateUtil = require('../js/date').DateUtil,
-    dateFormat = DateUtil.format,
     
     ROOT = __dirname,
     MIME = {
@@ -29,7 +29,7 @@ var http = require('http'),
  * @param {string} str
  */
 function logging(str) {
-  str = dateFormat('yyyy-MM-dd HH:mm:ss Z', new Date()) + ' ' + str;
+  str = new Date().toLocaleString() + ' ' + str;
   console.log(str);
   fs.appendFile('node.log', str + '\n', function (err) {
     if (err) throw err;
@@ -42,7 +42,7 @@ function logging(str) {
  */
 function escapeHTML(a) {
   return a.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;').replace(/'/g, '&apos;');//"
+          .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
 /**

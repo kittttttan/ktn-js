@@ -6,18 +6,29 @@
  *   var b = Integer.num(7777777);
  *   var c = a.mul(b); // a * b
  *   c.toString();     // '96021937474622850618244170'
- * @author kittttttan
  */
-'use strict';
 
 /**
  * cache
- * @type function
+ * @const
+ * @type function(): number
  */
 const _random = Math.random;
 
+/**
+ * @const
+ * @type number
+ */
 const _SHIFT = 16;
+/**
+ * @const
+ * @type number
+ */
 const _BASE = 1 << _SHIFT;
+/**
+ * @const
+ * @type number
+ */
 const _MASK = _BASE - 1;
 
 /**
@@ -51,7 +62,7 @@ export class Integer {
     /**
      * Digits [d0, d1, ..., dn]
      * @private
-     * @property {number[]} Integer#_d
+     * @property {Array<number>} Integer#_d
      */
     this._d = new Uint32Array(3);
 
@@ -74,7 +85,7 @@ export class Integer {
    * 1
    * @static
    * @method Integer.one
-   * @return {Integer} 1.
+   * @return {!Integer} 1.
    */
   static get one() { return longNum(1); }
 
@@ -82,7 +93,7 @@ export class Integer {
    * 0
    * @static
    * @method Integer.zero
-   * @return {Integer} 0.
+   * @return {!Integer} 0.
    */
   static get zero() { return new Integer(); }
 
@@ -90,8 +101,8 @@ export class Integer {
    * Converts integer to Integer.
    * @static
    * @method Integer.num
-   * @param {number} n -0x7fffffff <= n <= 0x7fffffff
-   * @return {Integer}
+   * @param {!number} n -0x7fffffff <= n <= 0x7fffffff
+   * @return {!Integer}
    * @example
    *   Integer.num(0);       // 0
    *   Integer.num(1234567); // 1234567
@@ -103,9 +114,9 @@ export class Integer {
    * Converts digit string to Integer.
    * @static
    * @method Integer.str
-   * @param {string} str For example '-9' or 'FF' etc.
-   * @param {number} [base=10] 2, 8, 10 or 16
-   * @return {Integer}
+   * @param {!string} str For example '-9' or 'FF' etc.
+   * @param {number=} [base=10] 2, 8, 10 or 16
+   * @return {!Integer}
    * @example
    *   Integer.str('77');     // 77
    *   Integer.str('ff', 16); // 255
@@ -117,8 +128,8 @@ export class Integer {
    * Converts exponential string to Integer.
    * @static
    * @method Integer.exp
-   * @param {String} a
-   * @return {Integer}
+   * @param {!String} a
+   * @return {!Integer}
    * @example
    *   Integer.exp("7");      // 7
    *   Integer.exp("7e3");    // 7000
@@ -130,8 +141,8 @@ export class Integer {
    * Converts anything to Integer.
    * @static
    * @method Integer.any
-   * @param {Object} a
-   * @return {Integer}
+   * @param {!Object} a
+   * @return {!Integer}
    * @example
    *   Integer.any(0);         // 0
    *   Integer.any(1234567);   // 1234567
@@ -144,8 +155,8 @@ export class Integer {
    * Random.
    * @static
    * @method Integer.random
-   * @param {number} a Length.
-   * @return {Integer}
+   * @param {!number} a Length.
+   * @return {!Integer}
    */
   static random(a) {
     a = a | 0;
@@ -163,8 +174,8 @@ export class Integer {
   /**
    * @static
    * @method Integer.factorial
-   * @param {number} n
-   * @return {Integer}
+   * @param {!number} n
+   * @return {!Integer}
    * @example
    *   Integer.factorial(3); // 1*2*3 = 6
    */
@@ -177,8 +188,8 @@ export class Integer {
   /**
    * Convert Integer to String.
    * @method Integer#toString
-   * @param {number} [b=10] Base 2, 8, 10 or 16
-   * @return {string}
+   * @param {number=} [b=10] Base 2, 8, 10 or 16
+   * @return {!string}
    */
   toString(b) {
     b = b | 0;
@@ -243,7 +254,7 @@ export class Integer {
   /**
    * Convert Integer to number.
    * @method Integer#valueOf
-   * @return {number}
+   * @return {!number}
    */
   valueOf() {
     const d = this._d;
@@ -258,32 +269,32 @@ export class Integer {
 
   /**
    * @method Integer#digits
-   * @return {number[]}
+   * @return {Array<number>}
    */
   get digits() { return this._d; }
 
   /**
    * @method Integer#capacity
-   * @return {number}
+   * @return {!number}
    */
   get capacity() { return this._d.length | 0; }
 
   /**
    * @method Integer#arrayLength
-   * @return {number}
+   * @return {!number}
    */
   get arrayLength() { return this._l | 0; }
 
   /**
    * @method Integer#sign
-   * @return {boolean}
+   * @return {!boolean}
    */
   get sign() { return this._s; }
 
   /**
    * Copy Integer.
    * @method Integer#clone
-   * @return {Integer}
+   * @return {!Integer}
    */
   clone() {
     const b = new Integer();
@@ -299,8 +310,8 @@ export class Integer {
   /**
    * Add zeros and shift decimal.
    * @method Integer#addZero
-   * @param {number} b Number of zeros.
-   * @return {Integer} this * 10<sup>n</sup>
+   * @param {!number} b Number of zeros.
+   * @return {!Integer} this * 10<sup>n</sup>
    */
   addZero(b) {
     b = b | 0;
@@ -318,8 +329,8 @@ export class Integer {
   /**
    * <<
    * @method Integer#leftShift
-   * @param {number} b
-   * @return {Integer}
+   * @param {!number} b
+   * @return {!Integer}
    */
   leftShift(b) {
     b = b | 0;
@@ -351,8 +362,8 @@ export class Integer {
   /**
    * >>
    * @method Integer#rightShift
-   * @param {number} b
-   * @return {Integer}
+   * @param {!number} b
+   * @return {!Integer}
    */
   rightShift(b) {
     const a = this;
@@ -379,26 +390,26 @@ export class Integer {
 
   /**
    * @method Integer#isOdd
-   * @return {boolean}
+   * @return {!boolean}
    */
   isOdd() { return !!(this._d[0] & 1); }
 
   /**
    * @method Integer#isEven
-   * @return {boolean}
+   * @return {!boolean}
    */
   isEven() { return !(this._d[0] & 1); }
 
   /**
    * @method Integer#isNonZero
-   * @return {boolean}
+   * @return {!boolean}
    */
   isNonZero() { return (this._l > 1 || this._d[0] !== 0); }
 
   /**
    * Fast squaring.
    * @method Integer#square
-   * @return {Integer} this * this
+   * @return {!Integer} this * this
    */
   square() {
     const x = this._d;
@@ -442,7 +453,7 @@ export class Integer {
   /**
    * Square root.
    * @method Integer#sqrt
-   * @return {Integer} <code>&radic;</code>this
+   * @return {!Integer} <code>&radic;</code>this
    */
   sqrt() {
     if (!this.isNonZero()) { return this; }
@@ -467,8 +478,8 @@ export class Integer {
   /**
    * Pow.
    * @method Integer#pow
-   * @param {number} b
-   * @return {Integer|number} this<sup>b</sup>
+   * @param {!number} b
+   * @return {!Integer|number} this<sup>b</sup>
    */
   pow(b) {
     b = +b;
@@ -516,7 +527,7 @@ export class Integer {
    */
   gcdBin(b) {
     if (this.cmpAbs(b) < 0) { return b.gcdBin(this); }
-    if (!b.isNonZero()){ return this; }
+    if (!b.isNonZero()) { return this; }
 
     let g = Integer.one;
     let a = this.abs();
@@ -1014,9 +1025,9 @@ export class Integer {
     if (z.isNonZero()) { z._s = !z._s; }
     return z;
   }
-}
+};
 
-const longNum = (n) => {
+function longNum(n) {
   n = n | 0;
 
   const a = new Integer();
@@ -1036,9 +1047,9 @@ const longNum = (n) => {
   }
 
   return a;
-};
+}
 
-const longStr = (str, base) => {
+function longStr(str, base) {
   base = base | 0;
   if (!base) { base = 10; }
 
@@ -1092,9 +1103,9 @@ const longStr = (str, base) => {
   }
 
   return norm(z);
-};
+}
 
-const longExp = (a) => {
+function longExp(a) {
   const i = a.indexOf('e', 0);
   if (i < 0) {
     // 'e' is not found
@@ -1119,9 +1130,9 @@ const longExp = (a) => {
   }
 
   return longStr(s);
-};
+}
 
-const any = (a) => {
+function any(a) {
   if (typeof a === 'object') {
     if (a instanceof Integer) { return a.clone(); }
     return new Integer();
@@ -1140,14 +1151,14 @@ const any = (a) => {
   }
 
   return new Integer();
-};
+}
 
 /**
  * @private
  * @param {number} n
  * @return {Integer}
  */
-const factOdd = (n) => {
+function factOdd(n) {
   n = n | 0;
 
   let m = Integer.one;
@@ -1178,14 +1189,14 @@ const factOdd = (n) => {
   }
 
   return m;
-};
+}
 
 /**
  * @private
  * @param {number} n
  * @return {Integer}
  */
-const factEven = (n) => {
+function factEven(n) {
   n = n | 0;
 
   let s = 0;
@@ -1195,8 +1206,7 @@ const factEven = (n) => {
   }
 
   return Integer.one.leftShift(s);
-};
-
+}
 
 /**
  * Set length.
@@ -1204,7 +1214,7 @@ const factEven = (n) => {
  * @param {number} length
  * @param {boolean} sign
  */
-const longAlloc = (length, sign) => {
+function longAlloc(length, sign) {
   length = length | 0;
 
   const a = new Integer();
@@ -1213,7 +1223,7 @@ const longAlloc = (length, sign) => {
   a._d = new Uint32Array(length);
 
   return a;
-};
+}
 
 /**
  * Assign zero to initialize.
@@ -1222,13 +1232,13 @@ const longAlloc = (length, sign) => {
  * @param {number} b Length.
  * @return {Integer}
  */
-const longFillZero = (a, b) => {
+function longFillZero(a, b) {
   b = b | 0;
   const d = a._d;
   while (b--) { d[b] = 0; }
 
   return a;
-};
+}
 
 /**
  * Delete following zeros. [2, 0, 1, 0, 0] -> [2, 0, 1]
@@ -1236,7 +1246,7 @@ const longFillZero = (a, b) => {
  * @param {Integer} a
  * @return {Integer}
  */
-const norm = (a) => {
+function norm(a) {
   const d = a._d;
   let l = a._l | 0;
 
@@ -1247,7 +1257,7 @@ const norm = (a) => {
   if (!l && !d[l]) { a._s = true; }
 
   return a;
-};
+}
 
 /**
  * Right shift by 1.
@@ -1255,7 +1265,7 @@ const norm = (a) => {
  * @param {Integer} a
  * @return {Integer} a >> 1
  */
-const longHalf = (a) => {
+function longHalf(a) {
   const d = a._d;
   const l = a._l - 1;
 
@@ -1265,7 +1275,7 @@ const longHalf = (a) => {
   d[l] >>>= 1;
 
   return norm(a);
-};
+}
 
 /**
  * Left shift by 1.
@@ -1273,7 +1283,7 @@ const longHalf = (a) => {
  * @param {Integer} a
  * @return {Integer} a << 1
  */
-const longDouble = (a) => {
+function longDouble(a) {
   const d = a._d;
   const l = a._l;
   let c = 0;
@@ -1296,7 +1306,7 @@ const longDouble = (a) => {
   }
 
   return norm(a);
-};
+}
 
 /**
  * Get length of bit
@@ -1304,11 +1314,11 @@ const longDouble = (a) => {
  * @param {Integer} a
  * @return {number}
  */
-const longBitLength = (a) => {
+function longBitLength(a) {
   const ad = a._d;
   const l = a._l;
   return ad[l - 1].toString(2).length + ((l - 1) << 4);
-};
+}
 
 /**
  * Multiply with Karatsuba Method.
@@ -1317,7 +1327,7 @@ const longBitLength = (a) => {
  * @param {Integer} y
  * @return {Integer} x * y
  */
-const longK = (x, y) => {
+function longK(x, y) {
   let N = longBitLength(x);
   const l = longBitLength(y);
 
@@ -1340,4 +1350,4 @@ const longK = (x, y) => {
   // = (a + 2^N b) (c + 2^N d)
   // = ac + 2^N ((a + b) (c + d) - ac - bd) + 2^(N + 1) bd
   return ac.add(abcd.sub(ac).sub(bd).leftShift(N)).add(bd.leftShift(N << 1));
-};
+}

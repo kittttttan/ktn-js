@@ -1,9 +1,9 @@
-import {uuid} from '../es6/uuid.js';
+import {Uuid} from '../es6/uuid.js';
 
 describe("uuid", ()=> {
 
   it("uuid", ()=> {
-    const u = uuid();
+    const u = Uuid.uuid();
     expect(u.version).toEqual(4);
     expect(u.variant).toEqual(8);
 

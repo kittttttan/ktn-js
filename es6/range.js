@@ -1,13 +1,12 @@
 /**
  * range like python3
  */
-'use strict';
 
 /**
  * @param {number} start
- * @param {number} end
- * @param {number} step
- * @return {Iterator}
+ * @param {number=} end
+ * @param {number=} step
+ * @return {!Iterator}
  */
 export function range(start, end, step) {
     return (function*(start, end, step) {

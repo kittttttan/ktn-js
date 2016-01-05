@@ -1,32 +1,39 @@
-'use strict';
-
-/*
-StringConverter
+/**
+ * StringConverter
+ * @class StringConverter
  */
 export class StringConverter {
-  /*
-  @method static toZenkaku
-  @param {string} str
-  @return {string}
+  /**
+   * @method StringConverter.toZenkaku
+   * @param {string} str
+   * @return {string}
    */
   static toZenkaku(str) {
-    return str.replace(/\\/g, '¥').replace(/[ ]/g, '　').replace(/'/g, '’').replace(/"/g, '”').replace(/[\u0021-\u007e]/g, function(a) {
+    return str
+        .replace(/\\/g, '¥')
+        .replace(/[ ]/g, '　')
+        .replace(/'/g, '’')
+        .replace(/"/g, '”')
+        .replace(/[\u0021-\u007e]/g, function(a) {
       return String.fromCharCode(a.charCodeAt(0) + 0xfee0);
     });
   }
 
-  /*
-  @method static toZenkakuKatakana
-  @param {string} str
-  @return {string}
+  /**
+   * @method StringConverter.toZenkakuKatakana
+   * @param {string} str
+   * @return {string}
    */
   static toZenkakuKatakana(str) {
     var c, conv, han, i, j, n, ref, zen;
     conv = [];
     c = '';
     n = 0;
-    zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソ' + 'タチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロ' + 'ワン゛゜'.split('');
-    han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛ' + 'ﾜﾝﾞﾟ'.split('');
+    zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソ'
+        + 'タチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロ'
+        + 'ワン゛゜'.split('');
+    han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛ'
+        + 'ﾜﾝﾞﾟ'.split('');
     for (i = j = 0, ref = str.length; j < ref; i = j += 1) {
       c = str.charAt(i);
       n = han.indexOf(c);
@@ -38,29 +45,37 @@ export class StringConverter {
     return conv.join('');
   }
 
-  /*
-  @method static toHankaku
-  @param {string} str
-  @return {string}
+  /**
+   * @method StringConverter.toHankaku
+   * @param {string} str
+   * @return {string}
    */
   static toHankaku(str) {
-    return str.replace(/¥/g, '\\').replace(/[　]/g, ' ').replace(/’/g, '\'').replace(/”/g, '"').replace(/[\uff01-\uff5e]/g, function(a) {
+    return str
+        .replace(/¥/g, '\\')
+        .replace(/[　]/g, ' ')
+        .replace(/’/g, '\'')
+        .replace(/”/g, '"')
+        .replace(/[\uff01-\uff5e]/g, function(a) {
       return String.fromCharCode(a.charCodeAt(0) - 0xfee0);
     });
   }
 
-  /*
-  @method static toHankakuKatakana
-  @param {string} str
-  @return {string}
+  /**
+   * @method StringConverter.toHankakuKatakana
+   * @param {string} str
+   * @return {string}
    */
   static toHankakuKatakana(str) {
     var c, conv, han, i, j, n, ref, zen;
     conv = [];
     c = '';
     n = 0;
-    zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソ' + 'タチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロ' + 'ワン゛゜'.split('');
-    han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛ' + 'ﾜﾝﾞﾟ'.split('');
+    zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソ'
+        + 'タチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロ'
+        + 'ワン゛゜'.split('');
+    han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛ'
+        + 'ﾜﾝﾞﾟ'.split('');
     for (i = j = 0, ref = str.length; j < ref; i = j += 1) {
       c = str.charAt(i);
       n = zen.indexOf(c);
@@ -72,10 +87,10 @@ export class StringConverter {
     return conv.join('');
   }
 
-  /*
-  @method static toKatakana
-  @param {string} str
-  @return {string}
+  /**
+   * @method StringConverter.toKatakana
+   * @param {string} str
+   * @return {string}
    */
   static toKatakana(str) {
     return str.replace(/[\u3041-\u3096]/g, function(a) {
@@ -83,10 +98,10 @@ export class StringConverter {
     });
   }
 
-  /*
-  @method static toHiragana
-  @param {string} str
-  @return {string}
+  /**
+   * @method StringConverter.toHiragana
+   * @param {string} str
+   * @return {string}
    */
   static toHiragana(str) {
     return str.replace(/[\u30A1-\u30F6]/g, function(a) {
@@ -94,10 +109,10 @@ export class StringConverter {
     });
   }
 
-  /*
-  @method static proper
-  @param {string} str
-  @return {string}
+  /**
+   * @method StringConverter.proper
+   * @param {string} str
+   * @return {string}
    */
   static proper(str) {
     return str.replace(/(\w+)/g, function(a) {
@@ -105,21 +120,21 @@ export class StringConverter {
     });
   }
 
-  /*
-  Convert string format
-  @method static format
-  @param {string} str
-  @param {number} option
-  <pre>
-    0 to upper
-    1 to lower
-    2 to zenkaku
-    3 to hankaku
-    4 to katakana
-    5 to hiragana
-    6 proper
-  </pre>
-  @return {string}
+  /**
+   * Convert string format
+   * @method StringConverter.convert
+   * @param {string} str
+   * @param {number} option
+   * <pre>
+   *   0 to upper
+   *   1 to lower
+   *   2 to zenkaku
+   *   3 to hankaku
+   *   4 to katakana
+   *   5 to hiragana
+   *   6 proper
+   * </pre>
+   * @return {string}
    */
   static convert(str, option) {
     switch (option) {
@@ -142,4 +157,4 @@ export class StringConverter {
     }
     return str;
   }
-}
+};

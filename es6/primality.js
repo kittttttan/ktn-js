@@ -1,11 +1,14 @@
 /**
  * Generate Prime Number List in JavaScript
  */
-'use strict';
 
+/**
+ * Primality
+ * @class Primality
+ */
 export class Primality {
   /**
-   * @return {Iterator}
+   * @return {!Iterator}
    */
   static generate() {
     return (function*() {
@@ -16,7 +19,7 @@ export class Primality {
 
       let len = list.length;
       let init = list[len - 1] + 2;
-      for (let i = init, f; ; i += 2) {
+      for (let i = init, f;; i += 2) {
         for (let j = 1, lj; (lj = list[j]) * lj <= i; ++j) {
           f = true;
           if (!(i % lj)) {
@@ -33,14 +36,14 @@ export class Primality {
   }
 
   /**
-   * @param {number} n
-   * @return {Iterator}
+   * @param {!number} n
+   * @return {!Iterator}
    */
   static top(n) {
     const generate = this.generate;
     return (function*() {
       if (n < 1) {
-        throw new Exception('argument[0] must > 0');
+        throw new Error('argument[0] must > 0');
       }
       let g = generate();
       while (n--) {
@@ -50,8 +53,8 @@ export class Primality {
   }
 
   /**
-   * @param {number} n
-   * @return {Iterator}
+   * @param {!number} n
+   * @return {!Iterator}
    */
   static max(n) {
     const generate = this.generate;
@@ -66,8 +69,8 @@ export class Primality {
   }
 
   /**
-   * @param {number} n
-   * @return {Iterator}
+   * @param {!number} n
+   * @return {!Iterator}
    */
   static sieveMax(n) {
     return (function*() {
@@ -92,10 +95,10 @@ export class Primality {
   }
 
   /**
-   * @param {number} base
-   * @param {number} power
-   * @param {number} mod
-   * @return {number}
+   * @param {!number} base
+   * @param {!number} power
+   * @param {!number} mod
+   * @return {!number}
    */
   static modMathPow(base, power, mod) {
     var result = 1;
@@ -111,8 +114,8 @@ export class Primality {
 
   /**
    * Miller–Rabin primality test
-   * @param {number} n
-   * @return {boolean} true if probably prime
+   * @param {!number} n
+   * @return {!boolean} true if probably prime
    */
   static mrpt(n) {
     if (isNaN(n) || n < 2) {
@@ -147,4 +150,4 @@ export class Primality {
     }
     return true;
   }
-}
+};

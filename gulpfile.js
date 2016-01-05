@@ -2,17 +2,6 @@
 
 const gulp = require('gulp');
 
-// deprecated
-gulp.task('coffee', () => {
-  const coffee = require('gulp-coffee');
-  return gulp
-    .src(['coffee/**/*.coffee'])
-    .pipe(coffee({
-      bare: false
-    }))
-    .pipe(gulp.dest('coffee'));
-});
-
 gulp.task('min', () => {
   const uglify = require('gulp-uglify');
   const rename = require('gulp-rename');
@@ -74,5 +63,20 @@ gulp.task('test', () => {
     }));
 });
 
-gulp.task('default', ['test', 'min']);
+gulp.task('build', function () {
+  const closureCompiler = require('google-closure-compiler').gulp();
+  return gulp
+    .src(['es6/**/*.js','examples/es6/**/*.js'], {base: './'})
+    .pipe(closureCompiler({
+        compilation_level: 'SIMPLE',
+        warning_level: 'VERBOSE',
+        language_in: 'ECMASCRIPT6_STRICT',
+        language_out: 'ECMASCRIPT5_STRICT',
+        //output_wrapper: '(function(){\n%output%\n}).call(this)',
+        js_output_file: 'app.min.js'
+      }))
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('default', ['test']);
 gulp.task('travis', ['default']);

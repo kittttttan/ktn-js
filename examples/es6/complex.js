@@ -1,6 +1,4 @@
-'use strict';
-
-import {Complex} from '../../es6/complex.js';
+import {Complex} from '../../es6/complex';
 
 let main = () => {
   let c1 = new Complex(1,2);

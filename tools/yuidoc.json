@@ -5,7 +5,7 @@
   "url": "https://github.com/kittttttan/ktn-js",
   "options": {
     "paths": [
-      "../js"
+      "../es6"
     ],
     "outdir": "./doc"
   }

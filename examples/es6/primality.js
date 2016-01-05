@@ -1,7 +1,5 @@
-'use strict';
-
-import {range} from '../../es6/range.js';
-import {Primality as prim} from '../../es6/primality.js';
+import {range} from '../../es6/range';
+import {Primality as prim} from '../../es6/primality';
 
 function test() {
   const n = 10;

@@ -1,4 +1,6 @@
-var http = require('http'),
+'use strict';
+
+const http = require('http'),
     https = require('https'),
     url = require('url'),
     fs = require('fs');
@@ -55,7 +57,7 @@ function main() {
     }
   };
   
-  wget('http://kittttttan.web.fc2.com/', opt);
+  wget('https://kittttttan.info/', opt);
 }
 
 main();

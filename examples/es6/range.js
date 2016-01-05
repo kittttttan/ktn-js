@@ -1,6 +1,4 @@
-'use strict';
-
-import {range} from '../../es6/range.js';
+import {range} from '../../es6/range';
 
 function testRange() {
   console.log('range(3)');

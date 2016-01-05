@@ -1,5 +1,3 @@
-'use strict';
-
 const Types = {
   LOWER: 0x01,
   UPPER: 0x02,
@@ -22,11 +20,11 @@ export class StringUtil {
   static get Types() { return Types; }
   static get Reg() { return Reg; }
 
-  /*
-  sprintf
-  
-  @param {string} str
-  @return {string}
+  /**
+   * sprintf
+   * 
+   * @param {string} str
+   * @return {string}
    */
   static format(str) {
     var argv, index;
@@ -48,14 +46,18 @@ export class StringUtil {
         s = (flag === '+' && n > 0 ? '+' : '') + n;
       } else if (type === 'o') {
         n = argv[index] | 0;
-        s = (flag === '+' && n > 0 ? '+' : '') + (flag === '#' ? '0' : '') + n.toString(8);
+        s = (flag === '+' && n > 0 ? '+' : '')
+          + (flag === '#' ? '0' : '') + n.toString(8);
       } else if (type === 'x') {
         n = argv[index] | 0;
-        s = (flag === '+' && n > 0 ? '+' : '') + (flag === '#' ? '0x' : '') + n.toString(16);
+        s = (flag === '+' && n > 0 ? '+' : '')
+          + (flag === '#' ? '0x' : '') + n.toString(16);
       } else if (type === 'e') {
-        s = (flag === '+' && argv[index] > 0 ? '+' : '') + (prec ? argv[index].toExponential(prec) : argv[index].toString());
+        s = (flag === '+' && argv[index] > 0 ? '+' : '')
+          + (prec ? argv[index].toExponential(prec) : argv[index].toString());
       } else if (type === 'f') {
-        s = (flag === '+' && argv[index] > 0 ? '+' : '') + (prec ? argv[index].toFixed(prec) : argv[index].toString());
+        s = (flag === '+' && argv[index] > 0 ? '+' : '')
+          + (prec ? argv[index].toFixed(prec) : argv[index].toString());
       }
       ++index;
       if (width > s.length) {
@@ -70,18 +72,24 @@ export class StringUtil {
     });
   }
 
-  /*
-  str.format in Python
-  http://docs.python.jp/2/library/string.html#formatspec
-  
-  @param {string} str
-  @return {string}
+  /**
+   * str.format in Python
+   * http://docs.python.jp/2/library/string.html#formatspec
+   *
+   * @param {string} str
+   * @param {...*} rest
+   * @return {string}
    */
-  static pyformat(str) {
-    var alignFormat, argv, cnt, index, typeFormat;
-    argv = arguments;
-    cnt = 0;
-    index = 1;
+  static pyformat(str, rest) {
+    let argv = arguments;
+    let cnt = 0;
+    let index = 1;
+    /**
+     * @param {!*} src
+     * @param {!string} type
+     * @param {string=} prefix
+     * return {!string}
+     */
     function typeFormat(src, type, prefix) {
       var isPrefix, pre;
       if (type === void 0) {
@@ -95,7 +103,7 @@ export class StringUtil {
           pre = isPrefix ? '0b' : '';
           return pre + src.toString(2);
         case 'c':
-          return String.fromCharCode(src);
+          return String.fromCharCode(src | 0);
         case 'd':
           return src.toString(10);
         case 'o':
@@ -115,6 +123,13 @@ export class StringUtil {
           return src.toString();
       }
     }
+    /**
+     * @param {!string} src
+     * @param {number} width
+     * @param {?string=} align
+     * @param {?string=} fill
+     * @return {!string}
+     */
     function alignFormat(src, width, align, fill) {
       var add, ch, isFilled;
       if (width < 1) {
@@ -135,14 +150,17 @@ export class StringUtil {
         case '=':
           return src.toString();
         case '^':
-          return add.substring(0, width >> 1) + src.toString() + add.substring(width >> 1, width);
+          return add.substring(0, width >> 1)
+              + src.toString()
+              + add.substring(width >> 1, width);
         default:
           return src.toString();
       }
     }
     return str.replace(
         /{(?!{)([0-9a-zA-Z_\[\]]+)?(?::(?:([^}])?([<>=^]))?([ +-])?(#)?(0)?(\d+)?(\.\d+)?([sbcdoxXn ])?)?}(?!})/g,
-        function(src, fieldName, fill, align, sign, prefix, zero, width, prec, type) {
+        function(src, fieldName, fill,
+            align, sign, prefix, zero, width, prec, type) {
       /*
       console.log({
         src: src,
@@ -177,49 +195,59 @@ export class StringUtil {
     });
   }
 
-  /*
-  @param {string} s
-  @return {string}
+  /**
+   * @param {!string} s
+   * @return {!string}
    */
   static escapeHTML(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/'/g, '&apos;')
+      .replace(/"/g, '&quot;');
   }
 
-  /*
-  @param {string} s
-  @return {string}
+  /**
+   * @param {!string} s
+   * @return {!string}
    */
   static escapeJS(s) {
-    return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/'/g, '\\\'').replace(/\//g, '\\/');
+    return s
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '\\"')
+      .replace(/'/g, '\\\'')
+      .replace(/\//g, '\\/');
   }
 
-  /*
-  @param {string} s
-  @return {string}
+  /**
+   * @param {!string} s
+   * @return {!string}
    */
   static trimLeft(s) {
     return s.replace(/^\s+/, '');
   }
 
-  /*
-  @param {string} s
-  @return {string}
+  /**
+   * @param {!string} s
+   * @return {!string}
    */
   static trimRight(s) {
     return s.replace(/\s+$/, '');
   }
 
-  /*
-  @param {string} s
-  @return {string}
+  /**
+   * @param {!string} s
+   * @return {!string}
    */
   static nobr(s) {
     return s.replace(/[\r\n]+/g, '');
   }
 
-  /*
-  @param {number} len
-  @param {number} opt_filter
+  /**
+   * @param {!number} len
+   * @param {number=} opt_filter
+   * @return {!string}
    */
   static random(len, opt_filter) {
     var i, j, letter, range, ref, str;
@@ -249,4 +277,4 @@ export class StringUtil {
     }
     return str;
   }
-}
+};

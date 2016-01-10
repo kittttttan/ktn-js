@@ -16,8 +16,7 @@ const basic = () => {
   console.log(`a >> 17   = ${a.rightShift(17)}`);
   console.log(`a << 17   = ${a.leftShift(17)}`);
   console.log(`a ^  2    = ${a.pow(2)}`);
-  console.log(`a ^ 0.5   = ${a.pow(.5)}` );
-  console.log(`          ~ ${a.sqrt()}`);
+  console.log(`√a       = ${a.sqrt()}` );
   console.log(`gcd(a, b) = ${a.gcd(b)}`);
   console.log(`          = ${a.gcdBin(b)}`);
 };

@@ -21,13 +21,14 @@
     "babel-polyfill": "",
     "babel-preset-es2015": "",
     "babelify": "",
-    "browserify": "",
-    "google-closure-compiler": ""
+    "browserify": ""
   },
   "devDependencies": {
     "browserify-istanbul": "",
     "esdoc": "",
+    "google-closure-compiler": "",
     "gulp": "",
+    "gulp-babel": "",
     "gulp-karma": "",
     "gulp-rename": "",
     "gulp-uglify": "",

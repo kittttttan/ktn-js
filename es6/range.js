@@ -3,13 +3,14 @@
  */
 
 /**
+ * @public
  * @param {number} start
  * @param {number=} end
  * @param {number=} step
  * @return {!Iterator}
  */
 export function range(start, end, step) {
-    return (function*(start, end, step) {
+    return (function *() {
         if (typeof(step) === 'undefined') {
             step = 1;
         }
@@ -36,5 +37,5 @@ export function range(start, end, step) {
                 start += step;
             }
         }
-    }(start, end, step));
+    }());
 }

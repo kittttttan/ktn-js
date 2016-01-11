@@ -1,8 +1,28 @@
 import {Complex} from './complex';
 
+/**
+ * @private
+ * @const
+ * @type function(number): number
+ */
 const cos = Math.cos;
+/**
+ * @private
+ * @const
+ * @type function(number): number
+ */
 const sin = Math.sin;
+/**
+ * @private
+ * @const
+ * @type number
+ */
 const PI = Math.PI;
+/**
+ * @private
+ * @const
+ * @type number
+ */
 const PI2 = -2 * PI;
 
 /**
@@ -16,7 +36,7 @@ export class Fft {
    * @return {!Array<!Complex>}
    */
   static fl2Comp(x) {
-    let c = [];
+    const c = [];
     for (let i = 0, l = x.length; i < l; ++i) {
       c[i] = new Complex(x[i], 0.0);
     }
@@ -77,7 +97,7 @@ export class Fft {
     const r = this.fft_(odd);
 
     const th = PI2 / N;
-    let y = [];
+    const y = [];
     let kth = 0.0;
     let wk = r[0].mul(new Complex(1, 0));
     y[0] = q[0].add(wk);
@@ -125,7 +145,7 @@ export class Fft {
     y = this.fft(y);
 
     const div = 1.0 / N;
-    for (let yi of y) {
+    for (const yi of y) {
       yi.r_ *= div;
       yi.i_ *= -div;
     }
@@ -152,4 +172,4 @@ export class Fft {
   static ifftFloat(x) {
     return this.ifft(this.fl2Comp(x));
   }
-};
+}

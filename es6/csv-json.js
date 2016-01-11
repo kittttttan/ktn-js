@@ -4,12 +4,13 @@
 
 /**
  * CSV to JSON
+ * @public
  * @param {!string} s CSV
  * @param {!Array<!string>} column
  * @param {Object=} opt
  * @return {!string} JSON
  */
-export function csvToJson(s, column, opt={}) {
+export function csvToJson(s, column, opt = {}) {
   const sep = opt.sep || '\t';
 
   const colLength = column.length;
@@ -70,6 +71,7 @@ export function csvToJson(s, column, opt={}) {
 }
 
 /**
+ * @private
  * @param {Array<string>} labels
  * @param {Array<string>} label
  * @param {Object} item
@@ -88,6 +90,7 @@ function addLabel(labels, label, item) {
 }
 
 /**
+ * @private
  * @param {Array<?>} val
  * @param {Object} item
  */
@@ -103,11 +106,12 @@ function addValue(val, item) {
 
 /**
  * JSON to CSV
+ * @public
  * @param {string} s JSON formatted string
  * @param {Object=} opt
  * @return {string}
  */
-export function jsonToCsv(s, opt={}) {
+export function jsonToCsv(s, opt = {}) {
   let sep = opt.sep || '\t';
   let json = JSON.parse(s);
   //console.debug(json);

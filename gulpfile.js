@@ -2,6 +2,16 @@
 
 const gulp = require('gulp');
 
+gulp.task('test', () => {
+  const karma = require('gulp-karma');
+  return gulp
+    .src(['es6/*.js', 'test/*.js'])
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run'
+    }));
+});
+
 gulp.task('min', () => {
   const uglify = require('gulp-uglify');
   const rename = require('gulp-rename');
@@ -27,24 +37,14 @@ const examples = [
   'range'
 ];
 
+let examCmds = [];
 let buildCmds = [];
-
-gulp.task('examples', () => {
-  for (let filename of examples) {
-    console.log(`example-${filename}`);
-  }
-});
-
-gulp.task('builds', () => {
-  for (let filename of examples) {
-    console.log(`build-${filename}`);
-  }
-});
 
 for (let filename of examples) {
   gulp.task(`example-${filename}`, () => {
     example(filename);
   });
+  examCmds.push(`example-${filename}`);
 
   gulp.task(`build-${filename}`, () => {
     build(filename);
@@ -78,7 +78,7 @@ function build(filename) {
   const source = require('vinyl-source-stream');
   browserify({
     entries: [`es6/${filename}.js`],
-    debug: false,
+    debug: true,
     //insertGlobals: true,
     standalone: filename,
     extensions: ['.js']
@@ -96,16 +96,7 @@ function build(filename) {
   .pipe(gulp.dest('build'));
 }
 
-gulp.task('test', () => {
-  const karma = require('gulp-karma');
-  return gulp
-    .src(['es6/*.js', 'test/*.js'])
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'run'
-    }));
-});
-
+gulp.task('example', examCmds);
 gulp.task('build', buildCmds);
 
 gulp.task('babel', function() {
@@ -130,5 +121,5 @@ gulp.task('build-cc', function () {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('default', ['test']);
-gulp.task('travis', ['default']);
+gulp.task('default', ['test', 'build', 'min']);
+gulp.task('travis', ['test']);

@@ -10,22 +10,26 @@
 
 /**
  * cache
+ * @private
  * @const
  * @type function(): number
  */
 const _random = Math.random;
 
 /**
+ * @private
  * @const
  * @type !number
  */
 const _SHIFT = 16;
 /**
+ * @private
  * @const
  * @type !number
  */
 const _BASE = 1 << _SHIFT;
 /**
+ * @private
  * @const
  * @type !number
  */
@@ -181,7 +185,7 @@ export class Integer {
       if (!c) { break; }
 
       n = parseInt(c, base);
-      for (i = 0;;) {
+      for (i = 0; ;) {
         for (; i < bl; i = i + 1) {
           n = n + zd[i] * base;
           zd[i] = n & _MASK;
@@ -229,7 +233,7 @@ export class Integer {
     if (e < 0) {
       s = s.slice(0, e);
     } else {
-      for (; e > 0; e = e - 1) { s = s + '0'; }
+      s += '0'.repeat(e);
     }
 
     return Integer.str(s);
@@ -259,7 +263,7 @@ export class Integer {
         return Integer.num(a);
       }
 
-      a = a + '';
+      a += '';
     }
 
     if (typeof a === 'string') {
@@ -301,10 +305,11 @@ export class Integer {
     n = n | 0;
     if (n < 1) { return Integer.one; }
     return factOdd(n).mul(factEven(n));
-  };
+  }
 
   /**
    * Convert Integer to String.
+   * @override
    * @method Integer#toString
    * @param {number=} [b=10] Base 2, 8, 10 or 16
    * @return {!string}
@@ -364,13 +369,14 @@ export class Integer {
     }
 
     s = s.replace(/^0+/, '');
-    if (!this._s) { s = '-' + s; }
+    if (!this._s) { s = `-${s}`; }
 
     return s;
   }
 
   /**
    * Convert Integer to number.
+   * @override
    * @method Integer#valueOf
    * @return {!number}
    */
@@ -456,7 +462,7 @@ export class Integer {
     const a = this;
     const ad = a._d;
     const l = a._l | 0;
-    const d = (b / _SHIFT) | 0;
+    const d = b / _SHIFT | 0;
     const cl = l + d + 1 | 0;
     const bb = b % _SHIFT;
     const c = longAlloc(cl, a._s);
@@ -487,7 +493,7 @@ export class Integer {
     const a = this;
     const ad = a._d;
     const l = a._l;
-    const d = (b / _SHIFT) | 0;
+    const d = b / _SHIFT | 0;
 
     if (l <= d) { return new Integer(); }
 
@@ -522,7 +528,7 @@ export class Integer {
    * @method Integer#isNonZero
    * @return {!boolean}
    */
-  isNonZero() { return (this._l > 1 || this._d[0] !== 0); }
+  isNonZero() { return this._l > 1 || this._d[0] !== 0; }
 
   /**
    * Fast squaring.
@@ -576,8 +582,8 @@ export class Integer {
   sqrt() {
     if (!this.isNonZero()) { return this; }
 
-    var b = this.clone();
-    var c = Integer.one;
+    let b = this.clone();
+    let c = Integer.one;
 
     while (b.cmp(c) > 0) {
       longHalf(b);
@@ -646,7 +652,7 @@ export class Integer {
     if (this.cmpAbs(b) < 0) { return b.gcdBin(this); }
     if (!b.isNonZero()) { return this; }
 
-    let g = Integer.one;
+    const g = Integer.one;
     let a = this.abs();
     b = b.abs();
     while (!(a._d[0] & 1) && !(b._d[0] & 1)) {
@@ -874,16 +880,12 @@ export class Integer {
       return new Integer();
     }
 
-    let dd = 0;
     let t = 0;
-    let i = 0;
-    let z;
-    let zd;
     if (nb === 1) {
-      dd = bd[0];
-      z = a.clone();
-      zd = z._d;
-      i = na;
+      const dd = bd[0];
+      const z = a.clone();
+      const zd = z._d;
+      let i = na;
 
       while (i--) {
         t = ((t << _SHIFT) | zd[i]) >>> 0;
@@ -901,10 +903,10 @@ export class Integer {
       return norm(z);
     }
 
-    z = longAlloc(albl ? na + 2 : na + 1, a._s === b._s);
-    zd = z._d;
+    const z = longAlloc(albl ? na + 2 : na + 1, a._s === b._s);
+    let zd = z._d;
     longFillZero(z, z._l);
-    dd = _BASE / (bd[nb - 1] + 1) & _MASK;
+    const dd = _BASE / (bd[nb - 1] + 1) & _MASK;
 
     let j = 0;
     let num = 0;
@@ -933,6 +935,7 @@ export class Integer {
       zd[j] = num & _MASK;
     }
 
+    let i = 0;
     let q = 0;
     let ee = 0;
     j = albl ? na + 1 : na;
@@ -1142,7 +1145,7 @@ export class Integer {
     if (z.isNonZero()) { z._s = !z._s; }
     return z;
   }
-};
+}
 
 /**
  * @private
@@ -1158,7 +1161,7 @@ function factOdd(n) {
   let i = 0;
   let j = 0;
   let l = 0;
-  let limit = 1 << ((_SHIFT - 1) << 1);
+  const limit = 1 << ((_SHIFT - 1) << 1);
 
   for (;; i = i + 1 | 0) {
     l = (n / (1 << i)) | 0;

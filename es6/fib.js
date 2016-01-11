@@ -6,19 +6,23 @@
  * Fn+2 = Fn + Fn-1 (n >= 0)
  */
 
+ /**
+  * @requires range
+  */
 import {range} from './range';
 
 /**
  * generate Fibonacci numbers
+ * @private
  */
-function* generate() {
+function *generate() {
   yield 0;
 
   let a = 1;
   let b = 0;
   while (1) {
     yield a;
-    let t = a + b;
+    const t = a + b;
     b = a;
     a = t;
   }
@@ -29,16 +33,17 @@ function* generate() {
  * |   | x |   | = |           |
  * |b c|   |e f|   |bd+ce be+cf|
  *
+ * @private
  * @param {!Array<number>} a
  * @param {!Array<number>} b
  * @return {!Array<number>}
  */
 function mmul(a, b) {
-  let ad = a[0] * b[0];
-  let be = a[1] * b[1];
-  let bd = a[1] * b[0];
-  let ce = a[2] * b[1];
-  let cf = a[2] * b[2];
+  const ad = a[0] * b[0];
+  const be = a[1] * b[1];
+  const bd = a[1] * b[0];
+  const ce = a[2] * b[1];
+  const cf = a[2] * b[2];
   return [ad + be, bd + ce, be + cf];
 }
 
@@ -59,7 +64,7 @@ export class Fibonacci {
     let a = 1;
     let b = 0;
     while (--n) {
-      let t = a + b;
+      const t = a + b;
       b = a;
       a = t;
     }
@@ -99,15 +104,15 @@ export class Fibonacci {
    * @return {!Iterator}
    */
   static top(n) {
-    return (function*() {
+    return function *() {
       if (n < 1) {
         throw new Error('arguments[0] must > 0');
       }
-      let g = generate();
+      const g = generate();
       while (n--) {
         yield g.next().value;
       }
-    }());
+    }();
   }
 
   /**
@@ -116,13 +121,13 @@ export class Fibonacci {
    * @return {!Iterator}
    */
   static max(n) {
-    return (function*() {
-      let g = generate();
+    return function *() {
+      const g = generate();
       let f = g.next().value;
       while (f < n) {
         yield f;
         f = g.next().value;
       }
-    }());
+    }();
   }
-};
+}

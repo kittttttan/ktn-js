@@ -92,4 +92,4 @@ export class Complex {
     return new Complex(this.r_ * a.r_ - this.i_ * a.i_,
         this.r_ * a.i_ + this.i_ * a.r_);
   }
-};
+}

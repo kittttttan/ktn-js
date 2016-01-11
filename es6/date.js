@@ -42,8 +42,7 @@ export class DateUtil {
   static format(s, d) {
     return s.replace(
         /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
-        function(src, token) {
-      var h, str, t, z;
+        (src, token) => {
       if (token === 'yyyy') {
         return d.getFullYear() + '';
       }
@@ -75,7 +74,7 @@ export class DateUtil {
       if (token === 'H') {
         return d.getHours() + '';
       }
-      h = 0;
+      let h = 0;
       if (token === 'hh') {
         h = d.getHours();
         if (h > 12) {
@@ -128,8 +127,9 @@ export class DateUtil {
         return ('00' + d.getMilliseconds()).slice(-3);
       }
       if (ch === 'Z') {
-        t = d.getTimezoneOffset();
-        z = -t / 60;
+        let str;
+        const t = d.getTimezoneOffset();
+        const z = -t / 60;
         if (z < 0) {
           str = '-' + ('0' + (-z)).slice(-2);
         } else {
@@ -143,4 +143,4 @@ export class DateUtil {
       }
     });
   }
-};
+}

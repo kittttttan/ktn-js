@@ -1,7 +1,21 @@
+/**
+ * @private
+ * @const
+ * @type function(number): number
+ */
 const _sqrt = Math.sqrt;
+/**
+ * @private
+ * @const
+ * @type function(number): number
+ */
 const _cos = Math.cos;
+/**
+ * @private
+ * @const
+ * @type function(number): number
+ */
 const _sin = Math.sin;
-const PI = Math.PI;
 
 /**
  * Quaternion
@@ -116,7 +130,7 @@ const PI = Math.PI;
    * @return {Quaternion|undefined}
    */
   normalize() {
-    var n = this.norm();
+    const n = this.norm();
     if (!n) { return undefined; }
     return new Quaternion(this.w / n,
         this.x / n, this.y / n, this.z / n);
@@ -127,12 +141,12 @@ const PI = Math.PI;
    * @return {Quaternion|undefined}
    */
   inverse() {
-    var n = this.w * this.w +
+    const n = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     if (!n) { return undefined; }
 
-    var q = new Quaternion(this.w / n,
+    const q = new Quaternion(this.w / n,
         this.x / n, this.y / n, this.z / n);
     return q;
   }
-};
+}

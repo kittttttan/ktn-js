@@ -1,3 +1,8 @@
+/**
+ * @private
+ * @const
+ * @type function(): number
+ */
 const rnd = Math.random;
 
 /**
@@ -29,16 +34,16 @@ export class Uuid {
     /**
      * 0xFFFFFFFF00000000
      * @private
-     * @property {number} Uuid#_time_low
+     * @property {number} Uuid#_timeLow
      */
-    this._time_low = 0;
+    this._timeLow = 0;
 
     /**
      * 0x00000000FFFF0000
      * @private
-     * @property {number} Uuid#_time_mid
+     * @property {number} Uuid#_timeMid
      */
-    this._time_mid = 0;
+    this._timeMid = 0;
 
     /**
      * 0x000000000000F000
@@ -50,9 +55,9 @@ export class Uuid {
     /**
      * 0x0000000000000FFF
      * @private
-     * @property {number} Uuid#_time_hi
+     * @property {number} Uuid#_timeHi
      */
-    this._time_hi = 0;
+    this._timeHi = 0;
 
     /**
      * 0xC000000000000000
@@ -64,9 +69,9 @@ export class Uuid {
     /**
      * 0x3FFF000000000000
      * @private
-     * @property {number} Uuid#_clock_seq
+     * @property {number} Uuid#_clockSeq
      */
-    this._clock_seq = 0;
+    this._clockSeq = 0;
 
     /**
      * 0x0000FFFFFFFFFFFF
@@ -81,10 +86,10 @@ export class Uuid {
    * @return {string}
    */
   toString() {
-    const timeLow = hex(this._time_low, 8);
-    const timeMid = hex(this._time_mid, 4);
-    const version = hex((this._version << 12) | this._time_hi, 4);
-    const variant = hex((this._variant << 12) | this._clock_seq, 4);
+    const timeLow = hex(this._timeLow, 8);
+    const timeMid = hex(this._timeMid, 4);
+    const version = hex((this._version << 12) | this._timeHi, 4);
+    const variant = hex((this._variant << 12) | this._clockSeq, 4);
     const node = hex(this._node, 12);
 
     return `${timeLow}-${timeMid}-${version}-${variant}-${node}`;
@@ -116,13 +121,13 @@ export class Uuid {
    * @return {Uuid}
    */
   clone() {
-    var u = new Uuid();
-    u._time_low = this._time_low;
-    u._time_mid = this._time_mid;
+    const u = new Uuid();
+    u._timeLow = this._timeLow;
+    u._timeMid = this._timeMid;
     u._version = this._version;
-    u._time_hi = this._time_hi;
+    u._timeHi = this._timeHi;
     u._variant = this._variant;
-    u._clock_seq = this._clock_seq;
+    u._clockSeq = this._clockSeq;
     u._node = this._node;
 
     return u;
@@ -134,12 +139,12 @@ export class Uuid {
    * @return {boolean}
    */
   equals(u) {
-    return this._time_low === u._time_low &&
-      this._time_mid === u._time_mid &&
+    return this._timeLow === u._timeLow &&
+      this._timeMid === u._timeMid &&
       this._version === u._version &&
-      this._time_hi === u._time_hi &&
+      this._timeHi === u._timeHi &&
       this._variant === u._variant &&
-      this._clock_seq === u._clock_seq &&
+      this._clockSeq === u._clockSeq &&
       this._node === u._node;
   }
 
@@ -152,15 +157,16 @@ export class Uuid {
    * @return {number}
    */
   get variant() { return this._variant; }
-};
+}
 
 /**
+ * @private
  * @param {number} n
  * @param {number} len
  * @return {string}
  */
 function hex(n, len) {
-  var z;
+  let z;
 
   switch (len) {
   case 4: z = '0000'; break;
@@ -174,6 +180,7 @@ function hex(n, len) {
 }
 
 /**
+ * @private
  * @param {Uuid} u
  * @param {string} id
  * @return {Uuid}
@@ -183,18 +190,19 @@ function uuidStr(u, id) {
     id = id.substring(1);
   }
 
-  u._time_low = parseInt(id.substring(0, 8), 16);
-  u._time_mid = parseInt(id.substring(9, 13), 16);
+  u._timeLow = parseInt(id.substring(0, 8), 16);
+  u._timeMid = parseInt(id.substring(9, 13), 16);
   u._version = parseInt(id.substring(14, 15), 16);
-  u._time_hi = parseInt(id.substring(15, 18), 16);
+  u._timeHi = parseInt(id.substring(15, 18), 16);
   u._variant = 8;
-  u._clock_seq = parseInt(id.substring(19, 23), 16) - (u._variant << 12);
+  u._clockSeq = parseInt(id.substring(19, 23), 16) - (u._variant << 12);
   u._node = parseInt(id.substring(24), 16);
 
   return u;
 }
 
 /**
+ * @private
  * @param {number} n
  * @return {number}
  */
@@ -207,16 +215,17 @@ function rand(n) {
 }
 
 /**
+ * @private
  * @param {Uuid} u
  * @return {string}
  */
 function uuid4(u) {
-  u._time_low = rand(32);
-  u._time_mid = rand(16);
+  u._timeLow = rand(32);
+  u._timeMid = rand(16);
   u._version = 4;
-  u._time_hi = rand(12);
+  u._timeHi = rand(12);
   u._variant = 8;
-  u._clock_seq = rand(14);
+  u._clockSeq = rand(14);
   u._node = rand(48);
 
   return u.toString();

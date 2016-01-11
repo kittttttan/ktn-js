@@ -35,7 +35,7 @@ export class Encode {
   static eliasGamma(n) {
     if (n < 1) { throw new Error(`eliasGamma(n): n=${n} must >= 1`); }
 
-    let bin = n.toString(2);
+    const bin = n.toString(2);
     return '0'.repeat(bin.length - 1) + bin;
   }
 
@@ -47,8 +47,8 @@ export class Encode {
   static eliasDelta(n) {
     if (n < 1) { throw new Error(`eliasDelta(n): n=${n} must >= 1`); }
 
-    let bin = n.toString(2);
-    let gamma = Encode.eliasGamma(bin.length);
+    const bin = n.toString(2);
+    const gamma = Encode.eliasGamma(bin.length);
     return gamma + bin.substring(1);
   }
 
@@ -105,7 +105,7 @@ export class Encode {
 
     return res;
   }
-};
+}
 
 /**
  * Decode
@@ -119,7 +119,7 @@ export class Decode {
    * @return {!Array<number>} natural number
    */
   static unary(str, alt) {
-    let res = [];
+    const res = [];
     if (!str) { return res; }
 
     let former;
@@ -157,7 +157,7 @@ export class Decode {
    * @return {!Array<number>} natural number
    */
   static eliasGamma(str) {
-    let res = [];
+    const res = [];
     if (!str) { return res; }
 
     const l = str.length;
@@ -186,7 +186,7 @@ export class Decode {
    * @return {!Array<number>} natural number
    */
   static eliasDelta(str) {
-    let res = [];
+    const res = [];
     if (!str) { return res; }
 
     const l = str.length;
@@ -221,7 +221,7 @@ export class Decode {
    * @return {!Array<number>} natural number
    */
   static eliasOmega(str) {
-    let res = [];
+    const res = [];
     if (!str) { return res; }
 
     const l = str.length;
@@ -241,4 +241,4 @@ export class Decode {
 
     return res;
   }
-};
+}

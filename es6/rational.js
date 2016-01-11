@@ -11,6 +11,9 @@
  * @author kittttttan
  */
 
+ /**
+  * @requires Integer
+  */
 import {Integer} from './integer';
 
 /**
@@ -235,8 +238,8 @@ export class Rational {
    * @return {!Rational}
    */
   inv() {
-    var n = this._n;
-    var d = this._d;
+    const n = this._n;
+    const d = this._d;
     if (!n.isNonZero()) {
       throw new Error('zero division');
     }
@@ -294,4 +297,4 @@ export class Rational {
   pow(b) {
     return new Rational(this._n.pow(b), this._d.pow(b), true);
   }
-};
+}

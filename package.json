@@ -13,8 +13,8 @@
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
   "scripts": {
-    "test": "gulp",
-    "doc": "esdoc -c esdoc.json"
+    "doc": "jsdoc -R README.md -r es6 -d doc",
+    "test": "gulp"
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "browserify-istanbul": "",
-    "esdoc": "",
+    "eslint-config-google": "^0.3.0",
     "google-closure-compiler": "",
     "gulp": "",
     "gulp-babel": "",

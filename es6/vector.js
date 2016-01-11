@@ -1,4 +1,6 @@
 /**
+ * @private
+ * @const
  * @type function(number): number
  */
 const _sqrt = Math.sqrt;
@@ -103,4 +105,4 @@ export class Vector {
   dot(v) {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
-};
+}

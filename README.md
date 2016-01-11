@@ -3,11 +3,12 @@
 [![Coverage Status](https://coveralls.io/repos/kittttttan/ktn-js/badge.png)](https://coveralls.io/r/kittttttan/ktn-js)
 [![Dependency Status](https://gemnasium.com/kittttttan/ktn-js.png)](https://gemnasium.com/kittttttan/ktn-js)
 
-<https://github.com/kittttttan/ktn-js>
+[ktn-js](https://github.com/kittttttan/ktn-js) is a library written in [ES2015](https://babeljs.io/docs/learn-es2015/).
 
-## Working with gulp
 
-install [node.js](http://nodejs.org/)
+## Install
+
+install node.js from [nodejs.org](http://nodejs.org/)
 
 install [gulp](http://gulpjs.com/)
 
@@ -22,14 +23,16 @@ cd /path/to/ktn-js
 npm install
 ```
 
-build
+## Build
+
+[browserify](http://browserify.org/) and convert to es5.
 
 ```bash
-gulp
+gulp build
 ```
 
-build examples for browser (with [browserify](http://browserify.org/))
+build examples
 
 ```bash
-gulp examples
+gulp example
 ```

@@ -10,11 +10,13 @@
 
 /**
  * @const
+ * @private
  * @type number
  */
 const N = 624;
 
 /**
+ * @private
  * @const
  * @type number
  */
@@ -22,6 +24,7 @@ const M = 397;
 
 /**
  * constant vector a
+ * @private
  * @const
  * @type number
  */
@@ -29,6 +32,7 @@ const MATRIX_A = 0x9908b0df;
 
 /**
  * most significant w-r bits
+ * @private
  * @const
  * @type number
  */
@@ -36,6 +40,7 @@ const UPPER_MASK = 0x80000000;
 
 /**
  * least significant r bits
+ * @private
  * @const
  * @type number
  */
@@ -43,6 +48,7 @@ const LOWER_MASK = 0x7fffffff;
 
 /**
  * 2^32
+ * @private
  * @const
  * @type number
  */
@@ -50,6 +56,7 @@ const REV32 = 1.0 / 4294967296.0;
 
 /**
  * 2^32-1
+ * @private
  * @const
  * @type number
  */
@@ -89,11 +96,11 @@ export class Random {
   init(seed) {
     seed = seed | 0;
 
-    var mt = this.mt;
+    const mt = this.mt;
     mt[0] = seed;
 
-    var s = 0;
-    for (var i = 1; i < N; i = i + 1 | 0) {
+    let s = 0;
+    for (let i = 1; i < N; i = i + 1 | 0) {
       s = mt[i - 1] ^ (mt[i - 1] >>> 30);
       mt[i] = (((((s & 0xffff0000) >>> 16) * 1812433253) << 16) +
           (s & 0x0000ffff) * 1812433253) + i;
@@ -105,21 +112,21 @@ export class Random {
 
   /**
    * initialize by an array with array-length
-   * @param {Array<number>} init_key the array for initializing keys
+   * @param {Array<number>} initKey the array for initializing keys
    */
-  initByArray(init_key) {
+  initByArray(initKey) {
     this.init(19650218);
 
-    var i = 1;
-    var j = 0;
-    var l = init_key.length;
-    var k = N > l ? N : l;
-    var s = 0;
-    var mt = this.mt;
+    let i = 1;
+    let j = 0;
+    const l = initKey.length;
+    let k = N > l ? N : l;
+    let s = 0;
+    const mt = this.mt;
     for (; k; --k) {
       s = mt[i - 1] ^ (mt[i - 1] >>> 30);
       mt[i] = (mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1664525) << 16) +
-          ((s & 0x0000ffff) * 1664525))) + init_key[j] + j; // non linear
+          ((s & 0x0000ffff) * 1664525))) + initKey[j] + j; // non linear
       mt[i] >>>= 0; // for WORDSIZE > 32 machines
       ++i;
       ++j;
@@ -146,14 +153,14 @@ export class Random {
    * @return {number} a random number on [0,0xffffffff]-interval
    */
   int32() {
-    var mag01 = [];
-    //var mag01 = new Uint32Array(2);
+    const mag01 = [];
+    //const mag01 = new Uint32Array(2);
     mag01[0] = 0;
     mag01[1] = MATRIX_A;
 
-    var y = 0;
-    var kk = 0;
-    var mt = this.mt;
+    let y = 0;
+    let kk = 0;
+    const mt = this.mt;
     if (this.mti >= N) {
       /* generate N words at one time */
       //if (this.mti === N + 1) {   /* if init() has not been called, */
@@ -198,7 +205,7 @@ export class Random {
    */
   real1() {
     return this.int32() * REV32_1;
-  };
+  }
 
   /**
    * @return {number} a random number on [0,1)-real-interval
@@ -213,4 +220,4 @@ export class Random {
   real3() {
     return (this.int32() + 0.5) * REV32;
   }
-};
+}

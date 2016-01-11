@@ -10,6 +10,9 @@
  *    c.toString();  // '0.7007'
  */
 
+ /**
+  * @requires Integer
+  */
 import {Integer} from './integer';
 
 /**
@@ -53,13 +56,13 @@ export class Decimal {
    * @return {!Decimal}
    */
   static str(str) {
-    var index = str.indexOf('.');
+    const index = str.indexOf('.');
     if (index < 0) {
       // '.' is not found
       return new Decimal(Integer.str(str), 0);
     }
-    var trim = str.substring(0, index) + str.substring(index + 1);
-    var i = 0;
+    let trim = str.substring(0, index) + str.substring(index + 1);
+    let i = 0;
     while (trim.charAt(i) === '0') { ++i; }
     if (i) { trim = trim.substring(i); }
     return new Decimal(Integer.str(trim), index - str.length + 1);
@@ -135,23 +138,20 @@ export class Decimal {
       return this._l.addZero(this._e).toString();
     }
 
-    var sign = this._l._s;
-    var str = this._l.toString();
-    var n = -this._e - str.length;
+    const sign = this._l._s;
+    const str = this._l.toString();
+    let n = -this._e - str.length;
     if (!sign) { n = n + 1; }
 
     if (n < 0) {
-      return str.slice(0, this._e) + '.' + str.slice(this._e);
+      return `${str.slice(0, this._e)}.${str.slice(this._e)}`;
     }
 
-    var zeros = '';
-    for (var z = '0'; n > 0; n >>>= 1, z += z) {
-      if (n & 1) { zeros += z; }
-    }
+    const zeros = '0'.repeat(n);
     if (!sign) {
-      return '-0.' + zeros + str.substring(1);
+      return `-0.${zeros}${str.substring(1)}`;
     }
-    return '0.' + zeros + str;
+    return `0.${zeros}${str}`;
   }
 
   /**
@@ -159,7 +159,7 @@ export class Decimal {
    * @return {!string}
    */
   html() {
-    return this._l.toString() + '&times;10<sup>' + this._e + '</sup>';
+    return `${this._l.toString()}&times;10<sup>${this._e}</sup>`;
   }
 
   /**
@@ -167,7 +167,7 @@ export class Decimal {
    * @return {!string}
    */
   tex() {
-    return this._l.toString() + '\times 10^' + this._e;
+    return `${this._l.toString()}\times 10^${this._e}`;
   }
 
   /**
@@ -183,7 +183,7 @@ export class Decimal {
    * @return {!number}
    */
   dot() {
-    var e = this._e < 0 ? -this._e : 0;
+    const e = this._e < 0 ? -this._e : 0;
     return this._l.toString().length - e;
   }
 
@@ -200,18 +200,14 @@ export class Decimal {
    * @return {!Decimal}
    */
   setLen(n) {
-    var a = this.clone(),
-        str = a._l.toString(),
-        diff = n - str.length;
+    const a = this.clone();
+    const str = a._l.toString();
+    const diff = n - str.length;
     if (diff < 0) {
       a._l = Integer.str(str.substring(0, n));
       a._e -= diff;
     } else {
-      var zeros = '';
-      for (var z = '0'; diff > 0; diff >>>= 1, z += z) {
-        if (diff & 1) { zeros += z; }
-      }
-      a._l = Integer.str(str + zeros);
+      a._l = Integer.str(str + '0'.repeat(diff));
     }
     return a;
   }
@@ -221,7 +217,7 @@ export class Decimal {
    * @return {!Decimal}
    */
   abs() {
-    var a = this.clone();
+    const a = this.clone();
     a._l._s = true;
     return a;
   }
@@ -231,7 +227,7 @@ export class Decimal {
    * @return {!Decimal}
    */
   neg() {
-    var a = this.clone();
+    const a = this.clone();
     a._l._s = !a._l._s;
     return a;
   }
@@ -241,9 +237,9 @@ export class Decimal {
    * @return {!Decimal}
    */
   trim() {
-    var a = this.clone(),
-        str = a._l.toString(),
-        i = str.length - 1;
+    const a = this.clone();
+    let str = a._l.toString();
+    let i = str.length - 1;
     while (i >= 0 && str.charAt(i) === '0') {
       ++a._e;
       --i;
@@ -259,7 +255,7 @@ export class Decimal {
    * @return {!Decimal}
    */
   add(b) {
-    var diff = this._e - b._e;
+    const diff = this._e - b._e;
     if (diff > 0) {
       return new Decimal(this._l.addZero(diff).add(b._l), b._e);
     }
@@ -275,7 +271,7 @@ export class Decimal {
    * @return {!Decimal}
    */
   sub(b) {
-    var diff = this._e - b._e;
+    const diff = this._e - b._e;
     if (diff > 0) {
       return new Decimal(this._l.addZero(diff).sub(b._l), b._e);
     }
@@ -291,7 +287,7 @@ export class Decimal {
    * @return {!Decimal}
    */
   mul(b) {
-    var diff = this._e + b._e;
+    const diff = this._e + b._e;
     return new Decimal(this._l.mul(b._l), diff);
   }
 
@@ -303,13 +299,13 @@ export class Decimal {
    */
   div(b, c) {
     c = c || 20;
-    var diff = this._l.toString().length - b._l.toString().length,
-        e = this._e - b._e,
-        f = b._e;
+    const diff = this._l.toString().length - b._l.toString().length;
+    const e = this._e - b._e;
+    const f = b._e;
     if (diff < 0) {
       return new Decimal(this._l.addZero(c - diff + 1 - f).div(b._l),
                                  -c + diff - 1 + e + f).trim();
     }
     return new Decimal(this._l.addZero(c - f).div(b._l), -c + e + f).trim();
   }
-};
+}

@@ -8,37 +8,36 @@ const Types = {
 
 const Reg = {
   URI: /\w+:\/\/[\w\-.\/?%&=:@;]*/g,
-  XMLTag: function() {
-    return /<\/?\w+[^>]*>/g;
-  },
+  XMLTag: () => /<\/?\w+[^>]*>/g,
   CComment: /\/\*[\s\S]*?\*\//gm,
   LineComment: /\/\/.*$/gm,
   DoubleQuote: /"([^\\"\n]|\\.)*"/g
 };
 
+/**
+ * @class StringUtil
+ */
 export class StringUtil {
   static get Types() { return Types; }
   static get Reg() { return Reg; }
 
   /**
    * sprintf
-   * 
+   *
    * @param {string} str
    * @return {string}
    */
   static format(str) {
-    var argv, index;
-    argv = arguments;
-    index = 1;
+    const argv = arguments;
+    let index = 1;
     return str.replace(
         /%([+\-#0])?(\d+)?(?:\.(\d+))?([%defoxs])/g,
-        function(src, flag, width, prec, type) {
-      var n, s;
+        (src, flag, width, prec, type) => {
       if (type === '%') {
         return '%';
       }
-      s = '';
-      n = 0;
+      let s = '';
+      let n = 0;
       if (type === 's') {
         s = argv[index];
       } else if (type === 'd') {
@@ -80,8 +79,8 @@ export class StringUtil {
    * @param {...*} rest
    * @return {string}
    */
-  static pyformat(str, rest) {
-    let argv = arguments;
+  static pyformat(str, ...rest) {
+    const argv = arguments;
     let cnt = 0;
     let index = 1;
     /**
@@ -91,11 +90,11 @@ export class StringUtil {
      * return {!string}
      */
     function typeFormat(src, type, prefix) {
-      var isPrefix, pre;
       if (type === void 0) {
         return src;
       }
-      isPrefix = prefix === '#';
+      let pre;
+      const isPrefix = prefix === '#';
       switch (type) {
         case 's':
           return src.toString();
@@ -131,56 +130,41 @@ export class StringUtil {
      * @return {!string}
      */
     function alignFormat(src, width, align, fill) {
-      var add, ch, isFilled;
       if (width < 1) {
         return src;
       }
       if (align === void 0) {
         return src;
       }
-      str = src.toString();
-      ch = fill === void 0 ? ' ' : fill;
-      isFilled = width > str.length;
-      add = isFilled ? ch.repeat(width - str.length) : '';
+      const srcstr = src.toString();
+      const ch = fill === void 0 ? ' ' : fill;
+      const isFilled = width > srcstr.length;
+      const add = isFilled ? ch.repeat(width - srcstr.length) : '';
       switch (align) {
         case '<':
-          return (str + add).substring(0, width);
+          return (srcstr + add).substring(0, width);
         case '>':
-          return (add + str).slice(-width);
+          return (add + srcstr).slice(-width);
         case '=':
-          return src.toString();
+          return srcstr;
         case '^':
           return add.substring(0, width >> 1)
-              + src.toString()
+              + srcstr
               + add.substring(width >> 1, width);
         default:
-          return src.toString();
+          return srcstr;
       }
     }
     return str.replace(
         /{(?!{)([0-9a-zA-Z_\[\]]+)?(?::(?:([^}])?([<>=^]))?([ +-])?(#)?(0)?(\d+)?(\.\d+)?([sbcdoxXn ])?)?}(?!})/g,
-        function(src, fieldName, fill,
-            align, sign, prefix, zero, width, prec, type) {
-      /*
-      console.log({
-        src: src,
-        fieldName: fieldName,
-        fill: fill,
-        align: align,
-        sign: sign,
-        prefix: prefix,
-        zero: zero,
-        width: width,
-        prec: prec,
-        type: type
-      });
-      */
-      var value;
+        (src, fieldName, fill,
+            align, sign, prefix, zero, width, prec, type) => {
       ++cnt;
       if (zero === '0') {
         fill = '0';
         align = '=';
       }
+      let value;
       if (fieldName === void 0) {
         index = cnt;
         value = typeFormat(argv[index], type);
@@ -246,35 +230,37 @@ export class StringUtil {
 
   /**
    * @param {!number} len
-   * @param {number=} opt_filter
+   * @param {number=} optFilter
    * @return {!string}
    */
-  static random(len, opt_filter) {
-    var i, j, letter, range, ref, str;
-    str = '';
-    letter = '';
+  static random(len, optFilter) {
     if (arguments.length < 2) {
-      opt_filter = Types.LOWER | Types.UPPER | Types.DIGITS;
+      optFilter = Types.LOWER | Types.UPPER | Types.DIGITS;
     }
-    if (opt_filter & Types.LOWER) {
+
+    let letter = '';
+    if (optFilter & Types.LOWER) {
       letter += 'abcdefghijklmnopqrstuvwxyz';
     }
-    if (opt_filter & Types.UPPER) {
+    if (optFilter & Types.UPPER) {
       letter += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     }
-    if (opt_filter & Types.DIGITS) {
+    if (optFilter & Types.DIGITS) {
       letter += '0123456789';
     }
-    if (opt_filter & Types.UNDERSCORE) {
+    if (optFilter & Types.UNDERSCORE) {
       letter += '_';
     }
-    if (opt_filter & Types.SIGN) {
+    if (optFilter & Types.SIGN) {
       letter += '!\"#$%&\'()=~|-^@[;:],./`{+*}>?';
     }
-    range = letter.length;
-    for (i = j = 0, ref = len; j < ref; i = j += 1) {
-      str += letter.charAt(Math.random() * range | 0);
+
+    let str = '';
+    const range = letter.length;
+    const rnd = Math.random;
+    for (let i = 0; i < len; ++i) {
+      str += letter.charAt(rnd() * range | 0);
     }
     return str;
   }
-};
+}

@@ -21,20 +21,20 @@ import {Integer} from './integer';
  */
 export class Decimal {
   /**
-   * 1
-   * @static
-   * @method Decimal.one
-   * @return {!Decimal} 1.
-   */
-  static get one() { return Decimal.num(1, 0); }
-
-  /**
    * 0
    * @static
    * @method Decimal.zero
    * @return {!Decimal} 0.
    */
   static get zero() { return Decimal.num(0, 0); }
+
+  /**
+   * 1
+   * @static
+   * @method Decimal.one
+   * @return {!Decimal} 1.
+   */
+  static get one() { return Decimal.num(1, 0); }
 
   /**
    * Convert Fraction to Decimal.
@@ -171,14 +171,6 @@ export class Decimal {
   }
 
   /**
-   * @method Decimal#valueOf
-   * @return {!number}
-   */
-  valueOf() {
-    return this._l.valueOf() * Math.pow(10, this._e);
-  }
-
-  /**
    * @method Decimal#dot
    * @return {!number}
    */
@@ -247,6 +239,32 @@ export class Decimal {
     str = str.substring(0, i + 1);
     a._l = Integer.str(str);
     return a;
+  }
+
+  /**
+   * ==
+   * @method Integer#eq
+   * @param {!Integer} b
+   * @return {!boolean}
+   */
+  eq(b) {
+    if (this === b) { return true; }
+
+    b = Decimal.dec(b);
+    return this._e === b._e && this._l.eq(b._l);
+  }
+
+  /**
+   * ===
+   * @method Integer#equal
+   * @param {!Integer} b
+   * @return {!boolean}
+   */
+  equal(b) {
+    if (this === b) { return true; }
+    if (!(b instanceof Decimal)) { return false; }
+
+    return this._e === b._e && this._l.eq(b._l);
   }
 
   /**

@@ -17,7 +17,7 @@ export function csvToJson(s, column, opt = {}) {
   const lines = s.split(/[\r\n]+/);
   let json = {};
   const items = [];
-  for (let line of lines) {
+  for (const line of lines) {
     if (!line) {
       continue;
     }
@@ -32,8 +32,8 @@ export function csvToJson(s, column, opt = {}) {
       let leaf = item;
       let doParseInt = false;
       let doParseFloat = false;
-      let clTypeArr = column[i].split(':');
-      let clType = clTypeArr.length > 1 ? clTypeArr[1] : '';
+      const clTypeArr = column[i].split(':');
+      const clType = clTypeArr.length > 1 ? clTypeArr[1] : '';
       if (clType === 'i') {
         doParseInt = true;
       } else if (clType === 'n') {
@@ -77,7 +77,7 @@ export function csvToJson(s, column, opt = {}) {
  * @param {Object} item
  */
 function addLabel(labels, label, item) {
-  for (let prop in item) {
+  for (const prop in item) {
     label.push(prop);
     if (typeof item[prop] === 'object') {
       addLabel(labels, label, item[prop]);
@@ -95,7 +95,7 @@ function addLabel(labels, label, item) {
  * @param {Object} item
  */
 function addValue(val, item) {
-  for (let prop in item) {
+  for (const prop in item) {
     if (typeof item[prop] === 'object') {
       addValue(val, item[prop]);
     } else {
@@ -112,18 +112,18 @@ function addValue(val, item) {
  * @return {string}
  */
 export function jsonToCsv(s, opt = {}) {
-  let sep = opt.sep || '\t';
-  let json = JSON.parse(s);
+  const sep = opt.sep || '\t';
+  const json = JSON.parse(s);
   //console.debug(json);
 
-  let items = opt.prop ? json[opt.prop] : json;
+  const items = opt.prop ? json[opt.prop] : json;
   const labels = [];
   addLabel(labels, [], items[0]);
   //console.debug(labels);
   let csv = labels.join(sep);
   csv += '\r\n';
-  for (let item of items) {
-    let val = [];
+  for (const item of items) {
+    const val = [];
     addValue(val, item);
     csv += val.join(sep);
     csv += '\r\n';

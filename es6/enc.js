@@ -201,7 +201,7 @@ export class Decode {
         i += cnt + 1;
         gamma = parseInt(bin, 2);
 
-        bin = '1' + str.substr(i, gamma - 1);
+        bin = `1${str.substr(i, gamma - 1)}`;
         i += gamma - 1;
         res.push(parseInt(bin, 2));
 

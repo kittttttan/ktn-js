@@ -1,17 +1,19 @@
 import {Decimal} from '../es6/decimal.js';
 
 describe("Decimal", ()=> {
-  it("zero", ()=> {
+  it("zero is 0", ()=> {
     expect(Decimal.zero.toString()).toEqual('0');
   });
 
-  it("one", ()=> {
+  it("one is 1", ()=> {
     expect(Decimal.one.toString()).toEqual('1');
   });
 
   it("num", ()=> {
     expect(Decimal.num(0).toString()).toEqual('0');
+    expect(Decimal.num(0).eq(Decimal.zero)).toBe(true);
     expect(Decimal.num(1).toString()).toEqual('1');
+    expect(Decimal.num(1).eq(Decimal.one)).toBe(true);
     expect(Decimal.num(123456789).toString()).toEqual('123456789');
     expect(Decimal.num(-2147483647).toString()).toEqual('-2147483647');
     expect(Decimal.num(1, 3).toString()).toEqual('1000');
@@ -19,8 +21,9 @@ describe("Decimal", ()=> {
   });
 
   it("str", ()=> {
-    //expect(Decimal.str('0').eq(Decimal.zero)).toBe(true);
-    //expect(Decimal.str('00').eq(Decimal.zero)).toBe(true);
+    expect(Decimal.str('0').eq(Decimal.zero)).toBe(true);
+    expect(Decimal.str('00').eq(Decimal.zero)).toBe(true);
+    expect(Decimal.str('1').eq(Decimal.one)).toBe(true);
     expect(Decimal.str('7').toString()).toEqual('7');
     expect(Decimal.str('-777.7777').toString()).toEqual('-777.7777');
   });
@@ -29,11 +32,6 @@ describe("Decimal", ()=> {
     const d = Decimal.num(1, 3);
     expect(d.html()).toEqual('1&times;10<sup>3</sup>');
     expect(d.tex()).toEqual('1\times 10^3');
-  });
-
-  it("valueOf", ()=> {
-    expect(Decimal.num(4, -2).valueOf()).toEqual(0.04);
-    expect(Decimal.num(-1, 2).valueOf()).toEqual(-100);
   });
 
   it("sign", ()=> {
@@ -52,10 +50,10 @@ describe("Decimal", ()=> {
     expect(a.mul(b).toString()).toEqual('20');
     expect(a.div(b).toString()).toEqual('500');
 
-    //expect(a.add(b.neg()).toString()).toEqual('99.8');
-    //expect(a.sub(b.neg()).toString()).toEqual('100.2');
-    //expect(a.mul(b.neg()).toString()).toEqual('-20');
-    //expect(a.div(b.neg()).toString()).toEqual('-500');
+    expect(a.add(b.neg()).toString()).toEqual('99.8');
+    expect(a.sub(b.neg()).toString()).toEqual('100.2');
+    expect(a.mul(b.neg()).toString()).toEqual('-20');
+    expect(a.div(b.neg()).toString()).toEqual('-500');
   });
 
 });

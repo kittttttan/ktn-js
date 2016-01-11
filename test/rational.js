@@ -1,11 +1,11 @@
 import {Rational} from '../es6/rational.js';
 
 describe("Rational", ()=> {
-  it("zero", ()=> {
+  it("zero is 0/1", ()=> {
     expect(Rational.zero.toString()).toEqual('0/1');
   });
 
-  it("one", ()=> {
+  it("one is 1/1", ()=> {
     expect(Rational.one.toString()).toEqual('1/1');
   });
 
@@ -20,6 +20,7 @@ describe("Rational", ()=> {
   it("str", ()=> {
     expect(Rational.str('0').eq(Rational.zero)).toBe(true);
     expect(Rational.str('00').eq(Rational.zero)).toBe(true);
+    expect(Rational.str('1').eq(Rational.one)).toBe(true);
     expect(Rational.str('7').toString()).toEqual('7/1');
     expect(Rational.str('-777/7777').toString()).toEqual('-111/1111');
   });
@@ -30,17 +31,14 @@ describe("Rational", ()=> {
 
     expect(Rational.str('0').equal(Rational.zero)).toBe(true);
     expect(Rational.str('1').equal(Rational.one)).toBe(true);
+
+    expect(Rational.num(4,-6).equal(Rational.str('-8/12'))).toBe(true);
   });
 
   it("output", ()=> {
     const r = Rational.num(1, 3);
     expect(r.html()).toEqual('1/3');
     expect(r.tex()).toEqual('\\frac{1}{3}');
-  });
-
-  it("valueOf", ()=> {
-    expect(Rational.num(4, 2).valueOf()).toEqual(2.0);
-    expect(Rational.num(-1, 2).valueOf()).toEqual(-0.5);
   });
 
   it("sign", ()=> {

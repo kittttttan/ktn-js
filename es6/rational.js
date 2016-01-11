@@ -151,14 +151,6 @@ export class Rational {
   }
 
   /**
-   * @method Rational#valueOf
-   * @return {!number}
-   */
-  valueOf() {
-    return 1.0 * this._n.valueOf() / this._d.valueOf();
-  }
-
-  /**
    * @method Rational#toString
    * @return {!string}
    */
@@ -244,9 +236,9 @@ export class Rational {
       throw new Error('zero division');
     }
     if (!n._s) {
-      return new Rational(this._d.neg(), this._n.neg(), true);
+      return new Rational(d.neg(), n.neg(), true);
     }
-    return new Rational(this._d, this._n, true);
+    return new Rational(d, n, true);
   }
 
   /**

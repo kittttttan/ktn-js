@@ -375,23 +375,6 @@ export class Integer {
   }
 
   /**
-   * Convert Integer to number.
-   * @override
-   * @method Integer#valueOf
-   * @return {!number}
-   */
-  valueOf() {
-    const d = this._d;
-    let f = .0;
-    let i = this._l | 0;
-
-    while (i--) { f = d[i] + _BASE * f; }
-    if (!this._s) { f = -f; }
-
-    return +f;
-  }
-
-  /**
    * @method Integer#digits
    * @return {Uint32Array}
    */

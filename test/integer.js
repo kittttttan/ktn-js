@@ -11,6 +11,7 @@ describe("Integer", ()=> {
 
   it("num", ()=> {
     expect(Integer.num(0).toString()).toEqual('0');
+    expect(Integer.num(0).eq(Integer.zero)).toBe(true);
     expect(Integer.num(1).toString()).toEqual('1');
     expect(Integer.num(123456789).toString()).toEqual('123456789');
     expect(Integer.num(-2147483647).toString()).toEqual('-2147483647');
@@ -61,14 +62,6 @@ describe("Integer", ()=> {
     expect(a.toString(2)).toEqual('1001001100101100000001011010010');
     expect(a.toString(8)).toEqual('11145401322');
     expect(a.toString(16)).toEqual('499602d2');
-  });
-
-  it("valueOf", ()=> {
-    const a = Integer.one.addZero(10);
-
-    expect(a.toString()).toEqual('10000000000');
-    expect(a.valueOf()).toEqual(10000000000);
-    expect(a.neg().valueOf()).toEqual(-10000000000);
   });
 
   it("is", ()=> {

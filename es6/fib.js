@@ -6,11 +6,6 @@
  * Fn+2 = Fn + Fn-1 (n >= 0)
  */
 
- /**
-  * @requires range
-  */
-import {range} from './range';
-
 /**
  * generate Fibonacci numbers
  * @private

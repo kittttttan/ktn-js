@@ -44,10 +44,10 @@ export class DateUtil {
         /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
         (src, token) => {
       if (token === 'yyyy') {
-        return d.getFullYear() + '';
+        return `${d.getFullYear()}`;
       }
       if (token === 'yy') {
-        return (d.getFullYear() + '').substring(2, 4);
+        return `${d.getFullYear()}`.substring(2, 4);
       }
       if (token === 'MMM') {
         const mon = [
@@ -57,22 +57,22 @@ export class DateUtil {
         return mon[d.getMonth()];
       }
       if (token === 'MM') {
-        return ('0' + (d.getMonth() + 1)).slice(-2);
+        return `0${d.getMonth() + 1}`.slice(-2);
       }
       if (token === 'M') {
-        return (d.getMonth() + 1) + '';
+        return `${d.getMonth() + 1}`;
       }
       if (token === 'dd') {
-        return ('0' + d.getDate()).slice(-2);
+        return `0${d.getDate()}`.slice(-2);
       }
       if (token === 'd') {
-        return d.getDate() + '';
+        return `${d.getDate()}`;
       }
       if (token === 'HH') {
-        return ('0' + d.getHours()).slice(-2);
+        return `0${d.getHours()}`.slice(-2);
       }
       if (token === 'H') {
-        return d.getHours() + '';
+        return `${d.getHours()}`;
       }
       let h = 0;
       if (token === 'hh') {
@@ -83,7 +83,7 @@ export class DateUtil {
         if (!h) {
           return '12';
         } else {
-          return ('0' + h).slice(-2);
+          return `0${h}`.slice(-2);
         }
       }
       if (token === 'h') {
@@ -94,7 +94,7 @@ export class DateUtil {
         if (!h) {
           return '12';
         } else {
-          return h + '';
+          return `${h}`;
         }
       }
       if (token === 'a') {
@@ -105,37 +105,40 @@ export class DateUtil {
         }
       }
       if (token === 'mm') {
-        return ('0' + d.getMinutes()).slice(-2);
+        return `0${d.getMinutes()}`.slice(-2);
       }
       if (token === 'm') {
-        return d.getMinutes() + '';
+        return `${d.getMinutes()}`;
       }
       if (token === 'ss') {
-        return ('0' + d.getSeconds()).slice(-2);
+        return `0${d.getSeconds()}`.slice(-2);
       }
       if (token === 's') {
-        return d.getSeconds() + '';
+        return `${d.getSeconds()}`;
       }
       if (token === 'SS') {
-        return ('0' + d.getMilliseconds()).substring(0, 2);
+        return `0${d.getMilliseconds()}`.substring(0, 2);
       }
       if (token === 'S') {
-        return d.getMilliseconds() + '';
+        return `${d.getMilliseconds()}`;
       }
       const ch = token.charAt(0);
       if (ch === 'S') {
-        return ('00' + d.getMilliseconds()).slice(-3);
+        return `00${d.getMilliseconds()}`.slice(-3);
       }
       if (ch === 'Z') {
-        let str;
         const t = d.getTimezoneOffset();
-        const z = -t / 60;
+        let z = -t / 60;
+        let sign;
         if (z < 0) {
-          str = '-' + ('0' + (-z)).slice(-2);
+          z = -z;
+          sign = '-';
         } else {
-          str = '+' + ('0' + z).slice(-2);
+          sign = '+';
         }
-        return str + ('0' + t % 60).slice(-2);
+        const z0 = `0${z}`.slice(-2);
+        const t0 = `0${t % 60}`.slice(-2);
+        return `${sign}${z0}${t0}`;
       }
       if (ch === 'E') {
         const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];

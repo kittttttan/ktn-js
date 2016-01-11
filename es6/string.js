@@ -76,11 +76,10 @@ export class StringUtil {
    * http://docs.python.jp/2/library/string.html#formatspec
    *
    * @param {string} str
-   * @param {...*} rest
+   * @param {...*} argv
    * @return {string}
    */
-  static pyformat(str, ...rest) {
-    const argv = arguments;
+  static pyformat(str, ...argv) {
     let cnt = 0;
     let index = 1;
     /**
@@ -166,10 +165,10 @@ export class StringUtil {
       }
       let value;
       if (fieldName === void 0) {
-        index = cnt;
+        index = cnt - 1;
         value = typeFormat(argv[index], type);
       } else if (fieldName.match(/\d+/)) {
-        index = (fieldName | 0) + 1;
+        index = fieldName | 0;
         value = typeFormat(argv[index], type, prefix);
       } else {
         value = typeFormat(this[fieldName], type, prefix);

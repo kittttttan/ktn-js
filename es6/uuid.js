@@ -50,7 +50,7 @@ export class Uuid {
      * @private
      * @property {number} Uuid#_version
      */
-    this._version = 4;
+    this._version = ver;
 
     /**
      * 0x0000000000000FFF

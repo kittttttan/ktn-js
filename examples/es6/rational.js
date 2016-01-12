@@ -1,8 +1,8 @@
-import {Decimal} from '../../es6/decimal';
+import {Rational} from '../../es6/rational';
 
-function  basic() {
-  const a = Decimal.num(7, -3);
-  const b = Decimal.str('100.1');
+function basic() {
+  const a = Rational.num(7, -3);
+  const b = Rational.str('-0.1/3');
   console.log(`a         = ${a}`);
   console.log(`b         = ${b}`);
   console.log(`a  +  b   = ${a.add(b)}`);

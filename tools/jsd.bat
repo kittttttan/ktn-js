@@ -7,4 +7,4 @@ cd /d %~dp0
 rem set JSDOC=D:\Documents\js\jsdoc\jsdoc.cmd
 set JSDOC=jsdoc
 
-%JSDOC% -R README.md -r ../es6 -d ../doc
+%JSDOC% -R ../README.md -r ../es6 -d ../doc

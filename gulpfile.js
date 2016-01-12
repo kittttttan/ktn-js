@@ -30,11 +30,12 @@ gulp.task('min', () => {
 const examples = [
   'complex',
   'csv-json',
-  'decimal',
   'fib',
   'integer',
+  'math-expression',
   'primality',
-  'range'
+  'range',
+  'rational'
 ];
 
 let examCmds = [];

@@ -594,6 +594,7 @@ export class Integer {
       throw new Error('Not implemented pow(b) if b is neither natural number nor zero.');
     }
     if (!b) { return Integer.one; }
+    if (this.equal(Integer.one)) { return Integer.one; }
 
     b = b | 0;
     let p = Integer.one;

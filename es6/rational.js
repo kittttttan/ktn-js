@@ -1,5 +1,5 @@
 /**
- * Rational in JavaScript.
+ * Rational
  * @example
  *    var Rational = require('/path/to/rational.js').Rational;
  *    var a = Rational.num(2, 3);
@@ -8,7 +8,6 @@
  *    a.toString();  // '(2/3)'
  *    b.toString();  // '(-1/4)'
  *    c.toString();  // '(5/12)'
- * @author kittttttan
  */
 
  /**
@@ -62,12 +61,35 @@ export class Rational {
    * Convert String to Rational.
    * @static
    * @method Rational.str
-   * @param {!string} a ex.'-1/2'.
+   * @param {!string} a ex.'-1/2', '0.1/1.02'.
    * @return {!Rational}
    */
   static str(a) {
     const as = a.split('/');
-    return new Rational(Integer.str(as[0]), Integer.str(as[1] || '1'));
+    as[1] = as[1] || '1';
+
+    // sign
+    const [s1, s2] = [as[0][0] === '-', as[1][0] === '-'];
+    as[0] = as[0].replace(/[\-\+]/g, '');
+    as[1] = as[1].replace(/[\-\+]/g, '');
+
+    // dot
+    const [d1, d2] = [as[0].indexOf('.'), as[1].indexOf('.')];
+    const [l1, l2] = [d1 < 0 ? 0 : as[0].length - d1 - 1, d2 < 0 ? 0 : as[1].length - d2 - 1];
+    as[0] = as[0].replace('.', '').replace(/^0*(\d+)$/, '$1');
+    as[1] = as[1].replace('.', '').replace(/^0*(\d+)$/, '$1');
+    if (l1 > l2) {
+      as[1] = `${as[1]}${'0'.repeat(l1 - l2)}`;
+    } else if (l1 < l2) {
+      as[0] = `${as[0]}${'0'.repeat(l2 - l1)}`;
+    }
+
+    // sign
+    if (s1 ^ s2) {
+      as[0] = `-${as[0]}`;
+    }
+
+    return new Rational(Integer.str(as[0]), Integer.str(as[1]));
   }
 
   /**
@@ -155,7 +177,7 @@ export class Rational {
    * @return {!string}
    */
   toString() {
-    //if (this._d == 1) {return this._n.toString();}
+    if (this._d.equal(Integer.one)) { return this._n.toString(); }
     return `${this._n}/${this._d}`;
   }
 

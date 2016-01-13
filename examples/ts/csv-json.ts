@@ -1,4 +1,4 @@
-import {csvToJson, jsonToCsv} from '../../src/es6/csv-json';
+import {csvToJson, jsonToCsv} from '../../src/ts/csv-json';
 
 function main() {
   let json = {
@@ -16,7 +16,7 @@ function main() {
       }
     ]
   };
-  let s = JSON.stringify(json);
+  let s: string = JSON.stringify(json);
   //let column = [
   //  'i',
   //  's'
@@ -24,9 +24,9 @@ function main() {
   let opt = {
     sep: '\t',
     prop: 'items'
-  }
+  };
 
-  let res = jsonToCsv(s, opt);
+  let res: string = jsonToCsv(s, opt);
 
   console.log('jsonToCsv');
   console.log(s);

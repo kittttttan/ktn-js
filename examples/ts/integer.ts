@@ -1,9 +1,9 @@
-import {Integer} from '../../src/es6/integer';
+import {Integer} from '../../src/ts/integer';
 
-const basic = () => {
-  const r = (Math.random() * 4 | 0) + 3;
-  const a = Integer.random(r);
-  const b = Integer.num(100000);
+function basic(): void {
+  const r: number = (Math.random() * 4 | 0) + 3;
+  const a: Integer = Integer.random(r);
+  const b: Integer = Integer.num(100000);
   console.log(`a         = ${a}`);
   console.log(`b         = ${b}`);
   console.log(`a  +  b   = ${a.add(b)}`);
@@ -19,48 +19,47 @@ const basic = () => {
   console.log(`√a       = ${a.sqrt()}` );
   console.log(`gcd(a, b) = ${a.gcd(b)}`);
   console.log(`          = ${a.gcdBin(b)}`);
-};
+}
 
-const fib = (a) => {
-  let b = Integer.zero;
-  let i = 0;
-  let c = Integer.one;
+function fib(a: number): Integer {
+  let b: Integer = Integer.zero;
+  let i: number = 0;
+  let c: Integer = Integer.one;
   while (i < a) {
-    let d = b.clone();
+    let d: Integer = b.clone();
     b = b.add(c);
     c = d;
     i = i + 1;
   }
   return b;
-};
+}
 
-const pi = (a) => {
+function pi(a: number): Integer {
   if (!a) {
     a = 1;
   }
   const n = Integer.num(10).pow(a);
-  const arccot = function(m) {
-    var b, c, k, l2, s;
-    c = n;
-    a = c.div(m);
-    b = a.clone();
-    const m2 = m.square();
-    k = Integer.one;
-    s = true;
-    l2 = Integer.num(2);
+  const arccot = function(m): Integer {
+    let c: Integer = n;
+    let cm: Integer = c.div(m);
+    let b: Integer = cm.clone();
+    const m2: Integer = m.square();
+    let k: Integer = Integer.one;
+    let s: boolean = true;
+    const l2 = Integer.num(2);
     while (c.isNonZero()) {
       b = b.div(m2);
       k = k.add(l2);
       c = b.div(k);
       s = !s;
-      a = s ? a.add(c) : a.sub(c);
+      cm = s ? cm.add(c) : cm.sub(c);
     }
-    return a;
+    return cm;
   };
-  const a5 = arccot(Integer.num(5));
-  const a239 = arccot(Integer.num(239));
+  const a5: Integer = arccot(Integer.num(5));
+  const a239: Integer = arccot(Integer.num(239));
   return a5.leftShift(2).sub(a239).leftShift(2);
-};
+}
 
 const d = Date.now();
 

@@ -2,7 +2,7 @@
 *.bundle.js
 *.min.js
 *.log
-build/
+dist/
 coverage/
 doc/
 karma_html/

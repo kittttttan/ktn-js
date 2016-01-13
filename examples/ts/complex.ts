@@ -1,8 +1,8 @@
-import {Complex} from '../../src/es6/complex';
+import {Complex} from '../../src/ts/complex';
 
-let main = () => {
-  let c1 = new Complex(1,2);
-  let c2 = new Complex(-2,3);
+function main() {
+  const c1: Complex = new Complex(1, 2);
+  const c2: Complex = new Complex(-2, 3);
   console.log(`c1 = ${c1}`);
   console.log(`c2 = ${c2}`);
   console.log(`real c1 = ${c1.real}, imag c1 = ${c1.imag}`);

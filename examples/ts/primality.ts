@@ -1,8 +1,8 @@
-import {range} from '../../src/es6/range';
-import {Primality as prim} from '../../src/es6/primality';
+import {range} from '../../src/ts/range';
+import {Primality as prim} from '../../src/ts/primality';
 
 function test() {
-  const n = 10;
+  const n: number = 10;
   console.log(`primeTop(${n})`);
   for (let p of prim.top(n)) {
     console.log(p);
@@ -24,31 +24,31 @@ function test() {
 }
 
 function testSieve() {
-  const n = 10000;
+  const n: number = 10000;
   console.log(`primeMax(${n})`);
-  const t0 = Date.now();
+  const t0: number = Date.now();
   let a = [];
   for (let p of prim.max(n)) {
     a.push(p);
   }
-  const t1 = Date.now();
+  const t1: number = Date.now();
   console.log(`${t1 - t0}ms`);
 
   console.log(`sieveMax(${n})`);
-  let b = [];
+  let b: number[] = [];
   for (let p of prim.sieveMax(n)) {
     b.push(p);
   }
-  const t2 = Date.now();
+  const t2: number = Date.now();
   console.log(`${t2 - t1}ms`);
 
-  let al = a.length;
+  const al: number = a.length;
   console.log(`al = ${al}`);
   if (al !== b.length) {
     console.log(`a !== b`);
     return;
   }
-  for (let i = 0; i < al; ++i) {
+  for (let i: number = 0; i < al; ++i) {
     if (a[i] !== b[i]) {
       console.log(`a !== b: a[i]=${a[i]}, b[i]=${b[i]}`);
     }

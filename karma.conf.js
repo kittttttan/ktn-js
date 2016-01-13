@@ -10,19 +10,20 @@ module.exports = function(config) {
     frameworks: ['browserify', 'jasmine'],
     // list of files / patterns to load in the browser
     files: [
-      'es6/*.js',
-      'test/*.js'
+      'src/es6/*.js',
+      'test/es6/*.js'
     ],
     // list of files to exclude
     exclude: [
-      'es6/*.min.js'
     ],
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['progress', 'coverage', 'html'],
     preprocessors: {
-      'es6/*.js': ['browserify'/*, 'coverage'*/],
-      'test/*.js': ['browserify']
+      'src/es6/*.js': ['browserify'/*, 'coverage'*/],
+      'test/es6/*.js': ['browserify'],
+      'src/ts/*.ts': ['typescript'],
+      'test/ts/*.ts': ['typescript'],
     },
     browserify: {
       debug: true,
@@ -36,6 +37,16 @@ module.exports = function(config) {
             '**/test/**'
           ]
         })
+      ]
+    },
+    typescriptPreprocessor: {
+      options: {
+        module: 'commonjs',
+        target: 'ES5',
+        noImplicitAny: false,
+        sourceMap: false
+      },
+      typings: [
       ]
     },
     coverageReporter: {

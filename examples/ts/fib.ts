@@ -1,5 +1,5 @@
-import {range} from '../../src/es6/range';
-import {Fibonacci as fib} from '../../src/es6/fib';
+import {range} from '../../src/ts/range';
+import {Fibonacci as fib} from '../../src/ts/fib';
 
 function testFib() {
     console.log(`_fib() arg [0..9]`);

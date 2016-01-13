@@ -5,7 +5,7 @@ const gulp = require('gulp');
 gulp.task('test', () => {
   const karma = require('gulp-karma');
   return gulp
-    .src(['es6/*.js', 'test/*.js'])
+    .src(['src/es6/*.js', 'test/es6/*.js', 'src/ts/*.ts', 'test/ts/*.ts'])
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -16,7 +16,7 @@ gulp.task('min', () => {
   const uglify = require('gulp-uglify');
   const rename = require('gulp-rename');
   return gulp
-    .src(['!build/*.min.js', 'build/*.js'])
+    .src(['!dist/**/*.min.js', 'dist/**/*.js'])
     .pipe(uglify({
       outSourceMap: true,
       preserveComments: 'some'
@@ -24,7 +24,7 @@ gulp.task('min', () => {
     .pipe(rename({
       extname: '.min.js'
     }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('dist'));
 });
 
 const examples = [
@@ -70,15 +70,15 @@ function example(filename) {
     console.log("Error : " + err.message);
     this.emit("end");
   })
-  .pipe(source(`${filename}.bundle.js`))
-  .pipe(gulp.dest('examples'));
+  .pipe(source(`${filename}.js`))
+  .pipe(gulp.dest('examples/js'));
 }
 
 function build(filename) {
   const browserify = require('browserify');
   const source = require('vinyl-source-stream');
   browserify({
-    entries: [`es6/${filename}.js`],
+    entries: [`src/es6/${filename}.js`],
     debug: true,
     //insertGlobals: true,
     standalone: filename,
@@ -87,14 +87,14 @@ function build(filename) {
   .transform('babelify', {
     extensions: ['.js']
   })
-  //.require(`es6/${filename}.js`)
+  //.require(`src/es6/${filename}.js`)
   .bundle()
   .on("error", function (err) {
     console.log("Error : " + err.message);
     this.emit("end");
   })
   .pipe(source(`${filename}.js`))
-  .pipe(gulp.dest('build'));
+  .pipe(gulp.dest('dist/browser'));
 }
 
 gulp.task('example', examCmds);
@@ -102,24 +102,9 @@ gulp.task('build', buildCmds);
 
 gulp.task('babel', function() {
   const babel = require('gulp-babel');
-  return gulp.src('es6/*.js')
+  return gulp.src('src/es6/*.js')
     .pipe(babel())
-    .pipe(gulp.dest('build'))
-});
-
-gulp.task('build-cc', function () {
-  const closureCompiler = require('google-closure-compiler').gulp();
-  return gulp
-    .src(['es6/**/*.js','examples/es6/**/*.js'], {base: './'})
-    .pipe(closureCompiler({
-        compilation_level: 'SIMPLE',
-        warning_level: 'VERBOSE',
-        language_in: 'ECMASCRIPT6_STRICT',
-        language_out: 'ECMASCRIPT5_STRICT',
-        //output_wrapper: '(function(){\n%output%\n}).call(this)',
-        js_output_file: 'app.min.js'
-      }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('dist/babel'))
 });
 
 gulp.task('default', ['test', 'build', 'min']);

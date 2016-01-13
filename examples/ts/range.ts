@@ -1,4 +1,4 @@
-import {range} from '../../src/es6/range';
+import {range} from '../../src/ts/range';
 
 function testRange() {
   console.log('range(3)');

@@ -37,7 +37,7 @@ export class Matrix {
    * @param {number} m
    * @param {number} n
    */
-  constructor(m, n) {
+  constructor(m: number, n: number) {
     this._m = m;
     this._n = n;
     this._mn = [];
@@ -51,19 +51,19 @@ export class Matrix {
     }
   }
 
-  clone() {
+  clone(): Matrix {
     return mxClone(this);
   }
 
-  rows() {
+  rows(): number {
     return this._m;
   }
 
-  cols() {
+  cols(): number {
     return this._n;
   }
 
-  toString() {
+  toString(): string {
     return mxToString(this);
   }
 

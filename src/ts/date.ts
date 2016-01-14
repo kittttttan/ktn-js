@@ -7,7 +7,7 @@ export class DateUtil {
    * @param {number} y year
    * @return {!boolean}
    */
-  static isLeapYear(y) {
+  static isLeapYear(y: number): boolean {
     return (y > 7) && !(y & 3) && ((y % 100 > 0) || !(y % 400));
   }
 
@@ -16,7 +16,7 @@ export class DateUtil {
    * @param {!number} m month
    * @return {!number} number of days in month
    */
-  static getDaysInMonth(y, m) {
+  static getDaysInMonth(y: number, m: number): number {
     switch (m) {
       case 2:
         if (this.isLeapYear(y)) {
@@ -39,7 +39,7 @@ export class DateUtil {
    * @param {!Date} d date
    * @return {!string}
    */
-  static format(s, d) {
+  static format(s: string, d: Date): string {
     return s.replace(
         /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
         (src, token) => {
@@ -74,7 +74,7 @@ export class DateUtil {
       if (token === 'H') {
         return `${d.getHours()}`;
       }
-      let h = 0;
+      let h: number = 0;
       if (token === 'hh') {
         h = d.getHours();
         if (h > 12) {
@@ -127,21 +127,21 @@ export class DateUtil {
         return `00${d.getMilliseconds()}`.slice(-3);
       }
       if (ch === 'Z') {
-        const t = d.getTimezoneOffset();
-        let z = -t / 60;
-        let sign;
+        const t: number = d.getTimezoneOffset();
+        let z: number = -t / 60;
+        let sign: string;
         if (z < 0) {
           z = -z;
           sign = '-';
         } else {
           sign = '+';
         }
-        const z0 = `0${z}`.slice(-2);
-        const t0 = `0${t % 60}`.slice(-2);
+        const z0: string = `0${z}`.slice(-2);
+        const t0: string = `0${t % 60}`.slice(-2);
         return `${sign}${z0}${t0}`;
       }
       if (ch === 'E') {
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         return days[d.getDay()];
       }
     });

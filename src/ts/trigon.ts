@@ -16,11 +16,11 @@ export class Sin {
     this._a = a;
   }
 
-  toString() {
+  toString(): string {
     return `sin(${this._a})`;
   }
 
-  calc() {
+  calc(): number {
     let v = 0;
     const a = this._a;
     if (typeof (a.calc) === 'function') {
@@ -46,11 +46,11 @@ export class Cos {
     this._a = a;
   }
 
-  toString() {
+  toString(): string {
     return `cos(${this._a})`;
   }
 
-  calc() {
+  calc(): number {
     let v = 0;
     const a = this._a;
     if (typeof (a.calc) === 'function') {
@@ -76,11 +76,11 @@ export class Tan {
     this._a = a;
   }
 
-  toString() {
+  toString(): string {
     return `tan(${this._a})`;
   }
 
-  calc() {
+  calc(): number {
     let v = 0;
     const a = this._a;
     if (typeof (a.calc) === 'function') {
@@ -102,7 +102,7 @@ export class Trigon {
    * @param {?} a
    * @return {Sin}
    */
-  static sin(a) {
+  static sin(a): Sin {
     return new Sin(a);
   }
 
@@ -111,7 +111,7 @@ export class Trigon {
    * @param {?} a
    * @return {Cos}
    */
-  static cos(a) {
+  static cos(a): Cos {
     return new Cos(a);
   }
 
@@ -120,7 +120,7 @@ export class Trigon {
    * @param {?} a
    * @return {Tan}
    */
-  static tan(a) {
+  static tan(a): Tan {
     return new Tan(a);
   }
 }

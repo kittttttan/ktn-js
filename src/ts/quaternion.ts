@@ -38,7 +38,7 @@ const _sin = Math.sin;
    * @param {number} y
    * @param {number} z
    */
-  constructor(w, x, y, z) {
+  constructor(w: number, x: number, y: number, z: number) {
     this.w = +w;
     this.x = +x;
     this.y = +y;
@@ -53,7 +53,7 @@ const _sin = Math.sin;
    * @param {number} z
    * @return {Quaternion}
    */
-  static create(x, y, z) {
+  static create(x: number, y: number, z: number): Quaternion {
     return new Quaternion(0, +x, +y, +z);
   }
 
@@ -61,7 +61,7 @@ const _sin = Math.sin;
    * @method Quaternion#toString
    * @return {string}
    */
-  toString() {
+  toString(): string {
     return `(${this.w};${this.x},${this.y},${this.z})`;
   }
 
@@ -69,7 +69,7 @@ const _sin = Math.sin;
    * @method Quaternion#clone
    * @return {Quaternion}
    */
-  clone() {
+  clone(): Quaternion {
     const q = new Quaternion(this.w, this.x, this.y, this.z);
     return q;
   }
@@ -78,7 +78,7 @@ const _sin = Math.sin;
    * @method Quaternion#conjugate
    * @return {Quaternion}
    */
-  conjugate() {
+  conjugate(): Quaternion {
     const q = new Quaternion(this.w, -this.x, -this.y, -this.z);
     return q;
   }
@@ -88,7 +88,7 @@ const _sin = Math.sin;
    * @param {Quaternion} q
    * @return {Quaternion}
    */
-  mul(q) {
+  mul(q: Quaternion): Quaternion {
     const r = new Quaternion(
       this.w * q.w - this.x * q.x - this.y * q.y - this.z * q.z,
       this.w * q.x + this.x * q.w + this.y * q.z - this.z * q.y,
@@ -105,7 +105,7 @@ const _sin = Math.sin;
    * @param {number} z
    * @return {Quaternion}
    */
-  rotate(r, x, y, z) {
+  rotate(r: number, x: number, y: number, z: number): Quaternion {
     const n = _sqrt(x * x + y * y + z * z);
     if (!n) {
       throw new Error(`Invalid arguments: ${arguments}`);
@@ -128,7 +128,7 @@ const _sin = Math.sin;
    * @method Quaternion#norm
    * @return {number}
    */
-  norm() {
+  norm(): number {
     const n = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     return _sqrt(n);
@@ -138,7 +138,7 @@ const _sin = Math.sin;
    * @method Quaternion#normalize
    * @return {Quaternion|undefined}
    */
-  normalize() {
+  normalize(): Quaternion {
     const n = this.norm();
     if (!n) { return undefined; }
     return new Quaternion(this.w / n,
@@ -149,7 +149,7 @@ const _sin = Math.sin;
    * @method Quaternion#inverse
    * @return {Quaternion|undefined}
    */
-  inverse() {
+  inverse(): Quaternion {
     const n = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     if (!n) { return undefined; }

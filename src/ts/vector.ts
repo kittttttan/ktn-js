@@ -24,7 +24,7 @@ export class Vector {
    * @param {number} y
    * @param {number} z
    */
-  constructor(x, y, z) {
+  constructor(x: number, y: number, z: number) {
     this.x = +x;
     this.y = +y;
     this.z = +z;
@@ -34,7 +34,7 @@ export class Vector {
    * @method Vector#toString
    * @return {!string}
    */
-  toString() {
+  toString(): string {
     return `(${this.x},${this.y},${this.z})`;
   }
 
@@ -42,7 +42,7 @@ export class Vector {
    * @method Vector#clone
    * @return {!Vector}
    */
-  clone() {
+  clone(): Vector {
     const v = new Vector(this.x, this.y, this.z);
     return v;
   }
@@ -51,7 +51,7 @@ export class Vector {
    * @method Vector#norm
    * @return {!number}
    */
-  norm() {
+  norm(): number {
     return _sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
@@ -60,7 +60,7 @@ export class Vector {
    * @param {!Vector} v
    * @return {!Vector}
    */
-  add(v) {
+  add(v: Vector): Vector {
     const w = new Vector(this.x + v.x, this.y + v.y, this.z + v.z);
     return w;
   }
@@ -70,7 +70,7 @@ export class Vector {
    * @param {!Vector} v
    * @return {!Vector}
    */
-  sub(v) {
+  sub(v: Vector): Vector {
     const w = new Vector(this.x - v.x, this.y - v.y, this.z - v.z);
     return w;
   }
@@ -80,7 +80,7 @@ export class Vector {
    * @param {!number} n
    * @return {!Vector}
    */
-  mul(n) {
+  mul(n: number): Vector {
     const v = new Vector(n * this.x, n * this.y, n * this.z);
     return v;
   }
@@ -100,7 +100,7 @@ export class Vector {
    * @param {!Vector} v
    * @return {!number}
    */
-  dot(v) {
+  dot(v: Vector): number {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
 }

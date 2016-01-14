@@ -14,7 +14,8 @@
   },
   "scripts": {
     "doc": "jsdoc -R README.md -r dist/ts -d doc",
-    "test": "gulp"
+    "del": "del test\\ts\\*.js examples\\ts\\*.js src\\ts\\*.js",
+    "test": "gulp test"
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "",

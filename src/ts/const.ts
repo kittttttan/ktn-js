@@ -2,6 +2,11 @@
  * Constant
  */
 
+interface ConstItem {
+  toString: () => string;
+  calc: () => number;
+}
+
 /**
  * Const
  * @class Const
@@ -11,10 +16,10 @@ export class Const {
    * @static
    * @return {?}
    */
-  static get PI() {
+  static get PI(): ConstItem {
     return {
-      toString: () => 'pi',
-      calc: () => Math.PI
+      toString: (): string => 'pi',
+      calc: (): number => Math.PI
     };
   }
 
@@ -22,10 +27,10 @@ export class Const {
    * @static
    * @return {?}
    */
-  static get E() {
+  static get E(): ConstItem {
     return {
-      toString: () => 'e',
-      calc: () => Math.E
+      toString: (): string => 'e',
+      calc: (): number => Math.E
     };
   }
 }

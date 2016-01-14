@@ -35,27 +35,22 @@ const tan = Trigon.tan;
  * @private
  * @type {number}
  */
-let _ME_INDEX = 0;
+let _ME_INDEX: number = 0;
 
 /**
  * MathExpression
  * @class MathExpression
+ * @property {string} _s source
+ * @property {Array<string>} _t token
  */
 export class MathExpression {
-  /**
-   * @property {string} _s source
-   */
   _s: string;
-
-  /**
-   * @property {Array<string>} _t token
-   */
   _t: string[];
 
   /**
    * @param {string} source
    */
-  constructor(source) {
+  constructor(source: string) {
     _ME_INDEX = 0;
     this._s = source;
     this._t = meGetToken(source);
@@ -66,14 +61,20 @@ export class MathExpression {
    * @param {string} str
    * @return {MathExpression}
    */
-  static create(str) {
+  static create(str: string): MathExpression {
     return new MathExpression(str);
   }
 
-  toString() {
+  /**
+   * @return {string}
+   */
+  toString(): string {
     return this._s;
   }
 
+  /**
+   * @return {?}
+   */
   parse() {
     _ME_INDEX = 0;
     return meExpression(this._t);
@@ -82,10 +83,10 @@ export class MathExpression {
 
 /**
  * @private
- * @param {string} token
- * @return {string}
+ * @param {Array<string>} token
+ * @return {?}
  */
-function meNumber(token) {
+function meNumber(token: any[]) {
   let sign;
   if (token[_ME_INDEX] === '+' || token[_ME_INDEX] === '-') {
     sign = token[_ME_INDEX++];
@@ -114,10 +115,10 @@ function meNumber(token) {
 
 /**
  * @private
- * @param {string} token
- * @return {string}
+ * @param {Array<string>} token
+ * @return {?}
  */
-function meFactor(token) {
+function meFactor(token: any[]) {
   let flag = 0;
   if (token[_ME_INDEX] === '$sin') {
     flag = 1;
@@ -150,10 +151,10 @@ function meFactor(token) {
 
 /**
  * @private
- * @param {string} token
- * @return {string}
+ * @param {Array<string>} token
+ * @return {?}
  */
-function meTerm(token) {
+function meTerm(token: any[]) {
   let ans = meFactor(token);
   while (true) {
     if (token[_ME_INDEX] === '^') {
@@ -182,7 +183,7 @@ function meTerm(token) {
  * @param {Array<string>} token
  * @return {?}
  */
-function meExpression(token) {
+function meExpression(token: any[]) {
   let ans = meTerm(token);
   while (true) {
     if (token[_ME_INDEX] === '+') {
@@ -204,7 +205,7 @@ function meExpression(token) {
  * @param {string} str
  * @return {Array<string>}
  */
-function meGetToken(str) {
+function meGetToken(str: string): any[] {
   str = str.replace(/[ \n\r]/g, '');
 
   const token = [];
@@ -221,8 +222,7 @@ function meGetToken(str) {
       case '/':
       case '^':
         if (before === 'n') {
-          //cast 'number' with unitary +
-          token[index] = +token[index++].join('');
+          token[index] = token[index++].join('');
         } else if (before === 'c') {
           token[index] = token[index++].join('');
         }
@@ -247,7 +247,7 @@ function meGetToken(str) {
       /** sign */
       case '(':case ')':
         if (before === 'n') {
-          token[index] = parseFloat(token[index++].join(''));
+          token[index] = token[index++].join('');
         } else if (before === 'c') {
           token[index] = token[index++].join('');
         }
@@ -258,7 +258,7 @@ function meGetToken(str) {
       /** character */
       default:
         if (before === 'n') {
-          token[index] = parseFloat(token[index].join(''));
+          token[index] = token[index].join('');
           token[++index] = [];
         }
         token[index].push(c);
@@ -268,7 +268,7 @@ function meGetToken(str) {
   }
 
   if (before === 'n') {
-    token[index] = parseFloat(token[index].join(''));
+    token[index] = token[index].join('');
   } else if (before === 'c') {
     token[index] = token[index].join('');
   } else {

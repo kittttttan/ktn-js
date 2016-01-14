@@ -11,7 +11,7 @@ export class ArrayUtil {
    * @param {!Array<number>} a
    * @return {!number}
    */
-  static sum(a) {
+  static sum(a: number[]): number {
     let s = 0;
     for (const ai of a) {
       s += ai;
@@ -24,13 +24,13 @@ export class ArrayUtil {
    * @param {!Array<number>} a
    * @return {!number}
    */
-  static average(a) {
+  static average(a: number[]): number {
     let s = 0;
     const l = a.length;
     for (const v of a) {
       s += v;
     }
-    return s / parseFloat(l);
+    return 1.0 * s / l;
   }
 
   /**

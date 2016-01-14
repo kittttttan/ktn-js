@@ -13,14 +13,14 @@
  * @private
  * @type number
  */
-const N = 624;
+const N: number = 624;
 
 /**
  * @private
  * @const
  * @type number
  */
-const M = 397;
+const M: number = 397;
 
 /**
  * constant vector a
@@ -28,7 +28,7 @@ const M = 397;
  * @const
  * @type number
  */
-const MATRIX_A = 0x9908b0df;
+const MATRIX_A: number = 0x9908b0df;
 
 /**
  * most significant w-r bits
@@ -36,7 +36,7 @@ const MATRIX_A = 0x9908b0df;
  * @const
  * @type number
  */
-const UPPER_MASK = 0x80000000;
+const UPPER_MASK: number = 0x80000000;
 
 /**
  * least significant r bits
@@ -44,7 +44,7 @@ const UPPER_MASK = 0x80000000;
  * @const
  * @type number
  */
-const LOWER_MASK = 0x7fffffff;
+const LOWER_MASK: number = 0x7fffffff;
 
 /**
  * 2^32
@@ -52,7 +52,7 @@ const LOWER_MASK = 0x7fffffff;
  * @const
  * @type number
  */
-const REV32 = 1.0 / 4294967296.0;
+const REV32: number = 1.0 / 4294967296.0;
 
 /**
  * 2^32-1
@@ -60,7 +60,7 @@ const REV32 = 1.0 / 4294967296.0;
  * @const
  * @type number
  */
-const REV32_1 = 1.0 / 4294967295.0;
+const REV32_1: number = 1.0 / 4294967295.0;
 
 /**
  * Random
@@ -89,7 +89,7 @@ export class Random {
      */
     this.mti = N + 1;
 
-    const seed = Date.now() | 0;
+    const seed: number = Date.now() | 0;
     this.init(seed);
     //this.initByArray([seed], 1);
   }
@@ -98,7 +98,7 @@ export class Random {
    * initializes mt[N] with a seed
    * @param {number} seed
    */
-  init(seed) {
+  init(seed: number): void {
     seed = seed | 0;
 
     const mt = this.mt;
@@ -119,7 +119,7 @@ export class Random {
    * initialize by an array with array-length
    * @param {Array<number>} initKey the array for initializing keys
    */
-  initByArray(initKey) {
+  initByArray(initKey: number[]): void {
     this.init(19650218);
 
     let i = 1;
@@ -157,7 +157,7 @@ export class Random {
   /**
    * @return {number} a random number on [0,0xffffffff]-interval
    */
-  int32() {
+  int32(): number {
     const mag01 = [];
     //const mag01 = new Uint32Array(2);
     mag01[0] = 0;
@@ -201,28 +201,28 @@ export class Random {
   /**
    * @return {number} a random number on [0,0x7fffffff]-interval
    */
-  int31() {
+  int31(): number {
     return (this.int32() >>> 1);
   }
 
   /**
    * @return {number} a random number on [0,1]-real-interval
    */
-  real1() {
+  real1(): number {
     return this.int32() * REV32_1;
   }
 
   /**
    * @return {number} a random number on [0,1)-real-interval
    */
-  real2() {
+  real2(): number {
     return this.int32() * REV32;
   }
 
   /**
    * @return {number} a random number on (0,1)-real-interval
    */
-  real3() {
+  real3(): number {
     return (this.int32() + 0.5) * REV32;
   }
 }

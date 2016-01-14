@@ -19,7 +19,7 @@ export class Add {
   /**
    * @param {Array<?>} items
    */
-  constructor(items) {
+  constructor(items: any[]) {
     this._items = items;
   }
 
@@ -28,7 +28,7 @@ export class Add {
    * @param {...?} items
    * @return {Add}
    */
-  static add(...items) {
+  static add(...items: any[]): Add {
     return new Add(items);
   }
   /**
@@ -36,7 +36,7 @@ export class Add {
    * @param {...?} items
    * @return {Add}
    */
-  static sub(...items) {
+  static sub(...items: any[]): Add {
     if (items.length === 0) {
       return new Add([]);
     }
@@ -55,11 +55,11 @@ export class Add {
     return new Add(n);
   }
 
-  toString() {
+  toString(): string {
     return `add(${this._items})`;
   }
 
-  calc() {
+  calc(): Rational {
     let v = Rational.zero;
     for (const item of this._items) {
       if (typeof (item.calc) === 'function') {
@@ -69,5 +69,28 @@ export class Add {
       }
     }
     return v;
+  }
+
+  clone(): Add {
+    const a = [];
+    for (let item of this._items) {
+      a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
+    }
+    
+    return new Add(a);
+  }
+
+  neg(): Add {
+    const a = [];
+    for (let item of this._items) {
+      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
+      a.push(typeof (b.neg) !== 'undefined' ? b.neg() : b);
+    }
+
+    return new Add(a);
+  }
+
+  inv() {
+    // TODO: 
   }
 }

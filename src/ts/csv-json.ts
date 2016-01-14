@@ -21,11 +21,11 @@ interface toCsvOpt {
  * @param {Object=} opt
  * @return {!string} JSON
  */
-export function csvToJson(s, column, opt: toJsonOpt = {}) {
-  const sep = opt.sep || '\t';
+export function csvToJson(s: string, column: string[], opt: toJsonOpt = {}) {
+  const sep: string = opt.sep || '\t';
 
-  const colLength = column.length;
-  const lines = s.split(/[\r\n]+/);
+  const colLength: number = column.length;
+  const lines: string[] = s.split(/[\r\n]+/);
   let json = {};
   const items = [];
   for (const line of lines) {
@@ -33,16 +33,16 @@ export function csvToJson(s, column, opt: toJsonOpt = {}) {
       continue;
     }
     const item = {};
-    const words = line.split(sep);
+    const words: string[] = line.split(sep);
     for (let i = 0; i < colLength; ++i) {
       if (!column[i]) {
         throw new Error('Invalid CSV');
       }
 
-      let word = words[i];
+      let word: any = words[i];
       let leaf = item;
-      let doParseInt = false;
-      let doParseFloat = false;
+      let doParseInt: boolean = false;
+      let doParseFloat: boolean = false;
       const clTypeArr = column[i].split(':');
       const clType = clTypeArr.length > 1 ? clTypeArr[1] : '';
       if (clType === 'i') {
@@ -87,7 +87,7 @@ export function csvToJson(s, column, opt: toJsonOpt = {}) {
  * @param {Array<string>} label
  * @param {Object} item
  */
-function addLabel(labels, label, item) {
+function addLabel(labels: string[], label: string[], item) {
   for (const prop in item) {
     label.push(prop);
     if (typeof item[prop] === 'object') {
@@ -105,7 +105,7 @@ function addLabel(labels, label, item) {
  * @param {Array<?>} val
  * @param {Object} item
  */
-function addValue(val, item) {
+function addValue(val: any[], item) {
   for (const prop in item) {
     if (typeof item[prop] === 'object') {
       addValue(val, item[prop]);
@@ -122,16 +122,16 @@ function addValue(val, item) {
  * @param {Object=} opt
  * @return {string}
  */
-export function jsonToCsv(s, opt: toCsvOpt = {}) {
-  const sep = opt.sep || '\t';
+export function jsonToCsv(s: string, opt: toCsvOpt = {}) {
+  const sep: string = opt.sep || '\t';
   const json = JSON.parse(s);
   //console.debug(json);
 
   const items = opt.prop ? json[opt.prop] : json;
-  const labels = [];
+  const labels: string[] = [];
   addLabel(labels, [], items[0]);
   //console.debug(labels);
-  let csv = labels.join(sep);
+  let csv: string = labels.join(sep);
   csv += '\r\n';
   for (const item of items) {
     const val = [];

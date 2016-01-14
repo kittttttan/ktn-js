@@ -19,7 +19,7 @@ export class Mul {
   /**
    * @param {Array<?>} items
    */
-  constructor(items) {
+  constructor(items: any[]) {
     this._items = items;
   }
 
@@ -28,7 +28,7 @@ export class Mul {
    * @param {...?} items
    * @return {Mul}
    */
-  static mul(...items) {
+  static mul(...items: any[]): Mul {
     return new Mul(items);
   }
 
@@ -37,7 +37,7 @@ export class Mul {
    * @param {...?} items
    * @return {Mul}
    */
-  static div(...items) {
+  static div(...items: any[]): Mul {
     if (items.length === 0) {
       return new Mul([]);
     }
@@ -56,11 +56,11 @@ export class Mul {
     return new Mul(n);
   }
 
-  toString() {
+  toString(): string {
     return `mul(${this._items})`;
   }
 
-  calc() {
+  calc(): Rational {
     let v = Rational.one;
     for (const item of this._items) {
       if (typeof (item.calc) === 'function') {
@@ -70,5 +70,34 @@ export class Mul {
       }
     }
     return v;
+  }
+
+  clone(): Mul {
+    const a = [];
+    for (let item of this._items) {
+      a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
+    }
+    
+    return new Mul(a);
+  }
+
+  neg(): Mul {
+    const a = [];
+    let isFirst: boolean = true;
+    for (let item of this._items) {
+      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
+      if (isFirst) {
+        isFirst = false;
+        a.push(typeof (b.neg) !== 'undefined' ? b.neg() : -b);
+      } else {
+        a.push(b);
+      }
+    }
+
+    return new Mul(a);
+  }
+
+  inv() {
+    // TODO:
   }
 }

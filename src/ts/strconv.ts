@@ -8,7 +8,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toZenkaku(str) {
+  static toZenkaku(str: string): string {
     return str
         .replace(/\\/g, '¥')
         .replace(/[ ]/g, '　')
@@ -24,7 +24,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toZenkakuKatakana(str) {
+  static toZenkakuKatakana(str: string): string {
     const conv = [];
     const zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
     const han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
@@ -44,7 +44,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toHankaku(str) {
+  static toHankaku(str: string): string {
     return str
         .replace(/¥/g, '\\')
         .replace(/[　]/g, ' ')
@@ -60,7 +60,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toHankakuKatakana(str) {
+  static toHankakuKatakana(str: string): string {
     const conv = [];
     const zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
     const han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
@@ -80,7 +80,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toKatakana(str) {
+  static toKatakana(str: string): string {
     return str.replace(/[\u3041-\u3096]/g, (a) =>
       String.fromCharCode(a.charCodeAt(0) + 0x60)
     );
@@ -91,7 +91,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toHiragana(str) {
+  static toHiragana(str: string): string {
     return str.replace(/[\u30A1-\u30F6]/g, (a) =>
       String.fromCharCode(a.charCodeAt(0) - 0x60)
     );
@@ -102,7 +102,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static proper(str) {
+  static proper(str: string): string {
     return str.replace(/(\w+)/g, (a) =>
       a.charAt(0).toUpperCase() + a.substring(1).toLowerCase()
     );
@@ -124,7 +124,7 @@ export class StringConverter {
    * </pre>
    * @return {string}
    */
-  static convert(str, option) {
+  static convert(str: string, option: number): string {
     switch (option) {
       case 0:
         return str.toUpperCase();

@@ -123,7 +123,7 @@ export class Rational {
    * @throws {Error} ZeroDivisionError
    * @return {!Rational}
    */
-  static any(a, b?) {
+  static any(a, b?): Rational {
     if (!arguments.length) {
       return Rational.zero;
     }
@@ -161,7 +161,7 @@ export class Rational {
    * @method Rational#clone
    * @return {!Rational}
    */
-  clone() {
+  clone(): Rational {
     return new Rational(this._n, this._d, true);
   }
 
@@ -169,7 +169,7 @@ export class Rational {
    * @method Rational#toString
    * @return {!string}
    */
-  toString() {
+  toString(): string {
     if (this._d.equal(Integer.one)) { return this._n.toString(); }
     return `${this._n}/${this._d}`;
   }
@@ -178,13 +178,13 @@ export class Rational {
    * @method Rational#html
    * @return {!string}
    */
-  html() { return this.toString(); }
+  html(): string { return this.toString(); }
 
   /**
    * @method Rational#tex
    * @return {!string}
    */
-  tex() {
+  tex(): string {
     //if (this._d == 1) {return this._n.toString();}
     return `\\frac{${this._n}}{${this._d}}`;
   }
@@ -193,7 +193,7 @@ export class Rational {
    * @method Rational#abs
    * @return {!Rational} |this|.
    */
-  abs() {
+  abs(): Rational {
     return new Rational(this._n.abs(), this._d, true);
   }
 
@@ -201,16 +201,16 @@ export class Rational {
    * @method Rational#neg
    * @return {!Rational} -this.
    */
-  neg() {
+  neg(): Rational {
     return new Rational(this._n.neg(), this._d, true);
   }
 
   /**
    * @method Rational#eq
-   * @param {!Rational} b
+   * @param {!?} b
    * @return {!boolean} this == b.
    */
-  eq(b) {
+  eq(b: any): boolean {
     b = Rational.any(b);
     if (this._n.eq(b._n) && this._d.eq(b._d)) { return true; }
     return false;
@@ -221,7 +221,7 @@ export class Rational {
    * @param {!Rational} b
    * @return {!boolean} this === b.
    */
-  equal(b) {
+  equal(b: Rational): boolean {
     if (!(b instanceof Rational)) { return false; }
     if (this._n.equal(b._n) && this._d.equal(b._d)) { return true; }
     return false;
@@ -235,7 +235,7 @@ export class Rational {
    *      0 (this = b)
    *     -1 (this < b).
    */
-  cmp(b) {
+  cmp(b: Rational): number {
     return this._n.mul(b._d).cmp(this._d.mul(b._n));
   }
 
@@ -244,7 +244,7 @@ export class Rational {
    * @method Rational#inv
    * @return {!Rational}
    */
-  inv() {
+  inv(): Rational {
     const n = this._n;
     const d = this._d;
     if (!n.isNonZero()) {
@@ -261,7 +261,7 @@ export class Rational {
    * @param {!Rational} b
    * @return {!Rational} this + b.
    */
-  add(b) {
+  add(b: Rational): Rational {
     return new Rational(
         this._n.mul(b._d).add(this._d.mul(b._n)),
         this._d.mul(b._d));
@@ -272,7 +272,7 @@ export class Rational {
    * @param {!Rational} b
    * @return {!Rational} this - b.
    */
-  sub(b) {
+  sub(b: Rational): Rational {
     return new Rational(
         this._n.mul(b._d).sub(this._d.mul(b._n)),
         this._d.mul(b._d));
@@ -283,7 +283,7 @@ export class Rational {
    * @param {!Rational} b
    * @return {!Rational} this * b.
    */
-  mul(b) {
+  mul(b: Rational): Rational {
     return new Rational(this._n.mul(b._n), this._d.mul(b._d));
   }
 
@@ -292,7 +292,7 @@ export class Rational {
    * @param {!Rational} b
    * @return {!Rational} this / b.
    */
-  div(b) {
+  div(b: Rational): Rational {
     return new Rational(this._n.mul(b._d), this._d.mul(b._n));
   }
 
@@ -301,7 +301,7 @@ export class Rational {
    * @param {!number} b
    * @return {!Rational} this ^ b.
    */
-  pow(b) {
+  pow(b: number): Rational {
     return new Rational(this._n.pow(b), this._d.pow(b), true);
   }
 }

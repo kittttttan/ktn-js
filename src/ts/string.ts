@@ -40,7 +40,7 @@ export class StringUtil {
    * @param {...?} argv
    * @return {string}
    */
-  static format(str, ...argv) {
+  static format(str: string, ...argv: any[]): string {
     //const argv = arguments;
     let index = 0;
     return str.replace(
@@ -92,7 +92,7 @@ export class StringUtil {
    * @param {...*} argv
    * @return {string}
    */
-  static pyformat(str, ...argv) {
+  static pyformat(str: string, ...argv: any[]): string {
     let cnt = 0;
     let index = 1;
     /**
@@ -101,7 +101,7 @@ export class StringUtil {
      * @param {string=} prefix
      * return {!string}
      */
-    function typeFormat(src, type, prefix?) {
+    function typeFormat(src, type: string, prefix?: string): string {
       if (type === void 0) {
         return src;
       }
@@ -141,7 +141,7 @@ export class StringUtil {
      * @param {?string=} fill
      * @return {!string}
      */
-    function alignFormat(src, width, align, fill) {
+    function alignFormat(src: string, width: number, align?: string, fill?: string): string {
       if (width < 1) {
         return src;
       }
@@ -195,7 +195,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static escapeHTML(s) {
+  static escapeHTML(s: string): string {
     return s
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -208,7 +208,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static escapeJS(s) {
+  static escapeJS(s: string): string {
     return s
       .replace(/\\/g, '\\\\')
       .replace(/"/g, '\\"')
@@ -220,7 +220,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static trimLeft(s) {
+  static trimLeft(s: string): string {
     return s.replace(/^\s+/, '');
   }
 
@@ -228,7 +228,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static trimRight(s) {
+  static trimRight(s: string): string {
     return s.replace(/\s+$/, '');
   }
 
@@ -236,7 +236,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static nobr(s) {
+  static nobr(s: string): string {
     return s.replace(/[\r\n]+/g, '');
   }
 
@@ -245,7 +245,7 @@ export class StringUtil {
    * @param {number=} optFilter
    * @return {!string}
    */
-  static random(len, optFilter = Types.LOWER | Types.UPPER | Types.DIGITS) {
+  static random(len: number, optFilter: number = Types.LOWER | Types.UPPER | Types.DIGITS): string {
     let letter = '';
     if (optFilter & Types.LOWER) {
       letter += 'abcdefghijklmnopqrstuvwxyz';

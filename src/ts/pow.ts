@@ -33,11 +33,11 @@ export class Pow {
    * @param {?} p
    * @return {Pow}
    */
-  static pow(a, p) {
+  static pow(a, p): Pow {
     return new Pow(a, p);
   }
 
-  toString() {
+  toString(): string {
     return `pow(${this._a},${this._p})`;
   }
 

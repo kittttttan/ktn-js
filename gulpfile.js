@@ -100,7 +100,7 @@ function build(filename) {
 gulp.task('example', examCmds);
 gulp.task('build', buildCmds);
 
-gulp.task('ts', function() {
+gulp.task('ts:src', function() {
   const ts = require('gulp-typescript');
   return gulp.src('src/ts/**/*.ts')
     .pipe(ts({
@@ -143,9 +143,10 @@ gulp.task('babel', function() {
     .pipe(gulp.dest('dist/js'))
 });
 
+gulp.task('ts', ['ts:src', 'ts:example', 'ts:test']);
+
 gulp.task('test', (callback) => {
-  return runSequence(['ts', 'ts:test'], 'test:run', callback);
+  return runSequence(['ts:src', 'ts:test'], 'test:run', callback);
 });
 
 gulp.task('default', ['test', 'build', 'min']);
-gulp.task('travis', ['test']);

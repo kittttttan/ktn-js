@@ -68,7 +68,9 @@ describe("MathExpression", ()=> {
   it("+-*/^", ()=> {
     const a = [
       ['1 + 2 - 3 * 4 / 5', 'add(add(1,2),mul(mul(-3,4),1/5))', '3/5'],
-      ['(1 + 2) * 3 ^ 2', 'mul(add(1,2),pow(3,2))', '27']
+      ['(1 + 2) * 3 ^ 2', 'mul(add(1,2),pow(3,2))', '27'],
+      ['1 / (2 * 3)', 'mul(1,mul(1/2,1/3))', '1/6'],
+      ['1 / (2 + 3)', 'mul(1,1/5)', '1/5']
     ];
     for (const i of a) {
       const p = MathExpression.create(i[0]).parse();

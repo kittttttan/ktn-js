@@ -92,5 +92,6 @@ export class Add {
 
   inv() {
     // TODO: 
+    return this.calc().inv();
   }
 }

@@ -97,7 +97,13 @@ export class Mul {
     return new Mul(a);
   }
 
-  inv() {
-    // TODO:
+  inv(): Mul {
+    const a = [];
+    for (let item of this._items) {
+      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
+      a.push(typeof (b.inv) !== 'undefined' ? b.inv() : Rational.str(`1/${b}`));
+    }
+
+    return new Mul(a);
   }
 }

@@ -10,55 +10,21 @@ const rnd = Math.random;
  * @see http://www.ietf.org/rfc/rfc4122.txt
  *
  * @class Uuid
+ * @property {number} Uuid#_timeLow  0xFFFFFFFF00000000
+ * @property {number} Uuid#_timeMid  0x00000000FFFF0000
+ * @property {number} Uuid#_version  0x000000000000F000
+ * @property {number} Uuid#_timeHi   0x0000000000000FFF
+ * @property {number} Uuid#_variant  0xC000000000000000
+ * @property {number} Uuid#_clockSeq 0x3FFF000000000000
+ * @property {number} Uuid#_node     0x0000FFFFFFFFFFFF
  */
 export class Uuid {
-  /**
-   * 0xFFFFFFFF00000000
-   * @private
-   * @property {number} Uuid#_timeLow
-   */
   _timeLow;
-
-  /**
-   * 0x00000000FFFF0000
-   * @private
-   * @property {number} Uuid#_timeMid
-   */
   _timeMid;
-
-  /**
-   * 0x000000000000F000
-   * @private
-   * @property {number} Uuid#_version
-   */
   _version;
-
-  /**
-   * 0x0000000000000FFF
-   * @private
-   * @property {number} Uuid#_timeHi
-   */
   _timeHi;
-
-  /**
-   * 0xC000000000000000
-   * @private
-   * @property {number} Uuid#_variant
-   */
   _variant;
-
-  /**
-   * 0x3FFF000000000000
-   * @private
-   * @property {number} Uuid#_clockSeq
-   */
   _clockSeq;
-
-  /**
-   * 0x0000FFFFFFFFFFFF
-   * @private
-   * @property {number} Uuid#_node
-   */
   _node;
 
   /**
@@ -79,8 +45,7 @@ export class Uuid {
    * @param {?number=} ver
    * @return {!Uuid}
    */
-  static uuid(ver) {
-    ver = (ver | 0) || 4;
+  static uuid(ver = 4) {
     if (1 <= ver && ver <= 5) {
       if (ver !== 4) { throw new Error(`Not implemented version: ${ver}`); }
       return new Uuid(ver);

@@ -1,5 +1,6 @@
-import {Fft} from '../../src/es6/fft.js';
-import {Complex} from '../es6/complex.js';
+/// <reference path="typings/jasmine.d.ts"/>
+import {Fft} from '../../src/ts/fft';
+import {Complex} from '../../src/ts/complex';
 
 describe("Fft", ()=> {
 
@@ -23,8 +24,8 @@ describe("Fft", ()=> {
       0.5403023058681398
     ];
     for (let i = 0; i < size; ++i) {
-      expect(trans[i].r_).toEqual(expectTr[i]);
-      expect(inverse[i].r_).toEqual(expectInv[i]);
+      expect(trans[i]._r).toEqual(expectTr[i]);
+      expect(inverse[i]._r).toEqual(expectInv[i]);
     }
   });
 
@@ -52,8 +53,8 @@ describe("Fft", ()=> {
       -0.9899924966004454
     ];
     for (let i = 0; i < size; ++i) {
-      expect(trans[i].r_).toEqual(expectTr[i]);
-      expect(inverse[i].r_).toEqual(expectInv[i]);
+      expect(trans[i]._r).toEqual(expectTr[i]);
+      expect(inverse[i]._r).toEqual(expectInv[i]);
     }
   });
 
@@ -89,8 +90,8 @@ describe("Fft", ()=> {
       0.7539022543433045
     ];
     for (let i = 0; i < size; ++i) {
-      expect(trans[i].r_).toEqual(expectTr[i]);
-      expect(inverse[i].r_).toEqual(expectInv[i]);
+      expect(trans[i]._r).toEqual(expectTr[i]);
+      expect(inverse[i]._r).toEqual(expectInv[i]);
     }
   });
 

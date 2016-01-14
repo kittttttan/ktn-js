@@ -1,31 +1,13 @@
 /**
  * Stopwatch
  * @class Stopwatch
+ * @property {number} Stopwatch#_t0 when start
+ * @property {number} Stopwatch#_ts Timespan
+ * @property {number} Stopwatch#isRun true means running
  */
 export class Stopwatch {
-  /**
-   * @return {Stopwatch}
-   */
-  static sw(): Stopwatch {
-    return new Stopwatch();
-  }
-
-  /**
-   * when start
-   * @property {number} Stopwatch#_t0
-   */
   _t0: number;
-
-  /**
-   * Timespan
-   * @property {number} Stopwatch#_ts
-   */
   _ts: number;
-
-  /**
-   * true means running
-   * @property {number} Stopwatch#isRun
-   */
   _isRun: boolean;
 
   /**
@@ -38,6 +20,13 @@ export class Stopwatch {
   constructor() {
     this._ts = 0;
     this._isRun = false;
+  }
+
+  /**
+   * @return {Stopwatch}
+   */
+  static sw(): Stopwatch {
+    return new Stopwatch();
   }
 
   /**

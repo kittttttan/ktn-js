@@ -1,7 +1,17 @@
-/// <reference path="typings/polyfill.d.ts"/>
 /**
  * Matrix
  */
+import {Vector} from './vector';
+
+// TODO:
+const add = (a, b) => a + b;
+const sub = (a, b) => a - b;
+const mul = (a, b) => a * b;
+const div = (a, b) => a / b;
+const eq = (a, b) => a == b;
+const equal = (a, b) => a === b;
+const abs = a => Math.abs(a);
+const neg = a => -a;
 
  /**
  * Matrix mxn
@@ -257,9 +267,7 @@ function mxClone(m) {
  * @param {number} k
  * @return {Matrix}
  */
-function mxE(n, k) {
-  n = n || 2;
-  k = k === 0 ? 0 : k || 1;
+function mxE(n = 2, k = 1) {
   const e = new Matrix(n, n);
   const em = e._mn;
   for (let x = 0; x < n; x++) { em[x][x] = k; }
@@ -527,7 +535,7 @@ function mxRow(mxx, n) {
   let y = mxx._n;
   const m = new Matrix(1, y);
   const mm = m._mn;
-  const mxm = mx._mn;
+  const mxm = mxx._mn;
   while (y--) { mm[0][y] = mxm[n][y]; }
   return m;
 }
@@ -699,7 +707,7 @@ function mxInv(mxx) {
     }
     for (let k = y - 1; k >= 0; k--) {
       c = mm[k][y];
-      for (z = y; z < m._n; z++) {
+      for (let z = y; z < m._n; z++) {
         mm[k][z] = sub(mm[k][z], mul(c, mm[y][z]));
       }
     }
@@ -725,7 +733,7 @@ function mxRowSwap(mxx, i, j) {
     mm[j][y] = mm[i][y];
     mm[i][y] = v;
   }
-  return m;
+  return mm;
 }
 
 /**
@@ -741,7 +749,7 @@ function mxColSwap(mxx, i, j) {
     mm[x][j] = mm[x][i];
     mm[x][i] = v;
   }
-  return m;
+  return mm;
 }
 
 /**
@@ -835,10 +843,11 @@ function mxColMul(mxx, i, n) {
 
 /**
  * @param {Matrix} mxx
+ * @param {number} i
  * @param {number} n
  * @return {Matrix}
  */
-function mxRowDiv(mxx, n) {
+function mxRowDiv(mxx, i, n) {
   const m = mxx.clone();
   let x = m._n;
   while (x--) { m[i][x] = div(m[i][x], n); }
@@ -847,10 +856,11 @@ function mxRowDiv(mxx, n) {
 
 /**
  * @param {Matrix} mxx
+ * @param {number} i
  * @param {number} n
  * @return {Matrix}
  */
-function mxColDiv(mxx, n) {
+function mxColDiv(mxx, i, n) {
   const m = mxx.clone();
   const mm = m._mn;
   let x = m._n;
@@ -936,7 +946,7 @@ function mxIsNonZero(m) {
  */
 function mxIsOrt(m) {
   if (m._m !== m._n) { return false; }
-  return mul(m, mxT(m)).isE();
+  return m.mul(mxT(m)).isE();
 }
 
 /**

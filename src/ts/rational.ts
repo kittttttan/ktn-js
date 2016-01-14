@@ -11,6 +11,7 @@
  */
 
  /**
+  * @private
   * @requires Integer
   */
 import {Integer} from './integer';
@@ -19,57 +20,46 @@ import {Integer} from './integer';
  * Rational
  *
  * @class Rational
+ * @property {!Integer} Rational#_n Numerator
+ * @property {!Integer} Rational#_d Denominator
  */
 export class Rational {
-  /**
-   * Numerator
-   * @private
-   * @property {!Integer} Rational#_n
-   */
   _n: Integer;
-
-  /**
-   * Denominator
-   * @private
-   * @property {!Integer} Rational#_d
-   */
   _d: Integer;
 
   /**
-   * Rational
-   * @class Rational
    * @param {!Integer} n
    * @param {!Integer} d
    * @param {boolean=} f If f is true then skip cancel().
    */
-  constructor(n, d, f?) {
+  constructor(n: Integer, d: Integer, f?: boolean) {
     if (f) {
       this._n = n;
       this._d = d;
     } else {
-      const t = Rational.cancel(n, d);
+      const t: Integer[] = Rational.cancel(n, d);
       this._n = t[0];
       this._d = t[1];
     }
   }
 
   /**
-   * 1/1
+   * 1
    * @static
    * @method Rational.one
-   * @return {!Rational} 1/1.
+   * @return {!Rational} 1
    */
-  static get one() {
+  static get one(): Rational {
     return new Rational(Integer.one, Integer.one, true);
   }
 
   /**
-   * 0/1
+   * 0
    * @static
    * @method Rational.zero
-   * @return {!Rational} 0/1.
+   * @return {!Rational} 0
    */
-  static get zero() {
+  static get zero(): Rational {
     return new Rational(Integer.zero, Integer.one, true);
   }
 
@@ -82,7 +72,7 @@ export class Rational {
    * @param {boolean=} c
    * @return {!Rational}
    */
-  static num(a, b, c) {
+  static num(a: number, b?: number, c?: boolean): Rational {
     if (!b) {
       return new Rational(Integer.num(a), Integer.one, true);
     }
@@ -96,7 +86,7 @@ export class Rational {
    * @param {!string} a ex.'-1/2', '0.1/1.02'.
    * @return {!Rational}
    */
-  static str(a) {
+  static str(a: string): Rational {
     const as = a.split('/');
     as[1] = as[1] || '1';
 
@@ -156,7 +146,7 @@ export class Rational {
    * @param {!Integer} b
    * @return {!Array<!Integer>}
    */
-  static cancel(a, b) {
+  static cancel(a: Integer, b: Integer): Integer[] {
     const g = a.gcd(b);
     a = a.div(g);
     b = b.div(g);

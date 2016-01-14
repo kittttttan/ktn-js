@@ -9,7 +9,6 @@
  */
 
 /**
- * cache
  * @private
  * @const
  * @type function(): number
@@ -38,8 +37,24 @@ const _MASK: number = _BASE - 1;
 /**
  * Integer
  * @class Integer
+ * @property {Uint32Array} Integer#_d Digits [d0, d1, ..., dn]
+ * @property {boolean} Integer#_s Sign +, -. `false` means -.
+ * @property {number} Integer#_l Length of digits
  */
 export class Integer {
+  _d: Uint32Array;
+  _s: boolean;
+  _l: number;
+
+  /**
+   * Initialize 0
+   */
+  constructor() {
+    this._d = new Uint32Array(3);
+    this._s = true;
+    this._l = 1;
+  }
+
   /**
    * @static
    * @const
@@ -60,33 +75,6 @@ export class Integer {
    * @property {!number} MASK
    */
   static get MASK(): number { return _MASK; }
-
-  /**
-   * Digits [d0, d1, ..., dn]
-   * @property {Uint32Array} Integer#_d
-   */
-  _d: Uint32Array;
-
-  /**
-   * Sign +, -. `false` means -.
-   * @property {boolean} Integer#_s
-   */
-  _s: boolean;
-
-  /**
-   * Length of digits
-   * @property {number} Integer#_l
-   */
-  _l: number;
-
-  /**
-   * Initialize 0
-   */
-  constructor() {
-    this._d = new Uint32Array(3);
-    this._s = true;
-    this._l = 1;
-  }
 
   /**
    * 1

@@ -1,13 +1,15 @@
+/**
+ * @private
+ * @requires Stopwatch
+ */
 import {Stopwatch} from './stopwatch';
 
 /**
  * Result
  * @class Result
+ * @property {Array<number>} Result#_t
  */
 export class Result {
-  /**
-   * @property {Array<number>} Result#_t
-   */
   _t: number[];
 
   constructor() {
@@ -27,28 +29,20 @@ export class Result {
 /**
  * BenchMark
  * @class BenchMark
+ * @property {string} Unit#_name
+ * @property {function} Unit#_func
+ * @property {Result} Unit#_result
  */
 export class Unit {
-  /**
-   * @property {string} Unit#_name
-   */
   _name: string;
-
-  /**
-   * @property {function} Unit#_func
-   */
-  _func;
-
-  /**
-   * @property {Result} Unit#_result
-   */
+  _func: () => any;
   _result: Result;
 
   /**
    * @param {string} name
    * @param {function} func
    */
-  constructor(name: string, func) {
+  constructor(name: string, func: () => any) {
     this._name = name;
     this._func = func;
     this._result = new Result();
@@ -58,31 +52,13 @@ export class Unit {
 /**
  * BenchMark
  * @class BenchMark
+ * @property {Array<Unit>} BenchMark#_items
+ * @property {Array<Unit>} BenchMark#_loop
+ * @property {Array<Unit>} BenchMark#_intime
  */
 export class BenchMark {
-  /**
-   * @return {BenchMark}
-   */
-  static bm(): BenchMark {
-    return new BenchMark();
-  }
-
-  /**
-   * @private
-   * @property {Array<Unit>} BenchMark#_items
-   */
   _items: Unit[];
-
-  /**
-   * @private
-   * @property {Array<Unit>} BenchMark#_loop
-   */
   _loop: number;
-
-  /**
-   * @private
-   * @property {Array<Unit>} BenchMark#_intime
-   */
   _intime: number;
 
   /**
@@ -110,6 +86,13 @@ export class BenchMark {
     }
 
     this._loop = 3;
+  }
+
+  /**
+   * @return {BenchMark}
+   */
+  static bm(): BenchMark {
+    return new BenchMark();
   }
 
   /**

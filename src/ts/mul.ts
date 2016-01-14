@@ -3,6 +3,7 @@
  */
 
  /**
+  * @private
   * @requires Rational
   */
 import {Rational} from './rational';
@@ -10,11 +11,9 @@ import {Rational} from './rational';
 /**
  * Mul
  * @class Mul
+ * @property {Array<?>} _items
  */
 export class Mul {
-  /**
-   * @property {Array<?>} _items
-   */
   _items: any[];
 
   /**

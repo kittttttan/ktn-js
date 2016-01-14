@@ -2,6 +2,20 @@
 /**
  * statistics
  */
+// TODO:
+const add = (a, b) => a + b;
+const sub = (a, b) => a - b;
+const mul = (a, b) => a * b;
+const div = (a, b) => a / b;
+const fact = (a) => {
+  a = a | 0;
+  if (a < 2) { return 1; }
+  let b = 1;
+  while (a > 1) {
+    b *= a--;
+  }
+  return b;
+};
 
 function sortNum(arr) {
   return arr.sort((a, b) => a - b);
@@ -90,8 +104,8 @@ function nPm(n, m, mode) {
   m = m || 0;
   let a;
   if (mode) {
-    a = new Long(1);
-    while (n - m > 0) { a = mul(a, n--); }
+    a = 1;//new Long(1);
+    while (n - m > 0) { a = a * n--; }
     return a;
   }
   a = 1;
@@ -106,7 +120,7 @@ function nPm(n, m, mode) {
  * @param {boolean} mode if true then use Long
  * @param {number|Long}
  */
-function nCm(n, m, mode) {
+function nCm(n, m, mode?) {
   if (mode) {
     return (n < m || m < 0) ? 0 :
       div(fact(n), mul(fact(n - m), fact(m)));
@@ -119,6 +133,9 @@ function nCm(n, m, mode) {
  * @class Triangular
  */
 export class Triangular {
+  _low;
+  _high;
+  _mode;
   constructor(low, high, mode) {
     this._low = low || 0.0;
     this._high = high || 1.0;
@@ -171,6 +188,7 @@ export class Triangular {
  * @class Be
  */
 export class Be {
+  p;
   /**
    * @param {number} p 0 <= p <= 1
    */
@@ -200,7 +218,7 @@ export class Be {
     const arr = [];
     while (n--) {
       const r = Math.random();
-      arr[i] = (r > this.p ? 0 : 1);
+      arr[n] = (r > this.p ? 0 : 1);
     }
     return arr;
   }
@@ -211,6 +229,8 @@ export class Be {
  * @class B
  */
 export class B {
+  n;
+  p;
   /**
    * @param {number} n n > 0
    * @param {number} p 0 <= p <= 1
@@ -262,6 +282,7 @@ export class B {
  * @class Exp
  */
 export class Exp {
+  l;
   /**
    * @param {number} l l > 0
    */
@@ -347,6 +368,8 @@ function erf(x) {
  * @class Norm
  */
 export class Norm {
+  m;
+  s;
   /**
    * Normal distribution
    * @param {number} m

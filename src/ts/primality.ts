@@ -12,14 +12,15 @@ export class Primality {
    */
   static generate() {
     return (function *() {
-      const list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+      const list: number[] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
       for (const n of list) {
         yield n;
       }
 
-      let len = list.length;
-      const init = list[len - 1] + 2;
-      for (let i = init, f; ; i += 2) {
+      let len: number = list.length;
+      const init: number = list[len - 1] + 2;
+      for (let i: number = init; ; i += 2) {
+        let f: boolean;
         for (let j = 1, lj; (lj = list[j]) * lj <= i; ++j) {
           f = true;
           if (!(i % lj)) {
@@ -39,7 +40,7 @@ export class Primality {
    * @param {!number} n
    * @return {!Iterator}
    */
-  static top(n) {
+  static top(n: number) {
     const generate = this.generate;
     return (function *() {
       if (n < 1) {
@@ -56,11 +57,11 @@ export class Primality {
    * @param {!number} n
    * @return {!Iterator}
    */
-  static max(n) {
+  static max(n: number) {
     const generate = this.generate;
     return (function *() {
       const g = generate();
-      let f = g.next().value;
+      let f: number = g.next().value;
       while (f < n) {
         yield f;
         f = g.next().value;
@@ -72,21 +73,21 @@ export class Primality {
    * @param {!number} n
    * @return {!Iterator}
    */
-  static sieveMax(n) {
+  static sieveMax(n: number) {
     return (function *() {
-      const s = [false, false];
-      const sqrtn = Math.sqrt(n) | 0;
-      for (let i = 2; i < n + 1; ++i) {
+      const s: boolean[] = [false, false];
+      const sqrtn: number = Math.sqrt(n) | 0;
+      for (let i: number = 2; i < n + 1; ++i) {
         s[i] = true;
       }
-      for (let i = 2; i < sqrtn + 1; ++i) {
+      for (let i: number = 2; i < sqrtn + 1; ++i) {
         if (s[i]) {
-          for (let j = i * i; j < n + 1; j += i) {
+          for (let j: number = i * i; j < n + 1; j += i) {
             s[j] = false;
           }
         }
       }
-      for (let i = 0; i < n + 1; ++i) {
+      for (let i: number = 0; i < n + 1; ++i) {
         if (s[i]) {
           yield i;
         }
@@ -100,7 +101,7 @@ export class Primality {
    * @param {!number} mod
    * @return {!number}
    */
-  static modMathPow(base, power, mod) {
+  static modMathPow(base: number, power: number, mod: number): number {
     let result = 1;
     while (power > 0) {
       if (power & 1) {
@@ -117,7 +118,7 @@ export class Primality {
    * @param {!number} n
    * @return {!boolean} true if probably prime
    */
-  static mrpt(n) {
+  static mrpt(n: number): boolean {
     if (isNaN(n) || n < 2) {
       return false;
     }

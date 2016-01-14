@@ -9,21 +9,13 @@ const _sqrt = Math.sqrt;
  * Vector
  *
  * @class Vector
+ * @property {!number} Vector#x
+ * @property {!number} Vector#y
+ * @property {!number} Vector#z
  */
 export class Vector {
-  /**
-   * @property {!number} Vector#x
-   */
   x: number;
-
-  /**
-   * @property {!number} Vector#y
-   */
   y: number;
-
-  /**
-   * @property {!number} Vector#z
-   */
   z: number;
 
   /**

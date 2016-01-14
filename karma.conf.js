@@ -10,8 +10,8 @@ module.exports = function(config) {
     frameworks: ['browserify', 'jasmine'],
     // list of files / patterns to load in the browser
     files: [
-      'src/es6/*.js',
-      'test/es6/*.js'
+      'src/ts/*.js',
+      'test/ts/*.js'
     ],
     // list of files to exclude
     exclude: [
@@ -20,10 +20,10 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['progress', 'coverage', 'html'],
     preprocessors: {
-      'src/es6/*.js': ['browserify'/*, 'coverage'*/],
-      'test/es6/*.js': ['browserify'],
-      'src/ts/*.ts': ['typescript'],
-      'test/ts/*.ts': ['typescript'],
+      'src/ts/*.js': ['browserify'/*, 'coverage'*/],
+      'test/ts/*.js': ['browserify']
+      //'src/ts/*.ts': ['typescript'],
+      //'test/ts/*.ts': ['typescript'],
     },
     browserify: {
       debug: true,
@@ -39,16 +39,18 @@ module.exports = function(config) {
         })
       ]
     },
+    /*
     typescriptPreprocessor: {
       options: {
         module: 'commonjs',
-        target: 'ES5',
+        target: 'es5',
         noImplicitAny: false,
         sourceMap: false
       },
       typings: [
       ]
     },
+    */
     coverageReporter: {
       type: 'lcov',
       dir : 'test/coverage/'

@@ -3,6 +3,7 @@
  */
 
  /**
+  * @private
   * @requires Rational
   */
 import {Rational} from './rational';
@@ -10,22 +11,16 @@ import {Rational} from './rational';
 /**
  * Pow
  * @class Pow
+ * @property {?} _a
+ * @property {?} _p
  */
 export class Pow {
-  /**
-   * @property {?} _a
-   */
   _a;
-
-  /**
-   * @property {?} _p
-   */
   _p;
 
   /**
-   * @property {?} _a
-   * @property {?} _p
-
+   * @param {?} a
+   * @param {?} p
    */
   constructor(a, p) {
     this._a = a;

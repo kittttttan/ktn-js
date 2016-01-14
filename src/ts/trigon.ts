@@ -7,6 +7,7 @@
  * @class Sin
  */
 export class Sin {
+  _a;
   /**
    * @property {?} _a
    * @param {?} a
@@ -36,6 +37,7 @@ export class Sin {
  * @class Cos
  */
 export class Cos {
+  _a;
   /**
    * @property {?} _a
    * @param {?} a
@@ -65,6 +67,7 @@ export class Cos {
  * @class Tan
  */
 export class Tan {
+  _a;
   /**
    * @property {?} _a
    * @param {?} a

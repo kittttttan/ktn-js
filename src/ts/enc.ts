@@ -1,4 +1,5 @@
-/// <reference path="typings/polyfill.d.ts"/>
+import './polyfill';
+
 /**
  * Encode
  * @class Encode

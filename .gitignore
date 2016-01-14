@@ -5,6 +5,12 @@
 dist/
 coverage/
 doc/
+examples/es6/
+examples/js/
+examples/ts/**/*.js
+src/ts/**/*.js
+test/ts/**/*.js
+
 karma_html/
 node_modules/
 tools/doc/

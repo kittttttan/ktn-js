@@ -1,35 +1,48 @@
-const Types = {
-  LOWER: 0x01,
-  UPPER: 0x02,
-  DIGITS: 0x04,
-  UNDERSCORE: 0x08,
-  SIGN: 0x10
-};
+/**
+ * @private
+ */
+class Types {
+  static get LOWER(): number { return 0x01; }
+  static get UPPER(): number { return 0x02; }
+  static get DIGITS(): number { return 0x04; }
+  static get UNDERSCORE(): number { return 0x08; }
+  static get SIGN(): number { return 0x10; }
+}
 
-const Reg = {
-  URI: /\w+:\/\/[\w\-.\/?%&=:@;]*/g,
-  XMLTag: () => /<\/?\w+[^>]*>/g,
-  CComment: /\/\*[\s\S]*?\*\//gm,
-  LineComment: /\/\/.*$/gm,
-  DoubleQuote: /"([^\\"\n]|\\.)*"/g
-};
+/**
+ * @private
+ */
+class Reg {
+  static get URI(): RegExp { return /\w+:\/\/[\w\-.\/?%&=:@;]*/g; }
+  static get XMLTag(): RegExp { return /<\/?\w+[^>]*>/g; }
+  static get CComment(): RegExp { return /\/\*[\s\S]*?\*\//gm; }
+  static get LineComment(): RegExp { return /\/\/.*$/gm; }
+  static get DoubleQuote(): RegExp { return /"([^\\"\n]|\\.)*"/g; }
+}
 
 /**
  * @class StringUtil
  */
 export class StringUtil {
-  static get Types() { return Types; }
-  static get Reg() { return Reg; }
+  /**
+   * @return {Types}
+   */
+  static get Types(): Types { return Types; }
+  /**
+   * @return {Reg}
+   */
+  static get Reg(): Reg { return Reg; }
 
   /**
    * sprintf
    *
    * @param {string} str
+   * @param {...?} argv
    * @return {string}
    */
-  static format(str) {
-    const argv = arguments;
-    let index = 1;
+  static format(str, ...argv) {
+    //const argv = arguments;
+    let index = 0;
     return str.replace(
         /%([+\-#0])?(\d+)?(?:\.(\d+))?([%defoxs])/g,
         (src, flag, width, prec, type) => {
@@ -88,7 +101,7 @@ export class StringUtil {
      * @param {string=} prefix
      * return {!string}
      */
-    function typeFormat(src, type, prefix) {
+    function typeFormat(src, type, prefix?) {
       if (type === void 0) {
         return src;
       }
@@ -232,11 +245,7 @@ export class StringUtil {
    * @param {number=} optFilter
    * @return {!string}
    */
-  static random(len, optFilter) {
-    if (arguments.length < 2) {
-      optFilter = Types.LOWER | Types.UPPER | Types.DIGITS;
-    }
-
+  static random(len, optFilter = Types.LOWER | Types.UPPER | Types.DIGITS) {
     let letter = '';
     if (optFilter & Types.LOWER) {
       letter += 'abcdefghijklmnopqrstuvwxyz';

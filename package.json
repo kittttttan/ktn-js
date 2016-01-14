@@ -13,7 +13,7 @@
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
   "scripts": {
-    "doc": "jsdoc -R README.md -r es6 -d doc",
+    "doc": "jsdoc -R README.md -r dist/ts -d doc",
     "test": "gulp"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "gulp-babel": "",
     "gulp-karma": "",
     "gulp-rename": "",
+    "gulp-typescript": "",
     "gulp-uglify": "",
     "isparta": "",
     "jasmine-core": "",
@@ -40,6 +41,7 @@
     "karma-phantomjs-launcher": "",
     "karma-typescript-preprocessor": "",
     "phantomjs": "",
+    "run-sequence": "",
     "typescript": "",
     "vinyl-source-stream": ""
   }

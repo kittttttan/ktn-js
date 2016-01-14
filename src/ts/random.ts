@@ -1,5 +1,5 @@
 /**
- * MT19937 for JavaScript
+ * MT19937
  * @see ported from http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
  * @example
  *   var r = new Random();
@@ -9,7 +9,7 @@
  */
 
 /**
- * @const
+ * @private
  * @private
  * @type number
  */
@@ -65,16 +65,11 @@ const REV32_1 = 1.0 / 4294967295.0;
 /**
  * Random
  * @class Random
+ * @property {Array<number>} Random#mt
+ * @property {number} Random#mti
  */
 export class Random {
-  /**
-   * @property {Array<number>} Random#mt
-   */
   mt: Uint32Array;
-
-  /**
-   * @property {number} Random#mti
-   */
   mti: number;
 
   /**

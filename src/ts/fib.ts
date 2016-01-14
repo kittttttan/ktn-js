@@ -13,13 +13,11 @@
 function *generate() {
   yield 0;
 
-  let a = 1;
-  let b = 0;
-  while (1) {
+  let a: number = 1;
+  let b: number = 0;
+  while (true) {
     yield a;
-    const t = a + b;
-    b = a;
-    a = t;
+    [a, b] = [a + b, a];
   }
 }
 
@@ -33,12 +31,12 @@ function *generate() {
  * @param {!Array<number>} b
  * @return {!Array<number>}
  */
-function mmul(a, b) {
-  const ad = a[0] * b[0];
-  const be = a[1] * b[1];
-  const bd = a[1] * b[0];
-  const ce = a[2] * b[1];
-  const cf = a[2] * b[2];
+function mmul(a: number[], b: number[]): number[] {
+  const ad: number = a[0] * b[0];
+  const be: number = a[1] * b[1];
+  const bd: number = a[1] * b[0];
+  const ce: number = a[2] * b[1];
+  const cf: number = a[2] * b[2];
   return [ad + be, bd + ce, be + cf];
 }
 
@@ -52,16 +50,14 @@ export class Fibonacci {
    * @param {!number} n
    * @return {!number}
    */
-  static _fib(n) {
+  static _fib(n: number): number {
     if (n < 1) {
       return 0;
     }
-    let a = 1;
-    let b = 0;
+    let a: number = 1;
+    let b: number = 0;
     while (--n) {
-      const t = a + b;
-      b = a;
-      a = t;
+      [a, b] = [a + b, a];
     }
     return a;
   }
@@ -76,12 +72,12 @@ export class Fibonacci {
    * @param {!number} n
    * @return {!number}
    */
-  static fib(n) {
+  static fib(n: number): number {
     if (n < 1) {
       return 0;
     }
-    let a = [1, 1, 0];
-    let b = [1, 1, 0];
+    let a: number[] = [1, 1, 0];
+    let b: number[] = [1, 1, 0];
     --n;
     while (n > 0) {
       if (n & 1) {
@@ -98,7 +94,7 @@ export class Fibonacci {
    * @param {!number} n
    * @return {!Iterator}
    */
-  static top(n) {
+  static top(n: number) {
     return function *() {
       if (n < 1) {
         throw new Error('arguments[0] must > 0');
@@ -115,10 +111,10 @@ export class Fibonacci {
    * @param {!number} n
    * @return {!Iterator}
    */
-  static max(n) {
+  static max(n: number) {
     return function *() {
       const g = generate();
-      let f = g.next().value;
+      let f: number = g.next().value;
       while (f < n) {
         yield f;
         f = g.next().value;

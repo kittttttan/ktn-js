@@ -9,7 +9,7 @@
  * @param {number=} step
  * @return {!Iterator}
  */
-export function range(start, end, step) {
+export function range(start: number, end?: number, step?: number): Iterator<number> {
     return (function *() {
         if (typeof(step) === 'undefined') {
             step = 1;

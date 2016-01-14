@@ -21,26 +21,15 @@ const _sin = Math.sin;
  * Quaternion
  *
  * @class Quaternion
+ * @property {number} Quaternion#w
+ * @property {number} Quaternion#x
+ * @property {number} Quaternion#y
+ * @property {number} Quaternion#z
  */
  export class Quaternion {
-  /**
-   * @param {number} Quaternion#w
-   */
   w: number;
-
-  /**
-   * @param {number} Quaternion#x
-   */
   x: number;
-
-  /**
-   * @param {number} Quaternion#y
-   */
   y: number;
-
-  /**
-   * @param {number} Quaternion#z
-   */
   z: number;
 
   /**

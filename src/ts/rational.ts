@@ -10,6 +10,8 @@
  *    c.toString();  // '(5/12)'
  */
 
+import './ktn';
+
  /**
   * @private
   * @requires Integer
@@ -23,7 +25,7 @@ import {Integer} from './integer';
  * @property {!Integer} Rational#_n Numerator
  * @property {!Integer} Rational#_d Denominator
  */
-export class Rational {
+export class Rational implements Ktn.Field {
   _n: Integer;
   _d: Integer;
 
@@ -189,6 +191,10 @@ export class Rational {
     return `\\frac{${this._n}}{${this._d}}`;
   }
 
+  get sign(): boolean {
+    return this._n.sign;
+  }
+
   /**
    * @method Rational#abs
    * @return {!Rational} |this|.
@@ -235,7 +241,7 @@ export class Rational {
    *      0 (this = b)
    *     -1 (this < b).
    */
-  cmp(b: Rational): number {
+  cmp(b: Rational): Ktn.Compare {
     return this._n.mul(b._d).cmp(this._d.mul(b._n));
   }
 

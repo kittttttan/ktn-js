@@ -7,6 +7,7 @@
  *   var c = a.mul(b); // a * b
  *   c.toString();     // '96021937474622850618244170'
  */
+import './ktn';
 
 /**
  * @private
@@ -41,7 +42,7 @@ const _MASK: number = _BASE - 1;
  * @property {boolean} Integer#_s Sign +, -. `false` means -.
  * @property {number} Integer#_l Length of digits
  */
-export class Integer {
+export class Integer implements Ktn.Field {
   _d: Uint32Array;
   _s: boolean;
   _l: number;

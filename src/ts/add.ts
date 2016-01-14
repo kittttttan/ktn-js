@@ -31,6 +31,7 @@ export class Add {
   static add(...items: any[]): Add {
     return new Add(items);
   }
+
   /**
    * @static
    * @param {...?} items
@@ -88,10 +89,5 @@ export class Add {
     }
 
     return new Add(a);
-  }
-
-  inv() {
-    // TODO: 
-    return this.calc().inv();
   }
 }

@@ -11,6 +11,7 @@
 
 import {Add} from './add';
 import {Mul} from './mul';
+import {Div} from './div';
 import {Pow} from './pow';
 import {Trigon} from './trigon';
 import {Const} from './const';
@@ -18,7 +19,7 @@ import {Const} from './const';
 const add = Add.add;
 const sub = Add.sub;
 const mul = Mul.mul;
-const div = Mul.div;
+const div = Div.div;
 const pow = Pow.pow;
 const neg = (a) => {
   if (typeof (a.neg) === 'function') {

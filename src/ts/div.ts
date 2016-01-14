@@ -1,5 +1,5 @@
 /**
- * Mul
+ * Div
  */
 
  /**
@@ -9,11 +9,11 @@
 import {Rational} from './rational';
 
 /**
- * Mul
- * @class Mul
+ * Div
+ * @class Div
  * @property {Array<?>} _items
  */
-export class Mul {
+export class Div {
   _items: any[];
 
   /**
@@ -26,38 +26,44 @@ export class Mul {
   /**
    * @static
    * @param {...?} items
-   * @return {Mul}
+   * @return {Div}
    */
-  static mul(...items: any[]): Mul {
-    return new Mul(items);
+  static div(...items: any[]): Div {
+    return new Div(items);
   }
 
   toString(): string {
-    return `mul(${this._items})`;
+    return `div(${this._items})`;
   }
 
   calc(): Rational {
     let v = Rational.one;
+    let isFirst = true;
     for (const item of this._items) {
+      if (isFirst) {
+        isFirst = false;
+        v = (typeof (item.calc) === 'function') ? item.calc() : Rational.str(`${item}`);
+        continue;
+      }
       if (typeof (item.calc) === 'function') {
-        v = v.mul(item.calc());
+        v = v.div(item.calc());
       } else {
-        v = v.mul(Rational.str(`${item}`));
+        v = v.div(Rational.str(`${item}`));
       }
     }
     return v;
   }
 
-  clone(): Mul {
+  clone(): Div {
     const a = [];
     for (let item of this._items) {
       a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
     }
-    
-    return new Mul(a);
+
+    return new Div(a);
   }
 
-  neg(): Mul {
+  neg(): Div {
     const a = [];
     let isFirst: boolean = true;
     for (let item of this._items) {
@@ -70,16 +76,6 @@ export class Mul {
       }
     }
 
-    return new Mul(a);
-  }
-
-  inv(): Mul {
-    const a = [];
-    for (let item of this._items) {
-      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
-      a.push(typeof (b.inv) !== 'undefined' ? b.inv() : Rational.str(`1/${b}`));
-    }
-
-    return new Mul(a);
+    return new Div(a);
   }
 }

@@ -11,66 +11,66 @@
 /**
  * @private
  * @private
- * @type number
+ * @type int
  */
-const N: number = 624;
+const N: int = 624;
 
 /**
  * @private
  * @const
- * @type number
+ * @type int
  */
-const M: number = 397;
+const M: int = 397;
 
 /**
  * constant vector a
  * @private
  * @const
- * @type number
+ * @type int
  */
-const MATRIX_A: number = 0x9908b0df;
+const MATRIX_A: int = 0x9908b0df;
 
 /**
  * most significant w-r bits
  * @private
  * @const
- * @type number
+ * @type int
  */
-const UPPER_MASK: number = 0x80000000;
+const UPPER_MASK: int = 0x80000000;
 
 /**
  * least significant r bits
  * @private
  * @const
- * @type number
+ * @type int
  */
-const LOWER_MASK: number = 0x7fffffff;
+const LOWER_MASK: int = 0x7fffffff;
 
 /**
  * 2^32
  * @private
  * @const
- * @type number
+ * @type double
  */
-const REV32: number = 1.0 / 4294967296.0;
+const REV32: double = 1.0 / 4294967296.0;
 
 /**
  * 2^32-1
  * @private
  * @const
- * @type number
+ * @type double
  */
-const REV32_1: number = 1.0 / 4294967295.0;
+const REV32_1: double = 1.0 / 4294967295.0;
 
 /**
  * Random
  * @class Random
- * @property {Array<number>} Random#mt
- * @property {number} Random#mti
+ * @property {Uint32Array} Random#_mt
+ * @property {int} Random#_mti
  */
 export class Random {
-  mt: Uint32Array;
-  mti: number;
+  protected _mt: Uint32Array;
+  protected _mti: int;
 
   /**
    * Initialize
@@ -80,14 +80,14 @@ export class Random {
      * @private
      * @property {Uint32Array} Random#mt
      */
-    this.mt = new Uint32Array(N);
+    this._mt = new Uint32Array(N);
 
     /**
      * mti==N+1 means mt[N] is not initialized
      * @private
      * @property {number} Random#mti
      */
-    this.mti = N + 1;
+    this._mti = N + 1;
 
     const seed: number = Date.now() | 0;
     this.init(seed);
@@ -96,38 +96,38 @@ export class Random {
 
   /**
    * initializes mt[N] with a seed
-   * @param {number} seed
+   * @param {int} seed
    */
-  init(seed: number): void {
+  public init(seed: int): void {
     seed = seed | 0;
 
-    const mt = this.mt;
+    const mt: Uint32Array = this._mt;
     mt[0] = seed;
 
-    let s = 0;
-    for (let i = 1; i < N; i = i + 1 | 0) {
+    let s: int = 0;
+    for (let i: int = 1; i < N; i = i + 1 | 0) {
       s = mt[i - 1] ^ (mt[i - 1] >>> 30);
       mt[i] = (((((s & 0xffff0000) >>> 16) * 1812433253) << 16) +
           (s & 0x0000ffff) * 1812433253) + i;
       mt[i] >>>= 0;
     }
 
-    this.mti = N;
+    this._mti = N;
   }
 
   /**
    * initialize by an array with array-length
-   * @param {Array<number>} initKey the array for initializing keys
+   * @param {Array<int>} initKey the array for initializing keys
    */
-  initByArray(initKey: number[]): void {
+  public initByArray(initKey: int[]): void {
     this.init(19650218);
 
-    let i = 1;
-    let j = 0;
-    const l = initKey.length;
-    let k = N > l ? N : l;
-    let s = 0;
-    const mt = this.mt;
+    let i: int = 1;
+    let j: int = 0;
+    const l: int = initKey.length;
+    let k: int = N > l ? N : l;
+    let s: int = 0;
+    const mt: Uint32Array = this._mt;
     for (; k; --k) {
       s = mt[i - 1] ^ (mt[i - 1] >>> 30);
       mt[i] = (mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1664525) << 16) +
@@ -155,23 +155,23 @@ export class Random {
   }
 
   /**
-   * @return {number} a random number on [0,0xffffffff]-interval
+   * @return {int} a random number on [0,0xffffffff]-interval
    */
-  int32(): number {
-    const mag01 = [];
+  public int32(): int {
+    const mag01: int[] = [];
     //const mag01 = new Uint32Array(2);
     mag01[0] = 0;
     mag01[1] = MATRIX_A;
 
-    let y = 0;
-    let kk = 0;
-    const mt = this.mt;
-    if (this.mti >= N) {
+    let y: int = 0;
+    const mt: Uint32Array = this._mt;
+    if (this._mti >= N) {
       /* generate N words at one time */
       //if (this.mti === N + 1) {   /* if init() has not been called, */
       //  this.init(5489); /* a default initial seed is used */
       //}
 
+      let kk: int = 0;
       for (kk = 0; kk < N - M; kk = kk + 1 | 0) {
         y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
         mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
@@ -183,11 +183,11 @@ export class Random {
       y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
       mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
 
-      this.mti = 0;
+      this._mti = 0;
     }
 
-    y = mt[this.mti];
-    this.mti = this.mti + 1;
+    y = mt[this._mti];
+    this._mti = this._mti + 1;
 
     // Tempering
     y ^= (y >>> 11);
@@ -199,30 +199,30 @@ export class Random {
   }
 
   /**
-   * @return {number} a random number on [0,0x7fffffff]-interval
+   * @return {int} a random number on [0,0x7fffffff]-interval
    */
-  int31(): number {
+  public int31(): int {
     return (this.int32() >>> 1);
   }
 
   /**
-   * @return {number} a random number on [0,1]-real-interval
+   * @return {double} a random number on [0,1]-real-interval
    */
-  real1(): number {
+  public real1(): double {
     return this.int32() * REV32_1;
   }
 
   /**
-   * @return {number} a random number on [0,1)-real-interval
+   * @return {double} a random number on [0,1)-real-interval
    */
-  real2(): number {
+  public real2(): double {
     return this.int32() * REV32;
   }
 
   /**
-   * @return {number} a random number on (0,1)-real-interval
+   * @return {double} a random number on (0,1)-real-interval
    */
-  real3(): number {
+  public real3(): double {
     return (this.int32() + 0.5) * REV32;
   }
 }

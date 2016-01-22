@@ -1,55 +1,69 @@
 /**
  * Complex
  * @class Complex
- * @property {!number} Complex#_r
- * @property {!number} Complex#_i
+ * @property {!double} Complex#_r
+ * @property {!double} Complex#_i
  */
 export class Complex {
-  _r: number;
-  _i: number;
+  protected _r: double;
+  protected _i: double;
 
   /**
-   * @param {number} r
-   * @param {number} i
+   * @param {double} r
+   * @param {double} i
    */
-  constructor(r: number, i: number) {
+  constructor(r: double, i: double) {
     this._r = +r;
     this._i = +i;
   }
 
   /**
-   * @return {!number}
+   * @return {!double}
    */
-  get real(): number {
+  get real(): double {
     return this._r;
   }
 
   /**
-   * @return {!number}
+   * @param {double} real
    */
-  get imag(): number {
+  set real(real: double) {
+    this._r = real;
+  }
+
+  /**
+   * @return {!double}
+   */
+  get imag(): double {
     return this._i;
+  }
+
+  /**
+   * @param {double} imag
+   */
+  set imag(imag: double) {
+    this._i = imag;
   }
 
   /**
    * @return {!string}
    */
-  toString(): string {
+  public toString(): string {
     return `(${this._r}${(this._i < 0 ? '' : '+')}${this._i}J)`;
   }
 
   /**
    * @return {!Complex}
    */
-  clone(): Complex {
+  public clone(): Complex {
     return new Complex(this._r, this._i);
   }
 
   /**
-   * @param {!number} a
+   * @param {!double} a
    * @return {!Complex}
    */
-  scale(a: number): Complex {
+  public scale(a: double): Complex {
     a = +a;
     return new Complex(this._r * a, this._i * a);
   }
@@ -58,7 +72,7 @@ export class Complex {
    * @method Complex#conj
    * @return {!Complex}
    */
-  conj(): Complex {
+  public conj(): Complex {
     return new Complex(this._r, -this._i);
   }
 
@@ -67,7 +81,7 @@ export class Complex {
    * @param {!Complex} a
    * @return {!Complex}
    */
-  add(a: Complex): Complex {
+  public add(a: Complex): Complex {
     return new Complex(this._r + a._r, this._i + a._i);
   }
 
@@ -76,7 +90,7 @@ export class Complex {
    * @param {!Complex} a
    * @return {!Complex}
    */
-  sub(a: Complex): Complex {
+  public sub(a: Complex): Complex {
     return new Complex(this._r - a._r, this._i - a._i);
   }
 
@@ -85,7 +99,7 @@ export class Complex {
    * @param {!Complex} a
    * @return {!Complex}
    */
-  mul(a: Complex): Complex {
+  public mul(a: Complex): Complex {
     return new Complex(this._r * a._r - this._i * a._i,
         this._r * a._i + this._i * a._r);
   }

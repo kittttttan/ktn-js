@@ -4,20 +4,23 @@
 
 /**
  * @public
- * @param {number} start
- * @param {number=} end
- * @param {number=} step
+ * @param {double} start
+ * @param {double=} end
+ * @param {double=} step
  * @return {!Iterator}
  */
-export function range(start: number, end?: number, step?: number): Iterator<number> {
+export function range(start: double, end?: double, step?: double): Iterator<double> {
+    start = +start;
+    if (typeof(step) === 'undefined') {
+        step = 1;
+    }
+    if (typeof(end) === 'undefined') {
+        end = start;
+        start = 0;
+    }
+    end = +end;
+    step = +step;
     return (function *() {
-        if (typeof(step) === 'undefined') {
-            step = 1;
-        }
-        if (typeof(end) === 'undefined') {
-            end = start;
-            start = 0;
-        }
         if (step === 0) {
             throw new Error('range() arg 3 must not be zero');
         } else if (step > 0) {

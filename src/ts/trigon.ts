@@ -7,7 +7,7 @@
  * @class Sin
  */
 export class Sin {
-  _a;
+  protected _a;
   /**
    * @property {?} _a
    * @param {?} a
@@ -16,11 +16,11 @@ export class Sin {
     this._a = a;
   }
 
-  toString(): string {
+  public toString(): string {
     return `sin(${this._a})`;
   }
 
-  calc(): number {
+  public calc(): number {
     let v = 0;
     const a = this._a;
     if (typeof (a.calc) === 'function') {
@@ -37,7 +37,7 @@ export class Sin {
  * @class Cos
  */
 export class Cos {
-  _a;
+  protected _a;
   /**
    * @property {?} _a
    * @param {?} a
@@ -46,11 +46,11 @@ export class Cos {
     this._a = a;
   }
 
-  toString(): string {
+  public toString(): string {
     return `cos(${this._a})`;
   }
 
-  calc(): number {
+  public calc(): number {
     let v = 0;
     const a = this._a;
     if (typeof (a.calc) === 'function') {
@@ -67,7 +67,7 @@ export class Cos {
  * @class Tan
  */
 export class Tan {
-  _a;
+  protected _a;
   /**
    * @property {?} _a
    * @param {?} a
@@ -76,11 +76,11 @@ export class Tan {
     this._a = a;
   }
 
-  toString(): string {
+  public toString(): string {
     return `tan(${this._a})`;
   }
 
-  calc(): number {
+  public calc(): number {
     let v = 0;
     const a = this._a;
     if (typeof (a.calc) === 'function') {
@@ -102,7 +102,7 @@ export class Trigon {
    * @param {?} a
    * @return {Sin}
    */
-  static sin(a): Sin {
+  public static sin(a): Sin {
     return new Sin(a);
   }
 
@@ -111,7 +111,7 @@ export class Trigon {
    * @param {?} a
    * @return {Cos}
    */
-  static cos(a): Cos {
+  public static cos(a): Cos {
     return new Cos(a);
   }
 
@@ -120,7 +120,7 @@ export class Trigon {
    * @param {?} a
    * @return {Tan}
    */
-  static tan(a): Tan {
+  public static tan(a): Tan {
     return new Tan(a);
   }
 }

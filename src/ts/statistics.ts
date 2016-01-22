@@ -3,10 +3,25 @@
  * statistics
  */
 // TODO:
+/**
+ * @private
+ */
 const add = (a, b) => a + b;
+/**
+ * @private
+ */
 const sub = (a, b) => a - b;
+/**
+ * @private
+ */
 const mul = (a, b) => a * b;
+/**
+ * @private
+ */
 const div = (a, b) => a / b;
+/**
+ * @private
+ */
 const fact = (a) => {
   a = a | 0;
   if (a < 2) { return 1; }

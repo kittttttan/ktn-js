@@ -7,15 +7,15 @@ import './polyfill';
 export class Encode {
   /**
    * @method Encode.unary
-   * @param {!number}  n     natural number
+   * @param {!int} n natural number
    * @param {boolean=} [alt]
    * @return {!string} unary coding
    */
-  static unary(n: number, alt: boolean = false): string {
+  public static unary(n: int, alt: boolean = false): string {
     if (n < 0) { throw new Error(`unary(n, alt): n=${n} must >= 0`); }
 
-    let former;
-    let latter;
+    let former: string;
+    let latter: string;
     if (alt) {
       former = '0';
       latter = '1';
@@ -29,41 +29,40 @@ export class Encode {
 
   /**
    * @method Encode.eliasGamma
-   * @param {!number}  n     natural number
+   * @param {!int} n natural number
    * @return {!string} Elias gamma coding
    */
-  static eliasGamma(n: number): string {
+  public static eliasGamma(n: int): string {
     if (n < 1) { throw new Error(`eliasGamma(n): n=${n} must >= 1`); }
 
-    const bin = n.toString(2);
+    const bin: string = n.toString(2);
     return '0'.repeat(bin.length - 1) + bin;
   }
 
   /**
    * @method Encode.eliasDelta
-   * @param {!number} n natural number
+   * @param {!int} n natural number
    * @return {!string} Elias delta coding
    */
-  static eliasDelta(n: number): string {
+  public static eliasDelta(n: int): string {
     if (n < 1) { throw new Error(`eliasDelta(n): n=${n} must >= 1`); }
 
-    const bin = n.toString(2);
-    const gamma = Encode.eliasGamma(bin.length);
+    const bin: string = n.toString(2);
+    const gamma: string = Encode.eliasGamma(bin.length);
     return gamma + bin.substring(1);
   }
 
   /**
    * @method Encode.eliasOmega
-   * @param {!number} n natural number
+   * @param {!int} n natural number
    * @return {!string} Elias omega coding
    */
-  static eliasOmega(n: number): string {
+  public static eliasOmega(n: int): string {
     if (n < 1) { throw new Error(`eliasOmega(n): n=${n} must >= 1`); }
 
-    let res = '0';
-    let bin;
+    let res: string = '0';
     while (n > 1) {
-      bin = n.toString(2);
+      const bin = n.toString(2);
       res = bin + res;
       n = bin.length - 1;
     }
@@ -73,23 +72,23 @@ export class Encode {
 
   /**
    * @method Encode.golomb
-   * @param {!number} n   natural number
-   * @param {number=} [m=8]
+   * @param {!int} n natural number
+   * @param {int=} [m=8]
    * @return {!string} Golomb coding
    */
-  static golomb(n: number, m: number = 8): string {
+  public static golomb(n: int, m: int = 8): string {
     if (n < 0) { throw new Error(`golomb(n, m): n=${n} must >= 0`); }
 
     m = (m | 0) || 8;
     if (m < 1) { throw new Error(`golomb(n, m): m=${m} must >= 1`); }
 
-    const q = n / m | 0;
-    const r = n % m;
-    const bin = m.toString(2);
-    let b = bin.length - 1;
-    const isBin = (b !== 1) && !(b & (b - 1));
+    const q: int = n / m | 0;
+    const r: int = n % m;
+    const bin: string = m.toString(2);
+    let b: int = bin.length - 1;
+    const isBin: boolean = (b !== 1) && !(b & (b - 1));
 
-    let res = Encode.unary(q, true);
+    let res: string = Encode.unary(q, true);
     if (isBin) {
       res += ('0'.repeat(b) + r.toString(2)).slice(-b);
     } else {
@@ -116,14 +115,14 @@ export class Decode {
    * @method Decode.unary
    * @param {!string}  str
    * @param {boolean=} alt
-   * @return {!Array<number>} natural number
+   * @return {!Array<int>} natural number
    */
-  static unary(str: string, alt: boolean = false): number[] {
-    const res = [];
+  public static unary(str: string, alt: boolean = false): int[] {
+    const res: int[] = [];
     if (!str) { return res; }
 
-    let former;
-    let latter;
+    let former: string;
+    let latter: string;
     if (alt) {
       former = '0';
       latter = '1';
@@ -132,9 +131,9 @@ export class Decode {
       latter = '0';
     }
 
-    let cnt = 0;
-    const l = str.length;
-    for (let i = 0; i < l; ++i) {
+    let cnt: int = 0;
+    const l: int = str.length;
+    for (let i: int = 0; i < l; ++i) {
       switch (str.charAt(i)) {
       case former:
         ++cnt;
@@ -154,16 +153,16 @@ export class Decode {
   /**
    * @method Decode.eliasGamma
    * @param {!string} str
-   * @return {!Array<number>} natural number
+   * @return {!Array<int>} natural number
    */
-  static eliasGamma(str: string): number[] {
-    const res = [];
+  public static eliasGamma(str: string): int[] {
+    const res: int[] = [];
     if (!str) { return res; }
 
-    const l = str.length;
-    let cnt = 0;
-    let bin = '';
-    for (let i = 0; i < l; ++i) {
+    const l: int = str.length;
+    let cnt: int = 0;
+    let bin: string = '';
+    for (let i: int = 0; i < l; ++i) {
       if (str.charAt(i) === '0') {
         ++cnt;
       } else if (str.charAt(i) === '1') {
@@ -183,9 +182,9 @@ export class Decode {
   /**
    * @method Decode.eliasDelta
    * @param {!string} str
-   * @return {!Array<number>} natural number
+   * @return {!Array<int>} natural number
    */
-  static eliasDelta(str: string): number[] {
+  public static eliasDelta(str: string): int[] {
     const res = [];
     if (!str) { return res; }
 
@@ -220,7 +219,7 @@ export class Decode {
    * @param {!string} str
    * @return {!Array<number>} natural number
    */
-  static eliasOmega(str: string): number[] {
+  public static eliasOmega(str: string): number[] {
     const res = [];
     if (!str) { return res; }
 

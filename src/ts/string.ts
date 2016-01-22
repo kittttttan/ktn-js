@@ -40,17 +40,17 @@ export class StringUtil {
    * @param {...?} argv
    * @return {string}
    */
-  static format(str: string, ...argv: any[]): string {
+  public static format(str: string, ...argv: any[]): string {
     //const argv = arguments;
-    let index = 0;
+    let index: int = 0;
     return str.replace(
         /%([+\-#0])?(\d+)?(?:\.(\d+))?([%defoxs])/g,
         (src, flag, width, prec, type) => {
       if (type === '%') {
         return '%';
       }
-      let s = '';
-      let n = 0;
+      let s: string = '';
+      let n: int = 0;
       if (type === 's') {
         s = argv[index];
       } else if (type === 'd') {
@@ -92,9 +92,9 @@ export class StringUtil {
    * @param {...*} argv
    * @return {string}
    */
-  static pyformat(str: string, ...argv: any[]): string {
-    let cnt = 0;
-    let index = 1;
+  public static pyformat(str: string, ...argv: any[]): string {
+    let cnt: int = 0;
+    let index: int = 1;
     /**
      * @param {!*} src
      * @param {!string} type
@@ -105,7 +105,7 @@ export class StringUtil {
       if (type === void 0) {
         return src;
       }
-      let pre;
+      let pre: string;
       const isPrefix = prefix === '#';
       switch (type) {
         case 's':
@@ -148,10 +148,10 @@ export class StringUtil {
       if (align === void 0) {
         return src;
       }
-      const srcstr = src.toString();
-      const ch = fill === void 0 ? ' ' : fill;
-      const isFilled = width > srcstr.length;
-      const add = isFilled ? ch.repeat(width - srcstr.length) : '';
+      const srcstr: string = src.toString();
+      const ch: string = fill === void 0 ? ' ' : fill;
+      const isFilled: boolean = width > srcstr.length;
+      const add: string = isFilled ? ch.repeat(width - srcstr.length) : '';
       switch (align) {
         case '<':
           return (srcstr + add).substring(0, width);
@@ -176,7 +176,7 @@ export class StringUtil {
         fill = '0';
         align = '=';
       }
-      let value;
+      let value: string;
       if (fieldName === void 0) {
         index = cnt - 1;
         value = typeFormat(argv[index], type);
@@ -195,7 +195,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static escapeHTML(s: string): string {
+  public static escapeHTML(s: string): string {
     return s
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -208,7 +208,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static escapeJS(s: string): string {
+  public static escapeJS(s: string): string {
     return s
       .replace(/\\/g, '\\\\')
       .replace(/"/g, '\\"')
@@ -220,7 +220,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static trimLeft(s: string): string {
+  public static trimLeft(s: string): string {
     return s.replace(/^\s+/, '');
   }
 
@@ -228,7 +228,7 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static trimRight(s: string): string {
+  public static trimRight(s: string): string {
     return s.replace(/\s+$/, '');
   }
 
@@ -236,17 +236,17 @@ export class StringUtil {
    * @param {!string} s
    * @return {!string}
    */
-  static nobr(s: string): string {
+  public static nobr(s: string): string {
     return s.replace(/[\r\n]+/g, '');
   }
 
   /**
-   * @param {!number} len
-   * @param {number=} optFilter
+   * @param {!int} len
+   * @param {int=} optFilter
    * @return {!string}
    */
-  static random(len: number, optFilter: number = Types.LOWER | Types.UPPER | Types.DIGITS): string {
-    let letter = '';
+  public static random(len: int, optFilter: int = Types.LOWER | Types.UPPER | Types.DIGITS): string {
+    let letter: string = '';
     if (optFilter & Types.LOWER) {
       letter += 'abcdefghijklmnopqrstuvwxyz';
     }
@@ -263,10 +263,10 @@ export class StringUtil {
       letter += '!\"#$%&\'()=~|-^@[;:],./`{+*}>?';
     }
 
-    let str = '';
+    let str: string = '';
     const range = letter.length;
     const rnd = Math.random;
-    for (let i = 0; i < len; ++i) {
+    for (let i: int = 0; i < len; ++i) {
       str += letter.charAt(rnd() * range | 0);
     }
     return str;

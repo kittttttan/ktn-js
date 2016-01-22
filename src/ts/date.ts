@@ -4,19 +4,19 @@
  */
 export class DateUtil {
   /**
-   * @param {number} y year
+   * @param {int} y year
    * @return {!boolean}
    */
-  static isLeapYear(y: number): boolean {
+  public static isLeapYear(y: int): boolean {
     return (y > 7) && !(y & 3) && ((y % 100 > 0) || !(y % 400));
   }
 
   /**
-   * @param {!number} y year
-   * @param {!number} m month
-   * @return {!number} number of days in month
+   * @param {!int} y year
+   * @param {!int} m month
+   * @return {!int} number of days in month
    */
-  static getDaysInMonth(y: number, m: number): number {
+  public static getDaysInMonth(y: int, m: int): int {
     switch (m) {
       case 2:
         if (this.isLeapYear(y)) {
@@ -39,7 +39,7 @@ export class DateUtil {
    * @param {!Date} d date
    * @return {!string}
    */
-  static format(s: string, d: Date): string {
+  public static format(s: string, d: Date): string {
     return s.replace(
         /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
         (src, token) => {
@@ -74,7 +74,7 @@ export class DateUtil {
       if (token === 'H') {
         return `${d.getHours()}`;
       }
-      let h: number = 0;
+      let h: int = 0;
       if (token === 'hh') {
         h = d.getHours();
         if (h > 12) {
@@ -122,13 +122,13 @@ export class DateUtil {
       if (token === 'S') {
         return `${d.getMilliseconds()}`;
       }
-      const ch = token.charAt(0);
+      const ch: string = token.charAt(0);
       if (ch === 'S') {
         return `00${d.getMilliseconds()}`.slice(-3);
       }
       if (ch === 'Z') {
-        const t: number = d.getTimezoneOffset();
-        let z: number = -t / 60;
+        const t: int = d.getTimezoneOffset();
+        let z: int = -t / 60 | 0;
         let sign: string;
         if (z < 0) {
           z = -z;

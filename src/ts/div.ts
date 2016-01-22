@@ -2,10 +2,10 @@
  * Div
  */
 
- /**
-  * @private
-  * @requires Rational
-  */
+/**
+ * @private
+ * @requires Rational
+ */
 import {Rational} from './rational';
 
 /**
@@ -14,7 +14,7 @@ import {Rational} from './rational';
  * @property {Array<?>} _items
  */
 export class Div {
-  _items: any[];
+  protected _items: any[];
 
   /**
    * @param {Array<?>} items
@@ -28,17 +28,17 @@ export class Div {
    * @param {...?} items
    * @return {Div}
    */
-  static div(...items: any[]): Div {
+  public static div(...items: any[]): Div {
     return new Div(items);
   }
 
-  toString(): string {
+  public toString(): string {
     return `div(${this._items})`;
   }
 
-  calc(): Rational {
-    let v = Rational.one;
-    let isFirst = true;
+  public calc(): Rational {
+    let v: Rational = Rational.one;
+    let isFirst: boolean = true;
     for (const item of this._items) {
       if (isFirst) {
         isFirst = false;
@@ -54,7 +54,7 @@ export class Div {
     return v;
   }
 
-  clone(): Div {
+  public clone(): Div {
     const a = [];
     for (let item of this._items) {
       a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
@@ -63,7 +63,7 @@ export class Div {
     return new Div(a);
   }
 
-  neg(): Div {
+  public neg(): Div {
     const a = [];
     let isFirst: boolean = true;
     for (let item of this._items) {

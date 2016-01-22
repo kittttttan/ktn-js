@@ -34,7 +34,7 @@ export function csvToJson(s: string, column: string[], opt: toJsonOpt = {}) {
     }
     const item = {};
     const words: string[] = line.split(sep);
-    for (let i = 0; i < colLength; ++i) {
+    for (let i: int = 0; i < colLength; ++i) {
       if (!column[i]) {
         throw new Error('Invalid CSV');
       }
@@ -51,9 +51,9 @@ export function csvToJson(s: string, column: string[], opt: toJsonOpt = {}) {
         doParseFloat = true;
       }
 
-      const com = clTypeArr[0].split('.');
-      const cl = com.length;
-      let k = 0;
+      const com: string[] = clTypeArr[0].split('.');
+      const cl: int = com.length;
+      let k: int = 0;
       while (k < cl - 1) {
         if (typeof leaf[com[k]] === 'undefined') {
           leaf[com[k]] = {};

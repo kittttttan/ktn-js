@@ -7,21 +7,25 @@ import {Stopwatch} from './stopwatch';
 /**
  * Result
  * @class Result
- * @property {Array<number>} Result#_t
+ * @property {Array<number>} Result#_r
  */
 export class Result {
-  _t: number[];
+  protected _r: number[];
+
+  get records(): number[] {
+    return this._r;
+  }
 
   constructor() {
-    this._t = [];
+    this._r = [];
   }
 
   /**
-   * @param {number}
+   * @param {int}
    * @return {Result}
    */
-  add(t: number) {
-    this._t.push(t);
+  public add(t: int) {
+    this._r.push(t);
     return this;
   }
 }
@@ -34,9 +38,25 @@ export class Result {
  * @property {Result} Unit#_result
  */
 export class Unit {
-  _name: string;
-  _func: () => any;
-  _result: Result;
+  protected _name: string;
+  protected _func: () => any;
+  protected _result: Result;
+
+  get name(): string {
+    return this._name;
+  }
+
+  get func(): () => any {
+    return this._func;
+  }
+
+  get result(): Result {
+    return this._result;
+  }
+
+  set result(result: Result) {
+    this._result = result;
+  }
 
   /**
    * @param {string} name
@@ -53,13 +73,13 @@ export class Unit {
  * BenchMark
  * @class BenchMark
  * @property {Array<Unit>} BenchMark#_items
- * @property {Array<Unit>} BenchMark#_loop
- * @property {Array<Unit>} BenchMark#_intime
+ * @property {int} BenchMark#_loop
+ * @property {int} BenchMark#_intime
  */
 export class BenchMark {
-  _items: Unit[];
-  _loop: number;
-  _intime: number;
+  protected _items: Unit[];
+  protected _loop: int;
+  protected _intime: int;
 
   /**
    * @param {?} opt
@@ -91,7 +111,7 @@ export class BenchMark {
   /**
    * @return {BenchMark}
    */
-  static bm(): BenchMark {
+  public static bm(): BenchMark {
     return new BenchMark();
   }
 
@@ -100,7 +120,7 @@ export class BenchMark {
    * @param {function} f
    * @return {BenchMark}
    */
-  add(s: string, f): BenchMark {
+  public add(s: string, f): BenchMark {
     this._items.push(new Unit(s, f));
     return this;
   }
@@ -109,7 +129,7 @@ export class BenchMark {
    * @param {Unit} u
    * @return {BenchMark}
    */
-  addItem(u: Unit): BenchMark {
+  public addItem(u: Unit): BenchMark {
     this._items.push(u);
     return this;
   }
@@ -117,16 +137,16 @@ export class BenchMark {
   /**
    * @param {boolean?} quiet
    */
-  run(quiet?: boolean): void {
+  public run(quiet?: boolean): void {
     const sw: Stopwatch = Stopwatch.sw();
     const isLoop: boolean = this._loop > 0;
     for (const u of this._items) {
-      if (!quiet) { console.log(`${u._name} is running ...`); }
+      if (!quiet) { console.log(`${u.name} is running ...`); }
       const r: Result = new Result();
       if (isLoop) {
         for (let i = 0; i < this._loop; ++i) {
           sw.restart();
-          u._func();
+          u.func();
           sw.stop();
           r.add(sw.elapsed);
         }
@@ -134,12 +154,12 @@ export class BenchMark {
         const t0 = Date.now();
         while (Date.now() - t0 < this._intime) {
           sw.restart();
-          u._func();
+          u.func();
           sw.stop();
           r.add(sw.elapsed);
         }
       }
-      u._result = r;
+      u.result = r;
     }
     if (!quiet) { this.show(); }
   }
@@ -147,11 +167,11 @@ export class BenchMark {
   /**
    * 
    */
-  show(): void {
+  public show(): void {
     for (const u of this._items) {
-      console.log(`${u._name}`);
-      for (const t of u._result._t) {
-        console.log(`  ${t} ms`);
+      console.log(`${u.name}`);
+      for (const record of u.result.records) {
+        console.log(`  ${record} ms`);
       }
     }
   }

@@ -13,7 +13,7 @@
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
   "scripts": {
-    "doc": "jsdoc -R README.md -r dist/ts -d doc",
+    "doc": "jsdoc -R README.md -r src/ts -d doc",
     "del": "del test\\ts\\*.js examples\\ts\\*.js src\\ts\\*.js",
     "test": "gulp test"
   },

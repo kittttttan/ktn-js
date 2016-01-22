@@ -1,13 +1,5 @@
 /**
  * Rational
- * @example
- *    var Rational = require('/path/to/rational.js').Rational;
- *    var a = Rational.num(2, 3);
- *    var b = Rational.str('-3/12');
- *    var c = a.add(b);
- *    a.toString();  // '(2/3)'
- *    b.toString();  // '(-1/4)'
- *    c.toString();  // '(5/12)'
  */
 
 import './ktn';
@@ -26,8 +18,8 @@ import {Integer} from './integer';
  * @property {!Integer} Rational#_d Denominator
  */
 export class Rational implements Ktn.Field {
-  _n: Integer;
-  _d: Integer;
+  protected _n: Integer;
+  protected _d: Integer;
 
   /**
    * @param {!Integer} n
@@ -69,12 +61,12 @@ export class Rational implements Ktn.Field {
    * Convert Number to Rational.
    * @static
    * @method Rational.num
-   * @param {!number} a Numerator
-   * @param {!number=} b Denominator
+   * @param {!int} a Numerator
+   * @param {!int=} b Denominator
    * @param {boolean=} c
    * @return {!Rational}
    */
-  static num(a: number, b?: number, c?: boolean): Rational {
+  public static num(a: int, b?: int, c?: boolean): Rational {
     if (!b) {
       return new Rational(Integer.num(a), Integer.one, true);
     }
@@ -88,8 +80,8 @@ export class Rational implements Ktn.Field {
    * @param {!string} a ex.'-1/2', '0.1/1.02'.
    * @return {!Rational}
    */
-  static str(a: string): Rational {
-    const as = a.split('/');
+  public static str(a: string): Rational {
+    const as: string[] = a.split('/');
     as[1] = as[1] || '1';
 
     // sign
@@ -98,8 +90,8 @@ export class Rational implements Ktn.Field {
     as[1] = as[1].replace(/[\-\+]/g, '');
 
     // dot
-    const [d1, d2] = [as[0].indexOf('.'), as[1].indexOf('.')];
-    const [l1, l2] = [d1 < 0 ? 0 : as[0].length - d1 - 1, d2 < 0 ? 0 : as[1].length - d2 - 1];
+    const [d1, d2]: number[] = [as[0].indexOf('.'), as[1].indexOf('.')];
+    const [l1, l2]: number[] = [d1 < 0 ? 0 : as[0].length - d1 - 1, d2 < 0 ? 0 : as[1].length - d2 - 1];
     as[0] = as[0].replace('.', '').replace(/^0*(\d+)$/, '$1');
     as[1] = as[1].replace('.', '').replace(/^0*(\d+)$/, '$1');
     if (l1 > l2) {
@@ -125,7 +117,7 @@ export class Rational implements Ktn.Field {
    * @throws {Error} ZeroDivisionError
    * @return {!Rational}
    */
-  static any(a, b?): Rational {
+  public static any(a, b?): Rational {
     if (!arguments.length) {
       return Rational.zero;
     }
@@ -148,13 +140,13 @@ export class Rational implements Ktn.Field {
    * @param {!Integer} b
    * @return {!Array<!Integer>}
    */
-  static cancel(a: Integer, b: Integer): Integer[] {
-    const g = a.gcd(b);
+  public static cancel(a: Integer, b: Integer): Integer[] {
+    const g: Integer = a.gcd(b);
     a = a.div(g);
     b = b.div(g);
-    if (!b._s) {
-      a._s = !a._s;
-      b._s = true;
+    if (!b.sign) {
+      a.sign = !a.sign;
+      b.sign = true;
     }
     return [a, b];
   }
@@ -163,7 +155,7 @@ export class Rational implements Ktn.Field {
    * @method Rational#clone
    * @return {!Rational}
    */
-  clone(): Rational {
+  public clone(): Rational {
     return new Rational(this._n, this._d, true);
   }
 
@@ -171,7 +163,7 @@ export class Rational implements Ktn.Field {
    * @method Rational#toString
    * @return {!string}
    */
-  toString(): string {
+  public toString(): string {
     if (this._d.equal(Integer.one)) { return this._n.toString(); }
     return `${this._n}/${this._d}`;
   }
@@ -180,13 +172,15 @@ export class Rational implements Ktn.Field {
    * @method Rational#html
    * @return {!string}
    */
-  html(): string { return this.toString(); }
+  public html(): string {
+    return this.toString();
+  }
 
   /**
    * @method Rational#tex
    * @return {!string}
    */
-  tex(): string {
+  public tex(): string {
     //if (this._d == 1) {return this._n.toString();}
     return `\\frac{${this._n}}{${this._d}}`;
   }
@@ -199,7 +193,7 @@ export class Rational implements Ktn.Field {
    * @method Rational#abs
    * @return {!Rational} |this|.
    */
-  abs(): Rational {
+  public abs(): Rational {
     return new Rational(this._n.abs(), this._d, true);
   }
 
@@ -207,7 +201,7 @@ export class Rational implements Ktn.Field {
    * @method Rational#neg
    * @return {!Rational} -this.
    */
-  neg(): Rational {
+  public neg(): Rational {
     return new Rational(this._n.neg(), this._d, true);
   }
 
@@ -216,7 +210,7 @@ export class Rational implements Ktn.Field {
    * @param {!?} b
    * @return {!boolean} this == b.
    */
-  eq(b: any): boolean {
+  public eq(b: any): boolean {
     b = Rational.any(b);
     if (this._n.eq(b._n) && this._d.eq(b._d)) { return true; }
     return false;
@@ -227,7 +221,7 @@ export class Rational implements Ktn.Field {
    * @param {!Rational} b
    * @return {!boolean} this === b.
    */
-  equal(b: Rational): boolean {
+  public equal(b: Rational): boolean {
     if (!(b instanceof Rational)) { return false; }
     if (this._n.equal(b._n) && this._d.equal(b._d)) { return true; }
     return false;
@@ -236,12 +230,12 @@ export class Rational implements Ktn.Field {
   /**
    * @method Rational#cmp
    * @param {!Rational} b
-   * @return {!number}
-   *      1 (this > b)
-   *      0 (this = b)
-   *     -1 (this < b).
+   * @return {!int}
+   *   1 (this > b)
+   *   0 (this = b)
+   *  -1 (this < b).
    */
-  cmp(b: Rational): Ktn.Compare {
+  public cmp(b: Rational): int {
     return this._n.mul(b._d).cmp(this._d.mul(b._n));
   }
 
@@ -250,13 +244,13 @@ export class Rational implements Ktn.Field {
    * @method Rational#inv
    * @return {!Rational}
    */
-  inv(): Rational {
-    const n = this._n;
-    const d = this._d;
+  public inv(): Rational {
+    const n: Integer = this._n;
+    const d: Integer = this._d;
     if (!n.isNonZero()) {
       throw new Error('zero division');
     }
-    if (!n._s) {
+    if (!n.sign) {
       return new Rational(d.neg(), n.neg(), true);
     }
     return new Rational(d, n, true);
@@ -267,7 +261,7 @@ export class Rational implements Ktn.Field {
    * @param {!Rational} b
    * @return {!Rational} this + b.
    */
-  add(b: Rational): Rational {
+  public add(b: Rational): Rational {
     return new Rational(
         this._n.mul(b._d).add(this._d.mul(b._n)),
         this._d.mul(b._d));
@@ -278,7 +272,7 @@ export class Rational implements Ktn.Field {
    * @param {!Rational} b
    * @return {!Rational} this - b.
    */
-  sub(b: Rational): Rational {
+  public sub(b: Rational): Rational {
     return new Rational(
         this._n.mul(b._d).sub(this._d.mul(b._n)),
         this._d.mul(b._d));
@@ -289,7 +283,7 @@ export class Rational implements Ktn.Field {
    * @param {!Rational} b
    * @return {!Rational} this * b.
    */
-  mul(b: Rational): Rational {
+  public mul(b: Rational): Rational {
     return new Rational(this._n.mul(b._n), this._d.mul(b._d));
   }
 
@@ -298,16 +292,16 @@ export class Rational implements Ktn.Field {
    * @param {!Rational} b
    * @return {!Rational} this / b.
    */
-  div(b: Rational): Rational {
+  public div(b: Rational): Rational {
     return new Rational(this._n.mul(b._d), this._d.mul(b._n));
   }
 
   /**
    * @method Rational#pow
-   * @param {!number} b
+   * @param {!int} b
    * @return {!Rational} this ^ b.
    */
-  pow(b: number): Rational {
+  public pow(b: int): Rational {
     return new Rational(this._n.pow(b), this._d.pow(b), true);
   }
 }

@@ -14,7 +14,7 @@ import {Rational} from './rational';
  * @property {Array<?>} _items
  */
 export class Mul {
-  _items: any[];
+  protected _items: any[];
 
   /**
    * @param {Array<?>} items
@@ -28,15 +28,15 @@ export class Mul {
    * @param {...?} items
    * @return {Mul}
    */
-  static mul(...items: any[]): Mul {
+  public static mul(...items: any[]): Mul {
     return new Mul(items);
   }
 
-  toString(): string {
+  public toString(): string {
     return `mul(${this._items})`;
   }
 
-  calc(): Rational {
+  public calc(): Rational {
     let v = Rational.one;
     for (const item of this._items) {
       if (typeof (item.calc) === 'function') {
@@ -48,7 +48,7 @@ export class Mul {
     return v;
   }
 
-  clone(): Mul {
+  public clone(): Mul {
     const a = [];
     for (let item of this._items) {
       a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
@@ -57,7 +57,7 @@ export class Mul {
     return new Mul(a);
   }
 
-  neg(): Mul {
+  public neg(): Mul {
     const a = [];
     let isFirst: boolean = true;
     for (let item of this._items) {
@@ -73,7 +73,7 @@ export class Mul {
     return new Mul(a);
   }
 
-  inv(): Mul {
+  public inv(): Mul {
     const a = [];
     for (let item of this._items) {
       let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;

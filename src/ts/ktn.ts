@@ -2,6 +2,15 @@
  * Basic interface
  */
 
+/**
+ * @typedef {number} int
+ * @typedef {number} double
+ * @typedef {number} float
+ */
+type int = number;
+type double = number;
+type float = number;
+
 module Ktn {
 
 export interface Field {

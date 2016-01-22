@@ -10,28 +10,28 @@ const rnd = Math.random;
  * @see http://www.ietf.org/rfc/rfc4122.txt
  *
  * @class Uuid
- * @property {number} Uuid#_timeLow  0xFFFFFFFF00000000
- * @property {number} Uuid#_timeMid  0x00000000FFFF0000
- * @property {number} Uuid#_version  0x000000000000F000
- * @property {number} Uuid#_timeHi   0x0000000000000FFF
- * @property {number} Uuid#_variant  0xC000000000000000
- * @property {number} Uuid#_clockSeq 0x3FFF000000000000
- * @property {number} Uuid#_node     0x0000FFFFFFFFFFFF
+ * @property {int} Uuid#_timeLow  0xFFFFFFFF00000000
+ * @property {int} Uuid#_timeMid  0x00000000FFFF0000
+ * @property {int} Uuid#_version  0x000000000000F000
+ * @property {int} Uuid#_timeHi   0x0000000000000FFF
+ * @property {int} Uuid#_variant  0xC000000000000000
+ * @property {int} Uuid#_clockSeq 0x3FFF000000000000
+ * @property {int} Uuid#_node     0x0000FFFFFFFFFFFF
  */
 export class Uuid {
-  _timeLow: number;
-  _timeMid: number;
-  _version: number;
-  _timeHi: number;
-  _variant: number;
-  _clockSeq: number;
-  _node: number;
+  protected _timeLow: int;
+  protected _timeMid: int;
+  protected _version: int;
+  protected _timeHi: int;
+  protected _variant: int;
+  protected _clockSeq: int;
+  protected _node: int;
 
   /**
    * Initialize
-   * @param {?number=} ver
+   * @param {?int=} ver
    */
-  constructor(ver: number = 4) {
+  constructor(ver: int = 4) {
     this._timeLow = 0;
     this._timeMid = 0;
     this._version = ver;
@@ -42,10 +42,10 @@ export class Uuid {
   }
 
   /**
-   * @param {?number=} ver
+   * @param {?int=} ver
    * @return {!Uuid}
    */
-  static uuid(ver: number = 4): Uuid {
+  public static uuid(ver: int = 4): Uuid {
     if (1 <= ver && ver <= 5) {
       if (ver !== 4) { throw new Error(`Not implemented version: ${ver}`); }
       return new Uuid(ver);
@@ -58,12 +58,12 @@ export class Uuid {
    * @method Uuid#toString
    * @return {string}
    */
-  toString(): string {
-    const timeLow = hex(this._timeLow, 8);
-    const timeMid = hex(this._timeMid, 4);
-    const version = hex((this._version << 12) | this._timeHi, 4);
-    const variant = hex((this._variant << 12) | this._clockSeq, 4);
-    const node = hex(this._node, 12);
+  public toString(): string {
+    const timeLow: string = hex(this._timeLow, 8);
+    const timeMid: string = hex(this._timeMid, 4);
+    const version: string = hex((this._version << 12) | this._timeHi, 4);
+    const variant: string = hex((this._variant << 12) | this._clockSeq, 4);
+    const node: string = hex(this._node, 12);
 
     return `${timeLow}-${timeMid}-${version}-${variant}-${node}`;
   }
@@ -73,18 +73,40 @@ export class Uuid {
    * @param {string} id
    * @return {Uuid}
    */
-  fromString(id: string): Uuid {
-    uuidStr(this, id);
-    return this;
+  public fromString(id: string): Uuid {
+    if (id.charAt(0) === '{') {
+      id = id.substring(1);
+    }
+
+    const u = this;
+    u._timeLow = parseInt(id.substring(0, 8), 16);
+    u._timeMid = parseInt(id.substring(9, 13), 16);
+    u._version = parseInt(id.substring(14, 15), 16);
+    u._timeHi = parseInt(id.substring(15, 18), 16);
+    u._variant = 8;
+    u._clockSeq = parseInt(id.substring(19, 23), 16) - (u._variant << 12);
+    u._node = parseInt(id.substring(24), 16);
+
+    return u;
   }
 
   /**
    * @method Uuid#generate
    * @return {string}
    */
-  generate(): string {
+  public generate(): string {
     switch (this._version) {
-    case 4: return uuid4(this);
+    case 4:
+      const u = this;
+      u._timeLow = rand(32);
+      u._timeMid = rand(16);
+      u._version = 4;
+      u._timeHi = rand(12);
+      u._variant = 8;
+      u._clockSeq = rand(14);
+      u._node = rand(48);
+      
+      return u.toString();
     default: throw new Error(`invalid version: ${this._version}`);
     }
   }
@@ -93,8 +115,8 @@ export class Uuid {
    * @method Uuid#clone
    * @return {Uuid}
    */
-  clone(): Uuid {
-    const u = new Uuid();
+  public clone(): Uuid {
+    const u: Uuid = new Uuid();
     u._timeLow = this._timeLow;
     u._timeMid = this._timeMid;
     u._version = this._version;
@@ -111,7 +133,7 @@ export class Uuid {
    * @param {Uuid} u
    * @return {boolean}
    */
-  equals(u: Uuid): boolean {
+  public equals(u: Uuid): boolean {
     return this._timeLow === u._timeLow &&
       this._timeMid === u._timeMid &&
       this._version === u._version &&
@@ -122,24 +144,24 @@ export class Uuid {
   }
 
   /**
-   * @return {number}
+   * @return {int}
    */
-  get version(): number { return this._version; }
+  get version(): int { return this._version; }
 
   /**
-   * @return {number}
+   * @return {int}
    */
-  get variant(): number { return this._variant; }
+  get variant(): int { return this._variant; }
 }
 
 /**
  * @private
- * @param {number} n
- * @param {number} len
+ * @param {int} n
+ * @param {int} len
  * @return {string}
  */
-function hex(n: number, len: number): string {
-  let z;
+function hex(n: int, len: int): string {
+  let z: string;
 
   switch (len) {
   case 4: z = '0000'; break;
@@ -154,52 +176,13 @@ function hex(n: number, len: number): string {
 
 /**
  * @private
- * @param {Uuid} u
- * @param {string} id
- * @return {Uuid}
+ * @param {int} n
+ * @return {int}
  */
-function uuidStr(u: Uuid, id: string): Uuid {
-  if (id.charAt(0) === '{') {
-    id = id.substring(1);
-  }
-
-  u._timeLow = parseInt(id.substring(0, 8), 16);
-  u._timeMid = parseInt(id.substring(9, 13), 16);
-  u._version = parseInt(id.substring(14, 15), 16);
-  u._timeHi = parseInt(id.substring(15, 18), 16);
-  u._variant = 8;
-  u._clockSeq = parseInt(id.substring(19, 23), 16) - (u._variant << 12);
-  u._node = parseInt(id.substring(24), 16);
-
-  return u;
-}
-
-/**
- * @private
- * @param {number} n
- * @return {number}
- */
-function rand(n: number): number {
+function rand(n: int): int {
   if (n < 0) { return NaN; }
   if (n <= 30) { return (0 | rnd() * (1 << n)); }
   if (n <= 53) { return (0 | rnd() * (1 << 30))
                     + (0 | rnd() * (1 << (n - 30))) * (1 << 30); }
   return NaN;
-}
-
-/**
- * @private
- * @param {Uuid} u
- * @return {string}
- */
-function uuid4(u: Uuid): string {
-  u._timeLow = rand(32);
-  u._timeMid = rand(16);
-  u._version = 4;
-  u._timeHi = rand(12);
-  u._variant = 8;
-  u._clockSeq = rand(14);
-  u._node = rand(48);
-
-  return u.toString();
 }

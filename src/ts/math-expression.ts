@@ -9,18 +9,60 @@
  *  me.valueOf() // -49.5
  */
 
+/**
+ * @private
+ * @requires Add
+ */
 import {Add} from './add';
+/**
+ * @private
+ * @requires Mul
+ */
 import {Mul} from './mul';
+/**
+ * @private
+ * @requires Div
+ */
 import {Div} from './div';
+/**
+ * @private
+ * @requires Pow
+ */
 import {Pow} from './pow';
+/**
+ * @private
+ * @requires Trigon
+ */
 import {Trigon} from './trigon';
+/**
+ * @private
+ * @requires Const
+ */
 import {Const} from './const';
 
+/**
+ * @private
+ */
 const add = Add.add;
+/**
+ * @private
+ */
 const sub = Add.sub;
+/**
+ * @private
+ */
 const mul = Mul.mul;
+/**
+ * @private
+ */
 const div = Div.div;
+/**
+ * @private
+ */
 const pow = Pow.pow;
+/**
+ * @private
+ */
 const neg = (a) => {
   if (typeof (a.neg) === 'function') {
     return a.neg();
@@ -28,15 +70,24 @@ const neg = (a) => {
   return -a;
 };
 
+/**
+ * @private
+ */
 const sin = Trigon.sin;
+/**
+ * @private
+ */
 const cos = Trigon.cos;
+/**
+ * @private
+ */
 const tan = Trigon.tan;
 
 /**
  * @private
- * @type {number}
+ * @type {int}
  */
-let _ME_INDEX: number = 0;
+let _ME_INDEX: int = 0;
 
 /**
  * MathExpression
@@ -45,8 +96,8 @@ let _ME_INDEX: number = 0;
  * @property {Array<string>} _t token
  */
 export class MathExpression {
-  _s: string;
-  _t: string[];
+  protected _s: string;
+  protected _t: string[];
 
   /**
    * @param {string} source
@@ -62,21 +113,21 @@ export class MathExpression {
    * @param {string} str
    * @return {MathExpression}
    */
-  static create(str: string): MathExpression {
+  public static create(str: string): MathExpression {
     return new MathExpression(str);
   }
 
   /**
    * @return {string}
    */
-  toString(): string {
+  public toString(): string {
     return this._s;
   }
 
   /**
    * @return {?}
    */
-  parse() {
+  public parse() {
     _ME_INDEX = 0;
     return meExpression(this._t);
   }
@@ -120,7 +171,7 @@ function meNumber(token: any[]) {
  * @return {?}
  */
 function meFactor(token: any[]) {
-  let flag = 0;
+  let flag: int = 0;
   if (token[_ME_INDEX] === '$sin') {
     flag = 1;
     _ME_INDEX += 1;

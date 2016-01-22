@@ -8,7 +8,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toZenkaku(str: string): string {
+  public static toZenkaku(str: string): string {
     return str
         .replace(/\\/g, '¥')
         .replace(/[ ]/g, '　')
@@ -24,13 +24,13 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toZenkakuKatakana(str: string): string {
-    const conv = [];
-    const zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
-    const han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
-    for (let i = 0, ref = str.length; i < ref; ++i) {
-      let c = str.charAt(i);
-      const n = han.indexOf(c);
+  public static toZenkakuKatakana(str: string): string {
+    const conv: string[] = [];
+    const zen: string[] = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
+    const han: string[] = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
+    for (let i: int = 0, ref = str.length; i < ref; ++i) {
+      let c: string = str.charAt(i);
+      const n: int = han.indexOf(c);
       if (n > -1) {
         c = zen[n];
       }
@@ -44,7 +44,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toHankaku(str: string): string {
+  public static toHankaku(str: string): string {
     return str
         .replace(/¥/g, '\\')
         .replace(/[　]/g, ' ')
@@ -60,13 +60,13 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toHankakuKatakana(str: string): string {
-    const conv = [];
-    const zen = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
-    const han = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
-    for (let i = 0, ref = str.length; i < ref; ++i) {
-      let c = str.charAt(i);
-      const n = zen.indexOf(c);
+  public static toHankakuKatakana(str: string): string {
+    const conv: string[] = [];
+    const zen: string[] = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
+    const han: string[] = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
+    for (let i: int = 0, ref = str.length; i < ref; ++i) {
+      let c: string = str.charAt(i);
+      const n: int = zen.indexOf(c);
       if (n > -1) {
         c = han[n];
       }
@@ -80,7 +80,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toKatakana(str: string): string {
+  public static toKatakana(str: string): string {
     return str.replace(/[\u3041-\u3096]/g, (a) =>
       String.fromCharCode(a.charCodeAt(0) + 0x60)
     );
@@ -91,7 +91,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static toHiragana(str: string): string {
+  public static toHiragana(str: string): string {
     return str.replace(/[\u30A1-\u30F6]/g, (a) =>
       String.fromCharCode(a.charCodeAt(0) - 0x60)
     );
@@ -102,7 +102,7 @@ export class StringConverter {
    * @param {string} str
    * @return {string}
    */
-  static proper(str: string): string {
+  public static proper(str: string): string {
     return str.replace(/(\w+)/g, (a) =>
       a.charAt(0).toUpperCase() + a.substring(1).toLowerCase()
     );
@@ -124,7 +124,7 @@ export class StringConverter {
    * </pre>
    * @return {string}
    */
-  static convert(str: string, option: number): string {
+  public static convert(str: string, option: int): string {
     switch (option) {
       case 0:
         return str.toUpperCase();

@@ -9,22 +9,22 @@ const _sqrt = Math.sqrt;
  * Vector
  *
  * @class Vector
- * @property {!number} Vector#x
- * @property {!number} Vector#y
- * @property {!number} Vector#z
+ * @property {!double} Vector#x
+ * @property {!double} Vector#y
+ * @property {!double} Vector#z
  */
 export class Vector {
-  x: number;
-  y: number;
-  z: number;
+  public x: double;
+  public y: double;
+  public z: double;
 
   /**
    * Initialize
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z
+   * @param {double} x
+   * @param {double} y
+   * @param {double} z
    */
-  constructor(x: number, y: number, z: number) {
+  constructor(x: double, y: double, z: double) {
     this.x = +x;
     this.y = +y;
     this.z = +z;
@@ -34,7 +34,7 @@ export class Vector {
    * @method Vector#toString
    * @return {!string}
    */
-  toString(): string {
+  public toString(): string {
     return `(${this.x},${this.y},${this.z})`;
   }
 
@@ -42,16 +42,16 @@ export class Vector {
    * @method Vector#clone
    * @return {!Vector}
    */
-  clone(): Vector {
-    const v = new Vector(this.x, this.y, this.z);
+  public clone(): Vector {
+    const v: Vector = new Vector(this.x, this.y, this.z);
     return v;
   }
 
   /**
    * @method Vector#norm
-   * @return {!number}
+   * @return {!double}
    */
-  norm(): number {
+  public norm(): double {
     return _sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
@@ -60,8 +60,8 @@ export class Vector {
    * @param {!Vector} v
    * @return {!Vector}
    */
-  add(v: Vector): Vector {
-    const w = new Vector(this.x + v.x, this.y + v.y, this.z + v.z);
+  public add(v: Vector): Vector {
+    const w: Vector = new Vector(this.x + v.x, this.y + v.y, this.z + v.z);
     return w;
   }
 
@@ -70,18 +70,18 @@ export class Vector {
    * @param {!Vector} v
    * @return {!Vector}
    */
-  sub(v: Vector): Vector {
-    const w = new Vector(this.x - v.x, this.y - v.y, this.z - v.z);
+  public sub(v: Vector): Vector {
+    const w: Vector = new Vector(this.x - v.x, this.y - v.y, this.z - v.z);
     return w;
   }
 
   /**
    * @method Vector#mul
-   * @param {!number} n
+   * @param {!double} n
    * @return {!Vector}
    */
-  mul(n: number): Vector {
-    const v = new Vector(n * this.x, n * this.y, n * this.z);
+  public mul(n: double): Vector {
+    const v: Vector = new Vector(n * this.x, n * this.y, n * this.z);
     return v;
   }
 
@@ -90,7 +90,7 @@ export class Vector {
    * @param {!Vector} v
    * @return {!Matrix}
    */
-  //cross(n) {
+  //public cross(n) {
   //  var m = new Matrix(this.x, this.y, this.z);
   //  return m;
   //},
@@ -98,9 +98,9 @@ export class Vector {
   /**
    * @method Vector#dot
    * @param {!Vector} v
-   * @return {!number}
+   * @return {!double}
    */
-  dot(v: Vector): number {
+  public dot(v: Vector): double {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
 }

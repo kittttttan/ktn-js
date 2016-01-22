@@ -15,8 +15,8 @@ import {Rational} from './rational';
  * @property {?} _p
  */
 export class Pow {
-  _a;
-  _p;
+  protected _a;
+  protected _p;
 
   /**
    * @param {?} a
@@ -33,15 +33,15 @@ export class Pow {
    * @param {?} p
    * @return {Pow}
    */
-  static pow(a, p): Pow {
+  public static pow(a, p): Pow {
     return new Pow(a, p);
   }
 
-  toString(): string {
+  public toString(): string {
     return `pow(${this._a},${this._p})`;
   }
 
-  calc() {
+  public calc() {
     let a = this._a;
     let p = this._p;
 

@@ -14,7 +14,7 @@ import {Rational} from './rational';
  * @property {Array<?>} _items
  */
 export class Add {
-  _items: any[];
+  protected _items: any[];
 
   /**
    * @param {Array<?>} items
@@ -28,7 +28,7 @@ export class Add {
    * @param {...?} items
    * @return {Add}
    */
-  static add(...items: any[]): Add {
+  public static add(...items: any[]): Add {
     return new Add(items);
   }
 
@@ -37,7 +37,7 @@ export class Add {
    * @param {...?} items
    * @return {Add}
    */
-  static sub(...items: any[]): Add {
+  public static sub(...items: any[]): Add {
     if (items.length === 0) {
       return new Add([]);
     }
@@ -56,11 +56,11 @@ export class Add {
     return new Add(n);
   }
 
-  toString(): string {
+  public toString(): string {
     return `add(${this._items})`;
   }
 
-  calc(): Rational {
+  public calc(): Rational {
     let v = Rational.zero;
     for (const item of this._items) {
       if (typeof (item.calc) === 'function') {
@@ -72,7 +72,7 @@ export class Add {
     return v;
   }
 
-  clone(): Add {
+  public clone(): Add {
     const a = [];
     for (let item of this._items) {
       a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
@@ -81,7 +81,7 @@ export class Add {
     return new Add(a);
   }
 
-  neg(): Add {
+  public neg(): Add {
     const a = [];
     for (let item of this._items) {
       let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;

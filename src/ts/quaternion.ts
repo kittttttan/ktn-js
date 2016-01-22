@@ -21,24 +21,24 @@ const _sin = Math.sin;
  * Quaternion
  *
  * @class Quaternion
- * @property {number} Quaternion#w
- * @property {number} Quaternion#x
- * @property {number} Quaternion#y
- * @property {number} Quaternion#z
+ * @property {double} Quaternion#w
+ * @property {double} Quaternion#x
+ * @property {double} Quaternion#y
+ * @property {double} Quaternion#z
  */
  export class Quaternion {
-  w: number;
-  x: number;
-  y: number;
-  z: number;
+  public w: double;
+  public x: double;
+  public y: double;
+  public z: double;
 
   /**
-   * @param {number} w
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z
+   * @param {double} w
+   * @param {double} x
+   * @param {double} y
+   * @param {double} z
    */
-  constructor(w: number, x: number, y: number, z: number) {
+  constructor(w: double, x: double, y: double, z: double) {
     this.w = +w;
     this.x = +x;
     this.y = +y;
@@ -48,12 +48,12 @@ const _sin = Math.sin;
   /**
    * @static
    * @method Quaternion.create
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z
+   * @param {double} x
+   * @param {double} y
+   * @param {double} z
    * @return {Quaternion}
    */
-  static create(x: number, y: number, z: number): Quaternion {
+  public static create(x: double, y: double, z: double): Quaternion {
     return new Quaternion(0, +x, +y, +z);
   }
 
@@ -61,7 +61,7 @@ const _sin = Math.sin;
    * @method Quaternion#toString
    * @return {string}
    */
-  toString(): string {
+  public toString(): string {
     return `(${this.w};${this.x},${this.y},${this.z})`;
   }
 
@@ -69,8 +69,8 @@ const _sin = Math.sin;
    * @method Quaternion#clone
    * @return {Quaternion}
    */
-  clone(): Quaternion {
-    const q = new Quaternion(this.w, this.x, this.y, this.z);
+  public clone(): Quaternion {
+    const q: Quaternion = new Quaternion(this.w, this.x, this.y, this.z);
     return q;
   }
 
@@ -78,8 +78,8 @@ const _sin = Math.sin;
    * @method Quaternion#conjugate
    * @return {Quaternion}
    */
-  conjugate(): Quaternion {
-    const q = new Quaternion(this.w, -this.x, -this.y, -this.z);
+  public conjugate(): Quaternion {
+    const q: Quaternion = new Quaternion(this.w, -this.x, -this.y, -this.z);
     return q;
   }
 
@@ -88,8 +88,8 @@ const _sin = Math.sin;
    * @param {Quaternion} q
    * @return {Quaternion}
    */
-  mul(q: Quaternion): Quaternion {
-    const r = new Quaternion(
+  public mul(q: Quaternion): Quaternion {
+    const r: Quaternion = new Quaternion(
       this.w * q.w - this.x * q.x - this.y * q.y - this.z * q.z,
       this.w * q.x + this.x * q.w + this.y * q.z - this.z * q.y,
       this.w * q.y - this.x * q.z + this.y * q.w + this.z * q.x,
@@ -99,13 +99,13 @@ const _sin = Math.sin;
 
   /**
    * @method Quaternion#rotate
-   * @param {number} r
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z
+   * @param {double} r
+   * @param {double} x
+   * @param {double} y
+   * @param {double} z
    * @return {Quaternion}
    */
-  rotate(r: number, x: number, y: number, z: number): Quaternion {
+  public rotate(r: double, x: double, y: double, z: double): Quaternion {
     const n = _sqrt(x * x + y * y + z * z);
     if (!n) {
       throw new Error(`Invalid arguments: ${arguments}`);
@@ -115,21 +115,21 @@ const _sin = Math.sin;
     y /= n;
     z /= n;
 
-    const ph = r / 2;
-    const cos = _cos(ph);
-    const sin = _sin(ph);
-    const rq = new Quaternion(cos, x * sin, y * sin, z * sin);
-    const qq = new Quaternion(cos, -x * sin, -y * sin, -z * sin);
+    const ph: double = r / 2;
+    const cos: double = _cos(ph);
+    const sin: double = _sin(ph);
+    const rq: Quaternion = new Quaternion(cos, x * sin, y * sin, z * sin);
+    const qq: Quaternion = new Quaternion(cos, -x * sin, -y * sin, -z * sin);
 
     return rq.mul(this).mul(qq);
   }
 
   /**
    * @method Quaternion#norm
-   * @return {number}
+   * @return {double}
    */
-  norm(): number {
-    const n = this.w * this.w +
+  public norm(): double {
+    const n: double = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     return _sqrt(n);
   }
@@ -138,8 +138,8 @@ const _sin = Math.sin;
    * @method Quaternion#normalize
    * @return {Quaternion|undefined}
    */
-  normalize(): Quaternion {
-    const n = this.norm();
+  public normalize(): Quaternion {
+    const n: double = this.norm();
     if (!n) { return undefined; }
     return new Quaternion(this.w / n,
         this.x / n, this.y / n, this.z / n);
@@ -149,12 +149,12 @@ const _sin = Math.sin;
    * @method Quaternion#inverse
    * @return {Quaternion|undefined}
    */
-  inverse(): Quaternion {
-    const n = this.w * this.w +
+  public inverse(): Quaternion {
+    const n: double = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     if (!n) { return undefined; }
 
-    const q = new Quaternion(this.w / n,
+    const q: Quaternion = new Quaternion(this.w / n,
         this.x / n, this.y / n, this.z / n);
     return q;
   }

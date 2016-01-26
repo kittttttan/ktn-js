@@ -10,7 +10,7 @@ describe("MathExpression", ()=> {
       ['1.2 + 2.1', 'add(1.2,2.1)', '33/10']
     ];
     for (const i of a) {
-      const p = MathExpression.create(i[0]).parse();
+      const p = MathExpression.create(i[0]).eval();
       expect(p.toString()).toEqual(i[1]);
       expect(p.calc().toString()).toEqual(i[2]);
     }
@@ -23,7 +23,7 @@ describe("MathExpression", ()=> {
       ['111111111111111111111 - 100000000000000000000', 'add(111111111111111111111,-100000000000000000000)', '11111111111111111111']
     ];
     for (const i of a) {
-      const p = MathExpression.create(i[0]).parse();
+      const p = MathExpression.create(i[0]).eval();
       expect(p.toString()).toEqual(i[1]);
       expect(p.calc().toString()).toEqual(i[2]);
     }
@@ -36,7 +36,7 @@ describe("MathExpression", ()=> {
       ['111111111111111111111 * 100000000000000000000', '11111111111111111111100000000000000000000']
     ];
     for (const i of a) {
-      const p = MathExpression.create(i[0]).parse();
+      const p = MathExpression.create(i[0]).eval();
       expect(p.calc().toString()).toEqual(i[1]);
     }
   });
@@ -48,7 +48,7 @@ describe("MathExpression", ()=> {
       ['11111111111111111111100000000000000000000 / 100000000000000000000', 'div(11111111111111111111100000000000000000000,100000000000000000000)', '111111111111111111111']
     ];
     for (const i of a) {
-      const p = MathExpression.create(i[0]).parse();
+      const p = MathExpression.create(i[0]).eval();
       expect(p.toString()).toEqual(i[1]);
       expect(p.calc().toString()).toEqual(i[2]);
     }
@@ -60,7 +60,7 @@ describe("MathExpression", ()=> {
       ['2^3^4', '2417851639229258349412352']
     ];
     for (const i of a) {
-      const p = MathExpression.create(i[0]).parse();
+      const p = MathExpression.create(i[0]).eval();
       expect(p.calc().toString()).toEqual(i[1]);
     }
   });
@@ -73,7 +73,7 @@ describe("MathExpression", ()=> {
       ['1 / (2 + 3)', 'div(1,add(2,3))', '1/5']
     ];
     for (const i of a) {
-      const p = MathExpression.create(i[0]).parse();
+      const p = MathExpression.create(i[0]).eval();
       expect(p.toString()).toEqual(i[1]);
       expect(p.calc().toString()).toEqual(i[2]);
     }

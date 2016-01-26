@@ -24,8 +24,8 @@ describe("Fft", ()=> {
       0.5403023058681398
     ];
     for (let i = 0; i < size; ++i) {
-      expect(trans[i]._r).toEqual(expectTr[i]);
-      expect(inverse[i]._r).toEqual(expectInv[i]);
+      expect(trans[i].real).toEqual(expectTr[i]);
+      expect(inverse[i].real).toEqual(expectInv[i]);
     }
   });
 
@@ -53,8 +53,8 @@ describe("Fft", ()=> {
       -0.9899924966004454
     ];
     for (let i = 0; i < size; ++i) {
-      expect(trans[i]._r).toEqual(expectTr[i]);
-      expect(inverse[i]._r).toEqual(expectInv[i]);
+      expect(trans[i].real).toEqual(expectTr[i]);
+      expect(inverse[i].real).toEqual(expectInv[i]);
     }
   });
 
@@ -90,8 +90,8 @@ describe("Fft", ()=> {
       0.7539022543433045
     ];
     for (let i = 0; i < size; ++i) {
-      expect(trans[i]._r).toEqual(expectTr[i]);
-      expect(inverse[i]._r).toEqual(expectInv[i]);
+      expect(trans[i].real).toEqual(expectTr[i]);
+      expect(inverse[i].real).toEqual(expectInv[i]);
     }
   });
 

@@ -1,9 +1,19 @@
 import {Integer} from '../../src/ts/integer';
 
 export class TestInteger {
+  static random(len: number): string {
+    let r = '';
+	for (let i = 0; i < len; ++i) {
+	  r += `${Math.random() * 10 | 0}`;
+	}
+	r = r.replace(/^0+/, '');
+
+	return r;
+  }
+
   static basic(): void {
-    const r: number = (Math.random() * 4 | 0) + 3;
-    const a: Integer = Integer.random(r);
+    const r: string = TestInteger.random(10);
+    const a: Integer = Integer.str(r);
     const b: Integer = Integer.num(100000);
     console.log(`a         = ${a}`);
     console.log(`b         = ${b}`);

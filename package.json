@@ -44,6 +44,7 @@
     "phantomjs": "",
     "run-sequence": "",
     "typescript": "",
-    "vinyl-source-stream": ""
+    "vinyl-source-stream": "",
+    "watchify": "^3.7.0"
   }
 }

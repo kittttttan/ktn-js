@@ -1,13 +1,14 @@
 /**
- * MathExpression
- * @example
- *  var me = MathExpression.create('(-7+3/2)*3^2+$sin($p)');
- *
- *  me._t // (,-,7,+,3,/,2,),*,3,^,2,+,$sin,(,$p,)
- *  me.parseString() // add(mul(add(neg(7), div(3, 2)), pow(3, 2)), sin(CONST.PI))
- *  me.parse() // (sin(pi)+(-99/2))
- *  me.valueOf() // -49.5
+ * @private
+ * @requires Tokenizer
  */
+import {Tokenizer} from './tokenizer';
+
+/**
+ * @private
+ * @requires Tokenizer
+ */
+import {Ast, Parser} from './parser';
 
 /**
  * @private
@@ -84,28 +85,62 @@ const cos = Trigon.cos;
 const tan = Trigon.tan;
 
 /**
- * @private
- * @type {int}
- */
-let _ME_INDEX: int = 0;
-
-/**
  * MathExpression
  * @class MathExpression
- * @property {string} _s source
- * @property {Array<string>} _t token
+ * @property {Array<string>} _tokens
+ * @property {Tokenizer} _t
+ * @property {Parser} _p
  */
 export class MathExpression {
-  protected _s: string;
-  protected _t: string[];
+  protected _ast: Ast;
+  protected _tokens: string[];
+  protected _p: Parser;
+  protected _t: Tokenizer;
 
   /**
-   * @param {string} source
+   * @return {Array<string>}
    */
-  constructor(source: string) {
-    _ME_INDEX = 0;
-    this._s = source;
-    this._t = meGetToken(source);
+  get tokens(): string[] {
+    return this._tokens;
+  }
+
+  /**
+   * @return {Ast}
+   */
+  get ast(): Ast {
+    return this._ast;
+  }
+
+  /**
+   * @param {string} src
+   */
+  constructor(src: string) {
+    this._t = new Tokenizer(src);
+    this._p = null;
+    this._tokens = [];
+    this._ast = null;
+  }
+
+  /**
+   * @return {Array<string>}
+   */
+  private tokenize(): string[] {
+    let tokens: string[] = this._tokens;
+    if (tokens.length > 0) {
+      return tokens;
+    }
+
+    while (true) {
+      let token: string = this._t.next();
+      //console.log(`token ${token}`);
+      if (!token) {
+        break;
+      }
+      tokens.push(token);
+    }
+    this._tokens = tokens;
+
+    return tokens;
   }
 
   /**
@@ -118,214 +153,72 @@ export class MathExpression {
   }
 
   /**
-   * @return {string}
+   * @return {Ast}
    */
-  public toString(): string {
-    return this._s;
+  public parse(): Ast {
+    if (this._tokens.length === 0) {
+      this._tokens = this.tokenize();
+    }
+    if (!this._p) {
+      this._p = new Parser(this._tokens);
+    }
+    if (!this._ast) {
+      this._ast = this._p.parse();
+    }
+    return this._ast;
   }
 
   /**
-   * @return {?}
+   * 
    */
-  public parse() {
-    _ME_INDEX = 0;
-    return meExpression(this._t);
-  }
-}
-
-/**
- * @private
- * @param {Array<string>} token
- * @return {?}
- */
-function meNumber(token: any[]) {
-  let sign;
-  if (token[_ME_INDEX] === '+' || token[_ME_INDEX] === '-') {
-    sign = token[_ME_INDEX++];
+  public eval() {
+    const ast: Ast = this.parse();
+    return this._parseAst(ast);
   }
 
-  let ans = token[_ME_INDEX++];
-  if (ans === '$p') {
-    ans = Const.PI;
-  } else if (ans === '$e') {
-    ans = Const.E;
-  }/* else if (isNaN(+ans)) {
-    ans = vari(ans);
-  }*/
-
-  if (token[_ME_INDEX] === '^') {
-    _ME_INDEX += 1;
-    ans = pow(ans, meFactor(token));
-  }
-
-  if (sign === '-') {
-    return neg(ans);
-  }
-
-  return ans;
-}
-
-/**
- * @private
- * @param {Array<string>} token
- * @return {?}
- */
-function meFactor(token: any[]) {
-  let flag: int = 0;
-  if (token[_ME_INDEX] === '$sin') {
-    flag = 1;
-    _ME_INDEX += 1;
-  } else if (token[_ME_INDEX] === '$cos') {
-    flag = 2;
-    _ME_INDEX += 1;
-  } else if (token[_ME_INDEX] === '$tan') {
-    flag = 3;
-    _ME_INDEX += 1;
-  }
-  if (token[_ME_INDEX] === '(') {
-    _ME_INDEX += 1;
-    let ans = meExpression(token);
-    if (token[_ME_INDEX] !== ')') {
-      throw new SyntaxError('Missing )');
+  /**
+   * @param {Ast} ast
+   */
+  private _parseAst(ast: Ast) {
+    if (ast.type === 'Int') {
+      return ast.value;
     }
-    _ME_INDEX++;
-    if (flag === 1) { return sin(ans); }
-    if (flag === 2) { return cos(ans); }
-    if (flag === 3) { return tan(ans); }
-    if (token[_ME_INDEX] === '^') {
-      _ME_INDEX += 1;
-      ans = pow(ans, meFactor(token));
-    }
-    return ans;
-  }
-  return meNumber(token);
-}
 
-/**
- * @private
- * @param {Array<string>} token
- * @return {?}
- */
-function meTerm(token: any[]) {
-  let ans = meFactor(token);
-  while (true) {
-    if (token[_ME_INDEX] === '^') {
-      _ME_INDEX += 1;
-      ans = pow(ans, meFactor(token));
-    } else if (token[_ME_INDEX] === '*') {
-      _ME_INDEX += 1;
-      ans = mul(ans, meFactor(token));
-    } else if (token[_ME_INDEX] === '/') {
-      _ME_INDEX += 1;
-      const x = meFactor(token);
-      if (!x) {
-        throw new Error('ZeroDivideError');
+    if (ast.type === 'Unary') {
+      if (ast.operator === '-') {
+        return neg(this._parseAst(ast.argument));
       }
-      ans = div(ans, x);
-    } else {
-      break;
     }
-  }
 
-  return ans;
-}
-
-/**
- * @private
- * @param {Array<string>} token
- * @return {?}
- */
-function meExpression(token: any[]) {
-  let ans = meTerm(token);
-  while (true) {
-    if (token[_ME_INDEX] === '+') {
-      _ME_INDEX += 1;
-      ans = add(ans, meTerm(token));
-    } else if (token[_ME_INDEX] === '-') {
-      _ME_INDEX += 1;
-      ans = sub(ans, meTerm(token));
-    } else {
-      break;
+    if (ast.type === 'Binary') {
+      if (ast.operator === '+') {
+        return add(this._parseAst(ast.left), this._parseAst(ast.right));
+      }
+      if (ast.operator === '-') {
+        return sub(this._parseAst(ast.left), this._parseAst(ast.right));
+      }
+      if (ast.operator === '*') {
+        return mul(this._parseAst(ast.left), this._parseAst(ast.right));
+      }
+      if (ast.operator === '/') {
+        return div(this._parseAst(ast.left), this._parseAst(ast.right));
+      }
+      if (ast.operator === '^') {
+        return pow(this._parseAst(ast.left), this._parseAst(ast.right));
+      }
     }
-  }
 
-  return ans;
-}
-
-/**
- * @private
- * @param {string} str
- * @return {Array<string>}
- */
-function meGetToken(str: string): any[] {
-  str = str.replace(/[ \n\r]/g, '');
-
-  const token = [];
-  token[0] = [];
-
-  let before;
-  let index = 0;
-  for (const c of str) {
-    switch (c) {
-      /** operation */
-      case '+':
-      case '-':
-      case '*':
-      case '/':
-      case '^':
-        if (before === 'n') {
-          token[index] = token[index++].join('');
-        } else if (before === 'c') {
-          token[index] = token[index++].join('');
-        }
-        if (before !== 'o') {
-          token[index] = c;
-          token[++index] = [];
-          before = 'o';
-        }
-        break;
-      /** number */
-      case '1':case '2':case '3':case '4':case '5':
-      case '6':case '7':case '8':case '9':
-      case '0':
-      case '.':
-        if (before === 'c') {
-          token[index] = token[index].join('');
-          token[++index] = [];
-        }
-        token[index].push(c);
-        before = 'n';
-        break;
-      /** sign */
-      case '(':case ')':
-        if (before === 'n') {
-          token[index] = token[index++].join('');
-        } else if (before === 'c') {
-          token[index] = token[index++].join('');
-        }
-        token[index] = c;
-        token[++index] = [];
-        before = '()';
-        break;
-      /** character */
-      default:
-        if (before === 'n') {
-          token[index] = token[index].join('');
-          token[++index] = [];
-        }
-        token[index].push(c);
-        before = 'c';
-        break;
+    if (ast.type === 'Function') {
+      if (ast.name === 'sin') {
+        return sin(this._parseAst(ast.arguments[0]));
+      }
+      if (ast.name === 'cos') {
+        return cos(this._parseAst(ast.arguments[0]));
+      }
+      if (ast.name === 'tan') {
+        return tan(this._parseAst(ast.arguments[0]));
+      }
     }
-  }
 
-  if (before === 'n') {
-    token[index] = token[index].join('');
-  } else if (before === 'c') {
-    token[index] = token[index].join('');
-  } else {
-    token.length -= 1;
   }
-
-  return token;
 }

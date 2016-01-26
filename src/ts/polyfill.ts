@@ -17,6 +17,12 @@ if (!''.repeat) {
   };
 }
 
+if (!''.includes) {
+  String.prototype.includes = function(searchString: string, position: number = 0): boolean {
+    return String.prototype.indexOf.apply(this, arguments) !== -1;
+  };
+}
+
 // array
 if (![].includes) {
   Array.prototype.includes = function(searchElement: any, fromIndex: number = 0): boolean {

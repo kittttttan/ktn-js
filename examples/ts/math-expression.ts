@@ -15,10 +15,12 @@ function main() {
     const me: MathExpression = MathExpression.create(e);
     console.log(me);
 
-    const p = me.parse();
+    const p = me.eval();
+    console.log(me.tokens);
+    console.log(me.ast);
     console.log(p);
     console.log(`${p} = ${p.calc()}`);
-
+ 
     console.log(`${Date.now() - t0} ms`);
   }
 }

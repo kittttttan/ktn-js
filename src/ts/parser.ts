@@ -1,3 +1,5 @@
+'use strict';
+
 export interface Ast {
   type: string;
   name?: string;

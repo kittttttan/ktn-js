@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Stopwatch
  * @class Stopwatch

@@ -1,6 +1,7 @@
 /**
  * Trigonometric function
  */
+'use strict';
 
 /**
  * Sin

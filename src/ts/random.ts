@@ -7,6 +7,7 @@
  *   r.real2(); // for real number
  *   (r.real2() * 7 | 0) + 1; // 1 to 7
  */
+'use strict';
 
 /**
  * @private

@@ -1,4 +1,6 @@
-import {range} from '../../src/ts/range';
+'use strict';
+
+import {Iter} from '../../src/ts/iter';
 import {Primality as prim} from '../../src/ts/primality';
 
 function test() {
@@ -16,7 +18,7 @@ function test() {
     console.log(p);
   }
   console.log(`mrpt() arg [0..${2*n-1}]`);
-  for (let i of range(2*n)) {
+  for (let i of Iter.range(2*n)) {
     if (prim.mrpt(i)) {
       console.log(i);
     }

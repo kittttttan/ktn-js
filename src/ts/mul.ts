@@ -1,6 +1,7 @@
 /**
  * Mul
  */
+'use strict';
 
  /**
   * @private

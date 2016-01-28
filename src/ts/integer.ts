@@ -1,6 +1,7 @@
 /**
  * Big Integer in JavaScript.
  */
+'use strict';
 
 import './ktn';
 

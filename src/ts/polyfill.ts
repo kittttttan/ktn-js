@@ -1,3 +1,6 @@
+/// <reference path="typings/polyfill.d.ts"/>
+'use strict';
+
 // string
 if (!''.repeat) {
   String.prototype.repeat = function(count: number): string {

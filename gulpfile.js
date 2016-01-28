@@ -33,9 +33,9 @@ const examples = [
   'csv-json',
   'fib',
   'integer',
+  'iter',
   'math-expression',
   'primality',
-  'range',
   'rational'
 ];
 

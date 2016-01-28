@@ -1,6 +1,7 @@
 /**
  * Constant
  */
+'use strict';
 
 interface ConstItem {
   toString: () => string;

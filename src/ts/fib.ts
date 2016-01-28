@@ -5,6 +5,7 @@
  * F1 = 1
  * Fn+2 = Fn + Fn-1 (n >= 0)
  */
+'use strict';
 
 /**
  * generate Fibonacci numbers

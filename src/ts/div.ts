@@ -1,6 +1,7 @@
 /**
  * Div
  */
+'use strict';
 
 /**
  * @private

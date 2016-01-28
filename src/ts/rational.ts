@@ -1,6 +1,7 @@
 /**
  * Rational
  */
+'use strict';
 
 import './ktn';
 

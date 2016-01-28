@@ -1,6 +1,7 @@
 /**
  * Generate Prime Number List in JavaScript
  */
+'use strict';
 
 /**
  * Primality

@@ -1,6 +1,7 @@
 /**
  * Matrix
  */
+'use strict';
 
 /**
  * @private

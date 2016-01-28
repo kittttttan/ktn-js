@@ -1,7 +1,8 @@
-/// <reference path="typings/polyfill.d.ts"/>
 /**
  * statistics
  */
+'use strict';
+
 // TODO:
 /**
  * @private

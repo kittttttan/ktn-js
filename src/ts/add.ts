@@ -1,6 +1,7 @@
 /**
  * Add
  */
+'use strict';
 
  /**
   * @private

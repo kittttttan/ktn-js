@@ -1,6 +1,7 @@
 /**
  * convert CSV <-> JSON.
  */
+'use strict';
 
 interface toJsonOpt {
   sep?: string;

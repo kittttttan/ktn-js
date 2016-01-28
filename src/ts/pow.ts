@@ -1,6 +1,7 @@
 /**
  * Pow
  */
+'use strict';
 
  /**
   * @private

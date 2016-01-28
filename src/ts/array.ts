@@ -1,4 +1,6 @@
 /// <reference path="typings/polyfill.d.ts"/>
+'use strict';
+
 import './polyfill';
 
 /**

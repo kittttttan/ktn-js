@@ -19,8 +19,8 @@ export class Const {
    */
   static get PI(): ConstItem {
     return {
+      calc: (): number => Math.PI,
       toString: (): string => 'pi',
-      calc: (): number => Math.PI
     };
   }
 
@@ -30,8 +30,8 @@ export class Const {
    */
   static get E(): ConstItem {
     return {
+      calc: (): number => Math.E,
       toString: (): string => 'e',
-      calc: (): number => Math.E
     };
   }
 }

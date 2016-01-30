@@ -33,12 +33,18 @@ export class Mul {
     return new Mul(items);
   }
 
+  /**
+   * @return {string}
+   */
   public toString(): string {
     return `mul(${this._items})`;
   }
 
+  /**
+   * @return {Rational}
+   */
   public calc(): Rational {
-    let v = Rational.one;
+    let v: Rational = Rational.one;
     for (const item of this._items) {
       if (typeof (item.calc) === 'function') {
         v = v.mul(item.calc());
@@ -49,20 +55,26 @@ export class Mul {
     return v;
   }
 
+  /**
+   * @retrun {Mul}
+   */
   public clone(): Mul {
-    const a = [];
+    const a: any[] = [];
     for (let item of this._items) {
       a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
     }
-    
+
     return new Mul(a);
   }
 
+  /**
+   * @return {Mul}
+   */
   public neg(): Mul {
-    const a = [];
+    const a: any[] = [];
     let isFirst: boolean = true;
     for (let item of this._items) {
-      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
+      let b: any = typeof (item.clone) !== 'undefined' ? item.clone() : item;
       if (isFirst) {
         isFirst = false;
         a.push(typeof (b.neg) !== 'undefined' ? b.neg() : -b);
@@ -74,10 +86,13 @@ export class Mul {
     return new Mul(a);
   }
 
+  /**
+   * @return {Mul}
+   */
   public inv(): Mul {
-    const a = [];
+    const a: any[] = [];
     for (let item of this._items) {
-      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
+      let b: any = typeof (item.clone) !== 'undefined' ? item.clone() : item;
       a.push(typeof (b.inv) !== 'undefined' ? b.inv() : Rational.str(`1/${b}`));
     }
 

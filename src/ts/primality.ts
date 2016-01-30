@@ -11,8 +11,8 @@ export class Primality {
   /**
    * @return {!Iterator}
    */
-  public static generate() {
-    return (function *() {
+  public static generate(): IterableIterator<int> {
+    return function *(): IterableIterator<int> {
       const list: int[] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
       for (const n of list) {
         yield n;
@@ -22,7 +22,7 @@ export class Primality {
       const init: int = list[len - 1] + 2;
       for (let i: int = init; ; i += 2) {
         let f: boolean;
-        for (let j: int = 1, lj; (lj = list[j]) * lj <= i; ++j) {
+        for (let j: int = 1, lj: int; (lj = list[j]) * lj <= i; ++j) {
           f = true;
           if (!(i % lj)) {
             f = false;
@@ -34,48 +34,46 @@ export class Primality {
           yield i;
         }
       }
-    }());
+    }();
   }
 
   /**
    * @param {!int} n
    * @return {!Iterator}
    */
-  public static top(n: int) {
-    const generate = this.generate;
-    return (function *() {
+  public static top(n: int): IterableIterator<int> {
+    return function *(): IterableIterator<int> {
       if (n < 1) {
         throw new Error('argument[0] must > 0');
       }
-      const g = generate();
+      const g: IterableIterator<int> = Primality.generate();
       while (n--) {
         yield g.next().value;
       }
-    }());
+    }();
   }
 
   /**
    * @param {!int} n
    * @return {!Iterator}
    */
-  public static max(n: int) {
-    const generate = this.generate;
-    return (function *() {
-      const g = generate();
+  public static max(n: int): IterableIterator<int> {
+    return function *(): IterableIterator<int> {
+      const g: IterableIterator<int> = Primality.generate();
       let f: int = g.next().value;
       while (f < n) {
         yield f;
         f = g.next().value;
       }
-    }());
+    }();
   }
 
   /**
    * @param {!int} n
    * @return {!Iterator}
    */
-  public static sieveMax(n: int) {
-    return (function *() {
+  public static sieveMax(n: int): IterableIterator<int> {
+    return function *(): IterableIterator<int> {
       const s: boolean[] = [false, false];
       const sqrtn: int = Math.sqrt(n) | 0;
       for (let i: int = 2; i < n + 1; ++i) {
@@ -93,7 +91,7 @@ export class Primality {
           yield i;
         }
       }
-    }());
+    }();
   }
 
   /**
@@ -130,7 +128,7 @@ export class Primality {
       return false;
     }
 
-    const random = Math.random;
+    const random: () => double = Math.random;
 
     let d: int = n - 1;
     while (!(d & 1)) {

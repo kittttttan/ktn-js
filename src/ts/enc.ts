@@ -64,7 +64,7 @@ export class Encode {
 
     let res: string = '0';
     while (n > 1) {
-      const bin = n.toString(2);
+      const bin: string = n.toString(2);
       res = bin + res;
       n = bin.length - 1;
     }
@@ -101,7 +101,7 @@ export class Encode {
         res += ('0'.repeat(b) + (r + (1 << b) - m).toString(2)).slice(-b);
       }
     }
-    //console.log('m=%d, b=%d (bin=%s), 2^b-m=%d, r=%d',
+    // console.log('m=%d, b=%d (bin=%s), 2^b-m=%d, r=%d',
     //    m, b, (isBin?'true':'false'), (1<<b)-m, r);
 
     return res;
@@ -187,14 +187,14 @@ export class Decode {
    * @return {!Array<int>} natural number
    */
   public static eliasDelta(str: string): int[] {
-    const res = [];
+    const res: int[] = [];
     if (!str) { return res; }
 
-    const l = str.length;
-    let cnt = 0;
-    let bin = '';
-    let gamma;
-    for (let i = 0; i < l; ++i) {
+    const l: int = str.length;
+    let cnt: int = 0;
+    let bin: string = '';
+    let gamma: int;
+    for (let i: int = 0; i < l; ++i) {
       if (str.charAt(i) === '0') {
         ++cnt;
       } else if (str.charAt(i) === '1') {
@@ -221,14 +221,14 @@ export class Decode {
    * @param {!string} str
    * @return {!Array<number>} natural number
    */
-  public static eliasOmega(str: string): number[] {
-    const res = [];
+  public static eliasOmega(str: string): int[] {
+    const res: int[] = [];
     if (!str) { return res; }
 
-    const l = str.length;
-    let n = 1;
-    let bin = '';
-    for (let i = 0; i < l; ++i) {
+    const l: int = str.length;
+    let n: int = 1;
+    let bin: string = '';
+    for (let i: int = 0; i < l; ++i) {
       if (str.charAt(i) === '0') {
         res.push(n);
         n = 1;

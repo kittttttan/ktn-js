@@ -45,7 +45,7 @@ export class Scanner {
     let s: string = '';
     while (!this.eof()) {
       let ch: string = this._src[this._index];
-      //console.log(`comment ${ch}`);
+      // console.log(`comment ${ch}`);
       if (ch === ' ') {
         ++this._index;
       } else if ('\r\n'.includes(ch)) {
@@ -54,7 +54,7 @@ export class Scanner {
         break;
       }
     }
-    
+
     return s;
   }
 
@@ -66,8 +66,8 @@ export class Scanner {
     if (this.eof()) {
       return null;
     }
- 
-    const ch = this._src[this._index];
+
+    const ch: string = this._src[this._index];
     if (NUM_CHARAS.includes(ch)) {
       return this.num();
     }
@@ -81,11 +81,11 @@ export class Scanner {
   public num(): string {
     let n: string = this._src[this._index++];
     let ch: string = this._src[this._index];
-    //console.log(`num ${n} ${ch}`);
+    // console.log(`num ${n} ${ch}`);
     while (NUM_CHARAS.includes(ch)) {
       n += ch;
       ch = this._src[++this._index];
-      //console.log(ch);
+      // console.log(ch);
     }
 
     return n;
@@ -97,7 +97,7 @@ export class Scanner {
    */
   public punctuator(): string {
     const s: string = this._src[this._index];
-    //console.log(`punctuator ${s}`);
+    // console.log(`punctuator ${s}`);
     if (OPE_CHARAS.includes(s)) {
       ++this._index;
       return s;

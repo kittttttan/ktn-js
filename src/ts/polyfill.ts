@@ -9,7 +9,7 @@ if (!''.repeat) {
       throw new RangeError('repeat count must be non-negative');
     }
 
-    let [res, s] = ['', this];
+    let [res, s]: string[] = ['', this];
     for (; count > 0; count >>= 1, s += s) {
       if (count & 1) {
         res += s;
@@ -29,8 +29,8 @@ if (!''.includes) {
 // array
 if (![].includes) {
   Array.prototype.includes = function(searchElement: any, fromIndex: number = 0): boolean {
-    const arr = this;
-    const len = arr.length;
+    const arr: any[] = this;
+    const len: number = arr.length;
     if (len === 0) {
       return false;
     }
@@ -42,10 +42,10 @@ if (![].includes) {
       }
     }
     for (; n < len; ++n) {
-      const e = arr[n];
+      const e: any = arr[n];
       if (e === searchElement
-          // NaN
-          //|| e !== e && searchElement !== searchElement
+          // for NaN
+          // || e !== e && searchElement !== searchElement
           ) {
         return true;
       }

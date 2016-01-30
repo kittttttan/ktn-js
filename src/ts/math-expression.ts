@@ -36,7 +36,7 @@ import {Pow} from './pow';
  * @private
  * @requires Trigon
  */
-import {Trigon} from './trigon';
+import {Trigon, Sin, Cos, Tan} from './trigon';
 /**
  * @private
  * @requires Const
@@ -46,27 +46,27 @@ import {Const} from './const';
 /**
  * @private
  */
-const add = Add.add;
+const add: (...items: any[]) => Add = Add.add;
 /**
  * @private
  */
-const sub = Add.sub;
+const sub: (...items: any[]) => Add = Add.sub;
 /**
  * @private
  */
-const mul = Mul.mul;
+const mul: (...items: any[]) => Mul = Mul.mul;
 /**
  * @private
  */
-const div = Div.div;
+const div: (...items: any[]) => Div = Div.div;
 /**
  * @private
  */
-const pow = Pow.pow;
+const pow: (a: any, p: any) => Pow = Pow.pow;
 /**
  * @private
  */
-const neg = (a) => {
+function neg(a: any): any {
   if (typeof (a.neg) === 'function') {
     return a.neg();
   }
@@ -76,15 +76,15 @@ const neg = (a) => {
 /**
  * @private
  */
-const sin = Trigon.sin;
+const sin: (a: any) => Sin = Trigon.sin;
 /**
  * @private
  */
-const cos = Trigon.cos;
+const cos: (a: any) => Cos = Trigon.cos;
 /**
  * @private
  */
-const tan = Trigon.tan;
+const tan: (a: any) => Tan = Trigon.tan;
 
 /**
  * MathExpression
@@ -98,6 +98,15 @@ export class MathExpression {
   protected _tokens: string[];
   protected _p: Parser;
   protected _t: Tokenizer;
+
+  /**
+   * @static
+   * @param {string} str
+   * @return {MathExpression}
+   */
+  public static create(str: string): MathExpression {
+    return new MathExpression(str);
+  }
 
   /**
    * @return {Array<string>}
@@ -124,37 +133,6 @@ export class MathExpression {
   }
 
   /**
-   * @return {Array<string>}
-   */
-  private tokenize(): string[] {
-    let tokens: string[] = this._tokens;
-    if (tokens.length > 0) {
-      return tokens;
-    }
-
-    while (true) {
-      let token: string = this._t.next();
-      //console.log(`token ${token}`);
-      if (!token) {
-        break;
-      }
-      tokens.push(token);
-    }
-    this._tokens = tokens;
-
-    return tokens;
-  }
-
-  /**
-   * @static
-   * @param {string} str
-   * @return {MathExpression}
-   */
-  public static create(str: string): MathExpression {
-    return new MathExpression(str);
-  }
-
-  /**
    * @return {Ast}
    */
   public parse(): Ast {
@@ -171,17 +149,18 @@ export class MathExpression {
   }
 
   /**
-   * 
+   * @return {Object}
    */
-  public eval() {
+  public eval(): any {
     const ast: Ast = this.parse();
     return this._parseAst(ast);
   }
 
   /**
    * @param {Ast} ast
+   * @return {Object}
    */
-  private _parseAst(ast: Ast) {
+  private _parseAst(ast: Ast): any {
     if (ast.type === 'Int') {
       return ast.value;
     }
@@ -221,6 +200,27 @@ export class MathExpression {
         return tan(this._parseAst(ast.arguments[0]));
       }
     }
+  }
 
+  /**
+   * @return {Array<string>}
+   */
+  private tokenize(): string[] {
+    let tokens: string[] = this._tokens;
+    if (tokens.length > 0) {
+      return tokens;
+    }
+
+    while (true) {
+      let token: string = this._t.next();
+      // console.log(`token ${token}`);
+      if (!token) {
+        break;
+      }
+      tokens.push(token);
+    }
+    this._tokens = tokens;
+
+    return tokens;
   }
 }

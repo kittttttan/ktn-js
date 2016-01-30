@@ -43,11 +43,11 @@ export class StringUtil {
    * @return {string}
    */
   public static format(str: string, ...argv: any[]): string {
-    //const argv = arguments;
+    // const argv = arguments;
     let index: int = 0;
     return str.replace(
         /%([+\-#0])?(\d+)?(?:\.(\d+))?([%defoxs])/g,
-        (src, flag, width, prec, type) => {
+        (src: string, flag: string, width: int, prec: string, type: string): string => {
       if (type === '%') {
         return '%';
       }
@@ -103,12 +103,12 @@ export class StringUtil {
      * @param {string=} prefix
      * return {!string}
      */
-    function typeFormat(src, type: string, prefix?: string): string {
+    function typeFormat(src: any, type: string, prefix?: string): string {
       if (type === void 0) {
         return src;
       }
       let pre: string;
-      const isPrefix = prefix === '#';
+      const isPrefix: boolean = prefix === '#';
       switch (type) {
         case 's':
           return src.toString();
@@ -171,8 +171,9 @@ export class StringUtil {
     }
     return str.replace(
         /{(?!{)([0-9a-zA-Z_\[\]]+)?(?::(?:([^}])?([<>=^]))?([ +-])?(#)?(0)?(\d+)?(\.\d+)?([sbcdoxXn ])?)?}(?!})/g,
-        (src, fieldName, fill,
-            align, sign, prefix, zero, width, prec, type) => {
+        (src: string, fieldName: string, fill: string,
+            align: string, sign: string, prefix: string,
+            zero: string, width: int, prec: string, type: string): string => {
       ++cnt;
       if (zero === '0') {
         fill = '0';
@@ -183,7 +184,7 @@ export class StringUtil {
         index = cnt - 1;
         value = typeFormat(argv[index], type);
       } else if (fieldName.match(/\d+/)) {
-        index = fieldName | 0;
+        index = parseInt(fieldName, 10);
         value = typeFormat(argv[index], type, prefix);
       } else {
         value = typeFormat(this[fieldName], type, prefix);
@@ -266,8 +267,8 @@ export class StringUtil {
     }
 
     let str: string = '';
-    const range = letter.length;
-    const rnd = Math.random;
+    const range: int = letter.length;
+    const rnd: () => number = Math.random;
     for (let i: int = 0; i < len; ++i) {
       str += letter.charAt(rnd() * range | 0);
     }

@@ -11,11 +11,10 @@
  * generate Fibonacci numbers
  * @private
  */
-function *generate() {
+function *generate(): IterableIterator<int> {
   yield 0;
 
-  let a: int = 1;
-  let b: int = 0;
+  let [a, b]: int[] = [1, 0];
   while (true) {
     yield a;
     [a, b] = [a + b, a];
@@ -51,12 +50,11 @@ export class Fibonacci {
    * @param {!int} n
    * @return {!int}
    */
-  static _fib(n: int): int {
+  public static _fib(n: int): int {
     if (n < 1) {
       return 0;
     }
-    let a: int = 1;
-    let b: int = 0;
+    let [a, b]: int[] = [1, 0];
     while (--n) {
       [a, b] = [a + b, a];
     }
@@ -73,7 +71,7 @@ export class Fibonacci {
    * @param {!int} n
    * @return {!int}
    */
-  static fib(n: int): int {
+  public static fib(n: int): int {
     if (n < 1) {
       return 0;
     }
@@ -95,12 +93,12 @@ export class Fibonacci {
    * @param {!int} n
    * @return {!Iterator}
    */
-  static top(n: int) {
-    return function *() {
+  public static top(n: int): IterableIterator<int> {
+    return function *(): IterableIterator<int> {
       if (n < 1) {
         throw new Error('arguments[0] must > 0');
       }
-      const g = generate();
+      const g: IterableIterator<int> = generate();
       while (n--) {
         yield g.next().value;
       }
@@ -112,9 +110,9 @@ export class Fibonacci {
    * @param {!int} n
    * @return {!Iterator}
    */
-  static max(n: int) {
-    return function *() {
-      const g = generate();
+  public static max(n: int): IterableIterator<int> {
+    return function *(): IterableIterator<int> {
+      const g: IterableIterator<int> = generate();
       let f: int = g.next().value;
       while (f < n) {
         yield f;

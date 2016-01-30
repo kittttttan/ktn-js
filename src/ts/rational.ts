@@ -86,7 +86,7 @@ export class Rational implements Ktn.Field {
     as[1] = as[1] || '1';
 
     // sign
-    const [s1, s2] = [as[0][0] === '-', as[1][0] === '-'];
+    const [s1, s2]: boolean[] = [as[0][0] === '-', as[1][0] === '-'];
     as[0] = as[0].replace(/[\-\+]/g, '');
     as[1] = as[1].replace(/[\-\+]/g, '');
 
@@ -118,7 +118,7 @@ export class Rational implements Ktn.Field {
    * @throws {Error} ZeroDivisionError
    * @return {!Rational}
    */
-  public static any(a, b?): Rational {
+  public static any(a: any, b?: any): Rational {
     if (!arguments.length) {
       return Rational.zero;
     }
@@ -182,7 +182,7 @@ export class Rational implements Ktn.Field {
    * @return {!string}
    */
   public tex(): string {
-    //if (this._d == 1) {return this._n.toString();}
+    // if (this._d == 1) {return this._n.toString();}
     return `\\frac{${this._n}}{${this._d}}`;
   }
 

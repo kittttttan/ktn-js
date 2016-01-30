@@ -33,10 +33,16 @@ export class Div {
     return new Div(items);
   }
 
+  /**
+   * @return {string}
+   */
   public toString(): string {
     return `div(${this._items})`;
   }
 
+  /**
+   * @return {Rational}
+   */
   public calc(): Rational {
     let v: Rational = Rational.one;
     let isFirst: boolean = true;
@@ -55,8 +61,11 @@ export class Div {
     return v;
   }
 
+  /**
+   * @returtn {Div}
+   */
   public clone(): Div {
-    const a = [];
+    const a: any[] = [];
     for (let item of this._items) {
       a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
     }
@@ -64,11 +73,14 @@ export class Div {
     return new Div(a);
   }
 
+  /**
+   * @return {Div}
+   */
   public neg(): Div {
-    const a = [];
+    const a: any[] = [];
     let isFirst: boolean = true;
     for (let item of this._items) {
-      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
+      let b: any = typeof (item.clone) !== 'undefined' ? item.clone() : item;
       if (isFirst) {
         isFirst = false;
         a.push(typeof (b.neg) !== 'undefined' ? b.neg() : -b);

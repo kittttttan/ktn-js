@@ -7,28 +7,28 @@ import {Complex} from './complex';
  * @const
  * @type function(number): number
  */
-const cos = Math.cos;
+const cos: (x: number) => number = Math.cos;
 
 /**
  * @private
  * @const
  * @type function(number): number
  */
-const sin = Math.sin;
+const sin: (x: number) => number = Math.sin;
 
 /**
  * @private
  * @const
  * @type number
  */
-const PI = Math.PI;
+const PI: number = Math.PI;
 
 /**
  * @private
  * @const
  * @type number
  */
-const PI2 = -2 * PI;
+const PI2: number = -2 * PI;
 
 /**
  * Fft
@@ -72,7 +72,7 @@ export class Fft {
       q[0].add(r[0]),
       q[1].add(wk),
       q[0].sub(r[0]),
-      q[1].sub(wk)
+      q[1].sub(wk),
     ];
   }
 

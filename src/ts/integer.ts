@@ -209,7 +209,7 @@ export class Integer implements Ktn.Field {
    *   Integer.exp("314e-2"); // 3
    */
   public static exp(a: string): Integer {
-    const i: number = a.indexOf('e', 0);
+    const i: int = a.indexOf('e', 0);
     if (i < 0) {
       // 'e' is not found
       return Integer.str(a);
@@ -274,7 +274,7 @@ export class Integer implements Ktn.Field {
   /**
    * @static
    * @method Integer.factorial
-   * @param {!number} n
+   * @param {!int} n
    * @return {!Integer}
    * @example
    *   Integer.factorial(3); // 1*2*3 = 6
@@ -288,7 +288,7 @@ export class Integer implements Ktn.Field {
   }
 
   /**
-   * @param {number} n
+   * @param {int} n
    * @return {!Integer}
    */
   public static factOdd(n: int): Integer {
@@ -297,8 +297,8 @@ export class Integer implements Ktn.Field {
     let m: Integer = Integer.one;
     const limit: int = 1 << ((_SHIFT - 1) << 1);
 
-    for (let i = 0;; i = i + 1 | 0) {
-      const l = (n / (1 << i)) | 0;
+    for (let i: int = 0;; i = i + 1 | 0) {
+      const l: int = (n / (1 << i)) | 0;
       if (l < 3) { break; }
 
       let mi: int = 1;
@@ -323,10 +323,10 @@ export class Integer implements Ktn.Field {
 
   /**
    * @private
-   * @param {number} n
+   * @param {int} n
    * @return {!Integer}
    */
-  public static factEven(n: number): Integer {
+  public static factEven(n: int): Integer {
     n = n | 0;
 
     let s: int = 0;
@@ -339,20 +339,38 @@ export class Integer implements Ktn.Field {
   }
 
   /**
+   * Set length.
+   * @private
+   * @param {!int} length
+   * @param {boolean=} sign
+   * @return {!Integer}
+   */
+  protected static alloc(length: int, sign: boolean): Integer {
+    length = length | 0;
+
+    const a: Integer = new Integer();
+    a._s = sign ? true : false;
+    a._l = length;
+    a._d = new Uint32Array(length);
+
+    return a;
+  }
+
+  /**
    * Convert Integer to String.
    * @override
    * @method Integer#toString
-   * @param {number=} [b=10] Base 2, 8, 10 or 16
+   * @param {int=} [b=10] Base 2, 8, 10 or 16
    * @return {!string}
    */
-  public toString(b: number = 10): string {
+  public toString(b: int = 10): string {
     let i: int = this._l;
     if (i < 2 && !this._d[0]) {
       return '0';
     }
 
-    let j: number = 0;
-    let hbase: number = 0;
+    let j: int = 0;
+    let hbase: int = 0;
     switch (b) {
     case 16:
       j = (i << 3) + 2 | 0;
@@ -378,8 +396,8 @@ export class Integer implements Ktn.Field {
     let s: string = '';
 
     while (i && j) {
-      let k: number = i;
-      let n: number = 0;
+      let k: int = i;
+      let n: int = 0;
       while (k--) {
         n = (n << _SHIFT) | d[k];
         d[k] = n / hbase | 0;
@@ -414,17 +432,17 @@ export class Integer implements Ktn.Field {
 
   /**
    * @method Integer#capacity
-   * @return {!number}
+   * @return {!int}
    */
-  get capacity(): number {
+  get capacity(): int {
     return this._d.length | 0;
   }
 
   /**
    * @method Integer#arrayLength
-   * @return {!number}
+   * @return {!int}
    */
-  get arrayLength(): number {
+  get arrayLength(): int {
     return this._l | 0;
   }
 
@@ -462,10 +480,10 @@ export class Integer implements Ktn.Field {
   /**
    * Add zeros and shift decimal.
    * @method Integer#addZero
-   * @param {!number} b Number of zeros.
+   * @param {!int} b int of zeros.
    * @return {!Integer} this * 10<sup>n</sup>
    */
-  public addZero(b: number): Integer {
+  public addZero(b: int): Integer {
     b = b | 0;
     return Integer.str(this.toString() + '0'.repeat(b));
   }
@@ -473,29 +491,29 @@ export class Integer implements Ktn.Field {
   /**
    * <<
    * @method Integer#leftShift
-   * @param {!number} b
+   * @param {!int} b
    * @return {!Integer}
    */
-  public leftShift(b: number): Integer {
+  public leftShift(b: int): Integer {
     b = b | 0;
 
     const a: Integer = this;
     const ad: Uint32Array = a._d;
-    const l: number = a._l | 0;
-    const d: number = b / _SHIFT | 0;
-    const cl: number = l + d + 1 | 0;
-    const bb: number = b % _SHIFT;
+    const l: int = a._l | 0;
+    const d: int = b / _SHIFT | 0;
+    const cl: int = l + d + 1 | 0;
+    const bb: int = b % _SHIFT;
     const c: Integer = Integer.alloc(cl, a._s);
     const cd: Uint32Array = c._d;
 
-    for (let i: number = 0; (i | 0) < (d | 0); i = i + 1 | 0) {
+    for (let i: int = 0; (i | 0) < (d | 0); i = i + 1 | 0) {
       cd[i] = 0;
     }
 
-    let carry: number = 0;
-    let i: number = 0;
+    let carry: int = 0;
+    let i: int = 0;
     for (; (i | 0) < (l | 0); i = i + 1 | 0) {
-      const t: number = (ad[i] << bb) + carry;
+      const t: int = (ad[i] << bb) + carry;
       cd[i + d] = t & _MASK;
       carry = t >> _SHIFT;
     }
@@ -507,23 +525,23 @@ export class Integer implements Ktn.Field {
   /**
    * >>
    * @method Integer#rightShift
-   * @param {!number} b
+   * @param {!int} b
    * @return {!Integer}
    */
-  public rightShift(b: number): Integer {
+  public rightShift(b: int): Integer {
     const a: Integer = this;
     const ad: Uint32Array = a._d;
-    const l: number = a._l;
-    const d: number = b / _SHIFT | 0;
+    const l: int = a._l;
+    const d: int = b / _SHIFT | 0;
 
     if (l <= d) { return new Integer(); }
 
-    const bb: number = b % _SHIFT;
-    const mask: number = (1 << bb) - 1;
-    const cl: number = l - d;
+    const bb: int = b % _SHIFT;
+    const mask: int = (1 << bb) - 1;
+    const cl: int = l - d;
     const c: Integer = Integer.alloc(cl, a._s);
     const cd: Uint32Array = c._d;
-    let i: number = 0;
+    let i: int = 0;
 
     for (; i < cl - 1; i = i + 1) {
       cd[i] = ((ad[i + d + 1] & mask) << (_SHIFT - bb)) + (ad[i + d] >> bb);
@@ -558,19 +576,19 @@ export class Integer implements Ktn.Field {
    */
   public square(): Integer {
     const x: Uint32Array = this._d;
-    const t: number = this._l;
+    const t: int = this._l;
     const s: Integer = Integer.alloc(t << 1, true);
     const w: Uint32Array = s._d;
     s.fillZero(s._l);
 
-    for (let i: number = 0; i < t; i = i + 1) {
-      let uv: number = w[i << 1] + x[i] * x[i];
-      let u: number = uv >>> _SHIFT;
-      let v: number = uv & _MASK;
+    for (let i: int = 0; i < t; i = i + 1) {
+      let uv: int = w[i << 1] + x[i] * x[i];
+      let u: int = uv >>> _SHIFT;
+      let v: int = uv & _MASK;
       w[i << 1] = v;
-      let c: number = u;
+      let c: int = u;
 
-      for (let j: number = i + 1; j < t; j = j + 1) {
+      for (let j: int = i + 1; j < t; j = j + 1) {
         // uv = w[i + j] + (x[j] * x[i] << 1) + c
         // can overflow.
         uv = x[j] * x[i];
@@ -597,8 +615,8 @@ export class Integer implements Ktn.Field {
   public sqrt(): Integer {
     if (!this.isNonZero()) { return this; }
 
-    let b = this.clone();
-    let c = Integer.one;
+    let b: Integer = this.clone();
+    let c: Integer = Integer.one;
 
     while (b.cmp(c) > 0) {
       b.half();
@@ -617,20 +635,20 @@ export class Integer implements Ktn.Field {
   /**
    * Pow.
    * @method Integer#pow
-   * @param {!number} b
+   * @param {!int} b
    * @return {!Integer} this<sup>b</sup>
    */
-  public pow(b: number): Integer {
+  public pow(b: int): Integer {
     b = +b;
     if (b < 0 || Math.floor(b) !== b) {
-      throw new Error('Not implemented pow(b) if b is neither natural number nor zero.');
+      throw new Error('Not implemented pow(b) if b is neither natural int nor zero.');
     }
     if (!b) { return Integer.one; }
     if (this.equal(Integer.one)) { return Integer.one; }
 
     b = b | 0;
-    let p = Integer.one;
-    let a = this.clone();
+    let p: Integer = Integer.one;
+    let a: Integer = this.clone();
 
     for (; b > 0; b >>= 1, a = a.square()) {
       if (b & 1) { p = p.mul(a); }
@@ -647,8 +665,8 @@ export class Integer implements Ktn.Field {
    */
   public gcd(b: Integer): Integer {
     if (!b.isNonZero()) { return this; }
-    let c;
-    let a = this.abs();
+    let c: Integer;
+    let a: Integer = this.abs();
 
     while ((c = a.divmod(b, true)).isNonZero()) {
       a = b;
@@ -668,8 +686,8 @@ export class Integer implements Ktn.Field {
     if (this.cmpAbs(b) < 0) { return b.gcdBin(this); }
     if (!b.isNonZero()) { return this; }
 
-    const g = Integer.one;
-    let a = this.abs();
+    const g: Integer = Integer.one;
+    let a: Integer = this.abs();
     b = b.abs();
     while (!(a._d[0] & 1) && !(b._d[0] & 1)) {
       a.half();
@@ -712,14 +730,14 @@ export class Integer implements Ktn.Field {
       return b.addAbs(this, sign);
     }
 
-    const ad = this._d;
-    const bd = b._d;
-    const al = this._l;
-    const bl = b._l;
-    const z = Integer.alloc(al + 1, sign);
-    const zd = z._d;
-    let i = 0;
-    let num = 0;
+    const ad: Uint32Array = this._d;
+    const bd: Uint32Array = b._d;
+    const al: int = this._l;
+    const bl: int = b._l;
+    const z: Integer = Integer.alloc(al + 1, sign);
+    const zd: Uint32Array = z._d;
+    let i: int = 0;
+    let num: int = 0;
 
     for (; i < bl; i = i + 1) {
       num += ad[i] + bd[i];
@@ -750,14 +768,14 @@ export class Integer implements Ktn.Field {
    *     -||this| - |b|| (else)
    */
   public subAbs(b: Integer, sign: boolean): Integer {
-    const ad = this._d;
-    const bd = b._d;
-    const al = this._l;
-    const bl = b._l;
-    const z = Integer.alloc(al, sign);
-    const zd = z._d;
-    let i = 0;
-    let c = 0;
+    const ad: Uint32Array = this._d;
+    const bd: Uint32Array = b._d;
+    const al: int = this._l;
+    const bl: int = b._l;
+    const z: Integer = Integer.alloc(al, sign);
+    const zd: Uint32Array = z._d;
+    let i: int = 0;
+    let c: int = 0;
 
     for (; i < bl; i = i + 1) {
       c = ad[i] - bd[i] - c;
@@ -831,22 +849,23 @@ export class Integer implements Ktn.Field {
 
     const ad: Uint32Array = this._d;
     const bd: Uint32Array = b._d;
-    const al: number = this._l | 0;
-    const bl: number = b._l | 0;
+    const al: int = this._l | 0;
+    const bl: int = b._l | 0;
     // if (al > 125 && bl > 125) { return longK(this, b); }
 
-    const abl: number = al + bl | 0;
+    const abl: int = al + bl | 0;
     const z: Integer = Integer.alloc(abl, this._s === b._s);
 
     z.fillZero(abl);
-    for (let i = 0, j = 0, n = 0, d = 0, e = 0, zd = z._d;
+    let zd: Uint32Array = z._d
+    for (let i: int = 0, j: int;
         (i | 0) < (al | 0); i = i + 1 | 0) {
-      d = ad[i];
+      const d = ad[i];
       if (!d) { continue; }
 
-      n = 0;
+      let n = 0;
       for (j = 0; (j | 0) < (bl | 0); j = j + 1 | 0) {
-        e = n + d * bd[j];
+        const e: int = n + d * bd[j];
         n = zd[i + j] + e;
         if (e) { zd[i + j] = n & _MASK; }
         n >>>= _SHIFT;
@@ -865,24 +884,24 @@ export class Integer implements Ktn.Field {
    * @return {!Integer} this * y
    */
   public kmul(y: Integer): Integer {
-    const x = this;
-    let N = x.bitLength();
-    const l = y.bitLength();
+    const x: Integer = this;
+    let N: int = x.bitLength();
+    const l: int = y.bitLength();
 
     if (N < l) { N = l; }
     if (N < 2001) { return x.mul(y); }
 
-    // number of bits divided by 2, rounded up
+    // int of bits divided by 2, rounded up
     N = (N >>> 1) + (N & 1);
 
     // x = a + b 2^N, y = c + d 2^N
-    const b = x.rightShift(N);
-    const a = x.sub(b.leftShift(N));
-    const d = y.rightShift(N);
-    const c = y.sub(d.leftShift(N));
-    const ac = a.kmul(c);
-    const bd = b.kmul(d);
-    const abcd = a.add(b).kmul(c.add(d));
+    const b: Integer = x.rightShift(N);
+    const a: Integer = x.sub(b.leftShift(N));
+    const d: Integer = y.rightShift(N);
+    const c: Integer = y.sub(d.leftShift(N));
+    const ac: Integer = a.kmul(c);
+    const bd: Integer = b.kmul(d);
+    const abcd: Integer = a.add(b).kmul(c.add(d));
 
     // xy
     // = (a + 2^N b) (c + 2^N d)
@@ -901,29 +920,29 @@ export class Integer implements Ktn.Field {
    *     this / b (else)
    */
   public divmod(b: Integer, modulus: boolean): Integer {
-    const a = this;
-    const ad = a._d;
-    let bd = b._d;
-    const na = a._l;
-    const nb = b._l;
+    const a: Integer = this;
+    const ad: Uint32Array = a._d;
+    let bd: Uint32Array = b._d;
+    const na: int = a._l;
+    const nb: int = b._l;
 
     if (nb < 2 && !bd[0]) {
       // zero division
       throw new Error('zero division');
     }
 
-    const albl = na === nb;
+    const albl: boolean = na === nb;
     if (na < nb || (albl && ad[na - 1] < bd[nb - 1])) {
       if (modulus) { return a; }
       return new Integer();
     }
 
-    let t = 0;
+    let t: int = 0;
     if (nb === 1) {
-      const dd = bd[0];
-      const z = a.clone();
-      const zd = z._d;
-      let i = na;
+      const dd: int = bd[0];
+      const z: Integer = a.clone();
+      const zd: Uint32Array = z._d;
+      let i: int = na;
 
       while (i--) {
         t = ((t << _SHIFT) | zd[i]) >>> 0;
@@ -941,19 +960,19 @@ export class Integer implements Ktn.Field {
       return z.norm();
     }
 
-    const z = Integer.alloc(albl ? na + 2 : na + 1, a._s === b._s);
-    let zd = z._d;
+    const z: Integer = Integer.alloc(albl ? na + 2 : na + 1, a._s === b._s);
+    let zd: Uint32Array = z._d;
     z.fillZero(z._l);
-    const dd = _BASE / (bd[nb - 1] + 1) & _MASK;
+    const dd: int = _BASE / (bd[nb - 1] + 1) & _MASK;
 
-    let j = 0;
-    let num = 0;
+    let j: int = 0;
+    let num: int = 0;
     if (dd === 1) {
       j = na;
       while (j--) { zd[j] = ad[j]; }
     } else {
-      const bb = b.clone();
-      const td = bb._d;
+      const bb: Integer = b.clone();
+      const td: Uint32Array = bb._d;
 
       for (; j < nb; j = j + 1) {
         num += bd[j] * dd;
@@ -973,9 +992,9 @@ export class Integer implements Ktn.Field {
       zd[j] = num & _MASK;
     }
 
-    let i = 0;
-    let q = 0;
-    let ee = 0;
+    let i: int = 0;
+    let q: int = 0;
+    let ee: int = 0;
     j = albl ? na + 1 : na;
     do {
       if (zd[j] === bd[nb - 1]) {
@@ -1014,7 +1033,7 @@ export class Integer implements Ktn.Field {
       zd[j] = q;
     } while (--j >= nb);
 
-    const div = z.clone();
+    const div: Integer = z.clone();
     zd = div._d;
     if (modulus) {
       if (dd) {
@@ -1063,18 +1082,18 @@ export class Integer implements Ktn.Field {
    * Compare between two absolute values of Integer objects.
    * @method Integer#cmpAbs
    * @param {!Integer} b
-   * @return {!number}
+   * @return {!int}
    *      -1 (|this| < |b|)
    *       0 (|this| = |b|)
    *       1 (|this| > |b|)
    */
-  public cmpAbs(b: Integer): number {
+  public cmpAbs(b: Integer): int {
     if (this === b) { return 0; }
 
-    const ad = this._d;
-    const bd = b._d;
-    let al = this._l;
-    const bl = b._l;
+    const ad: Uint32Array = this._d;
+    const bd: Uint32Array = b._d;
+    let al: int = this._l;
+    const bl: int = b._l;
 
     if (al < bl) { return -1; }
     if (al > bl) { return 1; }
@@ -1089,19 +1108,19 @@ export class Integer implements Ktn.Field {
    * Compare between two Integer.
    * @method Integer#cmp
    * @param {!Integer} b
-   * @return {!number}
+   * @return {!int}
    *     -1 (this < b)
    *      0 (this = b)
    *      1 (this > b)
    */
-  public cmp(b: Integer): number {
+  public cmp(b: Integer): int {
     if (this === b) { return 0; }
     if (this._s !== b._s) { return this._s ? 1 : -1; }
 
-    const ad = this._d;
-    const bd = b._d;
-    let al = this._l;
-    const bl = b._l;
+    const ad: Uint32Array = this._d;
+    const bd: Uint32Array = b._d;
+    let al: int = this._l;
+    const bl: int = b._l;
 
     if (al < bl) { return this._s ? -1 : 1; }
     if (al > bl) { return this._s ? 1 : -1; }
@@ -1127,12 +1146,12 @@ export class Integer implements Ktn.Field {
     b = Integer.any(b);
     if (this._s !== b._s) { return false; }
 
-    const ad = this._d;
-    const bd = b._d;
-    const l = this._l;
+    const ad: Uint32Array = this._d;
+    const bd: Uint32Array = b._d;
+    const l: int = this._l;
     if (l !== b._l) { return false; }
 
-    for (let i = 0; i < l; i = i + 1) {
+    for (let i: int = 0; i < l; i = i + 1) {
       if (ad[i] !== bd[i]) { return false; }
     }
 
@@ -1150,12 +1169,12 @@ export class Integer implements Ktn.Field {
     if (!(b instanceof Integer)) { return false; }
     if (this._s !== b._s) { return false; }
 
-    const ad = this._d;
-    const bd = b._d;
-    const l = this._l;
+    const ad: Uint32Array = this._d;
+    const bd: Uint32Array = b._d;
+    const l: int = this._l;
     if (l !== b._l) { return false; }
 
-    for (let i = 0; i < l; i = i + 1) {
+    for (let i: int = 0; i < l; i = i + 1) {
       if (ad[i] !== bd[i]) { return false; }
     }
 
@@ -1168,7 +1187,7 @@ export class Integer implements Ktn.Field {
    * @return {!Integer} |this|.
    */
   public abs(): Integer {
-    const z = this.clone();
+    const z: Integer = this.clone();
     z._s = true;
     return z;
   }
@@ -1179,18 +1198,18 @@ export class Integer implements Ktn.Field {
    * @return {!Integer} -this.
    */
   public neg(): Integer {
-    const z = this.clone();
+    const z: Integer = this.clone();
     if (z.isNonZero()) { z._s = !z._s; }
     return z;
   }
 
   /**
    * Get length of bit
-   * @return {!number}
+   * @return {!int}
    */
-  public bitLength(): number {
-    const d = this._d;
-    const l = this._l;
+  public bitLength(): int {
+    const d: Uint32Array = this._d;
+    const l: int = this._l;
     return d[l - 1].toString(2).length + ((l - 1) << 4);
   }
 
@@ -1201,9 +1220,9 @@ export class Integer implements Ktn.Field {
   public half(): Integer {
     const a: Integer = this;
     const d: Uint32Array = a._d;
-    const l: number = a._l - 1;
+    const l: int = a._l - 1;
 
-    for (let i: number = 0; i < l; i = i + 1) {
+    for (let i: int = 0; i < l; i = i + 1) {
       d[i] = (((d[i + 1] & 1) << _SHIFT) + d[i]) >>> 1;
     }
     d[l] >>>= 1;
@@ -1218,17 +1237,17 @@ export class Integer implements Ktn.Field {
   public double(): Integer {
     const a: Integer = this;
     const d: Uint32Array = a._d;
-    const l: number = a._l;
+    const l: int = a._l;
 
-    let c = 0;
-    for (let i: number = 0; i < l; i = i + 1) {
-      const t: number = (d[i] << 1) + c;
+    let c: int = 0;
+    for (let i: int = 0; i < l; i = i + 1) {
+      const t: int = (d[i] << 1) + c;
       d[i] = t & _MASK;
       c = t >>> _SHIFT;
     }
     if (c) {
       if (l >= a._d.length) {
-        const ta = new Uint32Array(l);
+        const ta: Uint32Array = new Uint32Array(l);
         ta.set(d);
         ta[l] = c;
         a._d = ta;
@@ -1246,9 +1265,9 @@ export class Integer implements Ktn.Field {
    * @return {!Integer}
    */
   protected norm(): Integer {
-    const a = this;
-    const d = a._d;
-    let l = a._l | 0;
+    const a: Integer = this;
+    const d: Uint32Array = a._d;
+    let l: int = a._l | 0;
 
     do { l = l - 1 | 0; } while (l && !d[l]);
     a._l = l + 1 | 0;
@@ -1261,36 +1280,18 @@ export class Integer implements Ktn.Field {
 
   /**
    * Assign zero to initialize.
-   * @param {!number} n Length.
+   * @param {!int} n Length.
    * @return {!Integer}
    */
-  protected fillZero(n: number): Integer {
+  protected fillZero(n: int): Integer {
     n = n | 0;
     if (n < 0) {
       throw new RangeError(`Integer#fillZero(n): n must >= 0 but ${n}`);
     }
 
-    const a = this;
-    const d = a._d;
+    const a: Integer = this;
+    const d: Uint32Array = a._d;
     while (n--) { d[n] = 0; }
-
-    return a;
-  }
-
-  /**
-   * Set length.
-   * @private
-   * @param {!number} length
-   * @param {boolean=} sign
-   * @return {!Integer}
-   */
-  protected static alloc(length: number, sign: boolean): Integer {
-    length = length | 0;
-
-    const a: Integer = new Integer();
-    a._s = sign ? true : false;
-    a._l = length;
-    a._d = new Uint32Array(length);
 
     return a;
   }

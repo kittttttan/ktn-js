@@ -16,14 +16,14 @@ import {Rational} from './rational';
  * @property {?} _p
  */
 export class Pow {
-  protected _a;
-  protected _p;
+  protected _a: any;
+  protected _p: any;
 
   /**
    * @param {?} a
    * @param {?} p
    */
-  constructor(a, p) {
+  constructor(a: any, p: any) {
     this._a = a;
     this._p = p;
   }
@@ -34,17 +34,23 @@ export class Pow {
    * @param {?} p
    * @return {Pow}
    */
-  public static pow(a, p): Pow {
+  public static pow(a: any, p: any): Pow {
     return new Pow(a, p);
   }
 
+  /**
+   * @return {string}
+   */
   public toString(): string {
     return `pow(${this._a},${this._p})`;
   }
 
-  public calc() {
-    let a = this._a;
-    let p = this._p;
+  /**
+   * @return {?}
+   */
+  public calc(): any {
+    let a: any = this._a;
+    let p: any = this._p;
 
     if (typeof (a.calc) === 'function') {
       a = a.calc();

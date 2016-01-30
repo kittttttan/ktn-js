@@ -5,19 +5,19 @@
  * @const
  * @type function(number): number
  */
-const _sqrt = Math.sqrt;
+const _sqrt: (x: number) => number = Math.sqrt;
 /**
  * @private
  * @const
  * @type function(number): number
  */
-const _cos = Math.cos;
+const _cos: (x: number) => number = Math.cos;
 /**
  * @private
  * @const
  * @type function(number): number
  */
-const _sin = Math.sin;
+const _sin: (x: number) => number = Math.sin;
 
 /**
  * Quaternion
@@ -28,7 +28,7 @@ const _sin = Math.sin;
  * @property {double} Quaternion#y
  * @property {double} Quaternion#z
  */
- export class Quaternion {
+export class Quaternion {
   public w: double;
   public x: double;
   public y: double;
@@ -108,7 +108,7 @@ const _sin = Math.sin;
    * @return {Quaternion}
    */
   public rotate(r: double, x: double, y: double, z: double): Quaternion {
-    const n = _sqrt(x * x + y * y + z * z);
+    const n: double = _sqrt(x * x + y * y + z * z);
     if (!n) {
       throw new Error(`Invalid arguments: ${arguments}`);
     }

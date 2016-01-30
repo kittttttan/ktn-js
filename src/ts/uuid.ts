@@ -5,7 +5,7 @@
  * @const
  * @type function(): number
  */
-const rnd = Math.random;
+const rnd: () => number = Math.random;
 
 /**
  * A Universally Unique IDentifier (UUID) URN Namespace
@@ -80,7 +80,7 @@ export class Uuid {
       id = id.substring(1);
     }
 
-    const u = this;
+    const u: Uuid = this;
     u._timeLow = parseInt(id.substring(0, 8), 16);
     u._timeMid = parseInt(id.substring(9, 13), 16);
     u._version = parseInt(id.substring(14, 15), 16);
@@ -99,7 +99,7 @@ export class Uuid {
   public generate(): string {
     switch (this._version) {
     case 4:
-      const u = this;
+      const u: Uuid = this;
       u._timeLow = rand(32);
       u._timeMid = rand(16);
       u._version = 4;
@@ -107,9 +107,9 @@ export class Uuid {
       u._variant = 8;
       u._clockSeq = rand(14);
       u._node = rand(48);
-      
       return u.toString();
-    default: throw new Error(`invalid version: ${this._version}`);
+    default:
+      throw new Error(`invalid version: ${this._version}`);
     }
   }
 

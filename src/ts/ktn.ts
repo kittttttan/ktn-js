@@ -14,26 +14,26 @@ type float = number;
 module Ktn {
 
 export interface Field {
-  clone();
+  sign: boolean;
+  neg(): any;
+  abs(): any;
+
+  clone(): any;
 
   toString(): string;
-  html?();
-  tex?();
+  html?(): string;
+  tex?(): string;
 
-  sign: boolean;
-  neg();
-  abs();
+  cmp(a: any): number;
+  eq(a: any): boolean;
+  equal(a: any): boolean;
 
-  cmp(a): number;
-  eq(a): boolean;
-  equal(a): boolean;
-
-  add(a);
-  sub(a);
-  mul(a);
-  div(a);
-  pow(a);
-  inv?();
+  add(a: any): any;
+  sub(a: any): any;
+  mul(a: any): any;
+  div(a: any): any;
+  pow(a: any): any;
+  inv?(): any;
 }
 
 }

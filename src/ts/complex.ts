@@ -102,7 +102,8 @@ export class Complex {
    * @return {!Complex}
    */
   public mul(a: Complex): Complex {
-    return new Complex(this._r * a._r - this._i * a._i,
+    return new Complex(
+        this._r * a._r - this._i * a._i,
         this._r * a._i + this._i * a._r);
   }
 }

@@ -26,7 +26,7 @@ export class Result {
    * @param {int}
    * @return {Result}
    */
-  public add(t: int) {
+  public add(t: int): Result {
     this._r.push(t);
     return this;
   }
@@ -122,7 +122,7 @@ export class BenchMark {
    * @param {function} f
    * @return {BenchMark}
    */
-  public add(s: string, f): BenchMark {
+  public add(s: string, f: () => any): BenchMark {
     this._items.push(new Unit(s, f));
     return this;
   }
@@ -146,14 +146,14 @@ export class BenchMark {
       if (!quiet) { console.log(`${u.name} is running ...`); }
       const r: Result = new Result();
       if (isLoop) {
-        for (let i = 0; i < this._loop; ++i) {
+        for (let i: int = 0; i < this._loop; ++i) {
           sw.restart();
           u.func();
           sw.stop();
           r.add(sw.elapsed);
         }
       } else {
-        const t0 = Date.now();
+        const t0: int = Date.now();
         while (Date.now() - t0 < this._intime) {
           sw.restart();
           u.func();

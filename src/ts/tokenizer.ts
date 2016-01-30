@@ -30,8 +30,8 @@ export class Tokenizer {
     if (this._buffer.length === 0) {
       this._scanner.comment();
       if (!this._scanner.eof()) {
-        let token = this._scanner.lex();
-        //console.log(`next ${token}`);
+        let token: string = this._scanner.lex();
+        // console.log(`next ${token}`);
         this._buffer.push(token);
       }
     }

@@ -17,10 +17,10 @@ export interface Ast {
  */
 function neg(a: Ast): Ast {
   return {
-    type: 'Unary',
+    argument: a,
     operator: '-',
-    argument: a
-  }
+    type: 'Unary',
+  };
 }
 
 /**
@@ -29,13 +29,13 @@ function neg(a: Ast): Ast {
  * @param {Ast} b
  * @return {Ast}
  */
-function binary(operator: string, a: Ast, b: Ast) {
+function binary(operator: string, a: Ast, b: Ast): Ast {
   return {
-    type: 'Binary',
-    operator: operator,
     left: a,
-    right: b
-  }
+    operator: operator,
+    right: b,
+    type: 'Binary',
+  };
 }
 
 /**
@@ -45,10 +45,10 @@ function binary(operator: string, a: Ast, b: Ast) {
  */
 function func(name: string, a: Ast): Ast {
   return {
-    type: 'Function',
+    arguments: [a],
     name: name,
-    arguments: [a]
-  }
+    type: 'Function',
+  };
 }
 
 /**
@@ -99,12 +99,12 @@ export class Parser {
     const token: string = this._tokens[this._index++];
     let ast: Ast = {
       type: 'Int',
-      value: token
+      value: token,
     };
     if (token === '$p') {
-      //ast = Const.PI;
+      // ast = Const.PI;
     } else if (token === '$e') {
-      //ast = Const.E;
+      // ast = Const.E;
     }/* else if (isNaN(+ans)) {
       ans = vari(ans);
     }*/

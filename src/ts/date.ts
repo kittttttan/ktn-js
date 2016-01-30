@@ -23,14 +23,15 @@ export class DateUtil {
       case 2:
         if (this.isLeapYear(y)) {
           return 29;
-        } else {
-          return 28;
         }
+        return 28;
       case 4:
       case 6:
       case 9:
       case 11:
         return 30;
+      default:
+        break;
     }
     if (m < 1 || m > 12) { return 0; }
     return 31;
@@ -44,7 +45,7 @@ export class DateUtil {
   public static format(s: string, d: Date): string {
     return s.replace(
         /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
-        (src, token) => {
+        (src: string, token: string): string => {
       if (token === 'yyyy') {
         return `${d.getFullYear()}`;
       }
@@ -52,9 +53,9 @@ export class DateUtil {
         return `${d.getFullYear()}`.substring(2, 4);
       }
       if (token === 'MMM') {
-        const mon = [
+        const mon: string[] = [
             'Jan', 'Feb', 'May', 'Apr', 'Mar', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
         ];
         return mon[d.getMonth()];
       }

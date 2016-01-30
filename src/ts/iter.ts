@@ -19,7 +19,7 @@ export class Iter {
     }
     end = +end;
     step = +step;
-    return function *() {
+    return function *(): IterableIterator<double> {
       if (step === 0) {
         throw new Error('range() arg 3 must not be zero');
       } else if (step > 0) {
@@ -47,19 +47,19 @@ export class Iter {
    * @return {IterableIterator}
    */
   public static zip(...iterables: Iterable<any>[]): IterableIterator<any> {
-    return function *() {
+    return function *(): IterableIterator<any> {
       if (iterables.length === 0) {
         return [];
       }
 
-      const iters: Iterator<any>[] = iterables.map(i => i[Symbol.iterator]());
+      const iters: Iterator<any>[] = iterables.map((i: Iterable<any>): Iterator<any> => i[Symbol.iterator]());
       while (true) {
-        const entries: IteratorResult<any>[] = iters.map(i => i.next());
-        const done: boolean = entries.some(entry => entry.done);
+        const entries: IteratorResult<any>[] = iters.map((i: Iterator<any>): any => i.next());
+        const done: boolean = entries.some((entry: IteratorResult<any>): boolean => entry.done);
         if (done) {
           break;
         }
-        yield entries.map(entry => entry.value);
+        yield entries.map((entry: IteratorResult<any>): any => entry.value);
       }
     }();
   }

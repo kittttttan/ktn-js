@@ -39,13 +39,14 @@ export class Add {
    * @return {Add}
    */
   public static sub(...items: any[]): Add {
-    if (items.length === 0) {
+    const l: int = items.length;
+    if (l === 0) {
       return new Add([]);
     }
 
-    const n = [items[0]];
-    for (let i = 1, l = items.length; i < l; ++i) {
-      let item = items[i];
+    const n: any = [items[0]];
+    for (let i: int = 1; i < l; ++i) {
+      let item: any = items[i];
       if (typeof (item.neg) === 'function') {
         item = item.neg();
       } else {
@@ -57,12 +58,18 @@ export class Add {
     return new Add(n);
   }
 
+  /**
+   * @return {string}
+   */
   public toString(): string {
     return `add(${this._items})`;
   }
 
+  /**
+   * @return {Rational}
+   */
   public calc(): Rational {
-    let v = Rational.zero;
+    let v: Rational = Rational.zero;
     for (const item of this._items) {
       if (typeof (item.calc) === 'function') {
         v = v.add(item.calc());
@@ -73,19 +80,25 @@ export class Add {
     return v;
   }
 
+  /**
+   * @return {Add}
+   */
   public clone(): Add {
-    const a = [];
+    const a: any[] = [];
     for (let item of this._items) {
       a.push(typeof (item.clone) !== 'undefined' ? item.clone() : item);
     }
-    
+
     return new Add(a);
   }
 
+  /**
+   * @return {Add}
+   */
   public neg(): Add {
-    const a = [];
+    const a: any[] = [];
     for (let item of this._items) {
-      let b = typeof (item.clone) !== 'undefined' ? item.clone() : item;
+      let b: any = typeof (item.clone) !== 'undefined' ? item.clone() : item;
       a.push(typeof (b.neg) !== 'undefined' ? b.neg() : b);
     }
 

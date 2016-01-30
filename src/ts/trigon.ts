@@ -8,22 +8,28 @@
  * @class Sin
  */
 export class Sin {
-  protected _a;
+  protected _a: any;
   /**
    * @property {?} _a
    * @param {?} a
    */
-  constructor(a) {
+  constructor(a: any) {
     this._a = a;
   }
 
+  /**
+   * @return {string}
+   */
   public toString(): string {
     return `sin(${this._a})`;
   }
 
-  public calc(): number {
-    let v = 0;
-    const a = this._a;
+  /**
+   * @return {double}
+   */
+  public calc(): double {
+    let v: double = 0;
+    const a: any = this._a;
     if (typeof (a.calc) === 'function') {
       v = a.calc();
     } else {
@@ -38,22 +44,28 @@ export class Sin {
  * @class Cos
  */
 export class Cos {
-  protected _a;
+  protected _a: any;
   /**
    * @property {?} _a
    * @param {?} a
    */
-  constructor(a) {
+  constructor(a: any) {
     this._a = a;
   }
 
+  /**
+   * @return {string}
+   */
   public toString(): string {
     return `cos(${this._a})`;
   }
 
-  public calc(): number {
-    let v = 0;
-    const a = this._a;
+  /**
+   * @return {double}
+   */
+  public calc(): double {
+    let v: double = 0;
+    const a: any = this._a;
     if (typeof (a.calc) === 'function') {
       v = a.calc();
     } else {
@@ -68,22 +80,28 @@ export class Cos {
  * @class Tan
  */
 export class Tan {
-  protected _a;
+  protected _a: any;
   /**
    * @property {?} _a
    * @param {?} a
    */
-  constructor(a) {
+  constructor(a: any) {
     this._a = a;
   }
 
+  /**
+   * @return {string}
+   */
   public toString(): string {
     return `tan(${this._a})`;
   }
 
-  public calc(): number {
-    let v = 0;
-    const a = this._a;
+  /**
+   * @return {double}
+   */
+  public calc(): double {
+    let v: double = 0;
+    const a: any = this._a;
     if (typeof (a.calc) === 'function') {
       v = a.calc();
     } else {
@@ -103,7 +121,7 @@ export class Trigon {
    * @param {?} a
    * @return {Sin}
    */
-  public static sin(a): Sin {
+  public static sin(a: any): Sin {
     return new Sin(a);
   }
 
@@ -112,7 +130,7 @@ export class Trigon {
    * @param {?} a
    * @return {Cos}
    */
-  public static cos(a): Cos {
+  public static cos(a: any): Cos {
     return new Cos(a);
   }
 
@@ -121,7 +139,7 @@ export class Trigon {
    * @param {?} a
    * @return {Tan}
    */
-  public static tan(a): Tan {
+  public static tan(a: any): Tan {
     return new Tan(a);
   }
 }

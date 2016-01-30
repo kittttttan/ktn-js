@@ -92,7 +92,7 @@ export class Random {
 
     const seed: number = Date.now() | 0;
     this.init(seed);
-    //this.initByArray([seed], 1);
+    // this.initByArray([seed], 1);
   }
 
   /**
@@ -160,7 +160,7 @@ export class Random {
    */
   public int32(): int {
     const mag01: int[] = [];
-    //const mag01 = new Uint32Array(2);
+    // const mag01 = new Uint32Array(2);
     mag01[0] = 0;
     mag01[1] = MATRIX_A;
 
@@ -168,9 +168,9 @@ export class Random {
     const mt: Uint32Array = this._mt;
     if (this._mti >= N) {
       /* generate N words at one time */
-      //if (this.mti === N + 1) {   /* if init() has not been called, */
-      //  this.init(5489); /* a default initial seed is used */
-      //}
+      // if (this.mti === N + 1) {   /* if init() has not been called, */
+      //   this.init(5489); /* a default initial seed is used */
+      // }
 
       let kk: int = 0;
       for (kk = 0; kk < N - M; kk = kk + 1 | 0) {
@@ -190,7 +190,7 @@ export class Random {
     y = mt[this._mti];
     this._mti = this._mti + 1;
 
-    // Tempering
+    // tempering
     y ^= (y >>> 11);
     y ^= (y << 7) & 0x9d2c5680;
     y ^= (y << 15) & 0xefc60000;

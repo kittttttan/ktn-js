@@ -23,7 +23,7 @@ const div = (a, b) => a / b;
 /**
  * @private
  */
-const fact = (a) => {
+function fact(a: int): int {
   a = a | 0;
   if (a < 2) { return 1; }
   let b = 1;
@@ -31,7 +31,7 @@ const fact = (a) => {
     b *= a--;
   }
   return b;
-};
+}
 
 function sortNum(arr) {
   return arr.sort((a, b) => a - b);
@@ -46,7 +46,9 @@ function midrange(arr) {
   return (a[0] + a[a.length - 1]) / 2;
 }
 
-//Arithmetic mean
+/**
+ * arithmetic mean
+ */
 function amean(arr) {
   let s = 0;
   const l = arr.length;
@@ -57,7 +59,7 @@ function amean(arr) {
   return s / l;
 }
 
-//Geometric mean
+// geometric mean
 function gmean(arr) {
   let s = 1;
   const l = arr.length;
@@ -120,7 +122,7 @@ function nPm(n, m, mode) {
   m = m || 0;
   let a;
   if (mode) {
-    a = 1;//new Long(1);
+    a = 1; // new Long(1);
     while (n - m > 0) { a = a * n--; }
     return a;
   }
@@ -429,7 +431,9 @@ export class Norm {
         z = 1.7155277699214135 * (r1 - 0.5) / r2;
         // 4 * exp(-0.5)/sqrt(2.0) = 1.7155277699214135
         const zz = z * z / 4.0;
-        if (zz <= -Math.log(r2)) {break;}
+        if (zz <= -Math.log(r2)) {
+          break;
+        }
       }
       arr[i] = this.m + z * this.s;
     }

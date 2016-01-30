@@ -5,7 +5,7 @@
  * @const
  * @type function(number): number
  */
-const _sqrt = Math.sqrt;
+const _sqrt: (x: number) => number = Math.sqrt;
 
 /**
  * Vector
@@ -92,10 +92,10 @@ export class Vector {
    * @param {!Vector} v
    * @return {!Matrix}
    */
-  //public cross(n) {
-  //  var m = new Matrix(this.x, this.y, this.z);
-  //  return m;
-  //},
+  // public cross(n) {
+  //   var m = new Matrix(this.x, this.y, this.z);
+  //   return m;
+  // },
 
   /**
    * @method Vector#dot

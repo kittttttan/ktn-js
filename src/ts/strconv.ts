@@ -16,7 +16,7 @@ export class StringConverter {
         .replace(/[ ]/g, '　')
         .replace(/'/g, '’')
         .replace(/"/g, '”')
-        .replace(/[\u0021-\u007e]/g, (a) =>
+        .replace(/[\u0021-\u007e]/g, (a: string): string =>
           String.fromCharCode(a.charCodeAt(0) + 0xfee0)
         );
   }
@@ -30,7 +30,7 @@ export class StringConverter {
     const conv: string[] = [];
     const zen: string[] = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
     const han: string[] = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
-    for (let i: int = 0, ref = str.length; i < ref; ++i) {
+    for (let i: int = 0, ref: int = str.length; i < ref; ++i) {
       let c: string = str.charAt(i);
       const n: int = han.indexOf(c);
       if (n > -1) {
@@ -52,7 +52,7 @@ export class StringConverter {
         .replace(/[　]/g, ' ')
         .replace(/’/g, '\'')
         .replace(/”/g, '"')
-        .replace(/[\uff01-\uff5e]/g, (a) =>
+        .replace(/[\uff01-\uff5e]/g, (a: string): string =>
           String.fromCharCode(a.charCodeAt(0) - 0xfee0)
         );
   }
@@ -66,7 +66,7 @@ export class StringConverter {
     const conv: string[] = [];
     const zen: string[] = '。「」、ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜'.split('');
     const han: string[] = '｡｢｣､ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ'.split('');
-    for (let i: int = 0, ref = str.length; i < ref; ++i) {
+    for (let i: int = 0, ref: int = str.length; i < ref; ++i) {
       let c: string = str.charAt(i);
       const n: int = zen.indexOf(c);
       if (n > -1) {
@@ -83,7 +83,7 @@ export class StringConverter {
    * @return {string}
    */
   public static toKatakana(str: string): string {
-    return str.replace(/[\u3041-\u3096]/g, (a) =>
+    return str.replace(/[\u3041-\u3096]/g, (a: string): string =>
       String.fromCharCode(a.charCodeAt(0) + 0x60)
     );
   }
@@ -94,7 +94,7 @@ export class StringConverter {
    * @return {string}
    */
   public static toHiragana(str: string): string {
-    return str.replace(/[\u30A1-\u30F6]/g, (a) =>
+    return str.replace(/[\u30A1-\u30F6]/g, (a: string): string =>
       String.fromCharCode(a.charCodeAt(0) - 0x60)
     );
   }
@@ -105,7 +105,7 @@ export class StringConverter {
    * @return {string}
    */
   public static proper(str: string): string {
-    return str.replace(/(\w+)/g, (a) =>
+    return str.replace(/(\w+)/g, (a: string): string =>
       a.charAt(0).toUpperCase() + a.substring(1).toLowerCase()
     );
   }

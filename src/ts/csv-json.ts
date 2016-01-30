@@ -3,13 +3,13 @@
  */
 'use strict';
 
-interface toJsonOpt {
+interface ToJsonOpt {
   sep?: string;
   prop?: string;
   space?: number|string;
 }
 
-interface toCsvOpt {
+interface ToCsvOpt {
   sep?: string;
   prop?: string;
 }
@@ -22,18 +22,18 @@ interface toCsvOpt {
  * @param {Object=} opt
  * @return {!string} JSON
  */
-export function csvToJson(s: string, column: string[], opt: toJsonOpt = {}) {
+export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): string {
   const sep: string = opt.sep || '\t';
 
   const colLength: number = column.length;
   const lines: string[] = s.split(/[\r\n]+/);
-  let json = {};
-  const items = [];
+  let json: Object = {};
+  const items: Object[] = [];
   for (const line of lines) {
     if (!line) {
       continue;
     }
-    const item = {};
+    const item: Object = {};
     const words: string[] = line.split(sep);
     for (let i: int = 0; i < colLength; ++i) {
       if (!column[i]) {
@@ -41,11 +41,11 @@ export function csvToJson(s: string, column: string[], opt: toJsonOpt = {}) {
       }
 
       let word: any = words[i];
-      let leaf = item;
+      let leaf: Object = item;
       let doParseInt: boolean = false;
       let doParseFloat: boolean = false;
-      const clTypeArr = column[i].split(':');
-      const clType = clTypeArr.length > 1 ? clTypeArr[1] : '';
+      const clTypeArr: string[] = column[i].split(':');
+      const clType: string = clTypeArr.length > 1 ? clTypeArr[1] : '';
       if (clType === 'i') {
         doParseInt = true;
       } else if (clType === 'n') {
@@ -88,7 +88,7 @@ export function csvToJson(s: string, column: string[], opt: toJsonOpt = {}) {
  * @param {Array<string>} label
  * @param {Object} item
  */
-function addLabel(labels: string[], label: string[], item) {
+function addLabel(labels: string[], label: string[], item: Object): void {
   for (const prop in item) {
     label.push(prop);
     if (typeof item[prop] === 'object') {
@@ -98,7 +98,7 @@ function addLabel(labels: string[], label: string[], item) {
       label.pop();
     }
   }
-  //console.debug(labels);
+  // console.debug(labels);
 }
 
 /**
@@ -106,7 +106,7 @@ function addLabel(labels: string[], label: string[], item) {
  * @param {Array<?>} val
  * @param {Object} item
  */
-function addValue(val: any[], item) {
+function addValue(val: any[], item: Object): void {
   for (const prop in item) {
     if (typeof item[prop] === 'object') {
       addValue(val, item[prop]);
@@ -123,19 +123,19 @@ function addValue(val: any[], item) {
  * @param {Object=} opt
  * @return {string}
  */
-export function jsonToCsv(s: string, opt: toCsvOpt = {}) {
+export function jsonToCsv(s: string, opt: ToCsvOpt = {}): string {
   const sep: string = opt.sep || '\t';
-  const json = JSON.parse(s);
-  //console.debug(json);
+  const json: Object = JSON.parse(s);
+  // console.debug(json);
 
-  const items = opt.prop ? json[opt.prop] : json;
+  const items: Object[] = opt.prop ? json[opt.prop] : json;
   const labels: string[] = [];
   addLabel(labels, [], items[0]);
-  //console.debug(labels);
+  // console.debug(labels);
   let csv: string = labels.join(sep);
   csv += '\r\n';
   for (const item of items) {
-    const val = [];
+    const val: any[] = [];
     addValue(val, item);
     csv += val.join(sep);
     csv += '\r\n';

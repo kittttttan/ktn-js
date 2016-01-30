@@ -15,16 +15,18 @@
   "scripts": {
     "doc": "jsdoc -R README.md -r src/ts -d doc",
     "del": "del test\\ts\\*.js examples\\ts\\*.js src\\ts\\*.js",
-    "test": "gulp test"
+    "elint": "eslint src/node",
+    "lint": "tslint -c tslint.json src/ts/*.ts",
+    "report": "plato -r -d report src/ts",
+    "test": "gulp test",
+    "ydoc": "yuidoc"
   },
-  "dependencies": {
+  "devDependencies": {
     "babel-plugin-transform-runtime": "",
     "babel-polyfill": "",
     "babel-preset-es2015": "",
     "babelify": "",
-    "browserify": ""
-  },
-  "devDependencies": {
+    "browserify": "",
     "browserify-istanbul": "",
     "gulp": "",
     "gulp-babel": "",
@@ -45,6 +47,6 @@
     "run-sequence": "",
     "typescript": "",
     "vinyl-source-stream": "",
-    "watchify": "^3.7.0"
+    "watchify": ""
   }
 }

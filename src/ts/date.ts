@@ -6,6 +6,7 @@
  */
 export class DateUtil {
   /**
+   * @method DateUtil.isLeapYear
    * @param {int} y year
    * @return {!boolean}
    */
@@ -14,6 +15,7 @@ export class DateUtil {
   }
 
   /**
+   * @method DateUtil.getDaysInMonth
    * @param {!int} y year
    * @param {!int} m month
    * @return {!int} number of days in month
@@ -38,6 +40,7 @@ export class DateUtil {
   }
 
   /**
+   * @method DateUtil.format
    * @param {!string} s format string
    * @param {!Date} d date
    * @return {!string}

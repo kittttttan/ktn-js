@@ -25,7 +25,7 @@ export class Add {
   }
 
   /**
-   * @static
+   * @method Add.add
    * @param {...?} items
    * @return {Add}
    */
@@ -34,7 +34,7 @@ export class Add {
   }
 
   /**
-   * @static
+   * @method Add.sub
    * @param {...?} items
    * @return {Add}
    */
@@ -59,6 +59,7 @@ export class Add {
   }
 
   /**
+   * @method Add#toString
    * @return {string}
    */
   public toString(): string {
@@ -66,6 +67,7 @@ export class Add {
   }
 
   /**
+   * @method Add#calc
    * @return {Rational}
    */
   public calc(): Rational {
@@ -81,6 +83,7 @@ export class Add {
   }
 
   /**
+   * @method Add#clone
    * @return {Add}
    */
   public clone(): Add {
@@ -93,6 +96,7 @@ export class Add {
   }
 
   /**
+   * @method Add#neg
    * @return {Add}
    */
   public neg(): Add {

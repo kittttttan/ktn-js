@@ -9,12 +9,15 @@ import {Stopwatch} from './stopwatch';
 /**
  * Result
  * @class Result
- * @property {Array<number>} Result#_r
+ * @property {Array<int>} Result#_r
  */
 export class Result {
-  protected _r: number[];
+  protected _r: int[];
 
-  get records(): number[] {
+  /**
+   * @type {Array<int>}
+   */
+  get records(): int[] {
     return this._r;
   }
 
@@ -23,6 +26,7 @@ export class Result {
   }
 
   /**
+   * @method Result#add
    * @param {int}
    * @return {Result}
    */
@@ -44,14 +48,23 @@ export class Unit {
   protected _func: () => any;
   protected _result: Result;
 
+  /**
+   * @type {string}
+   */
   get name(): string {
     return this._name;
   }
 
+  /**
+   * @type {function}
+   */
   get func(): () => any {
     return this._func;
   }
 
+  /**
+   * @type {Result}
+   */
   get result(): Result {
     return this._result;
   }
@@ -111,6 +124,7 @@ export class BenchMark {
   }
 
   /**
+   * @method BenchMark.bm
    * @return {BenchMark}
    */
   public static bm(): BenchMark {
@@ -118,6 +132,7 @@ export class BenchMark {
   }
 
   /**
+   * @method BenchMark#add
    * @param {string} s
    * @param {function} f
    * @return {BenchMark}
@@ -128,6 +143,7 @@ export class BenchMark {
   }
 
   /**
+   * @method BenchMark#addItem
    * @param {Unit} u
    * @return {BenchMark}
    */
@@ -137,6 +153,7 @@ export class BenchMark {
   }
 
   /**
+   * @method BenchMark#run
    * @param {boolean?} quiet
    */
   public run(quiet?: boolean): void {
@@ -167,7 +184,7 @@ export class BenchMark {
   }
 
   /**
-   * 
+   * @method BenchMark#show
    */
   public show(): void {
     for (const u of this._items) {

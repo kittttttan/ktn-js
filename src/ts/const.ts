@@ -3,6 +3,9 @@
  */
 'use strict';
 
+/**
+ * @typedef {Object} ConstItem
+ */
 interface ConstItem {
   toString: () => string;
   calc: () => number;
@@ -15,7 +18,7 @@ interface ConstItem {
 export class Const {
   /**
    * @static
-   * @return {?}
+   * @type {ConstItem}
    */
   static get PI(): ConstItem {
     return {
@@ -26,7 +29,7 @@ export class Const {
 
   /**
    * @static
-   * @return {?}
+   * @type {ConstItem}
    */
   static get E(): ConstItem {
     return {

@@ -20,34 +20,29 @@ export class Complex {
   }
 
   /**
-   * @return {!double}
+   * @type {!double}
    */
   get real(): double {
     return this._r;
   }
 
-  /**
-   * @param {double} real
-   */
   set real(real: double) {
     this._r = real;
   }
 
   /**
-   * @return {!double}
+   * @type {!double}
    */
   get imag(): double {
     return this._i;
   }
 
-  /**
-   * @param {double} imag
-   */
   set imag(imag: double) {
     this._i = imag;
   }
 
   /**
+   * @method Complex#toString
    * @return {!string}
    */
   public toString(): string {
@@ -55,6 +50,7 @@ export class Complex {
   }
 
   /**
+   * @method Complex#clone
    * @return {!Complex}
    */
   public clone(): Complex {
@@ -62,6 +58,7 @@ export class Complex {
   }
 
   /**
+   * @method Complex#scale
    * @param {!double} a
    * @return {!Complex}
    */

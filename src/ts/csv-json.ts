@@ -3,12 +3,18 @@
  */
 'use strict';
 
+/**
+ * @typedef {Object} ToJsonOpt
+ */
 interface ToJsonOpt {
   sep?: string;
   prop?: string;
   space?: number|string;
 }
 
+/**
+ * @typedef {Object} ToCsvOpt
+ */
 interface ToCsvOpt {
   sep?: string;
   prop?: string;
@@ -19,7 +25,7 @@ interface ToCsvOpt {
  * @public
  * @param {!string} s CSV
  * @param {!Array<!string>} column
- * @param {Object=} opt
+ * @param {ToJsonOpt=} opt
  * @return {!string} JSON
  */
 export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): string {
@@ -120,7 +126,7 @@ function addValue(val: any[], item: Object): void {
  * JSON to CSV
  * @public
  * @param {string} s JSON formatted string
- * @param {Object=} opt
+ * @param {ToCsvOpt=} opt
  * @return {string}
  */
 export function jsonToCsv(s: string, opt: ToCsvOpt = {}): string {

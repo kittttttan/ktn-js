@@ -25,7 +25,7 @@ export class Div {
   }
 
   /**
-   * @static
+   * @method Div.div
    * @param {...?} items
    * @return {Div}
    */
@@ -34,6 +34,7 @@ export class Div {
   }
 
   /**
+   * @method Div#toString
    * @return {string}
    */
   public toString(): string {
@@ -41,6 +42,7 @@ export class Div {
   }
 
   /**
+   * @method Div#calc
    * @return {Rational}
    */
   public calc(): Rational {
@@ -62,6 +64,7 @@ export class Div {
   }
 
   /**
+   * @method Div#clone
    * @returtn {Div}
    */
   public clone(): Div {
@@ -74,6 +77,7 @@ export class Div {
   }
 
   /**
+   * @method Div#neg
    * @return {Div}
    */
   public neg(): Div {

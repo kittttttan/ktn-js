@@ -1,6 +1,6 @@
 'use strict';
 
-const MathExpression = require('../build/math-expression').MathExpression;
+const MathExpression = require('../dist/js/math-expression').MathExpression;
 
 const argv = process.argv;
 if (argv.length <= 2) {
@@ -12,9 +12,9 @@ const src = argv[2]
 const out = argv.length <= 3 ? rename(src) : argv[3];
 
 try {
-  //const t0 = Date.now();
+  // const t0 = Date.now();
   exe(src, out);
-  //console.log(`${Date.now() - t0} ms\r`);
+  // console.log(`${Date.now() - t0} ms\r`);
 } catch (e) {
   console.log(e);
 }
@@ -35,9 +35,9 @@ function exe(src, out) {
     if (!line) { continue; }
     line = line.replace(/\*\*/g, '^');
     const me = MathExpression.create(line);
-    //console.log(me);
+    // console.log(me);
     const p = me.parse();
-    //console.log(p);
+    // console.log(p);
     console.log(p.calc().toString() + '\r');
   }
 }

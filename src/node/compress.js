@@ -17,7 +17,7 @@ const out = argv.length <= 3 ? rename(src) : argv[3];
 try {
   compress(src, out);
 } catch (e) {
-  console.log(e);
+  console.error(e);
 }
 
 function rename(name) {

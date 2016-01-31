@@ -4,7 +4,7 @@ const http = require('http'),
     fs = require('fs'),
     qs = require('querystring'),
     url = require('url'),
-    
+
     ROOT = __dirname,
     MIME = {
       '.htm': 'text/html',
@@ -68,7 +68,7 @@ function proc(req, res, query) {
   } else {
     ext = pathname.substring(dot);
   }
-  
+
   if (ext in MIME) {
     try {
       body = fs.readFileSync(ROOT + pathname).toString();
@@ -96,7 +96,7 @@ function proc(req, res, query) {
 
 http.createServer(function(req, res) {
   logging(req.method +' '+ req.url);
-  
+
   if (req.method === 'POST') {
     var data = '';
     req.on('data', function(chunk) {

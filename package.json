@@ -43,7 +43,7 @@
     "karma-jasmine": "",
     "karma-phantomjs-launcher": "",
     "karma-typescript-preprocessor": "",
-    "phantomjs": "",
+    "phantomjs-prebuilt": "",
     "run-sequence": "",
     "typescript": "",
     "vinyl-source-stream": "",

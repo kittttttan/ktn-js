@@ -22,7 +22,7 @@ try {
 
 function exe(src, out) {
   const fs = require('fs');
-  
+
   fs.readdir(src, (err, files) => {
     for (const f of files) {
       console.log(f);

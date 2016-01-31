@@ -23,7 +23,7 @@ stringify(filename, space);
  * @param {string} filename
  * @param {number|string} space
  */
-const stringify = (filename, space) => {
+function stringify(filename, space) {
   const fs = require('fs');
   fs.readFile(filename, 'utf8', (error, data) => {
     if (error) { throw error; }
@@ -35,4 +35,4 @@ const stringify = (filename, space) => {
       throw e;
     }
   });
-};
+}

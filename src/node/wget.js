@@ -6,7 +6,6 @@ const http = require('http'),
     fs = require('fs');
 
 function wget(targetUrl, opt) {
-  var callee = arguments.callee;
   var target = url.parse(targetUrl);
   var req = (/https/.test(target.protocol) ? https : http).request({
     host: target.hostname,
@@ -15,11 +14,11 @@ function wget(targetUrl, opt) {
     method: opt.method
   });
   console.log(req.method +' '+ targetUrl);
-  
+
   req.on('response', function(res){
     if (res.statusCode === 301 || res.statusCode === 302) {
       console.log(res.statusCode +' redirect ' + res.headers.location);
-      callee(res.headers.location, opt);
+      wget(res.headers.location, opt);
     } else if (res.statusCode === 200) {
       var wstream, err = false;
       if (opt.filepath) {
@@ -44,20 +43,4 @@ function wget(targetUrl, opt) {
   req.end();
 }
 
-function main() {
-  var opt = {
-    method: 'GET',
-    filepath: 'wget_res.log',
-    callback: function(err) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      console.log('done! save as '+ opt.filepath);
-    }
-  };
-  
-  wget('https://kittttttan.info/', opt);
-}
-
-main();
+exports.wget = wget;

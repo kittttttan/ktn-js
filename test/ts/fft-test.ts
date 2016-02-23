@@ -1,6 +1,6 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {Fft} from '../../src/ts/fft';
-import {Complex} from '../../src/ts/complex';
+import Fft from '../../src/ts/fft';
+import Complex from '../../src/ts/complex';
 
 describe("Fft", ()=> {
 

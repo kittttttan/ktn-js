@@ -1,4 +1,4 @@
-import {Complex} from '../../src/ts/complex';
+import Complex from '../../src/ts/complex';
 
 function main() {
   const c1: Complex = new Complex(1, 2);

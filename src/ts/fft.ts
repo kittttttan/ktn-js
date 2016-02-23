@@ -1,6 +1,6 @@
 'use strict';
 
-import {Complex} from './complex';
+import Complex from './complex';
 
 /**
  * @private
@@ -34,7 +34,7 @@ const PI2: number = -2 * PI;
  * Fft
  * @class Fft
  */
-export class Fft {
+export default class Fft {
   /**
    * convert Array<number> to Array<Complex>.
    * @param {!Array<!double>} x

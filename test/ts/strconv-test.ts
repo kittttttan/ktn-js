@@ -1,5 +1,5 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {StringConverter} from '../../src/ts/strconv';
+import StringConverter from '../../src/ts/strconv';
 
 describe("StringConverter", ()=> {
 

@@ -105,7 +105,7 @@ gulp.task('ts:src', function() {
   return gulp.src('src/ts/**/*.ts')
     .pipe(ts({
       noExternalResolve: true,
-      module: 'commonjs',
+      //module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))
@@ -117,7 +117,7 @@ gulp.task('ts:example', function() {
   return gulp.src(['examples/ts/**/*.ts'])
     .pipe(ts({
       noExternalResolve: false,
-      module: 'commonjs',
+      //module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))
@@ -129,7 +129,7 @@ gulp.task('ts:test', function() {
   return gulp.src(['test/ts/**/*.ts'])
     .pipe(ts({
       noExternalResolve: false,
-      module: 'commonjs',
+      //module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))

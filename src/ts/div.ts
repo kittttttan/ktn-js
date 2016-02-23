@@ -7,14 +7,14 @@
  * @private
  * @requires Rational
  */
-import {Rational} from './rational';
+import Rational from './rational';
 
 /**
  * Div
  * @class Div
  * @property {Array<?>} _items
  */
-export class Div {
+export default class Div {
   protected _items: any[];
 
   /**

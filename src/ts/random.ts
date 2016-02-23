@@ -69,7 +69,7 @@ const REV32_1: double = 1.0 / 4294967295.0;
  * @property {Uint32Array} Random#_mt
  * @property {int} Random#_mti
  */
-export class Random {
+export default class Random {
   protected _mt: Uint32Array;
   protected _mti: int;
 

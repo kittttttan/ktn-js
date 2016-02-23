@@ -1,6 +1,6 @@
 'use strict';
 
-export class Iter {
+export default  class Iter {
   /**
    * range like python3
    * @param {double} start

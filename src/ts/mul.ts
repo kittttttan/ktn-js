@@ -3,18 +3,18 @@
  */
 'use strict';
 
- /**
-  * @private
-  * @requires Rational
-  */
-import {Rational} from './rational';
+/**
+ * @private
+ * @requires Rational
+ */
+import Rational from './rational';
 
 /**
  * Mul
  * @class Mul
  * @property {Array<?>} _items
  */
-export class Mul {
+export default class Mul {
   protected _items: any[];
 
   /**

@@ -1,5 +1,5 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {Random} from '../../src/ts/random';
+import Random from '../../src/ts/random';
 
 describe("Random", ()=> {
 

@@ -20,7 +20,7 @@ const rnd: () => number = Math.random;
  * @property {int} Uuid#_clockSeq 0x3FFF000000000000
  * @property {int} Uuid#_node     0x0000FFFFFFFFFFFF
  */
-export class Uuid {
+export default class Uuid {
   protected _timeLow: int;
   protected _timeMid: int;
   protected _version: int;

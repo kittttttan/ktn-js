@@ -25,7 +25,7 @@ class Reg {
 /**
  * @class StringUtil
  */
-export class StringUtil {
+export default class StringUtil {
   /**
    * @return {Types}
    */

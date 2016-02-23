@@ -7,7 +7,7 @@
  * Primality
  * @class Primality
  */
-export class Primality {
+export default class Primality {
   /**
    * @return {!Iterator}
    */

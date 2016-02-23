@@ -1,5 +1,5 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {Uuid} from '../../src/ts/uuid';
+import Uuid from '../../src/ts/uuid';
 
 describe("uuid", ()=> {
 

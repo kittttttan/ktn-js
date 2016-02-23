@@ -1,25 +1,25 @@
 'use strict';
 
-import {Iter} from '../../src/ts/iter';
-import {Primality as prim} from '../../src/ts/primality';
+import Iter from '../../src/ts/iter';
+import Primality from '../../src/ts/primality';
 
 function test() {
   const n: number = 10;
   console.log(`primeTop(${n})`);
-  for (let p of prim.top(n)) {
+  for (let p of Primality.top(n)) {
     console.log(p);
   }
   console.log(`primeMax(${n})`);
-  for (let p of prim.max(n)) {
+  for (let p of Primality.max(n)) {
     console.log(p);
   }
   console.log(`sieveMax(${n})`);
-  for (let p of prim.sieveMax(n)) {
+  for (let p of Primality.sieveMax(n)) {
     console.log(p);
   }
   console.log(`mrpt() arg [0..${2*n-1}]`);
   for (let i of Iter.range(2*n)) {
-    if (prim.mrpt(i)) {
+    if (Primality.mrpt(i)) {
       console.log(i);
     }
   }
@@ -30,7 +30,7 @@ function testSieve() {
   console.log(`primeMax(${n})`);
   const t0: number = Date.now();
   let a = [];
-  for (let p of prim.max(n)) {
+  for (let p of Primality.max(n)) {
     a.push(p);
   }
   const t1: number = Date.now();
@@ -38,7 +38,7 @@ function testSieve() {
 
   console.log(`sieveMax(${n})`);
   let b: number[] = [];
-  for (let p of prim.sieveMax(n)) {
+  for (let p of Primality.sieveMax(n)) {
     b.push(p);
   }
   const t2: number = Date.now();

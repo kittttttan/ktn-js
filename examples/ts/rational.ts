@@ -1,4 +1,4 @@
-import {Rational} from '../../src/ts/rational';
+import Rational from '../../src/ts/rational';
 
 function basic() {
   const a: Rational = Rational.num(7, -3);

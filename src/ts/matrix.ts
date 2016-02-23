@@ -7,7 +7,7 @@
  * @private
  * @requires Vector
  */
-import {Vector} from './vector';
+import Vector from './vector';
 
 // TODO:
 /**
@@ -50,7 +50,7 @@ const neg = a => -a;
  * @property {int} _n cols
  * @property {Array<?>} _mn
  */
-export class Matrix {
+export default class Matrix {
   protected _m: int;
   protected _n: int;
   protected _mn: any[];

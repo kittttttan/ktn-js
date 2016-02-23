@@ -4,14 +4,14 @@
  * @private
  * @requires Scanner
  */
-import {Scanner} from './scanner';
+import Scanner from './scanner';
 
 /**
  * @class Tokenizer
  * @property {Scanner} _scanner
  * @property {Array} _buffer
  */
-export class Tokenizer {
+export default class Tokenizer {
   protected _scanner: Scanner;
   protected _buffer: any[];
 

@@ -31,7 +31,7 @@ const _MASK: int = _BASE - 1;
  * @property {boolean} Integer#_s Sign +, -. `false` means -.
  * @property {int} Integer#_l Length of digits
  */
-export class Integer implements Ktn.Field {
+export default class Integer implements Ktn.Field {
   protected _d: Uint32Array;
   protected _s: boolean;
   protected _l: int;

@@ -3,11 +3,11 @@
  */
 'use strict';
 
- /**
-  * @private
-  * @requires Rational
-  */
-import {Rational} from './rational';
+/**
+ * @private
+ * @requires Rational
+ */
+import Rational from './rational';
 
 /**
  * Pow
@@ -15,7 +15,7 @@ import {Rational} from './rational';
  * @property {?} _a
  * @property {?} _p
  */
-export class Pow {
+export default class Pow {
   protected _a: any;
   protected _p: any;
 

@@ -115,7 +115,7 @@ export class Tan {
  * Trigon
  * @class Trigon
  */
-export class Trigon {
+export default class Trigon {
   /**
    * @static
    * @param {?} a

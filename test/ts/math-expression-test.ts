@@ -1,5 +1,5 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {MathExpression} from '../../src/ts/math-expression';
+import MathExpression from '../../src/ts/math-expression';
 
 describe("MathExpression", ()=> {
   it("+", ()=> {

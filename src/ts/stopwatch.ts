@@ -7,7 +7,7 @@
  * @property {int} Stopwatch#_ts Timespan
  * @property {boolean} Stopwatch#isRun true means running
  */
-export class Stopwatch {
+export default class Stopwatch {
   protected _t0: int;
   protected _ts: int;
   protected _isRun: boolean;

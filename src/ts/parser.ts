@@ -56,7 +56,7 @@ function func(name: string, a: Ast): Ast {
  * @property {Array<string>} _tokens
  * @property {int} _index
  */
-export class Parser {
+export default class Parser {
   protected _tokens: string[];
   protected _index: int;
 

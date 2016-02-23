@@ -1,5 +1,5 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {Integer} from '../../src/ts/integer';
+import Integer from '../../src/ts/integer';
 
 describe("Integer", ()=> {
   it("zero", ()=> {

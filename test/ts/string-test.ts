@@ -1,5 +1,5 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {StringUtil} from '../../src/ts/string';
+import StringUtil from '../../src/ts/string';
 
 describe("StringUtil", ()=> {
 

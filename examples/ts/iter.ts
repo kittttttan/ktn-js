@@ -1,6 +1,6 @@
 'use strict';
 
-import {Iter} from '../../src/ts/iter';
+import Iter from '../../src/ts/iter';
 
 const range = Iter.range;
 const zip = Iter.zip;

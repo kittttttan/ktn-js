@@ -28,7 +28,7 @@ const _sin: (x: number) => number = Math.sin;
  * @property {double} Quaternion#y
  * @property {double} Quaternion#z
  */
-export class Quaternion {
+export default class Quaternion {
   public w: double;
   public x: double;
   public y: double;

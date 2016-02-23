@@ -15,7 +15,7 @@ const _sqrt: (x: number) => number = Math.sqrt;
  * @property {!double} Vector#y
  * @property {!double} Vector#z
  */
-export class Vector {
+export default class Vector {
   public x: double;
   public y: double;
   public z: double;

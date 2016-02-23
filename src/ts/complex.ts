@@ -6,7 +6,7 @@
  * @property {!double} Complex#_r
  * @property {!double} Complex#_i
  */
-export class Complex {
+export default class Complex {
   protected _r: double;
   protected _i: double;
 

@@ -4,7 +4,7 @@
  * StringConverter
  * @class StringConverter
  */
-export class StringConverter {
+export default class StringConverter {
   /**
    * @method StringConverter.toZenkaku
    * @param {string} str

@@ -4,7 +4,7 @@
  * DateUtil
  * @class DateUtil
  */
-export class DateUtil {
+export default class DateUtil {
   /**
    * @method DateUtil.isLeapYear
    * @param {int} y year

@@ -44,7 +44,7 @@ function mmul(a: int[], b: int[]): int[] {
  * Fibonacci
  * @class Fibonacci
  */
-export class Fibonacci {
+export default class Fibonacci {
   /**
    * nth Fibonacci number
    * @param {!int} n

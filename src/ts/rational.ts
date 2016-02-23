@@ -9,7 +9,7 @@ import './ktn';
   * @private
   * @requires Integer
   */
-import {Integer} from './integer';
+import Integer from './integer';
 
 /**
  * Rational
@@ -18,7 +18,7 @@ import {Integer} from './integer';
  * @property {!Integer} Rational#_n Numerator
  * @property {!Integer} Rational#_d Denominator
  */
-export class Rational implements Ktn.Field {
+export default class Rational implements Ktn.Field {
   protected _n: Integer;
   protected _d: Integer;
 

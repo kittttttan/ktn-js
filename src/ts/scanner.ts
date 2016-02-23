@@ -18,7 +18,7 @@ const OPE_CHARAS: string = '+-*/^()';
  * @property {string} _src
  * @property {int} _index
  */
-export class Scanner {
+export default class Scanner {
   protected _src: string;
   protected _index: int;
 

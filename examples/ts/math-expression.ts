@@ -1,4 +1,4 @@
-import {MathExpression} from '../../src/ts/math-expression';
+import MathExpression from '../../src/ts/math-expression';
 
 function main() {
   const s: string[] = [

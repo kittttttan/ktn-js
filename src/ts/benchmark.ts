@@ -4,7 +4,7 @@
  * @private
  * @requires Stopwatch
  */
-import {Stopwatch} from './stopwatch';
+import Stopwatch from './stopwatch';
 
 /**
  * Result
@@ -91,7 +91,7 @@ export class Unit {
  * @property {int} BenchMark#_loop
  * @property {int} BenchMark#_intime
  */
-export class BenchMark {
+export default class BenchMark {
   protected _items: Unit[];
   protected _loop: int;
   protected _intime: int;

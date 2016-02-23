@@ -1,6 +1,6 @@
-import {Integer} from '../../src/ts/integer';
+import Integer from '../../src/ts/integer';
 
-export class TestInteger {
+export default class TestInteger {
   static random(len: number): string {
     let r = '';
 	for (let i = 0; i < len; ++i) {

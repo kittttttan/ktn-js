@@ -1,5 +1,5 @@
 /// <reference path="typings/jasmine.d.ts"/>
-import {Vector} from '../../src/ts/vector';
+import Vector from '../../src/ts/vector';
 
 describe("Vector", ()=> {
 

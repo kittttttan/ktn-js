@@ -15,8 +15,8 @@
   "scripts": {
     "doc": "jsdoc -R README.md -r src/ts -d doc",
     "del": "del test\\ts\\*.js examples\\ts\\*.js src\\ts\\*.js",
-    "elint": "eslint src/node",
-    "lint": "tslint -c tslint.json src/ts/*.ts",
+    "elint": "eslint src/node> elint.log",
+    "lint": "tslint -c tslint.json src/ts/*.ts> lint.log",
     "report": "plato -r -d report src/ts",
     "test": "gulp test",
     "ydoc": "yuidoc"
@@ -44,7 +44,6 @@
     "karma-phantomjs-launcher": "",
     "karma-typescript-preprocessor": "",
     "phantomjs-prebuilt": "",
-    "run-sequence": "",
     "typescript": "",
     "vinyl-source-stream": "",
     "watchify": ""

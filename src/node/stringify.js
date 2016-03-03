@@ -6,18 +6,22 @@
  */
 'use strict';
 
-const argv = process.argv;
-const argc = argv.length;
+try {
+  const argv = process.argv;
+  const argc = argv.length;
 
-if (argc < 3) {
-  console.log(`Usage: node stringify.js filename [space]`);
-  process.exit(1);
+  if (argc < 3) {
+    console.log('Usage: node stringify.js filename [space]');
+    process.exit(1);
+  }
+
+  const filename = argv[2];
+  const space = argc > 3 ? parseInt(argv[3]) : 0;
+
+  stringify(filename, space);
+} catch (e) {
+  console.error(e);
 }
-
-const filename = argv[2];
-const space = argc > 3 ? parseInt(argv[3]) : 0;
-
-stringify(filename, space);
 
 /**
  * @param {string} filename
@@ -31,7 +35,7 @@ function stringify(filename, space) {
       const obj = JSON.parse(data);
       const str = JSON.stringify(obj, null, space);
       console.log(str);
-    } catch(e) {
+    } catch (e) {
       throw e;
     }
   });

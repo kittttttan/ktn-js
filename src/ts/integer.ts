@@ -857,13 +857,13 @@ export default class Integer implements Ktn.Field {
     const z: Integer = Integer.alloc(abl, this._s === b._s);
 
     z.fillZero(abl);
-    let zd: Uint32Array = z._d
+    let zd: Uint32Array = z._d;
     for (let i: int = 0, j: int;
         (i | 0) < (al | 0); i = i + 1 | 0) {
-      const d = ad[i];
+      const d: int = ad[i];
       if (!d) { continue; }
 
-      let n = 0;
+      let n: int = 0;
       for (j = 0; (j | 0) < (bl | 0); j = j + 1 | 0) {
         const e: int = n + d * bd[j];
         n = zd[i + j] + e;

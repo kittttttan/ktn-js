@@ -1,9 +1,8 @@
 'use strict';
 
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
 
-gulp.task('test:run', () => {
+function testRun() {
   const karma = require('gulp-karma');
   return gulp
     .src(['test/ts/*.js'])
@@ -11,7 +10,9 @@ gulp.task('test:run', () => {
       configFile: 'karma.conf.js',
       action: 'run'
     }));
-});
+}
+
+gulp.task('test:run', testRun);
 
 gulp.task('min', () => {
   const uglify = require('gulp-uglify');
@@ -67,9 +68,9 @@ function example(filename) {
     extensions: ['.js']
   })
   .bundle()
-  .on("error", function (err) {
-    console.log("Error : " + err.message);
-    this.emit("end");
+  .on('error', function (err) {
+    console.log('Error : ' + err.message);
+    this.emit('end');
   })
   .pipe(source(`${filename}.js`))
   .pipe(gulp.dest('examples/js'));
@@ -89,9 +90,9 @@ function build(filename) {
     extensions: ['.js']
   })
   .bundle()
-  .on("error", function (err) {
-    console.log("Error : " + err.message);
-    this.emit("end");
+  .on('error', function (err) {
+    console.log('Error : ' + err.message);
+    this.emit('end');
   })
   .pipe(source(`${filename}.js`))
   .pipe(gulp.dest('dist/browser'));
@@ -136,7 +137,7 @@ gulp.task('ts:test', function() {
     .pipe(gulp.dest('test/ts'))
 });
 
-gulp.task('babel', function() {
+gulp.task('babel', ['ts:src'], function() {
   const babel = require('gulp-babel');
   return gulp.src('src/ts/*.js')
     .pipe(babel())
@@ -145,8 +146,8 @@ gulp.task('babel', function() {
 
 gulp.task('ts', ['ts:src', 'ts:example', 'ts:test']);
 
-gulp.task('test', (callback) => {
-  return runSequence(['ts:src', 'ts:test'], 'test:run', callback);
+gulp.task('test', ['ts:src', 'ts:test'], (callback) => {
+  return testRun();
 });
 
 gulp.task('default', ['test', 'build', 'min']);

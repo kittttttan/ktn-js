@@ -5,22 +5,22 @@
  */
 'use strict';
 
-const argv = process.argv;
-if (argv.length <= 2) {
-  console.log('  node indent.js dir');
-  process.exit(1);
-}
-
-const src = argv[2]
-const out = src;
-
 try {
-  exe(src, out);
+  const argv = process.argv;
+  if (argv.length <= 2) {
+    console.log('  node indent.js dir');
+    process.exit(1);
+  }
+
+  const src = argv[2];
+  //const out = src;
+
+  exe(src);
 } catch (e) {
   console.log(e);
 }
 
-function exe(src, out) {
+function exe(src) {
   const fs = require('fs');
 
   fs.readdir(src, (err, files) => {

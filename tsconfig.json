@@ -1,15 +1,14 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
         "target": "es6",
         "noImplicitAny": false,
-        "outDir": "dist/ts",
+        "outDir": "src/js",
         "rootDir": ".",
         "sourceMap": false
     },
     "exclude": [
-        ".git",
-        "doc",
+        ".hg",
+        "htdocs",
         "node_modules",
         "test",
         "tools"

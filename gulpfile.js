@@ -68,7 +68,7 @@ function example(filename) {
     extensions: ['.js']
   })
   .bundle()
-  .on('error', function (err) {
+  .on('error', (err) => {
     console.log('Error : ' + err.message);
     this.emit('end');
   })
@@ -90,7 +90,7 @@ function build(filename) {
     extensions: ['.js']
   })
   .bundle()
-  .on('error', function (err) {
+  .on('error', (err) => {
     console.log('Error : ' + err.message);
     this.emit('end');
   })
@@ -101,7 +101,7 @@ function build(filename) {
 gulp.task('example', examCmds);
 gulp.task('build', buildCmds);
 
-gulp.task('ts:src', function() {
+gulp.task('ts:src', () => {
   const ts = require('gulp-typescript');
   return gulp.src('src/ts/**/*.ts')
     .pipe(ts({
@@ -113,7 +113,7 @@ gulp.task('ts:src', function() {
     .pipe(gulp.dest('src/ts'))
 });
 
-gulp.task('ts:example', function() {
+gulp.task('ts:example', () => {
   const ts = require('gulp-typescript');
   return gulp.src(['examples/ts/**/*.ts'])
     .pipe(ts({
@@ -125,7 +125,7 @@ gulp.task('ts:example', function() {
     .pipe(gulp.dest('examples/ts'))
 });
 
-gulp.task('ts:test', function() {
+gulp.task('ts:test', () => {
   const ts = require('gulp-typescript');
   return gulp.src(['test/ts/**/*.ts'])
     .pipe(ts({
@@ -137,7 +137,7 @@ gulp.task('ts:test', function() {
     .pipe(gulp.dest('test/ts'))
 });
 
-gulp.task('babel', ['ts:src'], function() {
+gulp.task('babel', ['ts:src'], () => {
   const babel = require('gulp-babel');
   return gulp.src('src/ts/*.js')
     .pipe(babel())

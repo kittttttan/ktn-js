@@ -105,4 +105,12 @@ export default class Vector {
   public dot(v: Vector): double {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
+
+  /**
+   * @method Vector#toArray
+   * @return {!Array<double>}
+   */
+  public toArray(): double[] {
+    return [this.x, this.y, this.z];
+  }
 }

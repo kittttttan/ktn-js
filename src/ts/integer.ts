@@ -3,8 +3,6 @@
  */
 'use strict';
 
-import './ktn';
-
 /**
  * @private
  * @const

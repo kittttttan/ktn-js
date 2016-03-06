@@ -7,11 +7,11 @@
  * @typedef {number} double
  * @typedef {number} float
  */
-type int = number;
-type double = number;
-type float = number;
+declare type int = number;
+declare type double = number;
+declare type float = number;
 
-module Ktn {
+declare module Ktn {
 
 export interface Field {
   sign: boolean;

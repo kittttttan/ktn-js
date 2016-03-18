@@ -1,6 +1,6 @@
 {
   "name": "ktn-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript laboratory.",
   "license": "MIT",
   "author": {
@@ -22,12 +22,12 @@
     "ydoc": "yuidoc"
   },
   "devDependencies": {
+    "babel-core": "",
+    "babel-loader": "",
     "babel-plugin-transform-runtime": "",
     "babel-polyfill": "",
     "babel-preset-es2015": "",
     "babelify": "",
-    "browserify": "",
-    "browserify-istanbul": "",
     "gulp": "",
     "gulp-babel": "",
     "gulp-karma": "",
@@ -35,17 +35,17 @@
     "gulp-typescript": "",
     "gulp-uglify": "",
     "isparta": "",
+    "isparta-loader": "",
     "jasmine-core": "",
     "karma": "",
-    "karma-browserify": "",
     "karma-coverage": "",
     "karma-html-reporter": "",
     "karma-jasmine": "",
     "karma-phantomjs-launcher": "",
-    "karma-typescript-preprocessor": "",
+    "karma-sourcemap-loader": "",
+    "karma-webpack": "",
     "phantomjs-prebuilt": "",
     "typescript": "",
-    "vinyl-source-stream": "",
-    "watchify": ""
+    "webpack": ""
   }
 }

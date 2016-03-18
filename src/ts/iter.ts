@@ -1,6 +1,8 @@
+/// <reference path="typings/ktn.d.ts"/>
 'use strict';
+import 'babel-core/polyfill';
 
-export default  class Iter {
+export default class Iter {
   /**
    * range like python3
    * @param {double} start

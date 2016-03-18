@@ -29,78 +29,6 @@ gulp.task('min', () => {
     .pipe(gulp.dest('dist'));
 });
 
-const examples = [
-  'complex',
-  'csv-json',
-  'fib',
-  'integer',
-  'iter',
-  'math-expression',
-  'primality',
-  'rational'
-];
-
-let examCmds = [];
-let buildCmds = [];
-
-for (let filename of examples) {
-  gulp.task(`example-${filename}`, () => {
-    example(filename);
-  });
-  examCmds.push(`example-${filename}`);
-
-  gulp.task(`build-${filename}`, () => {
-    build(filename);
-  });
-  buildCmds.push(`build-${filename}`);
-}
-
-function example(filename) {
-  const browserify = require('browserify');
-  const source = require('vinyl-source-stream');
-  browserify({
-    entries: [`examples/ts/${filename}.js`],
-    debug: true,
-    //insertGlobals: true,
-    extensions: ['.js']
-  })
-  .transform('babelify', {
-    extensions: ['.js']
-  })
-  .bundle()
-  .on('error', (err) => {
-    console.log('Error : ' + err.message);
-    this.emit('end');
-  })
-  .pipe(source(`${filename}.js`))
-  .pipe(gulp.dest('examples/js'));
-}
-
-function build(filename) {
-  const browserify = require('browserify');
-  const source = require('vinyl-source-stream');
-  browserify({
-    entries: [`src/ts/${filename}.js`],
-    debug: true,
-    //insertGlobals: true,
-    standalone: filename,
-    extensions: ['.js']
-  })
-  .transform('babelify', {
-    extensions: ['.js']
-  })
-  .bundle()
-  .on('error', (err) => {
-    console.log('Error : ' + err.message);
-    this.emit('end');
-  })
-  .pipe(source(`${filename}.js`))
-  .pipe(gulp.dest('dist/browser'));
-}
-
-gulp.task('example', examCmds);
-gulp.task('build', buildCmds);
-
 gulp.task('ts:src', () => {
   const ts = require('gulp-typescript');
   return gulp.src('src/ts/**/*.ts')
@@ -111,6 +39,18 @@ gulp.task('ts:src', () => {
       noImplicitAny: false
     }))
     .pipe(gulp.dest('src/ts'))
+});
+
+gulp.task('ts:node', () => {
+  const ts = require('gulp-typescript');
+  return gulp.src('src/node/**/*.ts')
+    .pipe(ts({
+      noExternalResolve: false,
+      module: 'commonjs',
+      target: 'es6',
+      noImplicitAny: false
+    }))
+    .pipe(gulp.dest('src/node'))
 });
 
 gulp.task('ts:example', () => {
@@ -144,7 +84,7 @@ gulp.task('babel', ['ts:src'], () => {
     .pipe(gulp.dest('dist/js'))
 });
 
-gulp.task('ts', ['ts:src', 'ts:example', 'ts:test']);
+gulp.task('ts', ['ts:src', 'ts:node', 'ts:example', 'ts:test']);
 
 gulp.task('test', ['ts:src', 'ts:test'], (callback) => {
   return testRun();

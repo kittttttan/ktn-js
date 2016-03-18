@@ -5,14 +5,16 @@
  */
 'use strict';
 
+import * as fs from 'fs';
+
 try {
-  const argv = process.argv;
+  const argv: string[] = process.argv;
   if (argv.length <= 2) {
     console.log('  node indent.js dir');
     process.exit(1);
   }
 
-  const src = argv[2];
+  const src: string = argv[2];
   //const out = src;
 
   exe(src);
@@ -20,10 +22,8 @@ try {
   console.log(e);
 }
 
-function exe(src) {
-  const fs = require('fs');
-
-  fs.readdir(src, (err, files) => {
+function exe(src: string): void {
+  fs.readdir(src, (err: NodeJS.ErrnoException, files: string[]): void => {
     for (const f of files) {
       console.log(f);
       /*

@@ -1,26 +1,33 @@
 'use strict';
 
-const http = require('http'),
-    https = require('https'),
-    url = require('url'),
-    fs = require('fs');
+import * as fs from 'fs';
+import * as http from 'http';
+import * as https from 'https';
+import * as url from 'url';
 
-function wget(targetUrl, opt) {
-  const target = url.parse(targetUrl);
-  const req = (/https/.test(target.protocol) ? https : http).request({
+interface wgetOption {
+  filepath: string;
+  callback: (Error) => any;
+  method: any;
+}
+
+export default function wget(targetUrl: string, opt: wgetOption) {
+  const target: url.Url = url.parse(targetUrl);
+  const req: http.ClientRequest = (/https/.test(target.protocol) ? https : http).request({
     host: target.hostname,
-    port: target.port,
-    path: target.pathname + (target.search || ''),
-    method: opt.method
+    port: parseInt(target.port),
+    path: `${target.pathname}${(target.search || '')}`,
+    method: opt.method,
   });
-  console.log(req.method + ' ' + targetUrl);
+  console.log(`${(<any>req).method} ${targetUrl}`);
 
   req.on('response', (res) => {
     if (res.statusCode === 301 || res.statusCode === 302) {
-      console.log(res.statusCode + ' redirect ' + res.headers.location);
+      console.log(`${res.statusCode} redirect ${res.headers.location}`);
       wget(res.headers.location, opt);
     } else if (res.statusCode === 200) {
-      let wstream, err = false;
+      let wstream: fs.WriteStream;
+      let err: boolean = false;
       if (opt.filepath) {
         wstream = fs.createWriteStream(opt.filepath);
         wstream.on('error', (e) => {
@@ -42,5 +49,3 @@ function wget(targetUrl, opt) {
   }).on('error', opt.callback);
   req.end();
 }
-
-exports.wget = wget;

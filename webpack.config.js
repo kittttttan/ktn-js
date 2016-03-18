@@ -1,3 +1,4 @@
+'use strict';
 const entDir = './examples/ts';
 module.exports = {
   entry: {
@@ -10,7 +11,7 @@ module.exports = {
     primality: `${entDir}/primality.js`,
     rational: `${entDir}/rational.js`,
   },
-  devtool: '#source-map',
+  devtool: 'inline-source-map',
   output: {
     path: './examples/dist/',
     filename: '[name].bundle.js'
@@ -19,7 +20,8 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        exclude: /node_modules/,
+        loader: 'babel',
         query: {
           presets: ['es2015']
         }

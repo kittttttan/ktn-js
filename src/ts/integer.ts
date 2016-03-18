@@ -1,3 +1,4 @@
+/// <reference path="typings/ktn.d.ts"/>
 /**
  * Big Integer in JavaScript.
  */

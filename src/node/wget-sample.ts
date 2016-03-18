@@ -1,9 +1,11 @@
 'use strict';
 
-const argv = process.argv;
-const argc = argv.length;
+import wget from './wget';
 
-let url = 'https://kittttttan.info/';
+const argv: string[] = process.argv;
+const argc: number = argv.length;
+
+let url: string = 'https://kittttttan.info/';
 if (argc >= 3) {
   // help
   if (argv[2] === '-h' || argv[2] === '--help') {
@@ -14,8 +16,7 @@ if (argc >= 3) {
   url = argv[2];
 }
 
-function main() {
-  const wget = require('./wget').wget;
+function main(): void {
   const opt = {
     method: 'GET',
     filepath: 'wget_res.log',

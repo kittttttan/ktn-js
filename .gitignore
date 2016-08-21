@@ -6,9 +6,12 @@ dist/
 coverage/
 doc/
 ydoc/
+examples/app/
 examples/js/
 examples/ts/**/*.js
+examples/typings/
 src/ts/**/*.js
+src/node/**/*.js
 test/ts/**/*.js
 
 karma_html/

@@ -46,7 +46,7 @@ gulp.task('ts:node', () => {
   return gulp.src('src/node/**/*.ts')
     .pipe(ts({
       noExternalResolve: false,
-      module: 'commonjs',
+      // module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))
@@ -90,4 +90,4 @@ gulp.task('test', ['ts:src', 'ts:test'], (callback) => {
   return testRun();
 });
 
-gulp.task('default', ['test', 'build', 'min']);
+gulp.task('default', ['test', 'babel', 'min']);

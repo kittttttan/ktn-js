@@ -1,10 +1,10 @@
 'use strict';
 
-const MathExpression = require('../dist/js/math-expression').MathExpression;
+const MathExpression = require('../dist/js/math-expression').default;
 
 const argv = process.argv;
 if (argv.length <= 2) {
-  console.log('  node me.js input [output]');
+  console.log('  node calc.js input [output]');
   process.exit(1);
 }
 
@@ -12,9 +12,10 @@ const src = argv[2]
 const out = argv.length <= 3 ? rename(src) : argv[3];
 
 try {
-  // const t0 = Date.now();
+  const t0 = Date.now();
   exe(src, out);
-  // console.log(`${Date.now() - t0} ms\r`);
+  const t1 = Date.now() - t0
+  //console.log(`${t1} ms`);
 } catch (e) {
   console.log(e);
 }
@@ -32,12 +33,15 @@ function exe(src, out) {
   const res = fs.readFileSync(src, 'utf8');
   const lines = res.split(/[\r\n]+/g);
   for (let line of lines) {
+    line = line.replace(/#.*$/g, '');
+    line = line.trim();
     if (!line) { continue; }
+    // console.log(line + ' =');
     line = line.replace(/\*\*/g, '^');
     const me = MathExpression.create(line);
     // console.log(me);
-    const p = me.parse();
+    const p = me.eval();
     // console.log(p);
-    console.log(p.calc().toString() + '\r');
+    console.log(p.calc().toString());
   }
 }

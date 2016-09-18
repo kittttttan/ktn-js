@@ -2,15 +2,18 @@
     "compilerOptions": {
         "target": "es6",
         "noImplicitAny": false,
-        "outDir": "src/js",
+        "outDir": "dist",
         "rootDir": ".",
-        "sourceMap": false
+        "sourceMap": true
     },
     "exclude": [
-        ".hg",
-        "htdocs",
+        ".git",
+        "dist",
+        "doc",
+        "examples",
         "node_modules",
         "test",
-        "tools"
+        "tools",
+        "ydoc",
     ]
 }

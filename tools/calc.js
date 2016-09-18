@@ -1,6 +1,6 @@
 'use strict';
 
-const MathExpression = require('../dist/js/math-expression').default;
+const MathExpression = require('../dist/math-expression').default;
 
 const argv = process.argv;
 if (argv.length <= 2) {

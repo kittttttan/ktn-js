@@ -1,0 +1,53 @@
+{
+  "name": "ktn-js-example",
+  "version": "0.0.1",
+  "description": "examples for ktn",
+  "license": "MIT",
+  "author": {
+    "name": "kittttttan",
+    "url": "https://kittttttan.info/"
+  },
+  "homepage": "https://github.com/kittttttan/ktn-js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kittttttan/ktn-js.git"
+  },
+  "scripts": {
+    "lint": "tslint -c tslint.json src/ts/*.ts> lint.log",
+    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\"",
+    "clean": "del app/*.map app/*.js lib/*.map lib/*.js",
+    "lite": "lite-server",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "typings",
+    "postinstall": "typings install"
+  },
+  "dependencies": {
+    "@angular/common": "",
+    "@angular/compiler": "",
+    "@angular/core": "",
+    "@angular/forms": "",
+    "@angular/http": "",
+    "@angular/platform-browser": "",
+    "@angular/platform-browser-dynamic": "",
+    "@angular/router": "",
+    "@angular/upgrade": "",
+
+    "core-js": "",
+    "reflect-metadata": "",
+    "rxjs": "",
+    "systemjs": "",
+    "zone.js": "",
+
+    "angular2-in-memory-web-api": "",
+    "bootstrap": "",
+
+    "ktn-js": "file:../../ktn-js"
+  },
+  "devDependencies": {
+    "concurrently": "",
+    "lite-server": "",
+    "typescript": "",
+    "typings":""
+  }
+}

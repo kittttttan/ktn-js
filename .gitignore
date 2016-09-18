@@ -6,13 +6,17 @@ dist/
 coverage/
 doc/
 ydoc/
-examples/app/
-examples/js/
-examples/ts/**/*.js
+examples/app/**/*.js
+examples/app/**/*.map
+examples/lib/**/*.js
+examples/lib/**/*.map
 examples/typings/
-src/ts/**/*.js
-src/node/**/*.js
-test/ts/**/*.js
+ts/**/*.js
+ts/**/*.map
+node/**/*.js
+node/**/*.map
+test/**/*.js
+test/**/*.map
 
 karma_html/
 node_modules/

@@ -1,0 +1,7 @@
+*.log
+.git/
+bench/
+doc/
+examples/
+tools/
+ydoc/

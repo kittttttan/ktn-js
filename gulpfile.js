@@ -5,7 +5,7 @@ const gulp = require('gulp');
 function testRun() {
   const karma = require('gulp-karma');
   return gulp
-    .src(['test/ts/*.js'])
+    .src(['test/*.js'])
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -31,26 +31,26 @@ gulp.task('min', () => {
 
 gulp.task('ts:src', () => {
   const ts = require('gulp-typescript');
-  return gulp.src('src/ts/**/*.ts')
+  return gulp.src('ts/**/*.ts')
     .pipe(ts({
       noExternalResolve: true,
       //module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))
-    .pipe(gulp.dest('src/ts'))
+    .pipe(gulp.dest('dist'))
 });
 
 gulp.task('ts:node', () => {
   const ts = require('gulp-typescript');
-  return gulp.src('src/node/**/*.ts')
+  return gulp.src('node/**/*.ts')
     .pipe(ts({
       noExternalResolve: false,
       // module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))
-    .pipe(gulp.dest('src/node'))
+    .pipe(gulp.dest('dist'))
 });
 
 gulp.task('ts:example', () => {
@@ -67,21 +67,21 @@ gulp.task('ts:example', () => {
 
 gulp.task('ts:test', () => {
   const ts = require('gulp-typescript');
-  return gulp.src(['test/ts/**/*.ts'])
+  return gulp.src(['test/**/*.ts'])
     .pipe(ts({
       noExternalResolve: false,
       //module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))
-    .pipe(gulp.dest('test/ts'))
+    .pipe(gulp.dest('test'))
 });
 
 gulp.task('babel', ['ts:src'], () => {
   const babel = require('gulp-babel');
-  return gulp.src('src/ts/*.js')
+  return gulp.src('dist/*.js')
     .pipe(babel())
-    .pipe(gulp.dest('dist/js'))
+    .pipe(gulp.dest('dist'))
 });
 
 gulp.task('ts', ['ts:src', 'ts:node', 'ts:example', 'ts:test']);

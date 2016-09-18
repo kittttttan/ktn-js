@@ -12,12 +12,20 @@
     "type": "git",
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
+  "private": true,
+  "files": [
+    "README.md",
+    "package.json",
+    "dist",
+    "ts",
+    "node",
+    "test"
+  ],
   "scripts": {
-    "doc": "jsdoc -R README.md -r src/ts -d doc",
-    "del": "del test\\ts\\*.js examples\\ts\\*.js src\\ts\\*.js",
-    "elint": "eslint src/node> elint.log",
-    "lint": "tslint -c tslint.json src/ts/*.ts> lint.log",
-    "report": "plato -r -d report src/ts",
+    "doc": "jsdoc -R README.md -r ts -r node -d doc",
+    "del": "del test\\*.js examples\\ts\\*.js ts\\*.js node\\*.js",
+    "lint": "tslint -c tslint.json ts/*.ts node/*.ts> lint.log",
+    "report": "plato -r -d report ts",
     "test": "gulp test",
     "ydoc": "yuidoc"
   },

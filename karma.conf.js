@@ -7,15 +7,15 @@ module.exports = (config) => {
     basePath: '',
     frameworks: ['jasmine'],
     files: [
-      'src/ts/*.js',
-      'test/ts/*.js',
+      'ts/*.js',
+      'test/*.js',
     ],
     exclude: [
     ],
     reporters: ['progress', 'coverage', 'html'],
     preprocessors: {
-      'src/ts/*.js': ['webpack', 'sourcemap'],
-      'test/ts/*.js': ['webpack', 'sourcemap'],
+      'ts/*.js': ['webpack', 'sourcemap'],
+      'test/*.js': ['webpack', 'sourcemap'],
     },
     webpack: {
       devtool: 'inline-source-map',
@@ -38,7 +38,7 @@ module.exports = (config) => {
           },
           {
             test: /\.js$/,
-            include: path.resolve('src/ts/'),
+            include: path.resolve('src/'),
             loader: 'isparta',
           }
         ],

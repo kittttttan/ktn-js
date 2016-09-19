@@ -1,31 +1,59 @@
 'use strict';
-const entDir = './examples/ts';
+const tsDir = './ts';
+const testDir = './test';
+
+let fileNames = [
+  'enc',
+  'date',
+  'fft',
+  'integer',
+  'math-expression',
+  'matrix',
+  'quaternion',
+  'random',
+  'rational',
+  'strconv',
+  'string',
+  'uuid',
+  'vector',
+];
+let entry = {
+  'import-babel-polyfill': `${testDir}/import-babel-polyfill.ts`
+};
+for (let fileName of fileNames) {
+  entry[`${fileName}-test`] = [
+    `${testDir}/${fileName}-test.ts`,
+    `${tsDir}/${fileName}.ts`
+  ];
+}
+//console.log(entry);
+
 module.exports = {
-  entry: {
-    complex: `${entDir}/complex.js`,
-    'csv-json': `${entDir}/csv-json.js`,
-    fib: `${entDir}/fib.js`,
-    integer: `${entDir}/integer.js`,
-    iter: `${entDir}/iter.js`,
-    'math-expression': `${entDir}/math-expression.js`,
-    primality: `${entDir}/primality.js`,
-    rational: `${entDir}/rational.js`,
-  },
+  entry: entry,
   devtool: 'inline-source-map',
   output: {
-    path: './examples/dist/',
-    filename: '[name].bundle.js'
+    path: './dist/',
+    filename: '[name].js',
+//    libraryTarget: 'commonjs'
+  },
+  resolve: {
+    extensions: ['', '.ts', '.js']
   },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015']
-        }
+//        include: ['node_modules/babel-core'],
+        loader: 'babel-loader?presets[]=latest!ts-loader'
+//        loaders: ['babel', 'ts'],
+//        query: {
+//          presets: ['latest']
+//        }
       }
     ]
-  }
+  },
+//  externals: {
+//    'babel-polyfill': 'babel-polyfill'
+//  }
 };

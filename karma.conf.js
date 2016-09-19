@@ -1,22 +1,36 @@
 'use strict';
 
 const path = require('path');
+const webpackConfig = require('./webpack.config.js');
 
 module.exports = (config) => {
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
     files: [
-      'ts/*.js',
-      'test/*.js',
+//      'test/import-babel-polyfill.js',
+      'dist/*.js',
+//      'ts/*.ts',
+//      'test/*.ts',
     ],
     exclude: [
     ],
     reporters: ['progress', 'coverage', 'html'],
     preprocessors: {
-      'ts/*.js': ['webpack', 'sourcemap'],
-      'test/*.js': ['webpack', 'sourcemap'],
+//      'test/import-babel-polyfill.js': ['webpack', 'sourcemap'],
+      'dist/*.js': ['coverage'],
+//      'ts/*.ts': ['webpack', 'sourcemap'],
+//      'test/*.ts': ['webpack', 'sourcemap'],
     },
+/*
+    webpack: {
+      devtool: 'inline-source-map',
+      debug: true,
+      module: webpackConfig.module,
+      resolve: webpackConfig.resolve
+    },
+*/
+    /*
     webpack: {
       devtool: 'inline-source-map',
       isparta: {
@@ -30,7 +44,9 @@ module.exports = (config) => {
         preLoaders: [
           {
             test: /\.js$/,
-            exclude: /node_modules/,
+            exclude: [
+              /node_modules/
+            ],
             loader: 'babel',
             query: {
               presets: ['es2015'],
@@ -38,27 +54,37 @@ module.exports = (config) => {
           },
           {
             test: /\.js$/,
-            include: path.resolve('src/'),
+            include: [
+              path.resolve('ts/'),
+              path.resolve('test/')
+            ],
             loader: 'isparta',
           }
         ],
       },
+      resolve: {
+        extensions: ['.ts', '.js', '']
+      },
+      node: {
+        fs: 'empty'
+      }
     },
     webpackMiddleware: {
       noInfo: true,
     },
-    /*
+*/
+/*
     typescriptPreprocessor: {
       options: {
-        // module: 'commonjs',
-        target: 'es6',
+        module: 'commonjs',// 'amd'
+        target: 'ES5',
         noImplicitAny: false,
         sourceMap: false
       },
       typings: [
       ]
     },
-    */
+*/
     coverageReporter: {
       type: 'lcov',
       dir : 'test/coverage/',
@@ -73,14 +99,6 @@ module.exports = (config) => {
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    // Start these browsers, currently available:
-    // - Chrome
-    // - ChromeCanary
-    // - Firefox
-    // - Opera (has to be installed with `npm install karma-opera-launcher`)
-    // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
-    // - PhantomJS
-    // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
     browsers: ['PhantomJS'],
     captureTimeout: 60000,
     singleRun: true,

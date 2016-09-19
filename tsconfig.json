@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
+        "module": "commonjs",
         "noImplicitAny": false,
         "outDir": "dist",
         "rootDir": ".",
@@ -12,8 +13,13 @@
         "doc",
         "examples",
         "node_modules",
-        "test",
         "tools",
-        "ydoc",
+        "ydoc"
+    ],
+    "filesGlob": [
+        "bench/**/*.ts",
+        "node/**/*.ts",
+        "ts/**/*.ts",
+        "test/**/*.ts"
     ]
 }

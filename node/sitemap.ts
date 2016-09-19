@@ -1,7 +1,7 @@
 'use strict';
 
 import * as fs from 'fs';
-import DateUtil from '../../dist/js/date';
+import DateUtil from '../ts/date';
 
 const dateFormat = DateUtil.format;
 const domain = 'https://kittttttan.info';

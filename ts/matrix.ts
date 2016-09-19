@@ -48,7 +48,7 @@ const neg: (a: number) => number = (a: number): number => -a;
 export default class Matrix {
   protected _m: int;
   protected _n: int;
-  protected _mn: number[][];
+  public _mn: number[][];
 
   /**
    * @param {int} m

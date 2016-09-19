@@ -2,14 +2,14 @@
 
 const gulp = require('gulp');
 
-function testRun() {
-  const karma = require('gulp-karma');
-  return gulp
-    .src(['test/*.js'])
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'run'
-    }));
+function testRun(callback) {
+  const karmaServer = require('karma').Server;
+  return new karmaServer({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true,
+  }, (exitCode) => {
+    //
+  }).start();
 }
 
 gulp.task('test:run', testRun);
@@ -34,11 +34,11 @@ gulp.task('ts:src', () => {
   return gulp.src('ts/**/*.ts')
     .pipe(ts({
       noExternalResolve: true,
-      //module: 'commonjs',
+      // module: 'commonjs',
       target: 'es6',
       noImplicitAny: false
     }))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('ts'))
 });
 
 gulp.task('ts:node', () => {
@@ -50,19 +50,7 @@ gulp.task('ts:node', () => {
       target: 'es6',
       noImplicitAny: false
     }))
-    .pipe(gulp.dest('dist'))
-});
-
-gulp.task('ts:example', () => {
-  const ts = require('gulp-typescript');
-  return gulp.src(['examples/ts/**/*.ts'])
-    .pipe(ts({
-      noExternalResolve: false,
-      //module: 'commonjs',
-      target: 'es6',
-      noImplicitAny: false
-    }))
-    .pipe(gulp.dest('examples/ts'))
+    .pipe(gulp.dest('node'))
 });
 
 gulp.task('ts:test', () => {
@@ -77,17 +65,10 @@ gulp.task('ts:test', () => {
     .pipe(gulp.dest('test'))
 });
 
-gulp.task('babel', ['ts:src'], () => {
-  const babel = require('gulp-babel');
-  return gulp.src('dist/*.js')
-    .pipe(babel())
-    .pipe(gulp.dest('dist'))
+gulp.task('ts', ['ts:src', 'ts:node', 'ts:test']);
+
+gulp.task('test', (callback) => {
+  return testRun(callback);
 });
 
-gulp.task('ts', ['ts:src', 'ts:node', 'ts:example', 'ts:test']);
-
-gulp.task('test', ['ts:src', 'ts:test'], (callback) => {
-  return testRun();
-});
-
-gulp.task('default', ['test', 'babel', 'min']);
+gulp.task('default', ['test', 'min']);

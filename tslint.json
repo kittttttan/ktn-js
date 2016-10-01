@@ -28,7 +28,7 @@
       true,
       140
     ],
-    "member-access": true,
+    "member-access": [true, "check-accessor", "check-constructor"],
     "member-ordering": [
       true,
       "public-before-private",
@@ -129,8 +129,10 @@
       "check-branch",
       "check-decl",
       "check-operator",
+      "check-module",
       "check-separator",
-      "check-type"
+      "check-type",
+      "check-typecast"
     ]
   }
 }

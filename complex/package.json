@@ -1,0 +1,44 @@
+{
+  "name": "@ktn/complex",
+  "version": "0.0.1",
+  "description": "implements Complex",
+  "license": "MIT",
+  "author": {
+    "name": "kittttttan",
+    "url": "https://kittttttan.info/"
+  },
+  "homepage": "https://github.com/kittttttan/ktn-js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kittttttan/ktn-js.git"
+  },
+  "private": true,
+  "files": [
+    "README.md",
+    "package.json",
+    "index.*",
+    "dist",
+    "src",
+    "spec"
+  ],
+  "main": "src/integer.js",
+  "module": "src/integer.js",
+  "scripts": {
+    "doc": "typedoc --out doc/ src/",
+    "clean": "rm -f src/*.js src/*.map spec/*.js spec/*.map",
+    "lint": "tslint -c ../tslint.json src/*.ts> lint.log",
+    "pretest": "tsc",
+    "test": "node_modules/.bin/istanbul cover  node_modules/jasmine/bin/jasmine.js",
+    "posttest": "cd coverage && \"../node_modules/.bin/remap-istanbul\" -i coverage.json -o html-report -t html",
+    "ydoc": "yuidoc"
+  },
+  "dependencies": {
+    "@ktn/core": "file:../core"
+  },
+  "devDependencies": {
+    "jasmine": "",
+    "istanbul": "",
+    "remap-istanbul": "",
+    "typescript": ""
+  }
+}

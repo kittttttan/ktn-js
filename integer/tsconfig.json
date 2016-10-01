@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "allowJs": true,
+        "noImplicitAny": false,
+        "rootDir": ".",
+        "sourceMap": true
+    },
+    "exclude": [
+        "doc",
+        "coverage",
+        "node_modules"
+    ],
+    "include": [
+        "index.ts",
+        "spec/**/*.ts",
+        "src/**/*.ts",
+        "node_modules/@ktn/"
+    ],
+    "typedocOptions": {
+        "out": "doc",
+        "mode": "file",
+        "includeDeclarations": true,
+        "hideGenerator": false
+    }
+}

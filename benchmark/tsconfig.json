@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "rootDir": ".",
+        "sourceMap": true
+    },
+    "exclude": [
+        "dist",
+        "doc",
+        "examples",
+        "node_modules"
+    ],
+    "filesGlob": [
+        "ts/**/*.ts",
+        "node_modules/@ktn/core/**/*.ts"
+    ]
+}

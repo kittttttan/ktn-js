@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
+  "private": true,
   "scripts": {
     "lint": "tslint -c tslint.json src/ts/*.ts> lint.log",
     "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\"",

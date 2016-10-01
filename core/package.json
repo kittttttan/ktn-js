@@ -1,0 +1,33 @@
+{
+  "name": "@ktn/core",
+  "version": "0.0.1",
+  "description": "JavaScript laboratory.",
+  "license": "MIT",
+  "author": {
+    "name": "kittttttan",
+    "url": "https://kittttttan.info/"
+  },
+  "homepage": "https://github.com/kittttttan/ktn-js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kittttttan/ktn-js.git"
+  },
+  "private": true,
+  "files": [
+    "README.md",
+    "package.json",
+    "index.js",
+    "src/**/*.js"
+  ],
+  "main": "src/polyfill.js",
+  "scripts": {
+    "build": "tsc",
+    "rebuild": "npm run clean && npm run build",
+    "doc": "typedoc src/",
+    "clean": "rm -f src/*.js src/*.map index.js index.js.map",
+    "lint": "tslint -c ../tslint.json src/*.ts> lint.log"
+  },
+  "devDependencies": {
+    "typescript": ""
+  }
+}

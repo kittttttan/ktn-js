@@ -1,0 +1,42 @@
+{
+  "name": "@ktn/math",
+  "version": "0.0.1",
+  "description": "Math expression",
+  "license": "MIT",
+  "author": {
+    "name": "kittttttan",
+    "url": "https://kittttttan.info/"
+  },
+  "homepage": "https://github.com/kittttttan/ktn-js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kittttttan/ktn-js.git"
+  },
+  "private": true,
+  "files": [
+    "README.md",
+    "package.json",
+    "index.js",
+    "src/**/*.js"
+  ],
+  "main": "src/math-expression.js",
+  "scripts": {
+    "doc": "typedoc src/",
+    "clean": "rm -f src/*.js src/*.map spec/*.js spec/*.map index.js index.js.map",
+    "lint": "tslint -c ../tslint.json src/*.ts> lint.log",
+    "pretest": "tsc",
+    "test": "node_modules/.bin/istanbul cover  node_modules/jasmine/bin/jasmine.js",
+    "posttest": "cd coverage && \"../node_modules/.bin/remap-istanbul\" -i coverage.json -o html-report -t html"
+  },
+  "dependencies": {
+    "@ktn/rational": "file:../rational"
+  },
+  "devDependencies": {
+    "@ktn/type": "file:../type",
+    "@types/jasmine": "",
+    "jasmine": "",
+    "istanbul": "",
+    "remap-istanbul": "",
+    "typescript": ""
+  }
+}

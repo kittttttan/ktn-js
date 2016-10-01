@@ -1,0 +1,37 @@
+{
+  "name": "@ktn/benchmark",
+  "version": "0.0.1",
+  "description": "benchmark",
+  "license": "MIT",
+  "author": {
+    "name": "kittttttan",
+    "url": "https://kittttttan.info/"
+  },
+  "homepage": "https://github.com/kittttttan/ktn-js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kittttttan/ktn-js.git"
+  },
+  "private": true,
+  "files": [
+    "README.md",
+    "package.json",
+    "index.*",
+    "dist",
+    "src"
+  ],
+  "main": "src/benchmark.js",
+  "module": "src/benchmark.js",
+  "scripts": {
+    "doc": "typedoc --out doc/ src/",
+    "clean": "rm -f src/*.js src/*.map",
+    "lint": "tslint -c ../tslint.json src/*.ts> lint.log",
+    "ydoc": "yuidoc"
+  },
+  "dependencies": {
+    "@ktn/core": "file:../core"
+  },
+  "devDependencies": {
+    "typescript": ""
+  }
+}

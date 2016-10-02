@@ -1,7 +1,7 @@
 {
-  "name": "@ktn/integer",
+  "name": "@ktn/fft",
   "version": "0.0.1",
-  "description": "implements Integer",
+  "description": "implements fft",
   "license": "MIT",
   "author": {
     "name": "kittttttan",
@@ -21,21 +21,22 @@
     "src",
     "spec"
   ],
-  "main": "src/integer.js",
-  "module": "src/integer.js",
+  "main": "src/fft.js",
   "scripts": {
-    "doc": "typedoc --out doc/ src/",
-    "clean": "rm -f src/*.js src/*.map spec/*.js spec/*.map",
+    "doc": "typedoc src/",
+    "clean": "rm -f src/*.js src/*.map spec/*.js spec/*.map index.js index.js.map",
     "lint": "tslint -c ../tslint.json src/*.ts> lint.log",
     "pretest": "tsc",
     "test": "node_modules/.bin/istanbul cover  node_modules/jasmine/bin/jasmine.js",
-    "posttest": "cd coverage && \"../node_modules/.bin/remap-istanbul\" -i coverage.json -o html-report -t html",
-    "ydoc": "yuidoc"
+    "posttest": "cd coverage && \"../node_modules/.bin/remap-istanbul\" -i coverage.json -o html-report -t html"
   },
   "dependencies": {
-    "@ktn/core": "file:../core"
+    "@ktn/core": "file:../core",
+    "@ktn/complex": "file:../complex"
   },
   "devDependencies": {
+    "@ktn/type": "file:../type",
+    "@types/jasmine": "",
     "jasmine": "",
     "istanbul": "",
     "remap-istanbul": "",

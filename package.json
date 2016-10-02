@@ -17,17 +17,12 @@
     "README.md",
     "package.json",
     "dist",
-    "ts",
-    "node",
-    "test"
+    "node"
   ],
   "scripts": {
     "doc": "jsdoc -R README.md -r ts -r node -d doc",
-    "clean": "rm -f test/*.js ts/*.js node/*.js dist/*.js",
     "lint": "tslint -c tslint.json ts/*.ts node/*.ts> lint.log",
-    "report": "plato -r -d report ts",
-    "test": "tsc && webpack && node node_modules/karma/bin/karma start",
-    "ydoc": "yuidoc"
+    "test": "tsc && webpack && node node_modules/karma/bin/karma start"
   },
   "devDependencies": {
     "babel-core": "",

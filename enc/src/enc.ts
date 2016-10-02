@@ -1,7 +1,7 @@
-/// <reference path="typings/ktn.d.ts"/>
+/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 'use strict';
 
-import './polyfill';
+import '@ktn/core';
 
 /**
  * Encode

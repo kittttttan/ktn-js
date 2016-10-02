@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/@ktn/type/index.d.ts"/>
+/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 /**
  * Generate Prime Number List in JavaScript
  */

@@ -1,5 +1,5 @@
 {
-  "name": "ktn-js-example",
+  "name": "@ktn/example",
   "version": "0.0.1",
   "description": "examples for ktn",
   "license": "MIT",
@@ -43,9 +43,13 @@
     "angular2-in-memory-web-api": "",
     "bootstrap": "",
 
-    "ktn-js": "file:../../ktn-js"
+    "@ktn/complex": "file:../complex",
+    "@ktn/rational": "file:../rational",
+    "@ktn/string": "file:../string",
+    "@ktn/math": "file:../math"
   },
   "devDependencies": {
+    "@ktn/type": "file:../type",
     "concurrently": "",
     "lite-server": "",
     "typescript": "",

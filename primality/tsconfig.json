@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "commonjs",
         "allowJs": true,
         "noImplicitAny": false,
@@ -8,8 +8,8 @@
         "sourceMap": true
     },
     "exclude": [
-        "coverage",
         "doc",
+        "coverage",
         "node_modules"
     ],
     "include": [

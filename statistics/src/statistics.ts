@@ -1,10 +1,10 @@
-/// <reference path="typings/ktn.d.ts"/>
+/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 /**
  * statistics
  */
 'use strict';
 
-export class StatUtil {
+export default class StatUtil {
   /**
    * factorial
    * @param {int} a

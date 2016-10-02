@@ -1,7 +1,8 @@
-/// <reference path="typings/ktn.d.ts"/>
+/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
+/// <reference path="../node_modules/@ktn/type/typings/complex.d.ts" />
 'use strict';
 
-import Complex from './complex';
+import Complex from '@ktn/complex';
 
 /**
  * @private

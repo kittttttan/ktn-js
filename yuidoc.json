@@ -5,7 +5,6 @@
   "url": "https://github.com/kittttttan/ktn-js",
   "options": {
     "paths": [
-      "ts",
       "node"
     ],
     "outdir": "ydoc"

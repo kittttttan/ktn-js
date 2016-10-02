@@ -17,21 +17,19 @@
     "README.md",
     "package.json",
     "index.*",
-    "dist",
-    "src"
+    "src/**/*.js"
   ],
   "main": "src/benchmark.js",
-  "module": "src/benchmark.js",
   "scripts": {
-    "doc": "typedoc --out doc/ src/",
-    "clean": "rm -f src/*.js src/*.map",
-    "lint": "tslint -c ../tslint.json src/*.ts> lint.log",
-    "ydoc": "yuidoc"
+    "doc": "typedoc src/",
+    "clean": "rm -f src/*.js src/*.map index.js index.map",
+    "lint": "tslint -c ../tslint.json src/*.ts> lint.log"
   },
   "dependencies": {
     "@ktn/core": "file:../core"
   },
   "devDependencies": {
+    "@ktn/type": "file:../type",
     "typescript": ""
   }
 }

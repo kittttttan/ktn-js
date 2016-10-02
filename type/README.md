@@ -10,6 +10,5 @@ npm install
 ## Usage
 
 ```javascript
-import '@ktn/type';
+/// <reference path="../node_modules/@ktn/type/index.d.ts" />
 ```
-

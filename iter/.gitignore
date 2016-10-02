@@ -1,0 +1,9 @@
+*.js
+*.map
+*.bundle.js
+*.min.js
+*.log
+
+coverage/
+doc/
+node_modules/

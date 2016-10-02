@@ -1,3 +1,4 @@
+/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 'use strict';
 
 import '@ktn/core';
@@ -16,9 +17,29 @@ export default class Complex {
    * @param {double} r
    * @param {double} i
    */
-  constructor(r: double, i: double) {
+  constructor(r: double = 0, i: double = 0) {
     this._r = +r;
     this._i = +i;
+  }
+
+  /**
+   * 0
+   * @static
+   * @mrthod Complex.zero
+   * @return {!Complex}
+   */
+  static get zero(): Complex {
+    return new Complex();
+  }
+
+  /**
+   * 1
+   * @static
+   * @mrthod Complex.one
+   * @return {!Complex}
+   */
+  static get one(): Complex {
+    return new Complex(1);
   }
 
   /**
@@ -105,4 +126,29 @@ export default class Complex {
         this._r * a._r - this._i * a._i,
         this._r * a._i + this._i * a._r);
   }
+
+  /**
+   * @method Complex#eq
+   * @param {Object} a
+   * @return {boolean}
+   */
+  public eq(a: any): boolean {
+    if (typeof(a) === 'number') {
+      return this.equal(new Complex(+a));
+    }
+
+    return this.equal(a);
+  }
+
+  /**
+   * @method Complex#equal
+   * @param {Object} a
+   * @return {boolean}
+   */
+  public equal(a: any): boolean {
+    if (this === a) { return true; }
+    if (!(a instanceof Complex)) { return false; }
+    return this._r === a._r && this._i === a._i;
+  }
+
 }

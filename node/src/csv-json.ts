@@ -1,8 +1,9 @@
+/// <reference path="../node_modules/@ktn/type/typings/csv-json.d.ts" />
 'use strict';
 
 import * as fs from 'fs';
 
-import {csvToJson, jsonToCsv} from '../ts/csv-json';
+import {csvToJson, jsonToCsv} from '@ktn/enc';
 
 try {
   const argv: string[] = process.argv;

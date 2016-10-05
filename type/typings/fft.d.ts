@@ -13,4 +13,5 @@ declare module '@ktn/fft'{
     public static ifft(x: Complex[]): Complex[];
     public static fftFloat(x: number[]): Complex[];
     public static ifftFloat(x: number[]): Complex[];
+  }
 }

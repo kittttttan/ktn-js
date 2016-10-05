@@ -12,14 +12,10 @@
         "dist",
         "doc",
         "examples",
+        "node",
+        "template",
         "node_modules",
-        "tools",
-        "ydoc"
-    ],
-    "filesGlob": [
-        "bench/**/*.ts",
-        "node/**/*.ts",
-        "ts/**/*.ts",
-        "test/**/*.ts"
+        "**/node_modules",
+        "tools"
     ]
 }

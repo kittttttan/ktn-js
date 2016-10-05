@@ -13,16 +13,8 @@
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
   "private": true,
-  "files": [
-    "README.md",
-    "package.json",
-    "dist",
-    "node"
-  ],
   "scripts": {
-    "doc": "jsdoc -R README.md -r ts -r node -d doc",
-    "lint": "tslint -c tslint.json ts/*.ts node/*.ts> lint.log",
-    "test": "tsc && webpack && node node_modules/karma/bin/karma start"
+    "test": "tsc"
   },
   "devDependencies": {
     "babel-core": "",
@@ -32,19 +24,8 @@
     "babel-preset-latest": "",
     "gulp": "",
     "gulp-rename": "",
-    "gulp-typescript": "",
     "gulp-uglify": "",
     "jasmine-core": "",
-    "karma": "",
-    "karma-coverage": "",
-    "karma-html-reporter": "",
-    "karma-jasmine": "",
-    "karma-phantomjs-launcher": "",
-    "karma-sourcemap-loader": "",
-    "karma-webpack": "",
-    "phantomjs-prebuilt": "",
-    "ts-loader": "",
-    "typescript": "",
     "webpack": ""
   }
 }

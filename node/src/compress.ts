@@ -1,4 +1,4 @@
-/// <reference path="typings/node.d.ts" />
+/// <reference path="../node_modules/@types/node/index.d.ts" />
 /**
  * @fileOverview compress.js remove spaces and linebreakes.
  * @example

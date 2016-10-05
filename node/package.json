@@ -1,7 +1,7 @@
 {
-  "name": "@ktn/[template]",
+  "name": "@ktn/node",
   "version": "0.0.1",
-  "description": "implements [template]",
+  "description": "for node",
   "license": "MIT",
   "author": {
     "name": "kittttttan",
@@ -19,24 +19,21 @@
     "index.js",
     "src/**/*.js"
   ],
-  "main": "src/[template].js",
   "scripts": {
     "doc": "typedoc src/",
-    "clean": "rm -f src/*.js src/*.map spec/*.js spec/*.map index.js index.js.map",
+    "clean": "rm -f src/*.js src/*.map index.js index.js.map",
     "lint": "tslint -c ../tslint.json src/*.ts> lint.log",
-    "pretest": "tsc",
-    "test": "node_modules/.bin/istanbul cover  node_modules/jasmine/bin/jasmine.js",
-    "posttest": "cd coverage && \"../node_modules/.bin/remap-istanbul\" -i coverage.json -o html-report -t html"
+    "test": "tsc"
   },
   "dependencies": {
-    "@ktn/core": "file:../core"
+    "@ktn/core": "file:../core",
+    "@ktn/enc": "file:../enc",
+    "@ktn/date": "file:../date"
   },
   "devDependencies": {
     "@ktn/type": "file:../type",
+    "@types/node": "",
     "@types/jasmine": "",
-    "jasmine": "",
-    "istanbul": "",
-    "remap-istanbul": "",
     "typescript": ""
   }
 }

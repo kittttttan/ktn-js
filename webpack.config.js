@@ -1,6 +1,4 @@
 'use strict';
-const tsDir = './ts';
-const testDir = './test';
 
 let fileNames = [
   'enc',
@@ -17,13 +15,11 @@ let fileNames = [
   'uuid',
   'vector',
 ];
-let entry = {
-  'import-babel-polyfill': `${testDir}/import-babel-polyfill.ts`
-};
+
+let entry = {};
 for (let fileName of fileNames) {
-  entry[`${fileName}-test`] = [
-    `${testDir}/${fileName}-test.ts`,
-    `${tsDir}/${fileName}.ts`
+  entry[`${fileName}`] = [
+    `${fileName}/src/${fileName}.js`
   ];
 }
 //console.log(entry);
@@ -37,23 +33,20 @@ module.exports = {
 //    libraryTarget: 'commonjs'
   },
   resolve: {
-    extensions: ['', '.ts', '.js']
+    extensions: ['', '.js']
   },
   module: {
     loaders: [
       {
-        test: /\.ts$/,
+        test: /\.js$/,
         exclude: /node_modules/,
 //        include: ['node_modules/babel-core'],
-        loader: 'babel-loader?presets[]=latest!ts-loader'
-//        loaders: ['babel', 'ts'],
+        loader: 'babel-loader?presets[]=latest'
+//        loaders: ['babel'],
 //        query: {
 //          presets: ['latest']
 //        }
       }
     ]
-  },
-//  externals: {
-//    'babel-polyfill': 'babel-polyfill'
-//  }
+  }
 };

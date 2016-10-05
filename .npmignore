@@ -1,7 +1,8 @@
 *.log
+*.ts
+*.map
 .git/
-bench/
 doc/
 examples/
 tools/
-ydoc/
+node_modules/

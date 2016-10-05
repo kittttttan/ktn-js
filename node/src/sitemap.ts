@@ -1,7 +1,9 @@
+
+/// <reference path="../node_modules/@ktn/type/typings/date.d.ts" />
 'use strict';
 
 import * as fs from 'fs';
-import DateUtil from '../ts/date';
+import DateUtil from '@ktn/date';
 
 const dateFormat = DateUtil.format;
 const domain = 'https://kittttttan.info';

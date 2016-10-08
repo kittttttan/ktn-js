@@ -26,7 +26,6 @@
     "test": "tsc"
   },
   "dependencies": {
-    "@ktn/core": "file:../core",
     "@ktn/enc": "file:../enc",
     "@ktn/date": "file:../date"
   },

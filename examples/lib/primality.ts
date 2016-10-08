@@ -1,7 +1,9 @@
+/// <reference path="../node_modules/@ktn/type/typings/iter.d.ts" />
+/// <reference path="../node_modules/@ktn/type/typings/primality.d.ts" />
 'use strict';
 
-import Iter from 'ktn-js/ts/iter';
-import Primality from 'ktn-js/ts/primality';
+import Iter from '@ktn/iter';
+import Primality from '@ktn/primality';
 
 function test() {
   const n: number = 10;

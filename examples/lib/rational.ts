@@ -1,4 +1,5 @@
-import Rational from 'ktn-js/ts/rational';
+/// <reference path="../node_modules/@ktn/type/typings/rational.d.ts" />
+import Rational from '@ktn/rational';
 
 export default class TestRational {
   public static basic(): string {

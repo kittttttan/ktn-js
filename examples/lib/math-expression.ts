@@ -1,4 +1,5 @@
-import MathExpression from 'ktn-js/ts/math-expression';
+/// <reference path="../node_modules/@ktn/type/typings/math-expression.d.ts" />
+import MathExpression from '@ktn/math';
 
 export default class TestIter {
   public static main(): string {

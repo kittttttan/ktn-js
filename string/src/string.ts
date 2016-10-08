@@ -4,7 +4,7 @@
 /**
  * @private
  */
-class Types {
+export class Types {
   static get LOWER(): number { return 0x01; }
   static get UPPER(): number { return 0x02; }
   static get DIGITS(): number { return 0x04; }
@@ -15,7 +15,7 @@ class Types {
 /**
  * @private
  */
-class Reg {
+export class Reg {
   static get URI(): RegExp { return /\w+:\/\/[\w\-.\/?%&=:@;]*/g; }
   static get XMLTag(): RegExp { return /<\/?\w+[^>]*>/g; }
   static get CComment(): RegExp { return /\/\*[\s\S]*?\*\//gm; }

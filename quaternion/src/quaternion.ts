@@ -141,7 +141,7 @@ export default class Quaternion {
    * @method Quaternion#normalize
    * @return {Quaternion|undefined}
    */
-  public normalize(): Quaternion {
+  public normalize(): Quaternion|undefined {
     const n: double = this.norm();
     if (!n) { return undefined; }
     return new Quaternion(this.w / n,
@@ -152,7 +152,7 @@ export default class Quaternion {
    * @method Quaternion#inverse
    * @return {Quaternion|undefined}
    */
-  public inverse(): Quaternion {
+  public inverse(): Quaternion|undefined {
     const n: double = this.w * this.w +
         this.x * this.x + this.y * this.y + this.z * this.z;
     if (!n) { return undefined; }

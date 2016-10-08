@@ -151,6 +151,7 @@ export default class DateUtil {
         const days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         return days[d.getDay()];
       }
+      return '';
     });
   }
 }

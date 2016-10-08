@@ -13,7 +13,7 @@
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
   "private": true,
-  "typings": "typings/ktn.d.ts",
+  "typings": "index.d.ts",
   "files": [
     "README.md",
     "package.json",

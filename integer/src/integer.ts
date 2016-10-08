@@ -5,8 +5,6 @@
  */
 'use strict';
 
-import '@ktn/core';
-
 /**
  * @private
  * @const

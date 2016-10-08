@@ -41,7 +41,7 @@ import Trigon, {Sin, Cos, Tan} from './trigon';
  * @private
  * @requires Const
  */
-import Const from './const';
+//import Const from './const';
 
 /**
  * @private
@@ -94,9 +94,9 @@ const tan: (a: any) => Tan = Trigon.tan;
  * @property {Parser} _p
  */
 export default class MathExpression {
-  protected _ast: Ast;
+  protected _ast: Ast|null;
   protected _tokens: string[];
-  protected _p: Parser;
+  protected _p: Parser|null;
   protected _t: Tokenizer;
 
   /**
@@ -118,7 +118,7 @@ export default class MathExpression {
   /**
    * @return {Ast}
    */
-  get ast(): Ast {
+  get ast(): Ast|null {
     return this._ast;
   }
 
@@ -153,6 +153,7 @@ export default class MathExpression {
    */
   public eval(): any {
     const ast: Ast = this.parse();
+    if (ast === null) return null;
     return this._parseAst(ast);
   }
 
@@ -160,7 +161,9 @@ export default class MathExpression {
    * @param {Ast} ast
    * @return {Object}
    */
-  private _parseAst(ast: Ast): any {
+  private _parseAst(ast: Ast|undefined): any {
+    if (ast === undefined) return null;
+
     if (ast.type === 'Int') {
       return ast.value;
     }
@@ -191,12 +194,15 @@ export default class MathExpression {
 
     if (ast.type === 'Function') {
       if (ast.name === 'sin') {
+        if (ast.arguments === undefined) return null;
         return sin(this._parseAst(ast.arguments[0]));
       }
       if (ast.name === 'cos') {
+        if (ast.arguments === undefined) return null;
         return cos(this._parseAst(ast.arguments[0]));
       }
       if (ast.name === 'tan') {
+        if (ast.arguments === undefined) return null;
         return tan(this._parseAst(ast.arguments[0]));
       }
     }

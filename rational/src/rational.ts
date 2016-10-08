@@ -4,8 +4,6 @@
  */
 'use strict';
 
-import '@ktn/core';
-
 /**
  * @private
  * @requires Integer

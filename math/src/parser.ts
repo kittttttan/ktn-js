@@ -92,7 +92,7 @@ export default class Parser {
    * @return {Ast}
    */
   private number(): Ast {
-    let sign: string;
+    let sign: string = '';
     if (this._tokens[this._index] === '+' || this._tokens[this._index] === '-') {
       sign = this._tokens[this._index++];
     }

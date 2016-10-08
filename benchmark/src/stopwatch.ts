@@ -1,7 +1,5 @@
 'use strict';
 
-import '@ktn/core';
-
 /**
  * Stopwatch
  * @class Stopwatch

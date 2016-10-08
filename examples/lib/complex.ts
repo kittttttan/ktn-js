@@ -1,4 +1,5 @@
-import Complex from 'ktn-js/ts/complex';
+/// <reference path="../node_modules/@ktn/type/typings/complex.d.ts" />
+import Complex from '@ktn/complex';
 
 function main() {
   const c1: Complex = new Complex(1, 2);

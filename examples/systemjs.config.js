@@ -26,7 +26,10 @@
       'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
 
       lib: 'lib',
-      'ktn-js': 'npm:ktn-js'
+      '@ktn/complex': 'npm:@ktn/complex',
+      '@ktn/rational': 'npm:@ktn/rational',
+      '@ktn/string': 'npm:@ktn/string',
+      '@ktn/math': 'npm:@ktn/math'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -44,7 +47,16 @@
       lib: {
         defaultExtension: 'js'
       },
-      'ktn-js': {
+      '@ktn/complex': {
+        defaultExtension: 'js'
+      },
+      '@ktn/rational': {
+        defaultExtension: 'js'
+      },
+      '@ktn/string': {
+        defaultExtension: 'js'
+      },
+      '@ktn/math': {
         defaultExtension: 'js'
       }
     }

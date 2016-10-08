@@ -1,6 +1,7 @@
+/// <reference path="../node_modules/@ktn/type/typings/iter.d.ts" />
 'use strict';
 
-import Iter from 'ktn-js/ts/iter';
+import Iter from '@ktn/iter';
 
 const range = Iter.range;
 const zip = Iter.zip;

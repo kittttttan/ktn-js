@@ -20,13 +20,12 @@
     "src/**/*.js"
   ],
   "main": "src/benchmark.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "doc": "typedoc src/",
     "clean": "rm -f src/*.js src/*.map index.js index.map",
     "lint": "tslint -c ../tslint.json src/*.ts> lint.log"
-  },
-  "dependencies": {
-    "@ktn/core": "file:../core"
   },
   "devDependencies": {
     "@ktn/type": "file:../type",

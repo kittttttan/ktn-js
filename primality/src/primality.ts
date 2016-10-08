@@ -22,7 +22,7 @@ export default class Primality {
       let len: int = list.length;
       const init: int = list[len - 1] + 2;
       for (let i: int = init; ; i += 2) {
-        let f: boolean;
+        let f: boolean = false;
         for (let j: int = 1, lj: int; (lj = list[j]) * lj <= i; ++j) {
           f = true;
           if (!(i % lj)) {

@@ -2,8 +2,17 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
-        "allowJs": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "declaration": true,
+        "allowJs": false,
         "noImplicitAny": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "pretty": true,
+        "removeComments": false,
+        "strictNullChecks": false,
+        "stripInternal": true,
         "rootDir": ".",
         "sourceMap": true
     },

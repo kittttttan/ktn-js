@@ -6,7 +6,7 @@
 /**
  * @typedef {Object} ConstItem
  */
-interface ConstItem {
+export interface ConstItem {
   toString: () => string;
   calc: () => number;
 }

@@ -1,8 +1,6 @@
 /// <reference path="../node_modules/@ktn/type/typings/polyfill.d.ts"/>
 'use strict';
 
-import '@ktn/core';
-
 /**
  * @private
  * @type string
@@ -63,7 +61,7 @@ export default class Scanner {
    * tokenize top
    * @return {string}
    */
-  public lex(): string {
+  public lex(): string|null {
     if (this.eof()) {
       return null;
     }

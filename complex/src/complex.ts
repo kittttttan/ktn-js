@@ -1,8 +1,6 @@
 /// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 'use strict';
 
-import '@ktn/core';
-
 /**
  * Complex
  * @class Complex

@@ -7,7 +7,7 @@
 /**
  * @typedef {Object} ToJsonOpt
  */
-interface ToJsonOpt {
+export interface ToJsonOpt {
   sep?: string;
   prop?: string;
   space?: number|string;
@@ -16,7 +16,7 @@ interface ToJsonOpt {
 /**
  * @typedef {Object} ToCsvOpt
  */
-interface ToCsvOpt {
+export interface ToCsvOpt {
   sep?: string;
   prop?: string;
 }
@@ -86,7 +86,7 @@ export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): str
   } else {
     json = items;
   }
-  return JSON.stringify(json, null, opt.space || null);
+  return JSON.stringify(json, null, opt.space || undefined);
 }
 
 /**

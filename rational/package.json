@@ -20,7 +20,8 @@
     "src/**/*.js"
   ],
   "main": "src/rational.js",
-  "module": "src/rational.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "doc": "typedoc src/",
     "clean": "rm -f src/*.js src/*.map spec/*.js spec/*.map",

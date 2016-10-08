@@ -1,7 +1,9 @@
+/// <reference path="../node_modules/@ktn/type/typings/iter.d.ts" />
+/// <reference path="../node_modules/@ktn/type/typings/fib.d.ts" />
 'use strict';
 
-import Iter from 'ktn-js/ts/iter';
-import Fibonacci from 'ktn-js/ts/fib';
+import Iter from '@ktn/iter';
+import Fibonacci from '@ktn/iter/fib';
 
 export class TestFib {
   public static fib() {

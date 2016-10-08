@@ -1,4 +1,5 @@
-import Integer from 'ktn-js/ts/integer';
+/// <reference path="../node_modules/@ktn/type/typings/integer.d.ts" />
+import Integer from '@ktn/integer';
 
 export default class TestInteger {
   static random(len: int): string {

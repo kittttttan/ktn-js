@@ -1,4 +1,5 @@
-import {csvToJson, jsonToCsv} from 'ktn-js/ts/csv-json';
+/// <reference path="../node_modules/@ktn/type/typings/csv-json.d.ts" />
+import {csvToJson, jsonToCsv} from '@ktn/csv-json';
 
 function main() {
   let json = {

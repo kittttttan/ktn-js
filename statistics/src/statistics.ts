@@ -1,8 +1,10 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 /**
  * statistics
  */
 'use strict';
+
+export type int = number;
+export type double = number;
 
 export default class StatUtil {
   /**

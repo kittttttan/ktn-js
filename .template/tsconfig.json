@@ -14,12 +14,19 @@
         "strictNullChecks": true,
         "stripInternal": true,
         "rootDir": ".",
-        "sourceMap": true
+        "listFiles": true,
+        "sourceMap": true,
+        "inlineSources": true
     },
     "exclude": [
-        "node_modules",
+        "coverage",
         "doc",
-        "typings"
+        "node_modules"
+    ],
+    "include": [
+        "index.ts",
+        "spec/**/*.ts",
+        "src/**/*.ts"
     ],
     "typedocOptions": {
         "out": "doc",

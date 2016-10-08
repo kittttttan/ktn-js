@@ -1,6 +1,7 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
-/// <reference path="../node_modules/@ktn/type/typings/complex.d.ts" />
 'use strict';
+
+export type int = number;
+export type double = number;
 
 import Complex from '@ktn/complex';
 

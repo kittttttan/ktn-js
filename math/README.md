@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/math.d.ts" />
 import MathExpression from '@ktn/math';
 ```

@@ -16,8 +16,12 @@
   "files": [
     "README.md",
     "package.json",
-    "index.*",
-    "src/**/*.js"
+    "index.js",
+    "index.map",
+    "index.d.ts",
+    "src/**/*.js",
+    "src/**/*.map",
+    "src/**/*.d.ts"
   ],
   "main": "src/benchmark.js",
   "module": "index.js",
@@ -28,7 +32,6 @@
     "lint": "tslint -c ../tslint.json src/*.ts> lint.log"
   },
   "devDependencies": {
-    "@ktn/type": "file:../type",
     "typescript": ""
   }
 }

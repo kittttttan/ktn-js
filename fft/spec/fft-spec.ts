@@ -1,5 +1,4 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-/// <reference path="../node_modules/@ktn/type/typings/complex.d.ts" />
 import Complex from '@ktn/complex';
 import Fft from '../src/fft';
 

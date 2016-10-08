@@ -1,9 +1,9 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
-
 /**
  * Big Integer in JavaScript.
  */
 'use strict';
+
+export type int = number;
 
 /**
  * @private
@@ -31,7 +31,7 @@ const _MASK: int = _BASE - 1;
  * @property {boolean} Integer#_s Sign +, -. `false` means -.
  * @property {int} Integer#_l Length of digits
  */
-export default class Integer implements ktn.Field {
+export default class Integer {
   protected _d: Uint32Array;
   protected _s: boolean;
   protected _l: int;

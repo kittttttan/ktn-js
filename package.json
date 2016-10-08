@@ -14,18 +14,11 @@
   },
   "private": true,
   "scripts": {
+    "doc": "typedoc index.ts",
+    "clean": "rm -f @ktn",
     "test": "tsc"
   },
   "devDependencies": {
-    "babel-core": "",
-    "babel-loader": "",
-    "babel-plugin-add-module-exports": "",
-    "babel-polyfill": "",
-    "babel-preset-latest": "",
-    "gulp": "",
-    "gulp-rename": "",
-    "gulp-uglify": "",
-    "jasmine-core": "",
-    "webpack": ""
+    "typescript": ""
   }
 }

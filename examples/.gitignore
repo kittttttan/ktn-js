@@ -1,4 +1,3 @@
-*.js
 *.map
 *.d.ts
 *.bundle.js
@@ -7,4 +6,5 @@
 
 coverage/
 doc/
+jspm_packages/
 node_modules/

@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/@ktn/type/typings/rational.d.ts"/>
 /**
  * Pow
  */

@@ -14,7 +14,9 @@
         "strictNullChecks": true,
         "stripInternal": true,
         "rootDir": ".",
-        "sourceMap": true
+        "listFiles": true,
+        "sourceMap": true,
+        "inlineSources": true
     },
     "exclude": [
         "doc",
@@ -24,8 +26,7 @@
     "include": [
         "index.ts",
         "spec/**/*.ts",
-        "src/**/*.ts",
-        "node_modules/@ktn/"
+        "src/**/*.ts"
     ],
     "typedocOptions": {
         "out": "doc",

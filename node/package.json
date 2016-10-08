@@ -17,7 +17,11 @@
     "README.md",
     "package.json",
     "index.js",
-    "src/**/*.js"
+    "index.map",
+    "index.d.ts",
+    "src/**/*.js",
+    "src/**/*.map",
+    "src/**/*.d.ts"
   ],
   "scripts": {
     "doc": "typedoc src/",
@@ -30,7 +34,6 @@
     "@ktn/date": "file:../date"
   },
   "devDependencies": {
-    "@ktn/type": "file:../type",
     "@types/node": "",
     "@types/jasmine": "",
     "typescript": ""

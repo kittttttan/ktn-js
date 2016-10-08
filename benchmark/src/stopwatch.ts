@@ -1,5 +1,7 @@
 'use strict';
 
+export type int = number;
+
 /**
  * Stopwatch
  * @class Stopwatch

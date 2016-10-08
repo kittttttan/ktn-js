@@ -1,6 +1,6 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 'use strict';
-//import 'babel-core/polyfill';
+
+export type double = number;
 
 export default class Iter {
   /**

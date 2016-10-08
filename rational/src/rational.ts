@@ -1,8 +1,9 @@
-/// <reference path="../node_modules/@ktn/type/typings/integer.d.ts" />
 /**
  * Rational
  */
 'use strict';
+
+export type int = number;
 
 /**
  * @private
@@ -17,7 +18,7 @@ import Integer from '@ktn/integer';
  * @property {!Integer} Rational#_n Numerator
  * @property {!Integer} Rational#_d Denominator
  */
-export default class Rational implements ktn.Field {
+export default class Rational {
   protected _n: Integer;
   protected _d: Integer;
 

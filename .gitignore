@@ -1,22 +1,7 @@
+*.js
 *.map
 *.bundle.js
 *.min.js
 *.log
-dist/
-coverage/
-doc/
-ydoc/
-examples/app/**/*.js
-examples/app/**/*.map
-examples/lib/**/*.js
-examples/lib/**/*.map
-examples/typings/
-ts/**/*.js
-ts/**/*.map
-node/**/*.js
-node/**/*.map
-test/**/*.js
-test/**/*.map
 
-karma_html/
 node_modules/

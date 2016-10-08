@@ -1,5 +1,6 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts"/>
 'use strict';
+
+export type int = number;
 
 export interface Ast {
   type: string;

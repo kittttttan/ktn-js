@@ -1,5 +1,6 @@
-/// <reference path="../node_modules/@ktn/type/typings/polyfill.d.ts"/>
 'use strict';
+
+export type int = number;
 
 /**
  * @private

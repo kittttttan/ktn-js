@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/rational.d.ts" />
 import Rational from '@ktn/rational';
 ```

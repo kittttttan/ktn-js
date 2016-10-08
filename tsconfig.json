@@ -1,21 +1,37 @@
 {
     "compilerOptions": {
+        "outDir": "@ktn",
         "target": "es6",
         "module": "commonjs",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "declaration": true,
+        "allowJs": false,
         "noImplicitAny": false,
-        "outDir": "dist",
+        "pretty": true,
+        "removeComments": false,
+        "stripInternal": true,
         "rootDir": ".",
-        "sourceMap": true
+        "listFiles": true,
+        "sourceMap": true,
+        "inlineSources": true
     },
     "exclude": [
         ".git",
-        "dist",
+        "@ktn",
         "doc",
         "examples",
         "node",
-        "template",
+        ".template",
+        "**/spec",
         "node_modules",
         "**/node_modules",
         "tools"
-    ]
+    ],
+    "typedocOptions": {
+        "out": "doc",
+        "mode": "file",
+        "includeDeclarations": true,
+        "hideGenerator": false
+    }
 }

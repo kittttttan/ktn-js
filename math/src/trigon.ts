@@ -1,8 +1,9 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts"/>
 /**
  * Trigonometric function
  */
 'use strict';
+
+export type double = number;
 
 /**
  * Sin

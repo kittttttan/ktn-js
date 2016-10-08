@@ -1,8 +1,10 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 /**
  * Matrix
  */
 'use strict';
+
+export type int = number;
+export type double = number;
 
 // TODO:
 /**

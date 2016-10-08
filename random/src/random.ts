@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 /**
  * MT19937
  * @see ported from http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
@@ -9,6 +8,9 @@
  *   (r.real2() * 7 | 0) + 1; // 1 to 7
  */
 'use strict';
+
+export type int = number;
+export type double = number;
 
 /**
  * @private

@@ -1,3 +1,4 @@
+/// <reference path="../node_modules/@types/node/index.d.ts" />
 'use strict';
 
 import * as fs from 'fs';
@@ -5,7 +6,7 @@ import * as http from 'http';
 import * as https from 'https';
 import * as url from 'url';
 
-interface wgetOption {
+export interface wgetOption {
   filepath: string;
   callback: (Error) => any;
   method: any;
@@ -13,7 +14,8 @@ interface wgetOption {
 
 export default function wget(targetUrl: string, opt: wgetOption) {
   const target: url.Url = url.parse(targetUrl);
-  const req: http.ClientRequest = (/https/.test(target.protocol) ? https : http).request({
+  const protocol = (/https/.test(target.protocol) ? https : http);
+  const req: any = protocol.request({
     host: target.hostname,
     port: parseInt(target.port),
     path: `${target.pathname}${(target.search || '')}`,

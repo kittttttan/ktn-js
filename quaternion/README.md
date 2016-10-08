@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/quaternion.d.ts" />
 import Quaternion from '@ktn/quaternion';
 ```

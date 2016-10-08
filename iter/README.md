@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/iter.d.ts" />
 import Iter from '@ktn/iter';
 ```

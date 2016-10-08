@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/date.d.ts" />
 import DateUtil from '@ktn/date';
 ```

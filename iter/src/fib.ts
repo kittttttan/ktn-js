@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 /**
  * Fibonacci number
  *
@@ -7,6 +6,8 @@
  * Fn+2 = Fn + Fn-1 (n >= 0)
  */
 'use strict';
+
+export type int = number;
 
 /**
  * generate Fibonacci numbers

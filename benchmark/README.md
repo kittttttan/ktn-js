@@ -11,6 +11,5 @@ npm install
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/benchmark.d.ts" />
 import BenchMark from '@ktn/benchmark';
 ```

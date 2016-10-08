@@ -1,7 +1,7 @@
 {
-  "name": "@ktn/example",
+  "name": "@ktn/examples",
   "version": "0.0.1",
-  "description": "examples for ktn",
+  "description": "examples for @ktn",
   "license": "MIT",
   "author": {
     "name": "kittttttan",
@@ -13,46 +13,33 @@
     "url": "git://github.com/kittttttan/ktn-js.git"
   },
   "private": true,
+  "files": [
+    "README.md",
+    "package.json",
+    "index.js",
+    "index.map",
+    "index.d.ts",
+    "src/**/*.js",
+    "src/**/*.map",
+    "src/**/*.d.ts"
+  ],
   "scripts": {
-    "lint": "tslint -c tslint.json src/ts/*.ts> lint.log",
-    "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\"",
-    "clean": "rm -f app/*.map app/*.js lib/*.map lib/*.js",
-    "lite": "lite-server",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "typings": "typings",
-    "postinstall": "typings install"
-  },
-  "dependencies": {
-    "@angular/common": "",
-    "@angular/compiler": "",
-    "@angular/core": "",
-    "@angular/forms": "",
-    "@angular/http": "",
-    "@angular/platform-browser": "",
-    "@angular/platform-browser-dynamic": "",
-    "@angular/router": "",
-    "@angular/upgrade": "",
-
-    "core-js": "",
-    "reflect-metadata": "",
-    "rxjs": "",
-    "systemjs": "",
-    "zone.js": "",
-
-    "angular2-in-memory-web-api": "",
-    "bootstrap": "",
-
-    "@ktn/complex": "file:../complex",
-    "@ktn/rational": "file:../rational",
-    "@ktn/string": "file:../string",
-    "@ktn/math": "file:../math"
+    "start": "lite-server"
   },
   "devDependencies": {
-    "@ktn/type": "file:../type",
-    "concurrently": "",
-    "lite-server": "",
-    "typescript": "",
-    "typings":""
+    "jspm": "^0.16.46",
+    "jspm-local": "^1.0.2",
+    "lite-server": ""
+  },
+  "jspm": {
+    "dependencies": {
+      "integer": "local:integer@^0.0.1",
+      "jquery": "npm:jquery@^3.1.1"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
   }
 }

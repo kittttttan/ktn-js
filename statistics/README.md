@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/statistics.d.ts" />
 import StatUtil from '@ktn/statistics';
 ```

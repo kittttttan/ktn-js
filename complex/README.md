@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/complex.d.ts" />
 import Complex from '@ktn/complex';
 ```

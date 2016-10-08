@@ -19,6 +19,5 @@ npm test
 
 
 ```javascript
-/// <reference path="../node_modules/@ktn/type/typings/enc.d.ts" />
 import {Encode, Decode} from '@ktn/enc';
 ```

@@ -1,8 +1,9 @@
-/// <reference path="../node_modules/@ktn/type/typings/ktn.d.ts" />
 /**
  * convert CSV <-> JSON.
  */
 'use strict';
+
+type int = number;
 
 /**
  * @typedef {Object} ToJsonOpt

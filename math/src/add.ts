@@ -1,8 +1,9 @@
-/// <reference path="../node_modules/@ktn/type/typings/rational.d.ts"/>
 /**
  * Add
  */
 'use strict';
+
+type int = number;
 
  /**
   * @private

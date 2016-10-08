@@ -1,5 +1,4 @@
 
-/// <reference path="../node_modules/@ktn/type/typings/date.d.ts" />
 'use strict';
 
 import * as fs from 'fs';

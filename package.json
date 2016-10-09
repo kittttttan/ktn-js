@@ -16,7 +16,8 @@
   "scripts": {
     "doc": "typedoc index.ts",
     "clean": "rm -f @ktn",
-    "test": "tsc"
+    "tsc": "tsc",
+    "test": "echo no test"
   },
   "devDependencies": {
     "typescript": ""

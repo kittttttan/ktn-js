@@ -129,8 +129,8 @@ export default class BenchMark {
    * @method BenchMark.bm
    * @return {BenchMark}
    */
-  public static bm(): BenchMark {
-    return new BenchMark();
+  public static bm(opt?: {loop?: number, intime?: number}): BenchMark {
+    return new BenchMark(opt);
   }
 
   /**

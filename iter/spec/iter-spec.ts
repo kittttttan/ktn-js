@@ -1,4 +1,4 @@
-import Iter from '../src/iter';
+import {Iter} from '../src/iter';
 
 describe("Iter", ()=> {
 

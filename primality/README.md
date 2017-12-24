@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Primality from '@ktn/primality';
+import {Primality} from '@ktn/primality';
 ```

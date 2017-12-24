@@ -1,6 +1,6 @@
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * @private
@@ -18,7 +18,7 @@ const OPE_CHARAS: string = '+-*/^()';
  * @property {string} _src
  * @property {int} _index
  */
-export default class Scanner {
+export class Scanner {
   protected _src: string;
   protected _index: int;
 

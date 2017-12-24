@@ -3,7 +3,7 @@
  */
 'use strict';
 
-export type double = number;
+import {double} from '@ktn/type';
 
 /**
  * Sin
@@ -117,7 +117,7 @@ export class Tan {
  * Trigon
  * @class Trigon
  */
-export default class Trigon {
+export class Trigon {
   /**
    * @static
    * @param {?} a

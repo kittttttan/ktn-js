@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Quaternion from '@ktn/quaternion';
+import {Quaternion} from '@ktn/quaternion';
 ```

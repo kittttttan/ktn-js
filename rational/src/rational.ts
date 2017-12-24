@@ -3,13 +3,13 @@
  */
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * @private
  * @requires Integer
  */
-import Integer from '@ktn/integer';
+import {Integer} from '@ktn/integer';
 
 /**
  * Rational
@@ -18,7 +18,7 @@ import Integer from '@ktn/integer';
  * @property {!Integer} Rational#_n Numerator
  * @property {!Integer} Rational#_d Denominator
  */
-export default class Rational {
+export class Rational {
   protected _n: Integer;
   protected _d: Integer;
 

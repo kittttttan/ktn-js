@@ -1,3 +1,4 @@
+export * from './type/index';
 export * from './benchmark/index';
 export * from './complex/index';
 export * from './date/index';

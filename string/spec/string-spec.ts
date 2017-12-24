@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import StringUtil from '../src/string';
+import {StringUtil} from '../src/string';
 
 describe("StringUtil", ()=> {
 
@@ -33,11 +33,27 @@ describe("StringUtil", ()=> {
     expect(StringUtil.random(0)).toEqual('');
     expect(StringUtil.random(1, 0)).toEqual('');
 
-    //let s = StringUtil.random(0, StringUtil.Types.SIGN);
-    //expect(s).toEqual('');
+    let s = StringUtil.random(2, StringUtil.Types.LOWER);
+    expect(s).toMatch(/^[a-z]+$/);
 
-    //s = StringUtil.random(1, StringUtil.Types.UNDERSCORE);
-    //expect(s).toEqual('_');
+    s = StringUtil.random(3, StringUtil.Types.UPPER);
+    expect(s).toMatch(/^[A-Z]+$/);
+
+    s = StringUtil.random(4, StringUtil.Types.DIGITS);
+    expect(s).toMatch(/^[0-9]+$/);
+
+    s = StringUtil.random(1, StringUtil.Types.UNDERSCORE);
+    expect(s).toEqual('_');
+  });
+
+  it("reverse", ()=> {
+    expect(StringUtil.reverse('hello')).toEqual('olleh');
+    expect(StringUtil.reverse('てすと')).toEqual('とすて');
+  });
+
+  it("reverseLine", ()=> {
+    expect(StringUtil.reverseLine('h\ne\nl\nl\no')).toEqual('o\nl\nl\ne\nh');
+    expect(StringUtil.reverseLine('て\r\nす\r\nと', '\r\n')).toEqual('と\r\nす\r\nて');
   });
 
 });

@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/node_modules": true,
+			"**/*.d.ts": true,
+			"**/*.map": true,
+			"**/*.js": true
+		}
+	}
+}

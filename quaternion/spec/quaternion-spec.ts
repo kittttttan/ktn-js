@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Quaternion from '../src/quaternion';
+import {Quaternion} from '../src/quaternion';
 
 describe("Quaternion", ()=> {
 

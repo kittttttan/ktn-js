@@ -3,14 +3,13 @@
  */
 'use strict';
 
-export type int = number;
-export type double = number;
+import {int, double} from '@ktn/type';
 
 /**
  * Primality
  * @class Primality
  */
-export default class Primality {
+export class Primality {
   /**
    * @return {!Iterator}
    */
@@ -116,7 +115,7 @@ export default class Primality {
   }
 
   /**
-   * Miller–Rabin primality test
+   * Miller-Rabin primality test
    * @param {!int} n
    * @return {!boolean} true if probably prime
    */

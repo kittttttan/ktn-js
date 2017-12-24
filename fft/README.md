@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Fft from '@ktn/fft';
+import {Fft} from '@ktn/fft';
 ```

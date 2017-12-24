@@ -1,9 +1,7 @@
 'use strict';
 
-export type int = number;
-export type double = number;
-
-import Complex from '@ktn/complex';
+import {int, double} from '@ktn/type';
+import {Complex} from '@ktn/complex';
 
 /**
  * @private
@@ -37,7 +35,7 @@ const PI2: number = -2 * PI;
  * Fft
  * @class Fft
  */
-export default class Fft {
+export class Fft {
   /**
    * convert Array<number> to Array<Complex>.
    * @param {!Array<!double>} x

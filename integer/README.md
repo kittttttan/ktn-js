@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Integer from '@ktn/integer';
+import {Integer} from '@ktn/integer';
 ```

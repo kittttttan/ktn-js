@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Complex from '../src/complex';
+import {Complex} from '../src/complex';
 
 describe("Complex", ()=> {
   

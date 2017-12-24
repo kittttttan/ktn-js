@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import DateUtil from '@ktn/date';
+import {DateUtil} from '@ktn/date';
 ```

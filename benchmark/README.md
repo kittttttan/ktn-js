@@ -11,5 +11,5 @@ npm install
 
 
 ```javascript
-import BenchMark from '@ktn/benchmark';
+import {BenchMark} from '@ktn/benchmark';
 ```

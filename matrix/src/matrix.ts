@@ -3,8 +3,7 @@
  */
 'use strict';
 
-export type int = number;
-export type double = number;
+import {int, double} from '@ktn/type';
 
 // TODO:
 /**
@@ -47,7 +46,7 @@ const neg: (a: number) => number = (a: number): number => -a;
  * @property {int} _n cols
  * @property {Array<Array<?>>} _mn
  */
-export default class Matrix {
+export class Matrix {
   protected _m: int;
   protected _n: int;
   public _mn: number[][];

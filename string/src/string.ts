@@ -1,42 +1,11 @@
 'use strict';
 
-export type int = number;
-
-/**
- * @private
- */
-export class Types {
-  static get LOWER(): number { return 0x01; }
-  static get UPPER(): number { return 0x02; }
-  static get DIGITS(): number { return 0x04; }
-  static get UNDERSCORE(): number { return 0x08; }
-  static get SIGN(): number { return 0x10; }
-}
-
-/**
- * @private
- */
-export class Reg {
-  static get URI(): RegExp { return /\w+:\/\/[\w\-.\/?%&=:@;]*/g; }
-  static get XMLTag(): RegExp { return /<\/?\w+[^>]*>/g; }
-  static get CComment(): RegExp { return /\/\*[\s\S]*?\*\//gm; }
-  static get LineComment(): RegExp { return /\/\/.*$/gm; }
-  static get DoubleQuote(): RegExp { return /"([^\\"\n]|\\.)*"/g; }
-}
+import {int} from '@ktn/type';
 
 /**
  * @class StringUtil
  */
-export default class StringUtil {
-  /**
-   * @return {Types}
-   */
-  static get Types(): Types { return Types; }
-  /**
-   * @return {Reg}
-   */
-  static get Reg(): Reg { return Reg; }
-
+export class StringUtil {
   /**
    * sprintf
    *
@@ -250,21 +219,21 @@ export default class StringUtil {
    * @param {int=} optFilter
    * @return {!string}
    */
-  public static random(len: int, optFilter: int = Types.LOWER | Types.UPPER | Types.DIGITS): string {
+  public static random(len: int, optFilter: int = StringUtil.Types.LOWER | StringUtil.Types.UPPER | StringUtil.Types.DIGITS): string {
     let letter: string = '';
-    if (optFilter & Types.LOWER) {
+    if (optFilter & StringUtil.Types.LOWER) {
       letter += 'abcdefghijklmnopqrstuvwxyz';
     }
-    if (optFilter & Types.UPPER) {
+    if (optFilter & StringUtil.Types.UPPER) {
       letter += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     }
-    if (optFilter & Types.DIGITS) {
+    if (optFilter & StringUtil.Types.DIGITS) {
       letter += '0123456789';
     }
-    if (optFilter & Types.UNDERSCORE) {
+    if (optFilter & StringUtil.Types.UNDERSCORE) {
       letter += '_';
     }
-    if (optFilter & Types.SIGN) {
+    if (optFilter & StringUtil.Types.SIGN) {
       letter += '!\"#$%&\'()=~|-^@[;:],./`{+*}>?';
     }
 
@@ -275,5 +244,45 @@ export default class StringUtil {
       str += letter.charAt(rnd() * range | 0);
     }
     return str;
+  }
+
+  /**
+   * @param {!string} s
+   * @return {!string}
+   */
+  public static reverse(s: string): string {
+    let r: string = '';
+    for (let i = s.length - 1; i >= 0; i--) {
+      r += s[i];
+    }
+
+    return r;
+  }
+
+  /**
+   * @param {!string} s
+   * @param {string=} br
+   * @return {!string}
+   */
+  public static reverseLine(s: string, br: string = '\n'): string {
+    return s.split(br).reverse().join(br);
+  }
+}
+
+export namespace StringUtil {
+  export enum Types {
+    LOWER = 1 << 0,
+    UPPER = 1 << 1,
+    DIGITS = 1 << 2,
+    UNDERSCORE = 1 << 3,
+    SIGN = 1 << 4,
+  }
+  
+  export class Reg {
+    static get URI(): RegExp { return /\w+:\/\/[\w\-.\/?%&=:@;]*/g; }
+    static get XMLTag(): RegExp { return /<\/?\w+[^>]*>/g; }
+    static get CComment(): RegExp { return /\/\*[\s\S]*?\*\//gm; }
+    static get LineComment(): RegExp { return /\/\/.*$/gm; }
+    static get DoubleQuote(): RegExp { return /"([^\\"\n]|\\.)*"/g; }
   }
 }

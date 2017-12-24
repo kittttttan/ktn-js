@@ -1,6 +1,6 @@
 'use strict';
 
-export type double = number;
+import {double} from '@ktn/type';
 
 /**
  * @private
@@ -17,7 +17,7 @@ const _sqrt: (x: number) => number = Math.sqrt;
  * @property {!double} Vector#y
  * @property {!double} Vector#z
  */
-export default class Vector {
+export class Vector {
   public x: double;
   public y: double;
   public z: double;

@@ -12,9 +12,9 @@ export interface wgetOption {
   method: any;
 }
 
-export default function wget(targetUrl: string, opt: wgetOption) {
+export function wget(targetUrl: string, opt: wgetOption) {
   const target: url.Url = url.parse(targetUrl);
-  const protocol = (/https/.test(target.protocol) ? https : http);
+  const protocol: any = (/https/.test(target.protocol) ? https : http);
   const req: any = protocol.request({
     host: target.hostname,
     port: parseInt(target.port),

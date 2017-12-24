@@ -1,6 +1,6 @@
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * @private
@@ -93,7 +93,7 @@ export class Unit {
  * @property {int} BenchMark#_loop
  * @property {int} BenchMark#_intime
  */
-export default class BenchMark {
+export class BenchMark {
   protected _items: Unit[];
   protected _loop: int;
   protected _intime: int;

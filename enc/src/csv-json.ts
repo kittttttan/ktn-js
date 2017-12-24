@@ -3,7 +3,7 @@
  */
 'use strict';
 
-type int = number;
+import {int} from '@ktn/type';
 
 /**
  * @typedef {Object} ToJsonOpt

@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Random from '@ktn/random';
+import {Random} from '@ktn/random';
 ```

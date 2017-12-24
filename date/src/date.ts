@@ -1,12 +1,12 @@
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * DateUtil
  * @class DateUtil
  */
-export default class DateUtil {
+export class DateUtil {
   /**
    * @method DateUtil.isLeapYear
    * @param {int} y year

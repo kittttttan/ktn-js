@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import StatUtil from '@ktn/statistics';
+import {StatUtil} from '@ktn/statistics';
 ```

@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import DateUtil from '../src/date';
+import {DateUtil} from '../src/date';
 
 describe("DateUtil", ()=> {
 

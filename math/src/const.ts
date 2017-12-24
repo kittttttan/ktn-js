@@ -15,7 +15,7 @@ export interface ConstItem {
  * Const
  * @class Const
  */
-export default class Const {
+export class Const {
   /**
    * @static
    * @type {ConstItem}

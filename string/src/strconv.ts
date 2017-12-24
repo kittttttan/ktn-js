@@ -1,12 +1,12 @@
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * StringConverter
  * @class StringConverter
  */
-export default class StringConverter {
+export class StringConverter {
   /**
    * @method StringConverter.toZenkaku
    * @param {string} str

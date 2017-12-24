@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Iter from '@ktn/iter';
+import {Iter} from '@ktn/iter';
 ```

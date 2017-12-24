@@ -1,8 +1,8 @@
 'use strict';
 
-export type double = number;
+import {double} from '@ktn/type';
 
-export default class Iter {
+export class Iter {
   /**
    * range like python3
    * @param {double} start

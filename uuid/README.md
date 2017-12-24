@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Uuid from '@ktn/uuid';
+import {Uuid} from '@ktn/uuid';
 ```

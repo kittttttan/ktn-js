@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Matrix from '@ktn/matrix';
+import {Matrix} from '@ktn/matrix';
 ```

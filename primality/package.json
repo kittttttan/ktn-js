@@ -34,6 +34,9 @@
     "test": "istanbul cover node_modules/jasmine/bin/jasmine.js",
     "posttest": "cd coverage && remap-istanbul -i coverage.json -o html-report -t html"
   },
+  "dependencies": {
+    "@ktn/type": "file:../type"
+  },
   "devDependencies": {
     "@types/jasmine": "",
     "jasmine": "",

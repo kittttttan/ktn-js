@@ -1,4 +1,4 @@
-import Fibonacci from '../src/fib';
+import {Fibonacci} from '../src/fib';
 
 describe("Fibonacci", ()=> {
   const expects = [

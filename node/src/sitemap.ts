@@ -2,7 +2,7 @@
 'use strict';
 
 import * as fs from 'fs';
-import DateUtil from '@ktn/date';
+import {DateUtil} from '@ktn/date';
 
 const dateFormat = DateUtil.format;
 const domain = 'https://kittttttan.info';

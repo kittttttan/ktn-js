@@ -7,7 +7,7 @@
  */
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * generate Fibonacci numbers
@@ -46,7 +46,7 @@ function mmul(a: int[], b: int[]): int[] {
  * Fibonacci
  * @class Fibonacci
  */
-export default class Fibonacci {
+export class Fibonacci {
   /**
    * nth Fibonacci number
    * @param {!int} n

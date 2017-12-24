@@ -1,6 +1,6 @@
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * @private
@@ -22,7 +22,7 @@ const rnd: () => number = Math.random;
  * @property {int} Uuid#_clockSeq 0x3FFF000000000000
  * @property {int} Uuid#_node     0x0000FFFFFFFFFFFF
  */
-export default class Uuid {
+export class Uuid {
   protected _timeLow: int;
   protected _timeMid: int;
   protected _version: int;

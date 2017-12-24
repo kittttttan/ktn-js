@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts"/>
-import MathExpression from '../src/math-expression';
+import {MathExpression} from '../src/math-expression';
 
 describe("MathExpression", ()=> {
   it("+", ()=> {

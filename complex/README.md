@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Complex from '@ktn/complex';
+import {Complex} from '@ktn/complex';
 ```

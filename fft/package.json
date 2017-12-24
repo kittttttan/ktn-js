@@ -35,6 +35,7 @@
     "posttest": "cd coverage && remap-istanbul -i coverage.json -o html-report -t html"
   },
   "dependencies": {
+    "@ktn/type": "file:../type",
     "@ktn/complex": "file:../complex"
   },
   "devDependencies": {

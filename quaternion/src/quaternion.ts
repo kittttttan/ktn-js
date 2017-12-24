@@ -1,6 +1,6 @@
 'use strict';
 
-export type double = number;
+import {double} from '@ktn/type';
 
 /**
  * @private
@@ -30,7 +30,7 @@ const _sin: (x: number) => number = Math.sin;
  * @property {double} Quaternion#y
  * @property {double} Quaternion#z
  */
-export default class Quaternion {
+export class Quaternion {
   public w: double;
   public x: double;
   public y: double;

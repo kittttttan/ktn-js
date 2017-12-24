@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Vector from '@ktn/vector';
+import {Vector} from '@ktn/vector';
 ```

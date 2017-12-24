@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Vector from '../src/vector';
+import {Vector} from '../src/vector';
 
 describe("Vector", ()=> {
 

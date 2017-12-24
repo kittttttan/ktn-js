@@ -1,6 +1,6 @@
 'use strict';
 
-export type double = number;
+import {double} from '@ktn/type';
 
 /**
  * Complex
@@ -8,7 +8,7 @@ export type double = number;
  * @property {!double} Complex#_r
  * @property {!double} Complex#_i
  */
-export default class Complex {
+export class Complex {
   protected _r: double;
   protected _i: double;
 

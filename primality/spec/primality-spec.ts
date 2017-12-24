@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Primality from '../src/primality';
+import {Primality} from '../src/primality';
 
 describe("Primality", ()=> {
   const expects = [

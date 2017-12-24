@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import MathExpression from '@ktn/math';
+import {MathExpression} from '@ktn/math';
 ```

@@ -1,6 +1,6 @@
 'use strict';
 
-import wget from './wget';
+import {wget} from './wget';
 
 const argv: string[] = process.argv;
 const argc: number = argv.length;

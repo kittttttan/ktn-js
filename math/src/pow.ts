@@ -7,7 +7,7 @@
  * @private
  * @requires Rational
  */
-import Rational from '@ktn/rational';
+import {Rational} from '@ktn/rational';
 
 /**
  * Pow
@@ -15,7 +15,7 @@ import Rational from '@ktn/rational';
  * @property {?} _a
  * @property {?} _p
  */
-export default class Pow {
+export class Pow {
   protected _a: any;
   protected _p: any;
 

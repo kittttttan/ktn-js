@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Integer from '../src/integer';
+import {Integer} from '../src/integer';
 
 describe("Integer", ()=> {
   it("zero", ()=> {

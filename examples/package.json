@@ -33,7 +33,7 @@
   },
   "jspm": {
     "dependencies": {
-      "integer": "local:integer@^0.0.1",
+      "@ktn/integer": "local:@ktn/integer@^0.0.1",
       "jquery": "npm:jquery@^3.1.1"
     },
     "devDependencies": {

@@ -3,10 +3,9 @@
  */
 'use strict';
 
-export type int = number;
-export type double = number;
+import {int, double} from '@ktn/type';
 
-export default class StatUtil {
+export class StatUtil {
   /**
    * factorial
    * @param {int} a

@@ -1,6 +1,6 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Complex from '@ktn/complex';
-import Fft from '../src/fft';
+import {Complex} from '@ktn/complex';
+import {Fft} from '../src/fft';
 
 describe("Fft", ()=> {
 

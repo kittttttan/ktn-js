@@ -3,20 +3,20 @@
  */
 'use strict';
 
-type int = number;
+import {int} from '@ktn/type';
 
  /**
   * @private
   * @requires Rational
   */
-import Rational from '@ktn/rational';
+import {Rational} from '@ktn/rational';
 
 /**
  * Add
  * @class Add
  * @property {Array<?>} _items
  */
-export default class Add {
+export class Add {
   protected _items: any[];
 
   /**

@@ -1,6 +1,6 @@
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 export interface Ast {
   type: string;
@@ -58,7 +58,7 @@ function func(name: string, a: Ast): Ast {
  * @property {Array<string>} _tokens
  * @property {int} _index
  */
-export default class Parser {
+export class Parser {
   protected _tokens: string[];
   protected _index: int;
 

@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Uuid from '../src/uuid';
+import {Uuid} from '../src/uuid';
 
 describe("uuid", ()=> {
 

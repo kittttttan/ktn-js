@@ -3,7 +3,7 @@
  */
 'use strict';
 
-export type int = number;
+import {int} from '@ktn/type';
 
 /**
  * @private
@@ -31,7 +31,7 @@ const _MASK: int = _BASE - 1;
  * @property {boolean} Integer#_s Sign +, -. `false` means -.
  * @property {int} Integer#_l Length of digits
  */
-export default class Integer {
+export class Integer {
   protected _d: Uint32Array;
   protected _s: boolean;
   protected _l: int;

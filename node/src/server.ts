@@ -50,13 +50,13 @@ function logging(str: string): void {
  * @param res
  * @param query
  */
-function proc(req: http.IncomingMessage, res: http.ServerResponse, query: string): void {
+function proc(req: http.IncomingMessage, res: http.ServerResponse, query: any): void {
   const reqUrl: url.Url = url.parse(req.url);
   let statusCode: number = 500;
   let body: string = '';
   let pathname: string = reqUrl.pathname;
 
-  if (!query) { query = qs.parse(reqUrl.query); }
+  if (!query) { query = qs.parse(<any>(reqUrl.query)); }
 
   if (!pathname || pathname === '/') {
     pathname = DEFAULT_PATH;

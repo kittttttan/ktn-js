@@ -7,14 +7,14 @@
  * @private
  * @requires Rational
  */
-import Rational from '@ktn/rational';
+import {Rational} from '@ktn/rational';
 
 /**
  * Div
  * @class Div
  * @property {Array<?>} _items
  */
-export default class Div {
+export class Div {
   protected _items: any[];
 
   /**

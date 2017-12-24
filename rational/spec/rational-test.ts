@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import Rational from '../src/rational';
+import {Rational} from '../src/rational';
 
 describe("Rational", ()=> {
   it("zero is 0", ()=> {

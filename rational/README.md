@@ -19,5 +19,5 @@ npm test
 
 
 ```javascript
-import Rational from '@ktn/rational';
+import {Rational} from '@ktn/rational';
 ```

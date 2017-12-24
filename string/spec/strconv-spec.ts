@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
-import StringConverter from '../src/strconv';
+import {StringConverter} from '../src/strconv';
 
 describe("StringConverter", ()=> {
 

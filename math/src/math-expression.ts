@@ -4,44 +4,44 @@
  * @private
  * @requires Tokenizer
  */
-import Tokenizer from './tokenizer';
+import {Tokenizer} from './tokenizer';
 
 /**
  * @private
  * @requires Tokenizer
  */
-import Parser, {Ast} from './parser';
+import {Parser, Ast} from './parser';
 
 /**
  * @private
  * @requires Add
  */
-import Add from './add';
+import {Add} from './add';
 /**
  * @private
  * @requires Mul
  */
-import Mul from './mul';
+import {Mul} from './mul';
 /**
  * @private
  * @requires Div
  */
-import Div from './div';
+import {Div} from './div';
 /**
  * @private
  * @requires Pow
  */
-import Pow from './pow';
+import {Pow} from './pow';
 /**
  * @private
  * @requires Trigon
  */
-import Trigon, {Sin, Cos, Tan} from './trigon';
+import {Trigon, Sin, Cos, Tan} from './trigon';
 /**
  * @private
  * @requires Const
  */
-//import Const from './const';
+//import {Const} from './const';
 
 /**
  * @private
@@ -93,7 +93,7 @@ const tan: (a: any) => Tan = Trigon.tan;
  * @property {Tokenizer} _t
  * @property {Parser} _p
  */
-export default class MathExpression {
+export class MathExpression {
   protected _ast: Ast|null;
   protected _tokens: string[];
   protected _p: Parser|null;

@@ -1,4 +1,4 @@
-import BenchMark from './benchmark';
+import {BenchMark} from './benchmark';
 
 function tarai(x, y, z) {
   if (x <= y) { return y; }

@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "@ktn",
-        "target": "es6",
+        "target": "ES2020",
         "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -18,15 +17,8 @@
     },
     "exclude": [
         ".git",
-        "@ktn",
-        "doc",
-        "examples",
         "node",
-        ".template",
-        "**/spec",
-        "node_modules",
-        "**/node_modules",
-        "tools"
+        "**/node_modules"
     ],
     "typedocOptions": {
         "out": "doc",

@@ -2,7 +2,4 @@
 *.ts
 *.map
 .git/
-.template/
-doc/
-tools/
 node_modules/

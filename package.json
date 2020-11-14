@@ -1,6 +1,6 @@
 {
   "name": "ktn-js",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "JavaScript laboratory.",
   "license": "MIT",
   "author": {
@@ -14,12 +14,21 @@
   },
   "private": true,
   "scripts": {
-    "doc": "typedoc index.ts",
-    "clean": "rm -f @ktn",
+    "clean": "rm -f *.js *.js.map *.d.ts src/*.js src/*.js.map src/*.d.ts spec/*.js spec/*.js.map spec/*.d.ts",
+    "cleanw": "del *.js *.js.map *.d.ts src\\*.js src\\*.js.map src\\*.d.ts spec\\*.js spec\\*.js.map spec\\*.d.ts",
+    "lint": "eslint src/**/*.ts",
     "tsc": "tsc",
-    "test": "echo no test"
+    "pretest": "tsc",
+    "test": "jasmine",
+    "posttest": ""
   },
   "devDependencies": {
-    "typescript": ""
-  }
+    "@types/jasmine": "",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "eslint": "^7.13.0",
+    "jasmine": "",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {}
 }

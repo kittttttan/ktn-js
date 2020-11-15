@@ -19,9 +19,7 @@
     "index.js",
     "src/**/*.js"
   ],
-  "scripts": {
-    
-  },
+  "scripts": {},
   "dependencies": {
     "ktn": "file:../"
   }

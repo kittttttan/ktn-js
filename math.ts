@@ -1,3 +1,4 @@
+export * from './src/math/bmath';
 export * from './src/math/complex';
 export * from './src/math/expression/math-expression';
 export * from './src/math/fft';

@@ -6,11 +6,14 @@ export class BMath {
   }
 
   public static gcd(a: bigint, b: bigint): bigint {
-    if (a <= 0n) {
-      throw new RangeError('a <= 0');
+    if (a < 0n) {
+      throw new RangeError('a < 0');
     }
-    if (b <= 0n) {
-      throw new RangeError('b <= 0');
+    if (b < 0n) {
+      throw new RangeError('b < 0');
+    }
+    if (a == 0n && b == 0n) {
+      throw new RangeError('a = 0 and b = 0');
     }
 
     function impl(a: bigint, b: bigint): bigint {
@@ -83,5 +86,24 @@ export class BMath {
     const s = a.toString();
     const order = s.length;
     return order * Math.log2(10) + Math.log2(parseFloat('0.' + s));
+  }
+
+  public static rho(n: bigint, r: bigint): bigint {
+    function rand(x: bigint, n: bigint, c: bigint): bigint {
+      return (x * x + c) % n;
+    }
+
+    let x = 2n;
+    let y = 2n;
+    let d = 1n;
+    let i = 0;
+    while (d == 1n) {
+      x = rand(x, n, r);
+      y = rand(rand(y, n, r), n, r);
+      d = BMath.gcd(BMath.abs(x - y), n);
+      if (++i > 1e4) { throw new Error('loop limit'); };
+    }
+    if (d == n) { return 0n; }
+    return d;
   }
 }

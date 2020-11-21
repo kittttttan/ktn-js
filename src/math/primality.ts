@@ -4,6 +4,7 @@
 'use strict';
 
 import {BMath} from './bmath';
+import {BitArray} from '../utils/bitarray';
 
 /**
  * Primality
@@ -72,8 +73,9 @@ export class Primality {
    * @param {number} n
    * @return {Iterator}
    */
-  public static sieveMax(n: number): IterableIterator<number> {
+  public static sieveMax_(n: number): IterableIterator<number> {
     return function *(): IterableIterator<number> {
+      if (n < 2) { return; }
       const s: boolean[] = [false, false];
       const sqrtn: number = Math.sqrt(n) | 0;
       for (let i = 2; i < n + 1; ++i) {
@@ -92,6 +94,58 @@ export class Primality {
         }
       }
     }();
+  }
+
+  /**
+   * @param {number} n
+   * @return {Iterator}
+   */
+  public static sieveMax(n: number): IterableIterator<number> {
+    return function *(): IterableIterator<number> {
+      if (n < 2) { return; }
+      const s: BitArray = new BitArray(n);
+      // s.set(0, false);
+      // s.set(1, false);
+      const sqrtn: number = Math.sqrt(n) | 0;
+      for (let i = 2; i < n + 1; ++i) {
+        s.set(i, true);
+      }
+      for (let i = 2; i < sqrtn + 1; ++i) {
+        if (s.get(i)) {
+          for (let j: number = i * i; j < n + 1; j += i) {
+            s.set(j, false);
+          }
+        }
+      }
+      for (let i = 0; i < n + 1; ++i) {
+        if (s.get(i)) {
+          yield i;
+        }
+      }
+    }();
+  }
+
+  public static factorization(n: number): number[] {
+    const fs = [];
+    // console.log(`factorization(${n})`);
+    if (n < 1) {
+      throw new RangeError('n < 1');
+    }
+    const sq = (Math.ceil(Math.sqrt(n)) | 0);
+    // console.log(`sq = ${sq}`);
+    let x = n;
+    const ps = Primality.sieveMax(sq);
+    for (const p of ps) {
+      // console.log(`p = ${p}`);
+      while (!(x % p)) {
+        fs.push(p);
+        x /= p;
+      }
+      if (x === 1) {
+        break;
+      }
+    }
+    return fs;
   }
 
   /**

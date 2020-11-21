@@ -16,3 +16,14 @@ timeit.timeit(() => {
         console.log(m.toString(), math.Primality.bmrpt(m));
     }
 });
+
+timeit.timeit(() => {
+    console.log('ρ(ロー)法');
+    const n = (1n << (1n << 6n)) + 1n;
+    const max = BigInt(Number.MAX_SAFE_INTEGER) > n - 2n ?
+        Number(n - 2n) : Number.MAX_SAFE_INTEGER;
+    for (let i = 0; i < 3; i++) {
+        const r = BigInt((Math.random() * max | 0) + 1);
+        console.log(`${math.BMath.rho(n, r)} | ${n.toString()}`);
+    }
+});

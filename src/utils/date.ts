@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * DateUtil
  * @class DateUtil

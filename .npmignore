@@ -2,4 +2,5 @@
 *.ts
 *.map
 .git/
+coverage/
 node_modules/

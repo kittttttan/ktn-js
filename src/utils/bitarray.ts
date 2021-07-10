@@ -1,5 +1,3 @@
-'use strict';
-
 export class BitArray {
   protected static BIT = 5;
 

@@ -1,7 +1,6 @@
 /**
  * Generate Prime Number List in JavaScript
  */
-'use strict';
 
 import {BMath} from './bmath';
 import {BitArray} from '../utils/bitarray';
@@ -126,7 +125,7 @@ export class Primality {
   }
 
   public static factorization(n: number): number[] {
-    const fs = [];
+    const fs: number[] = [];
     // console.log(`factorization(${n})`);
     if (n < 1) {
       throw new RangeError('n < 1');

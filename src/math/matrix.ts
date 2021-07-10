@@ -1,7 +1,6 @@
 /**
  * Matrix
  */
-'use strict';
 
 // TODO:
 /**
@@ -186,7 +185,7 @@ export class Matrix {
     arr = arr || [0];
 
     let l: number = arr.length;
-    if (!(l & 1)) { return undefined; }
+    if (!(l & 1)) { throw new Error('Invalid array length'); }
     l = (l + 1) >>> 1;
     const m: Matrix = new Matrix(l, l);
     const mm: number[][] = m._mn;
@@ -219,7 +218,7 @@ export class Matrix {
    * @return {Matrix}
    */
   public static aug(a: Matrix, b: Matrix): Matrix {
-    if (a._m !== b._m) { return undefined; }
+    if (a._m !== b._m) { throw new Error('Invalid operation'); }
     a = a.clone();
     const am: number[][] = a._mn;
     const bm: number[][] = b._mn;
@@ -314,7 +313,7 @@ export class Matrix {
    */
   public add(n: Matrix): Matrix {
     const m: Matrix = this;
-    if (m._m !== n._m || m._n !== n._n) { return undefined; }
+    if (m._m !== n._m || m._n !== n._n) { throw new Error('Invalid operation'); }
     const mxx: Matrix = m.clone();
     const mxm: number[][] = mxx._mn;
     const mm: number[][] = m._mn;
@@ -333,7 +332,7 @@ export class Matrix {
    */
   public sub(n: Matrix): Matrix {
     const m: Matrix = this;
-    if (m._m !== n._m || m._n !== n._n) { return undefined; }
+    if (m._m !== n._m || m._n !== n._n) { throw new Error('Invalid operation'); }
     const mxx: Matrix = m.clone();
     const mxm: number[][] = mxx._mn;
     const mm: number[][] = m._mn;
@@ -404,7 +403,7 @@ export class Matrix {
    */
   public det(): number {
     const m: Matrix = this;
-    if (m._m !== m._n) { return undefined; }
+    if (m._m !== m._n) { throw new Error('Invalid operation'); }
     const mxx: Matrix = this.clone();
     const mm: number[][] = mxx._mn;
     let d = 0;
@@ -439,14 +438,14 @@ export class Matrix {
    */
   public inv(): Matrix {
     const mxx: Matrix = this;
-    if (mxx._m !== mxx._n) { return undefined; }
+    if (mxx._m !== mxx._n) { throw new Error('Invalid operation'); }
 
     const m: Matrix = Matrix.aug(mxx, Matrix.E(mxx._m));
     const mm: number[][] = m._mn;
     for (let y = 0; y < m._m - 1; y++) {
       let x: number = y;
       while (!mm[x][y] && x < m._m - 1) { x += 1; }
-      if (x === m._m - 1 && !mm[x][y]) { return undefined; }
+      if (x === m._m - 1 && !mm[x][y]) { throw new Error('Invalid operation'); }
 
       if (x !== y) {
         const tmp: number[] = mm[y];

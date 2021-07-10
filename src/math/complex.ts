@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Complex
  * @class Complex

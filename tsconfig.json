@@ -1,29 +1,26 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
-        "module": "commonjs",
+        "rootDir": "src",
+        "target": "es2020",
+        "module": "CommonJS",
+        "lib": [
+            "es2020"
+        ],
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "declaration": true,
         "allowJs": false,
+        "allowSyntheticDefaultImports": true,
         "noImplicitAny": false,
         "pretty": true,
         "removeComments": false,
         "stripInternal": true,
-        "rootDir": ".",
         "listFiles": true,
+        "strict": true,
         "sourceMap": true,
         "inlineSources": true
     },
-    "exclude": [
-        ".git",
-        "node",
-        "**/node_modules"
-    ],
-    "typedocOptions": {
-        "out": "doc",
-        "mode": "file",
-        "includeDeclarations": true,
-        "hideGenerator": false
-    }
+    "include": [
+        "src/**/*"
+    ]
 }

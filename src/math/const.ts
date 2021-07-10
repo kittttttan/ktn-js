@@ -1,7 +1,6 @@
 /**
  * Constant
  */
-'use strict';
 
 /**
  * @typedef {Object} ConstItem

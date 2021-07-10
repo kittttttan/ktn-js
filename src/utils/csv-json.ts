@@ -1,7 +1,6 @@
 /**
  * convert CSV <-> JSON.
  */
-'use strict';
 
 /**
  * @typedef {Record<string, number|string>} ToJsonOpt
@@ -33,13 +32,13 @@ export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): str
 
   const colLength: number = column.length;
   const lines: string[] = s.split(/[\r\n]+/);
-  let json: unknown = {};
-  const items: unknown[] = [];
+  let json: {} = {};
+  const items: {}[] = [];
   for (const line of lines) {
     if (!line) {
       continue;
     }
-    const item: unknown = {};
+    const item: {} = {};
     const words: string[] = line.split(sep);
     for (let i = 0; i < colLength; ++i) {
       if (!column[i]) {
@@ -47,7 +46,7 @@ export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): str
       }
 
       let word: any = words[i];
-      let leaf: unknown = item;
+      let leaf: {} = item;
       let doParseInt = false;
       let doParseFloat = false;
       const clTypeArr: string[] = column[i].split(':');

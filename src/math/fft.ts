@@ -1,5 +1,3 @@
-'use strict';
-
 import {Complex} from './complex';
 
 /**

@@ -1,10 +1,8 @@
-*.js
 *.map
 *.d.ts
 *.bundle.js
 *.min.js
 *.log
 
+coverage/
 node_modules/
-
-!node/**/*.js

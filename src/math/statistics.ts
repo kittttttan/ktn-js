@@ -1,8 +1,6 @@
 /**
  * statistics
  */
-'use strict';
-
 export class StatUtil {
   /**
    * factorial

@@ -1,7 +1,6 @@
 /**
  * Rational
  */
-'use strict';
 
 import {BMath} from './bmath';
 

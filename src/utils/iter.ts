@@ -1,5 +1,3 @@
-'use strict';
-
 export class Iter {
   /**
    * range like python3
@@ -55,7 +53,7 @@ export class Iter {
       const iters: Iterator<any>[] = iterables.map((i: Iterable<any>): Iterator<any> => i[Symbol.iterator]());
       while (true) {
         const entries: IteratorResult<any>[] = iters.map((i: Iterator<any>): any => i.next());
-        const done: boolean = entries.some((entry: IteratorResult<any>): boolean => entry.done);
+        const done: boolean = entries.some((entry: IteratorResult<any>): boolean => !!entry.done);
         if (done) {
           break;
         }

@@ -1,5 +1,3 @@
-'use strict';
-
 export class BMath {
   public static abs(a: bigint): bigint {
     return a < 0n ? -a : a;

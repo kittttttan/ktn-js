@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>web worker</title>
+</head>
+<body>
+    <h1>Ktn</h1>
+    <nav><a href="/">index</a></nav>
+    <h2>WebWorker</h2>
+    <input type="number" id="n" placeholder="1000" value="9007199254740991">
+    <button id="b" disabled>calc</button>
+    <div id="o"></div>
+    <script>
+(function(W) {
+    const $ = a => document.getElementById(a);
+    const $n = $('n');
+    const $o = $('o');
+    const $b = $('b');
+
+    let start = 0;
+    const myWorker = new Worker('js/webworker.js');
+    myWorker.onmessage = (e) => {
+        console.log(e);
+        if (e.data.type == 'ready') {
+            console.log('ready');
+            $b.disabled = false;
+            return;
+        }
+
+        if (e.data.type == 'factors') {
+            const end = performance.now();
+            const arr = e.data.value;
+            $o.innerText = `${e.data.arg} = ${format(arr)} (${end - start}ms)`;
+            $b.disabled = false;
+            return;
+        }
+
+        console.warn(`invalid type: ${e.data.type}`);
+        // myWorker.terminate();
+    };
+    myWorker.onerror = (e) => {
+        console.error(e);
+    };
+
+    W.addEventListener('load', () => {
+        $b.onclick = () => {
+            $b.disabled = true;
+            $o.innerText = 'running...';
+            const n = +$n.value;
+            console.log('post', n);
+            start = performance.now();
+            myWorker.postMessage(n);
+        };
+    }, true);
+
+    const format = (a) => {
+        let s = '';
+        let isFirst = true;
+        for (const pe of a) {
+            if (isFirst) {
+                isFirst = false;
+            } else {
+                s += '*';
+            }
+            s += `${pe[0]}`;
+            if (pe[1] > 1) {
+                s += `^${pe[1]}`;
+            }
+        }
+        return s;
+    };
+}(window))
+    </script>
+</body>
+</html>

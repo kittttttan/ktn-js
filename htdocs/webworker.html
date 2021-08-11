@@ -15,10 +15,10 @@
     <div id="o"></div>
     <script>
 (function(W) {
-    const $ = a => document.getElementById(a);
-    const $n = $('n');
-    const $o = $('o');
-    const $b = $('b');
+    const $ = a => document.querySelector(a);
+    const $n = $('#n');
+    const $o = $('#o');
+    const $b = $('#b');
 
     let start = 0;
     const myWorker = new Worker('js/webworker.js');

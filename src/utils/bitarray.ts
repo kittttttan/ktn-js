@@ -11,8 +11,8 @@ export class BitArray {
   }
 
   /**
-   * @param {number} i
-   * @return {boolean}
+   * @param i
+   * @return
    */
   public get(i: number): boolean {
     const arrayIndex = i >> BitArray.BIT;
@@ -22,9 +22,9 @@ export class BitArray {
   }
 
   /**
-   * @param {number} i
-   * @param {boolean} v
-   * @return {boolean}
+   * @param i
+   * @param v
+   * @return
    */
   public set(i: number, v: boolean) {
     const arrayIndex = i >> BitArray.BIT;
@@ -38,7 +38,34 @@ export class BitArray {
   }
 
   /**
-   * @return {string}
+   * @param v
+   * @return
+   */
+   public fill(v: boolean) {
+    if (v) {
+      const arrayIndex = (this._l - 1) >> BitArray.BIT;
+      const bitIndex = (this._l - 1) & ((1 << BitArray.BIT) - 1);
+      this._a.fill(0xffffffff);
+      this._a[arrayIndex] = (1 << (bitIndex + 1)) - 1;
+      return;
+    }
+
+    this._a.fill(0);
+  }
+
+  /**
+   * @param i
+   * @return
+   */
+   public toggle(i: number) {
+    const arrayIndex = i >> BitArray.BIT;
+    const bitIndex = i & ((1 << BitArray.BIT) - 1);
+
+    this._a[arrayIndex] ^= (1 << bitIndex);
+  }
+
+  /**
+   * @return
    */
   public toString(): string {
     let s = '';

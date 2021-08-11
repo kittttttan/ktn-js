@@ -16,7 +16,7 @@
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "serve": "ts-node node/server.ts ./htdocs",
-    "test": "jest --env=node --colors --coverage test",
+    "test": "jest --env=node --colors --coverage",
     "ts-node": "ts-node"
   },
   "devDependencies": {

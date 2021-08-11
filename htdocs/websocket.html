@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websocket</title>
+    <style>
+#p{width: 100px; text-align: right;}
+#l{width: 90%; height: 320px; max-height: 80%;}
+    </style>
+</head>
+<body>
+    <h1>Ktn</h1>
+    <nav><a href="/">index</a></nav>
+    <h2>WebSocket</h2>
+    <div>
+        <input type="number" id="p" value="3000" min="0">
+        <button id="b">connect/disconnect</button>
+        <input type="text" id="m" placeholder="message">
+        <button id="s">send</button>
+    </div>
+    <div>
+        <textarea id="l" readonly></textarea>
+    </div>
+    <script>
+window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOMContentLoaded');
+    let conn = null;
+
+    function $(a) {
+        return document.getElementById(a);
+    }
+
+    const $p = $('p');
+    const $l = $('l');
+    const $m = $('m');
+
+    function log(s) {
+        $l.value += s + '\n';
+    }
+
+    $('b').addEventListener('click', (event) => {
+        console.log('click');
+        if (conn) {
+            console.log('close', conn);
+            conn.close();
+            conn = null;
+            return;
+        }
+
+        const port = parseInt($p.value, 10);
+        conn = new WebSocket(`ws://127.0.0.1:${port}`);
+        console.log('connect', conn);
+
+        conn.addEventListener('open', (event) => {
+            log('$ open');
+        });
+        conn.addEventListener('close', (event) => {
+            log('$ close');
+        });
+        conn.addEventListener('message', (event) => {
+            log('> receive');
+            log(event.data);
+        });
+        conn.addEventListener('error', (error) => {
+            console.error(error);
+            log('$ error');
+        });
+    });
+
+    $('s').addEventListener('click', (event) => {
+        if (!conn) {
+            log('no connection');
+            return;
+        }
+
+        log('< send');
+        const message = $m.value;
+        log(message);
+        conn.send(message);
+    });
+}, false);
+    </script>
+</body>
+</html>

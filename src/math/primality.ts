@@ -2,8 +2,8 @@
  * Generate Prime Number List in JavaScript
  */
 
-import {BMath} from './bmath';
-import {BitArray} from '../utils/bitarray';
+import { BMath } from './bmath';
+import { BitArray } from '../utils/bitarray';
 
 /**
  * Primality
@@ -11,11 +11,15 @@ import {BitArray} from '../utils/bitarray';
  */
 export class Primality {
   /**
-   * @return {Iterator}
+   * @return
    */
   public static generate(): IterableIterator<number> {
-    return function *(): IterableIterator<number> {
-      const list: number[] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+    return function* (): IterableIterator<number> {
+      const list: number[] = [
+        2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+        31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
+        73, 79, 83, 89, 97,
+      ];
       yield* list;
 
       const len: number = list.length;
@@ -24,7 +28,7 @@ export class Primality {
         let f = false;
         for (let j = 1, lj: number; (lj = list[j]) * lj <= i; ++j) {
           f = true;
-          if (!(i % lj)) {
+          if (i % lj === 0) {
             f = false;
             break;
           }
@@ -38,11 +42,11 @@ export class Primality {
   }
 
   /**
-   * @param {number} n
-   * @return {Iterator}
+   * @param n
+   * @return
    */
   public static top(n: number): IterableIterator<number> {
-    return function *(): IterableIterator<number> {
+    return function* (): IterableIterator<number> {
       if (n < 1) {
         throw new RangeError('argument[0] must > 0');
       }
@@ -54,11 +58,11 @@ export class Primality {
   }
 
   /**
-   * @param {number} n
-   * @return {Iterator}
+   * @param n
+   * @return
    */
   public static max(n: number): IterableIterator<number> {
-    return function *(): IterableIterator<number> {
+    return function* (): IterableIterator<number> {
       const g: IterableIterator<number> = Primality.generate();
       let f: number = g.next().value;
       while (f < n) {
@@ -69,11 +73,13 @@ export class Primality {
   }
 
   /**
-   * @param {number} n
-   * @return {Iterator}
+   * Sieve of Eratosthenes
+   * with array
+   * @param n
+   * @return
    */
-  public static sieveMax_(n: number): IterableIterator<number> {
-    return function *(): IterableIterator<number> {
+  public static sieveE_(n: number): IterableIterator<number> {
+    return function* (): IterableIterator<number> {
       if (n < 2) { return; }
       const s: boolean[] = [false, false];
       const sqrtn: number = Math.sqrt(n) | 0;
@@ -96,15 +102,15 @@ export class Primality {
   }
 
   /**
-   * @param {number} n
-   * @return {Iterator}
+   * Sieve of Eratosthenes
+   * with BitArray
+   * @param n
+   * @return
    */
-  public static sieveMax(n: number): IterableIterator<number> {
-    return function *(): IterableIterator<number> {
+  public static sieveE(n: number): IterableIterator<number> {
+    return function* (): IterableIterator<number> {
       if (n < 2) { return; }
       const s: BitArray = new BitArray(n);
-      // s.set(0, false);
-      // s.set(1, false);
       const sqrtn: number = Math.sqrt(n) | 0;
       for (let i = 2; i < n + 1; ++i) {
         s.set(i, true);
@@ -124,6 +130,91 @@ export class Primality {
     }();
   }
 
+  /**
+   * Sieve of Atkin
+   * @param n
+   * @return
+   */
+  public static sieveA(n: number): IterableIterator<number> {
+    return function* (): IterableIterator<number> {
+      if (n < 2) { return; }
+
+      const s: BitArray = new BitArray(n);
+      const upper: number = n + 1;
+      const upperSqrt: number = (Math.sqrt(n) | 0) + 1;
+
+      for (let z = 1; z < 6; z += 4) {
+        for (let y = z; y < upperSqrt; y += 6) {
+          for (let x = 1; x < upperSqrt; x++) {
+            const n = 4 * x * x + y * y;
+            if (n >= upper) {
+              break;
+            }
+            s.toggle(n);
+          }
+          for (let x = y + 1; x < upperSqrt; x += 2) {
+            const n = 3 * x * x - y * y;
+            if (n >= upper) {
+              break;
+            }
+            s.toggle(n);
+          }
+        }
+      }
+      for (let z = 2; z < 5; z += 2) {
+        for (let y = z; y < upperSqrt; y += 6) {
+          for (let x = 1; x < upperSqrt; x += 2) {
+            const n = 3 * x * x + y * y;
+            if (n >= upper) {
+              break;
+            }
+            s.toggle(n);
+          }
+          for (let x = y + 1; x < upperSqrt; x += 2) {
+            const n = 3 * x * x - y * y;
+            if (n >= upper) {
+              break;
+            }
+            s.toggle(n);
+          }
+        }
+      }
+      for (let y = 3; y < upperSqrt; y += 6) {
+        for (let z = 1; z < 3; z++) {
+          for (let x = z; x < upperSqrt; x += 3) {
+            const n = 4 * x * x + y * y;
+            if (n >= upper) {
+              break;
+            }
+            s.toggle(n);
+          }
+        }
+      }
+
+      for (let i = 5; i < upperSqrt; ++i) {
+        if (s.get(i)) {
+          const x = i * i;
+          for (let j = x; j < upper; j += x) {
+            s.set(j, false);
+          }
+        }
+      }
+
+      s.set(2, true);
+      s.set(3, true);
+      for (let i = 0; i < upper; ++i) {
+        if (s.get(i)) {
+          yield i;
+        }
+      }
+    }();
+  }
+
+  /**
+   * 
+   * @param n 
+   * @returns 
+   */
   public static factorization(n: number): number[] {
     const fs: number[] = [];
     // console.log(`factorization(${n})`);
@@ -133,7 +224,7 @@ export class Primality {
     const sq = (Math.ceil(Math.sqrt(n)) | 0);
     // console.log(`sq = ${sq}`);
     let x = n;
-    const ps = Primality.sieveMax(sq);
+    const ps = Primality.sieveA(sq);
     for (const p of ps) {
       // console.log(`p = ${p}`);
       while (!(x % p)) {
@@ -149,8 +240,8 @@ export class Primality {
 
   /**
    * trial division
-   * @param {number} a 
-   * @return {boolean}
+   * @param a 
+   * @return
    */
   public static isPrime(a: number): boolean {
     if (a < 2) {
@@ -164,7 +255,7 @@ export class Primality {
     }
     const sq: number = (Math.sqrt(a) | 0);
     let i = 5;
-    for (;;) {
+    for (; ;) {
       if (!(a % i)) {
         return false;
       }
@@ -183,8 +274,8 @@ export class Primality {
 
   /**
    * trial division
-   * @param {bigint} a 
-   * @return {boolean}
+   * @param a 
+   * @return
    */
   public static isBigPrime(a: bigint): boolean {
     if (a < 2n) {
@@ -198,7 +289,7 @@ export class Primality {
     }
     const sq: bigint = BMath.isqrt(a);
     let i = 5n;
-    for (;;) {
+    for (; ;) {
       if (!(a % i)) {
         return false;
       }
@@ -216,10 +307,10 @@ export class Primality {
   }
 
   /**
-   * @param {number} base
-   * @param {number} power
-   * @param {number} mod
-   * @return {number}
+   * @param base
+   * @param power
+   * @param mod
+   * @return
    */
   public static modMathPow(base: number, power: number, mod: number): number {
     let result = 1;
@@ -235,8 +326,8 @@ export class Primality {
 
   /**
    * Miller-Rabin primality test
-   * @param {number} n
-   * @return {boolean} true if probably prime
+   * @param n
+   * @return true if probably prime
    */
   public static mrpt(n: number): boolean {
     if (isNaN(n) || n < 2) {
@@ -270,10 +361,10 @@ export class Primality {
   }
 
   /**
-   * @param {bigint} base
-   * @param {bigint} power
-   * @param {bigint} mod
-   * @return {bigint}
+   * @param base
+   * @param power
+   * @param mod
+   * @return
    */
   public static bmodMathPow(base: bigint, power: bigint, mod: bigint): bigint {
     let result = 1n;
@@ -289,8 +380,8 @@ export class Primality {
 
   /**
    * Miller-Rabin primality test
-   * @param {bigint} n
-   * @return {boolean} true if probably prime
+   * @param n
+   * @return true if probably prime
    */
   public static bmrpt(n: bigint): boolean {
     if (n < 2n) {
@@ -309,7 +400,7 @@ export class Primality {
     }
     let i = 20;
     const max: number = BigInt(Number.MAX_SAFE_INTEGER) > n - 2n ?
-        Number(n - 2n) : Number.MAX_SAFE_INTEGER;
+      Number(n - 2n) : Number.MAX_SAFE_INTEGER;
     while (i--) {
       const a: bigint = BigInt(Math.random() * max | 0) + 1n;
       let t: bigint = d;

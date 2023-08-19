@@ -1,7 +1,6 @@
 import {Uuid} from '../../src/utils/uuid';
 
 describe("uuid", ()=> {
-
   it("uuid", ()=> {
     const u = Uuid.uuid();
     expect(u.version).toBe(4);
@@ -16,5 +15,4 @@ describe("uuid", ()=> {
     expect(n.variant).toBe(8);
     expect(n.toString()).toBe(ns);
   });
-
 });

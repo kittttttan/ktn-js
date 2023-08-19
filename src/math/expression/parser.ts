@@ -1,5 +1,3 @@
-'use strict';
-
 export interface Ast {
   type: string;
   name?: string;
@@ -11,10 +9,6 @@ export interface Ast {
   arguments?: Ast[];
 }
 
-/**
- * @param {Ast} a
- * @return {Ast}
- */
 function neg(a: Ast): Ast {
   return {
     argument: a,
@@ -23,12 +17,6 @@ function neg(a: Ast): Ast {
   };
 }
 
-/**
- * @param {string} operator
- * @param {Ast} a
- * @param {Ast} b
- * @return {Ast}
- */
 function binary(operator: string, a: Ast, b: Ast): Ast {
   return {
     left: a,
@@ -38,11 +26,6 @@ function binary(operator: string, a: Ast, b: Ast): Ast {
   };
 }
 
-/**
- * @param {string} name
- * @param {Ast} a
- * @return {Ast}
- */
 function func(name: string, a: Ast): Ast {
   return {
     arguments: [a],
@@ -51,25 +34,14 @@ function func(name: string, a: Ast): Ast {
   };
 }
 
-/**
- * @class Parser
- * @property {string[]} _tokens
- * @property {number} _index
- */
 export class Parser {
   protected _tokens: string[];
   protected _index: number;
 
-  /**
-   * @return {string[]}
-   */
   get tokens(): string[] {
     return this._tokens;
   }
 
-  /**
-   * @param {string[]} tokens
-   */
   constructor(tokens: string[]) {
     if (!tokens) {
       throw new Error(`Parser: tokens is blank`);
@@ -78,18 +50,11 @@ export class Parser {
     this._tokens = tokens;
   }
 
-  /**
-   * @return {Ast}
-   */
   public parse(): Ast {
     this._index = 0;
     return this.expression();
   }
 
-  /**
-   * @private
-   * @return {Ast}
-   */
   private number(): Ast {
     let sign = '';
     if (this._tokens[this._index] === '+' || this._tokens[this._index] === '-') {
@@ -121,10 +86,6 @@ export class Parser {
     return ast;
   }
 
-  /**
-   * @private
-   * @return {Ast}
-   */
   private factor(): Ast {
     let funcName = '';
     if (this._tokens[this._index] === '$sin'
@@ -150,10 +111,6 @@ export class Parser {
     return this.number();
   }
 
-  /**
-   * @private
-   * @return {Ast}
-   */
   private term(): Ast {
     let ast: Ast = this.factor();
     for (;;) {
@@ -178,10 +135,6 @@ export class Parser {
     return ast;
   }
 
-  /**
-   * @private
-   * @return {Ast}
-   */
   private expression(): Ast {
     let ast: Ast = this.term();
     for (;;) {

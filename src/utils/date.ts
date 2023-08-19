@@ -1,52 +1,43 @@
 /**
- * DateUtil
- * @class DateUtil
+ * @param y year
+ * @return 
  */
-export class DateUtil {
-  /**
-   * @method DateUtil.isLeapYear
-   * @param {number} y year
-   * @return {!boolean}
-   */
-  public static isLeapYear(y: number): boolean {
-    return (y > 7) && !(y & 3) && ((y % 100 > 0) || !(y % 400));
-  }
+export function isLeapYear(y: number): boolean {
+  return (y > 7) && !(y & 3) && ((y % 100 > 0) || !(y % 400));
+}
 
-  /**
-   * @method DateUtil.getDaysInMonth
-   * @param {!number} y year
-   * @param {!number} m month
-   * @return {!number} number of days in month
-   */
-  public static getDaysInMonth(y: number, m: number): number {
-    switch (m) {
-      case 2:
-        if (this.isLeapYear(y)) {
-          return 29;
-        }
-        return 28;
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        return 30;
-      default:
-        break;
-    }
-    if (m < 1 || m > 12) { return 0; }
-    return 31;
+/**
+ * @param y year
+ * @param m month
+ * @return number of days in month
+ */
+export function getDaysInMonth(y: number, m: number): number {
+  switch (m) {
+    case 2:
+      if (isLeapYear(y)) {
+        return 29;
+      }
+      return 28;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+      return 30;
+    default:
+      break;
   }
+  if (m < 1 || m > 12) { return 0; }
+  return 31;
+}
 
-  /**
-   * @method DateUtil.format
-   * @param {!string} s format string
-   * @param {!Date} d date
-   * @return {!string}
-   */
-  public static format(s: string, d: Date): string {
-    return s.replace(
-        /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
-        (src: string, token: string): string => {
+/**
+ * @param s format string
+ * @param d date
+ */
+export function dateFormat(s: string, d: Date): string {
+  return s.replace(
+    /(a|dd?|E+|HH?|hh?|MM?M?|mm?|S+|ss?|yy(?:yy)?|Z+)/g,
+    (src: string, token: string): string => {
       if (token === 'yyyy') {
         return `${d.getFullYear()}`;
       }
@@ -55,8 +46,8 @@ export class DateUtil {
       }
       if (token === 'MMM') {
         const mon: string[] = [
-            'Jan', 'Feb', 'May', 'Apr', 'Mar', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+          'Jan', 'Feb', 'May', 'Apr', 'Mar', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
         ];
         return mon[d.getMonth()];
       }
@@ -150,5 +141,4 @@ export class DateUtil {
       }
       return '';
     });
-  }
 }

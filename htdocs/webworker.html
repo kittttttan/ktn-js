@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>web worker</title>
-</head>
-<body>
-    <h1>Ktn</h1>
-    <nav><a href="/">index</a></nav>
-    <h2>WebWorker</h2>
-    <input type="number" id="n" placeholder="1000" value="9007199254740991">
-    <button id="b" disabled>calc</button>
-    <div id="o"></div>
-    <script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>web worker</title>
+
+<h1>Ktn</h1>
+<nav><a href="/">index</a></nav>
+<h2>WebWorker</h2>
+<input type="number" id="n" placeholder="1000" value="9007199254740991">
+<button id="b" disabled>calc</button>
+<div id="o"></div>
+
+<script>
 (function(W) {
     const $ = a => document.querySelector(a);
     const $n = $('#n');
@@ -73,6 +71,4 @@
         return s;
     };
 }(window))
-    </script>
-</body>
-</html>
+</script>

@@ -3,55 +3,23 @@
  */
 
 // TODO:
-/**
- * @private
- */
 const add: (a: number, b: number) => number = (a: number, b: number): number => a + b;
-/**
- * @private
- */
 const sub: (a: number, b: number) => number = (a: number, b: number): number => a - b;
-/**
- * @private
- */
 const mul: (a: number, b: number) => number = (a: number, b: number): number => a * b;
-/**
- * @private
- */
 const div: (a: number, b: number) => number = (a: number, b: number): number => a / b;
-/**
- * @private
- */
 const eq: (a: number, b: number) => boolean = (a: number, b: number): boolean => a == b;
-/**
- * @private
- */
 const equal: (a: number, b: number) => boolean = (a: number, b: number): boolean => a === b;
-/**
- * @private
- */
 const abs: (a: number) => number = (a: number): number => Math.abs(a);
-/**
- * @private
- */
 const neg: (a: number) => number = (a: number): number => -a;
 
 /**
  * Matrix mxn
- * @class Matrix
- * @property {number} _m rows
- * @property {number} _n cols
- * @property {number[][]} _mn
  */
 export class Matrix {
   protected _m: number;
   protected _n: number;
   public _mn: number[][];
 
-  /**
-   * @param {number} m
-   * @param {number} n
-   */
   constructor(m: number, n: number) {
     this._m = m;
     this._n = n;
@@ -69,9 +37,6 @@ export class Matrix {
 
   /**
    * Convert anything to Matrix.
-   * @param {any} m
-   * @param {any} n
-   * @return {Matrix}
    */
   public static mx(m: any, n: any): Matrix {
     if (!arguments.length) { return new Matrix(0, 0); }
@@ -89,11 +54,6 @@ export class Matrix {
     return new Matrix(m, n);
   }
 
-  /**
-   * Convert Array to Matrix.
-   * @param {number[][]} arr
-   * @return {Matrix}
-   */
   public static array(arr: number[][]): Matrix {
     const m: number = arr.length;
     const n: number = arr[0].length;
@@ -107,11 +67,6 @@ export class Matrix {
     return mxx;
   }
 
-  /**
-   * @param {number} n
-   * @param {number} k
-   * @return {Matrix}
-   */
   public static E(n = 2, k = 1): Matrix {
     const e: Matrix = new Matrix(n, n);
     const em: number[][] = e._mn;
@@ -119,11 +74,6 @@ export class Matrix {
     return e;
   }
 
-  /**
-   * @param {number} n
-   * @param {number} k
-   * @return {Matrix}
-   */
   public static U(n = 2, k = 1): Matrix {
     const e: Matrix = new Matrix(n, n);
     const em: number[][] = e._mn;
@@ -133,11 +83,6 @@ export class Matrix {
     return e;
   }
 
-  /**
-   * @param {number} n
-   * @param {number} k
-   * @return {Matrix}
-   */
   public static D(n = 2, k = 1): Matrix {
     const e: Matrix = new Matrix(n, n);
     const em: number[][] = e._mn;
@@ -147,10 +92,6 @@ export class Matrix {
     return e;
   }
 
-  /**
-   * @param {number[]} arr
-   * @return {Matrix}
-   */
   public static diag(arr: number[]): Matrix {
     arr = arr || [0];
 
@@ -161,10 +102,6 @@ export class Matrix {
     return e;
   }
 
-  /**
-   * @param {number[]} arr
-   * @return {Matrix}
-   */
   public static circ(arr: number[]): Matrix {
     arr = arr || [0];
 
@@ -177,10 +114,6 @@ export class Matrix {
     return e;
   }
 
-  /**
-   * @param {number[]} arr
-   * @return {Matrix}
-   */
   public static toep(arr: number[]): Matrix {
     arr = arr || [0];
 
@@ -198,10 +131,6 @@ export class Matrix {
     return m;
   }
 
-  /**
-   * @param {Matrix} a
-   * @return {Matrix}
-   */
   public static T(a: Matrix): Matrix {
     const m: Matrix = new Matrix(a._n, a._m);
     const mm: number[][] = m._mn;
@@ -212,11 +141,6 @@ export class Matrix {
     return m;
   }
 
-  /**
-   * @param {Matrix} a
-   * @param {Matrix} b
-   * @return {Matrix}
-   */
   public static aug(a: Matrix, b: Matrix): Matrix {
     if (a._m !== b._m) { throw new Error('Invalid operation'); }
     a = a.clone();
@@ -229,22 +153,15 @@ export class Matrix {
     return a;
   }
 
-  /**
-   * @return {number}
-   */
   public get length(): number {
     return this._m * this._n;
   }
 
-  /**
-   * @return {Matrix}
-   */
   public clone(): Matrix {
-    const m: Matrix = this;
-    const mxx: Matrix = new Matrix(m._m, m._n);
+    const mxx: Matrix = new Matrix(this._m, this._n);
     const mxm: number[][] = mxx._mn;
-    const mm: number[][] = m._mn;
-    let i: number = m._n;
+    const mm: number[][] = this._mn;
+    let i: number = this._n;
     while (i--) {
       // mxm[i] = Reflect.apply(Array.prototype.concat, undefined, mm[i]);
       mxm[i] = Array.prototype.concat.apply(mm[i]);
@@ -252,15 +169,11 @@ export class Matrix {
     return mxx;
   }
 
-  /**
-   * @return {string}
-   */
   public toString(): string {
-    const m: Matrix = this;
-    const mn: number[][] = m._mn;
+    const mn: number[][] = this._mn;
     const s: (string|number)[] = ['[\n[', mn[0][0]];
-    const r: number = m._m;
-    const c: number = m._n;
+    const r: number = this._m;
+    const c: number = this._n;
     for (let y = 1; y < c; ++y) {
       s[s.length] = ',';
       s[s.length] = mn[0][y];
@@ -279,89 +192,64 @@ export class Matrix {
     return s.join('');
   }
 
-  /**
-   * @param {number} n
-   * @return {Matrix}
-   */
   public row(n: number): Matrix {
-    const mxx: Matrix = this;
-    let y: number = mxx._n;
+    let y: number = this._n;
     const m: Matrix = new Matrix(1, y);
     const mm: number[][] = m._mn;
-    const mxm: number[][] = mxx._mn;
+    const mxm: number[][] = this._mn;
     while (y--) { mm[0][y] = mxm[n][y]; }
     return m;
   }
 
-  /**
-   * @param {number} n
-   * @return {Matrix}
-   */
   public col(n: number): Matrix {
-    const mxx: Matrix = this;
-    let x: number = mxx._m;
+    let x: number = this._m;
     const m: Matrix = new Matrix(x, 1);
     const mm: number[][] = m._mn;
-    const mxm: number[][] = mxx._mn;
+    const mxm: number[][] = this._mn;
     while (x--) { mm[x][0] = mxm[x][n]; }
     return m;
   }
 
-  /**
-   * @param {Matrix} n
-   * @return {Matrix}
-   */
   public add(n: Matrix): Matrix {
-    const m: Matrix = this;
-    if (m._m !== n._m || m._n !== n._n) { throw new Error('Invalid operation'); }
-    const mxx: Matrix = m.clone();
+    if (this._m !== n._m || this._n !== n._n) { throw new Error('Invalid operation'); }
+    const mxx: Matrix = this.clone();
     const mxm: number[][] = mxx._mn;
-    const mm: number[][] = m._mn;
+    const mm: number[][] = this._mn;
     const nm: number[][] = n._mn;
-    let x: number = m._m;
+    let x: number = this._m;
     while (x--) {
-      let y: number = m._n;
+      let y: number = this._n;
       while (y--) { mxm[x][y] = add(mm[x][y], nm[x][y]); }
     }
     return mxx;
   }
 
-  /**
-   * @param {Matrix} n
-   * @return {Matrix}
-   */
   public sub(n: Matrix): Matrix {
-    const m: Matrix = this;
-    if (m._m !== n._m || m._n !== n._n) { throw new Error('Invalid operation'); }
-    const mxx: Matrix = m.clone();
+    if (this._m !== n._m || this._n !== n._n) { throw new Error('Invalid operation'); }
+    const mxx: Matrix = this.clone();
     const mxm: number[][] = mxx._mn;
-    const mm: number[][] = m._mn;
+    const mm: number[][] = this._mn;
     const nm: number[][] = n._mn;
-    let x: number = m._m;
+    let x: number = this._m;
     while (x--) {
-      let y: number = m._n;
+      let y: number = this._n;
       while (y--) { mxm[x][y] = sub(mm[x][y], nm[x][y]); }
     }
     return mxx;
   }
 
-  /**
-   * @param {Matrix} n
-   * @return {Matrix}
-   */
   public mul(n: Matrix): Matrix {
-    const m: Matrix = this;
-    if (m._n !== n._m) {
-      throw new Error(`mismatch cols and rows: ${m._n} ${n._m}`);
+    if (this._n !== n._m) {
+      throw new Error(`mismatch cols and rows: ${this._n} ${n._m}`);
     }
 
-    const mx: Matrix = new Matrix(m._m, n._n);
+    const mx: Matrix = new Matrix(this._m, n._n);
     const mxm: number[][] = mx._mn;
-    const mm: number[][] = m._mn;
+    const mm: number[][] = this._mn;
     const nm: number[][] = n._mn;
-    for (let x = 0; x < m._m; ++x) {
+    for (let x = 0; x < this._m; ++x) {
       for (let y = 0; y < n._n; ++y) {
-        for (let z = 0; z < m._n; ++z) {
+        for (let z = 0; z < this._n; ++z) {
           mxm[x][y] = add(mxm[x][y], mul(mm[x][z], nm[z][y]));
         }
       }
@@ -370,23 +258,17 @@ export class Matrix {
     return mx;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} j
-   * @return {Matrix}
-   */
   public cf(i: number, j: number): Matrix {
-    const m: Matrix = this;
-    const cfm: number = m._m - 1;
-    const cfn: number = m._n - 1;
+    const cfm: number = this._m - 1;
+    const cfn: number = this._n - 1;
     const mxx: Matrix = new Matrix(cfm, cfn);
     const mxm: number[][] = mxx._mn;
-    const mm: number[][] = m._mn;
+    const mm: number[][] = this._mn;
     let a = 0;
-    for (let x = 0; x < m._m; x++) {
+    for (let x = 0; x < this._m; x++) {
       if (x !== i) {
         let b = 0;
-        for (let y = 0; y < m._n; y++) {
+        for (let y = 0; y < this._n; y++) {
           if (y !== j) {
             mxm[a][b] = mm[x][y];
             b++;
@@ -398,16 +280,12 @@ export class Matrix {
     return mxx;
   }
 
-  /**
-   * @return {number}
-   */
   public det(): number {
-    const m: Matrix = this;
-    if (m._m !== m._n) { throw new Error('Invalid operation'); }
+    if (this._m !== this._n) { throw new Error('Invalid operation'); }
     const mxx: Matrix = this.clone();
     const mm: number[][] = mxx._mn;
     let d = 0;
-    let x: number = m._m;
+    let x: number = this._m;
     if (x === 2) {
       return abs(sub(mul(mm[0][0], mm[1][1]), mul(mm[1][0], mm[0][1])));
     }
@@ -421,26 +299,18 @@ export class Matrix {
     return d;
   }
 
-  /**
-   * @return {number}
-   */
   public tr(): number {
-    const m: Matrix = this;
-    const mm: number[][] = m._mn;
+    const mm: number[][] = this._mn;
     let tr = 0;
-    let i: number = m._m < m._n ? m._m : m._n;
+    let i: number = this._m < this._n ? this._m : this._n;
     while (i--) { tr = add(tr, mm[i][i]); }
     return tr;
   }
 
-  /**
-   * @return {Matrix}
-   */
   public inv(): Matrix {
-    const mxx: Matrix = this;
-    if (mxx._m !== mxx._n) { throw new Error('Invalid operation'); }
+    if (this._m !== this._n) { throw new Error('Invalid operation'); }
 
-    const m: Matrix = Matrix.aug(mxx, Matrix.E(mxx._m));
+    const m: Matrix = Matrix.aug(this, Matrix.E(this._m));
     const mm: number[][] = m._mn;
     for (let y = 0; y < m._m - 1; y++) {
       let x: number = y;
@@ -471,61 +341,46 @@ export class Matrix {
         }
       }
     }
-    const n: Matrix = new Matrix(mxx._m, mxx._n);
+    const n: Matrix = new Matrix(this._m, this._n);
     const nm: number[][] = n._mn;
-    for (let x = 0; x < mxx._m; x++) {
-      for (let y = 0; y < mxx._n; y++) { nm[x][y] = mm[x][y + mxx._m]; }
+    for (let x = 0; x < this._m; x++) {
+      for (let y = 0; y < this._n; y++) { nm[x][y] = mm[x][y + this._m]; }
     }
     return n;
   }
 
-  /**
-   * @return {boolean}
-   */
   public isReg(): boolean {
     const d: number = this.det();
     return d > 0 || d < 0;
   }
 
-  /**
-   * @return {boolean}
-   */
   public isSym(): boolean {
-    const m: Matrix = this;
-    if (m._m !== m._n) { return false; }
-    const mm: number[][] = m._mn;
-    for (let x = 0; x < m._m; x++) {
-      for (let y: number = x + 1; y < m._m; y++) {
+    if (this._m !== this._n) { return false; }
+    const mm: number[][] = this._mn;
+    for (let x = 0; x < this._m; x++) {
+      for (let y: number = x + 1; y < this._m; y++) {
         if (!eq(mm[x][y], mm[y][x])) { return false; }
       }
     }
     return true;
   }
 
-  /**
-   * @return {boolean}
-   */
   public isDiag(): boolean {
-    const m: Matrix = this;
-    if (m._m !== m._n) { return false; }
-    const mm: number[][] = m._mn;
-    for (let x = 0; x < m._m; x++) {
-      for (let y = 0; y < m._n; y++) {
+    if (this._m !== this._n) { return false; }
+    const mm: number[][] = this._mn;
+    for (let x = 0; x < this._m; x++) {
+      for (let y = 0; y < this._n; y++) {
         if (mm[x][y] && x !== y) { return false; }
       }
     }
     return true;
   }
 
-  /**
-   * @return {boolean}
-   */
   public isE(): boolean {
-    const m: Matrix = this;
-    if (m._m !== m._n) { return false; }
-    const mm: number[][] = m._mn;
-    for (let x = 0; x < m._m; x++) {
-      for (let y = 0; y < m._m; y++) {
+    if (this._m !== this._n) { return false; }
+    const mm: number[][] = this._mn;
+    for (let x = 0; x < this._m; x++) {
+      for (let y = 0; y < this._m; y++) {
         if (x !== y) {
           if (mm[x][y]) { return false; }
         } else {
@@ -536,60 +391,44 @@ export class Matrix {
     return true;
   }
 
-  /**
-   * @return {boolean}
-   */
   public isNonZero(): boolean {
-    const m: Matrix = this;
-    const mm: number[][] = m._mn;
-    for (let x = 0; x < m._m; x++) {
-      for (let y = 0; y < m._n; y++) {
+    const mm: number[][] = this._mn;
+    for (let x = 0; x < this._m; x++) {
+      for (let y = 0; y < this._n; y++) {
         if (mm[x][y]) { return true; }
       }
     }
     return false;
   }
 
-  /**
-   * @return {boolean}
-   */
   public isOrt(): boolean {
-    const m: Matrix = this;
-    if (m._m !== m._n) { return false; }
-    return m.mul(Matrix.T(m)).isE();
+    if (this._m !== this._n) { return false; }
+    return this.mul(Matrix.T(this)).isE();
   }
 
-  /**
-   * @return {boolean}
-   */
   public isToep(): boolean {
-    const m: Matrix = this;
-    if (m._m !== m._n) { return false; }
-    const mm: number[][] = m._mn;
-    for (let x = 0; x < m._m; x++) {
-      const c: number = mm[0][m._m - 1 - x];
+    if (this._m !== this._n) { return false; }
+    const mm: number[][] = this._mn;
+    for (let x = 0; x < this._m; x++) {
+      const c: number = mm[0][this._m - 1 - x];
       for (let y = 0; y <= x; y++) {
-        if (mm[y][m._m - 1 - x + y] !== c) { return false; }
+        if (mm[y][this._m - 1 - x + y] !== c) { return false; }
       }
     }
-    for (let y = 0; y < m._n; y++) {
+    for (let y = 0; y < this._n; y++) {
       const c: number = mm[y][0];
-      for (let x = 0; x < m._n - y; x++) {
+      for (let x = 0; x < this._n - y; x++) {
         if (mm[y + x][x] !== c) { return false; }
       }
     }
     return true;
   }
 
-  /**
-   * @return {string}
-   */
   public html(): string {
-    const m: Matrix = this;
-    const mn: number[][] = m._mn;
+    const mn: number[][] = this._mn;
     const s: (string|number)[] = ['<table>\n<tr><td>', mn[0][0]];
-    const r: number = m._m;
-    const c: number = m._n;
+    const r: number = this._m;
+    const c: number = this._n;
     for (let y = 1; y < c; ++y) {
       s[s.length] = ',';
       s[s.length] = mn[0][y];
@@ -608,17 +447,12 @@ export class Matrix {
     return s.join('');
   }
 
-  /**
-   * @param {number} type
-   * @return {string}
-   */
   public tex(type: number): string {
-    const m: Matrix = this;
     const types: string[] = ['matrix', 'pmatrix', 'bmatrix', 'Bmatrix', 'vmatrix', 'Vmatrix'];
-    const mn: number[][] = m._mn;
+    const mn: number[][] = this._mn;
     const s: (string|number)[] = ['\\begin{', (types[type] || 'bmatrix'), '}\n', mn[0][0]];
-    const r: number = m._m;
-    const c: number = m._n;
+    const r: number = this._m;
+    const c: number = this._n;
     for (let y = 1; y < c; ++y) {
       s[s.length] = '&';
       s[s.length] = mn[0][y];
@@ -637,18 +471,13 @@ export class Matrix {
     return s.join('');
   }
 
-  /**
-   * @param {Matrix} n
-   * @return {boolean}
-   */
   public eq(n: Matrix): boolean {
-    const m: Matrix = this;
-    if (m._m !== n._m || m._n !== n._n) { return false; }
-    const mm: number[][] = m._mn;
+    if (this._m !== n._m || this._n !== n._n) { return false; }
+    const mm: number[][] = this._mn;
     const nm: number[][] = n._mn;
-    let x: number = m._m;
+    let x: number = this._m;
     while (x--) {
-      let y: number = m._n;
+      let y: number = this._n;
       while (y--) {
         if (!eq(mm[x][y], nm[x][y])) { return false; }
       }
@@ -656,18 +485,13 @@ export class Matrix {
     return true;
   }
 
-  /**
-   * @param {Matrix} n
-   * @return {boolean}
-   */
   public equal(n: Matrix): boolean {
-    const m: Matrix = this;
-    if (m._m !== n._m || m._n !== n._n) { return false; }
-    const mm: number[][] = m._mn;
+    if (this._m !== n._m || this._n !== n._n) { return false; }
+    const mm: number[][] = this._mn;
     const nm: number[][] = n._mn;
-    let x: number = m._m;
+    let x: number = this._m;
     while (x--) {
-      let y: number = m._n;
+      let y: number = this._n;
       while (y--) {
         if (!equal(mm[x][y], nm[x][y])) { return false; }
       }
@@ -675,148 +499,80 @@ export class Matrix {
     return true;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} j
-   * @return {Matrix}
-   */
   public rowSwap(i: number, j: number): Matrix {
-    const mxx: Matrix = this;
-    const mm: number[][] = mxx._mn;
-    for (let y = 0; y < mxx._n; y++) {
+    const mm: number[][] = this._mn;
+    for (let y = 0; y < this._n; y++) {
       const v: number = mm[j][y];
       mm[j][y] = mm[i][y];
       mm[i][y] = v;
     }
-    return mxx;
+    return this;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} j
-   * @return {Matrix}
-   */
   public colSwap(i: number, j: number): Matrix {
-    const mxx: Matrix = this;
-    const mm: number[][] = mxx._mn;
-    for (let x = 0; x < mxx._m; x++) {
+    const mm: number[][] = this._mn;
+    for (let x = 0; x < this._m; x++) {
       const v: number = mm[x][j];
       mm[x][j] = mm[x][i];
       mm[x][i] = v;
     }
-    return mxx;
+    return this;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} j
-   * @param {number} n multiple
-   * @return {Matrix}
-   */
   public rowAdd(i: number, j: number, n = 1): Matrix {
-    const mxx: Matrix = this;
-
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     const mm: number[][] = m._mn;
     let x: number = m._n;
     while (x--) { mm[i][x] = add(mm[i][x], mul(mm[j][x], n)); }
     return m;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} j
-   * @param {number} n multiple
-   * @return {Matrix}
-   */
   public colAdd(i: number, j: number, n = 1): Matrix {
-    const mxx: Matrix = this;
-
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     const mm: number[][] = m._mn;
     for (let x = 0; x < m._n; x++) { mm[x][i] = add(mm[x][i], mul(mm[x][j], n)); }
     return m;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} j
-   * @param {number} n
-   * @return {Matrix}
-   */
   public rowSub(i: number, j: number, n = 1): Matrix {
-    const mxx: Matrix = this;
-
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     const mm: number[][] = m._mn;
     let x: number = m._n;
     while (x--) { mm[i][x] = sub(mm[i][x], mul(mm[j][x], n)); }
     return m;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} j
-   * @param {number} n
-   * @return {Matrix}
-   */
   public colSub(i: number, j: number, n = 1): Matrix {
-    const mxx: Matrix = this;
-
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     const mm: number[][] = m._mn;
     for (let x = 0; x < m._n; x++) { mm[x][i] = sub(mm[x][i], mul(mm[x][j], n)); }
     return m;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} n
-   * @return {Matrix}
-   */
   public rowMul(i: number, n: number): Matrix {
-    const mxx: Matrix = this;
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     let x: number = m._n;
     while (x--) { m[i][x] = mul(m[i][x], n); }
     return m;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} n
-   * @return {Matrix}
-   */
   public colMul(i: number, n: number): Matrix {
-    const mxx: Matrix = this;
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     const mm: number[][] = m._mn;
     let x: number = m._n;
     while (x--) { mm[x][i] = mul(mm[x][i], n); }
     return m;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} n
-   * @return {Matrix}
-   */
   public rowDiv(i: number, n: number): Matrix {
-    const mxx: Matrix = this;
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     let x: number = m._n;
     while (x--) { m[i][x] = div(m[i][x], n); }
     return m;
   }
 
-  /**
-   * @param {number} i
-   * @param {number} n
-   * @return {Matrix}
-   */
   public colDiv(i: number, n: number): Matrix {
-    const mxx: Matrix = this;
-    const m: Matrix = mxx.clone();
+    const m: Matrix = this.clone();
     const mm: number[][] = m._mn;
     let x: number = m._n;
     while (x--) { mm[x][i] = div(mm[x][i], n); }

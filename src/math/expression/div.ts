@@ -1,50 +1,27 @@
 /**
  * Div
  */
-'use strict';
 
-/**
- * @private
- * @requires Rational
- */
 import {Rational} from '../rational';
 
 /**
  * Div
- * @class Div
- * @property {any[]} _items
  */
 export class Div {
   protected _items: any[];
 
-  /**
-   * @param {any[]} items
-   */
   constructor(items: any[]) {
     this._items = items;
   }
 
-  /**
-   * @method Div.div
-   * @param {...?} items
-   * @return {Div}
-   */
   public static div(...items: any[]): Div {
     return new Div(items);
   }
 
-  /**
-   * @method Div#toString
-   * @return {string}
-   */
   public toString(): string {
     return `div(${this._items})`;
   }
 
-  /**
-   * @method Div#calc
-   * @return {Rational}
-   */
   public calc(): Rational {
     let v: Rational = Rational.one;
     let isFirst = true;
@@ -63,10 +40,6 @@ export class Div {
     return v;
   }
 
-  /**
-   * @method Div#clone
-   * @return {Div}
-   */
   public clone(): Div {
     const a: any[] = [];
     for (const item of this._items) {
@@ -76,10 +49,6 @@ export class Div {
     return new Div(a);
   }
 
-  /**
-   * @method Div#neg
-   * @return {Div}
-   */
   public neg(): Div {
     const a: any[] = [];
     let isFirst = true;

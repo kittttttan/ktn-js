@@ -2,23 +2,19 @@
  * Rational
  */
 
-import {BMath} from './bmath';
+import {abs, gcd} from './bmath';
 
 /**
  * Rational
- *
- * @class Rational
- * @property {bigint} Rational#_n Numerator
- * @property {bigint} Rational#_d Denominator
  */
 export class Rational {
   protected _n: bigint;
   protected _d: bigint;
 
   /**
-   * @param {bigint} n
-   * @param {bigint} d
-   * @param {boolean=} f If f is true then skip cancel().
+   * @param n
+   * @param d
+   * @param f If f is true then skip cancel().
    */
   constructor(n: bigint, d: bigint, f?: boolean) {
     if (d == 0n) {
@@ -34,34 +30,19 @@ export class Rational {
     }
   }
 
-  /**
-   * 1
-   * @static
-   * @method Rational.one
-   * @return {Rational} 1
-   */
   static get one(): Rational {
     return new Rational(1n, 1n, true);
   }
 
-  /**
-   * 0
-   * @static
-   * @method Rational.zero
-   * @return {Rational} 0
-   */
   static get zero(): Rational {
     return new Rational(0n, 1n, true);
   }
 
   /**
    * Convert Number to Rational.
-   * @static
-   * @method Rational.num
-   * @param {bigint} a Numerator
-   * @param {bigint=} b Denominator
-   * @param {boolean=} c
-   * @return {Rational}
+   * @param a Numerator
+   * @param b Denominator
+   * @param c
    */
   public static num(a: bigint, b?: bigint, c?: boolean): Rational {
     if (!b) {
@@ -72,10 +53,7 @@ export class Rational {
 
   /**
    * Convert String to Rational.
-   * @static
-   * @method Rational.str
-   * @param {string} a ex.'-1/2', '0.1/1.02'.
-   * @return {Rational}
+   * @param a ex.'-1/2', '0.1/1.02'.
    */
   public static str(a: string): Rational {
     const as: string[] = a.split('/');
@@ -107,12 +85,7 @@ export class Rational {
 
   /**
    * Convert anything to Rational.
-   * @static
-   * @method Rational.any
-   * @param {any} a
-   * @param {any=} b
    * @throws {Error} ZeroDivisionError
-   * @return {Rational}
    */
   public static any(a: any, b?: any): Rational {
     if (!arguments.length) {
@@ -130,15 +103,8 @@ export class Rational {
     return new Rational(BigInt(a), BigInt(b));
   }
 
-  /**
-   * @static
-   * @method Rational.cancel
-   * @param {bigint} a
-   * @param {bigint} b
-   * @return {bigint[]}
-   */
   public static cancel(a: bigint, b: bigint): bigint[] {
-    const g: bigint = BMath.gcd(BMath.abs(a), BMath.abs(b));
+    const g: bigint = gcd(abs(a), abs(b));
     a /= g;
     b /= g;
     if (b < 0n) {
@@ -148,36 +114,20 @@ export class Rational {
     return [a, b];
   }
 
-  /**
-   * @method Rational#clone
-   * @return {Rational}
-   */
   public clone(): Rational {
     return new Rational(this._n, this._d, true);
   }
 
-  /**
-   * @method Rational#toString
-   * @return {string}
-   */
   public toString(): string {
     if (this._n == 0n) { return '0'; }
     if (this._d == 1n) { return this._n.toString(); }
     return `${this._n}/${this._d}`;
   }
 
-  /**
-   * @method Rational#html
-   * @return {string}
-   */
   public html(): string {
     return this.toString();
   }
 
-  /**
-   * @method Rational#tex
-   * @return {string}
-   */
   public tex(): string {
     // if (this._d == 1) {return this._n.toString();}
     return `\\frac{${this._n}}{${this._d}}`;
@@ -187,27 +137,17 @@ export class Rational {
     return this._n >= 0n;
   }
 
-  /**
-   * @method Rational#abs
-   * @return {Rational} |this|.
-   */
   public abs(): Rational {
     const n: bigint = this._n < 0n ? -this._n : this._n;
     return new Rational(n, this._d, true);
   }
 
-  /**
-   * @method Rational#neg
-   * @return {Rational} -this.
-   */
   public neg(): Rational {
     return new Rational(-this._n, this._d, true);
   }
 
   /**
-   * @method Rational#eq
-   * @param {any?} b
-   * @return {boolean} this == b.
+   * @return this == b.
    */
   public eq(b: any): boolean {
     b = Rational.any(b);
@@ -216,9 +156,7 @@ export class Rational {
   }
 
   /**
-   * @method Rational#equal
-   * @param {Rational} b
-   * @return {boolean} this === b.
+   * @return this === b.
    */
   public equal(b: Rational): boolean {
     if (!(b instanceof Rational)) { return false; }
@@ -227,9 +165,7 @@ export class Rational {
   }
 
   /**
-   * @method Rational#cmp
-   * @param {Rational} b
-   * @return {number}
+   * @return
    *   1 (this > b)
    *   0 (this = b)
    *  -1 (this < b).
@@ -242,11 +178,6 @@ export class Rational {
     return 0;
   }
 
-  /**
-   * Multiplicative inverse (or reciprocal)
-   * @method Rational#inv
-   * @return {Rational}
-   */
   public inv(): Rational {
     const n: bigint = this._n;
     const d: bigint = this._d;
@@ -260,9 +191,7 @@ export class Rational {
   }
 
   /**
-   * @method Rational#add
-   * @param {Rational} b
-   * @return {Rational} this + b.
+   * @return this + b.
    */
   public add(b: Rational): Rational {
     return new Rational(
@@ -271,9 +200,7 @@ export class Rational {
   }
 
   /**
-   * @method Rational#sub
-   * @param {Rational} b
-   * @return {Rational} this - b.
+   * @return this - b.
    */
   public sub(b: Rational): Rational {
     return new Rational(
@@ -282,27 +209,21 @@ export class Rational {
   }
 
   /**
-   * @method Rational#mul
-   * @param {Rational} b
-   * @return {Rational} this * b.
+   * @return this * b.
    */
   public mul(b: Rational): Rational {
     return new Rational(this._n * b._n, this._d * b._d);
   }
 
   /**
-   * @method Rational#div
-   * @param {Rational} b
-   * @return {Rational} this / b.
+   * @return this / b.
    */
   public div(b: Rational): Rational {
     return new Rational(this._n * b._d, this._d * b._n);
   }
 
   /**
-   * @method Rational#pow
-   * @param {bigint|Rational} n
-   * @return {Rational} this ^ n.
+   * @return this ^ n.
    */
   public pow(n: bigint|Rational): Rational {
     let b: bigint;

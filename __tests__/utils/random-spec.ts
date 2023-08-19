@@ -1,7 +1,6 @@
 import {Random} from '../../src/utils/random';
 
 describe("Random", ()=> {
-
   it("random", ()=> {
     const r = new Random();
 
@@ -20,5 +19,4 @@ describe("Random", ()=> {
     expect(r.real2()).toBe(0.8631093262229115);
     expect(r.real3()).toBe(0.9478274871362373);
   });
-
 });

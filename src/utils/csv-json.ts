@@ -2,18 +2,12 @@
  * convert CSV <-> JSON.
  */
 
-/**
- * @typedef {Record<string, number|string>} ToJsonOpt
- */
 export interface ToJsonOpt {
   sep?: string;
   prop?: string;
   space?: number|string;
 }
 
-/**
- * @typedef {Record<string, string>} ToCsvOpt
- */
 export interface ToCsvOpt {
   sep?: string;
   prop?: string;
@@ -21,24 +15,19 @@ export interface ToCsvOpt {
 
 /**
  * CSV to JSON
- * @public
- * @param {string} s CSV
- * @param {string[]} column
- * @param {ToJsonOpt=} opt
- * @return {string} JSON
  */
 export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): string {
   const sep: string = opt.sep || '\t';
 
   const colLength: number = column.length;
   const lines: string[] = s.split(/[\r\n]+/);
-  let json: {} = {};
-  const items: {}[] = [];
+  let json: Record<string, any> = {};
+  const items: Record<string, any>[] = [];
   for (const line of lines) {
     if (!line) {
       continue;
     }
-    const item: {} = {};
+    const item: Record<string, any> = {};
     const words: string[] = line.split(sep);
     for (let i = 0; i < colLength; ++i) {
       if (!column[i]) {
@@ -46,7 +35,7 @@ export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): str
       }
 
       let word: any = words[i];
-      let leaf: {} = item;
+      let leaf: Record<string, any> = item;
       let doParseInt = false;
       let doParseFloat = false;
       const clTypeArr: string[] = column[i].split(':');
@@ -87,12 +76,6 @@ export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): str
   return JSON.stringify(json, null, opt.space || undefined);
 }
 
-/**
- * @private
- * @param {string[]} labels
- * @param {string[]} label
- * @param {any} item
- */
 function addLabel(labels: string[], label: string[], item: any): void {
   for (const prop in item) {
     label.push(prop);
@@ -106,11 +89,6 @@ function addLabel(labels: string[], label: string[], item: any): void {
   // console.debug(labels);
 }
 
-/**
- * @private
- * @param {any[]} val
- * @param {any} item
- */
 function addValue(val: any[], item: any): void {
   for (const prop in item) {
     if (typeof item[prop] === 'object') {
@@ -123,10 +101,6 @@ function addValue(val: any[], item: any): void {
 
 /**
  * JSON to CSV
- * @public
- * @param {string} s JSON formatted string
- * @param {ToCsvOpt=} opt
- * @return {string}
  */
 export function jsonToCsv(s: string, opt: ToCsvOpt = {}): string {
   const sep: string = opt.sep || '\t';

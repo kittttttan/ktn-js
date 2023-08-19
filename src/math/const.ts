@@ -1,39 +1,18 @@
-/**
- * Constant
- */
-
-/**
- * @typedef {Object} ConstItem
- */
 export interface ConstItem {
   toString: () => string;
   calc: () => number;
 }
 
-/**
- * Const
- * @class Const
- */
-export class Const {
-  /**
-   * @static
-   * @type {ConstItem}
-   */
-  static get PI(): ConstItem {
-    return {
-      calc: (): number => Math.PI,
-      toString: (): string => 'pi',
-    };
-  }
+export function PI(): ConstItem {
+  return Object.freeze({
+    calc: (): number => Math.PI,
+    toString: (): string => 'pi',
+  });
+}
 
-  /**
-   * @static
-   * @type {ConstItem}
-   */
-  static get E(): ConstItem {
-    return {
-      calc: (): number => Math.E,
-      toString: (): string => 'e',
-    };
-  }
+export function E(): ConstItem {
+  return Object.freeze({
+    calc: (): number => Math.E,
+    toString: (): string => 'e',
+  });
 }

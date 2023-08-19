@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>import map</title>
+
+<h1>Ktn</h1>
+<nav><a href="/">index</a></nav>
+<h2>import map</h2>
+<div>
+    <a href="https://github.com/WICG/import-maps">WICG / import-maps</a>
+</div>
+
+<!-- <script type="importmap" src="./js/hello.importmap"></script> -->
+<script type="importmap">
+{
+    "imports": {
+        "/hello": "/js/hello.mjs"
+    }
+}
+</script>
+<script type="module">
+    import hello, {world} from '/hello';
+    hello();
+    world();
+</script>

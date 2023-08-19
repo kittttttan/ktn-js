@@ -8,7 +8,6 @@
 
 /**
  * generate Fibonacci numbers
- * @private
  */
 function *generate(): IterableIterator<number> {
   yield 0;
@@ -24,11 +23,6 @@ function *generate(): IterableIterator<number> {
  * |a b|   |d e|   |ad+be bd+ce|
  * |   | x |   | = |           |
  * |b c|   |e f|   |bd+ce be+cf|
- *
- * @private
- * @param {number[]} a
- * @param {number[]} b
- * @return {number[]}
  */
 function mmul(a: number[], b: number[]): number[] {
   const ad: number = a[0] * b[0];
@@ -41,13 +35,10 @@ function mmul(a: number[], b: number[]): number[] {
 
 /**
  * Fibonacci
- * @class Fibonacci
  */
 export class Fibonacci {
   /**
    * nth Fibonacci number
-   * @param {number} n
-   * @return {number}
    */
   public static _fib(n: number): number {
     if (n < 1) {
@@ -66,9 +57,6 @@ export class Fibonacci {
    * |1 1|^n   |Fn+1 Fn  |
    * |   |   = |         |
    * |1 0|     |Fn   Fn-1|
-   *
-   * @param {number} n
-   * @return {number}
    */
   public static fib(n: number): number {
     if (n < 1) {
@@ -89,8 +77,6 @@ export class Fibonacci {
 
   /**
    * generate first nth Fibonacci numbers
-   * @param {number} n
-   * @return {Iterator}
    */
   public static top(n: number): IterableIterator<number> {
     return function *(): IterableIterator<number> {
@@ -106,8 +92,6 @@ export class Fibonacci {
 
   /**
    * generate Fibonacci numbers less than n
-   * @param {number} n
-   * @return {Iterator}
    */
   public static max(n: number): IterableIterator<number> {
     return function *(): IterableIterator<number> {

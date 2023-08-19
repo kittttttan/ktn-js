@@ -1,43 +1,22 @@
 /**
  * Add
  */
-'use strict';
-
- /**
-  * @private
-  * @requires Rational
-  */
 import {Rational} from '../rational';
 
 /**
  * Add
- * @class Add
- * @property {any[]} _items
  */
 export class Add {
   protected _items: any[];
 
-  /**
-   * @param {unknown[]} items
-   */
   constructor(items: unknown[]) {
     this._items = items;
   }
 
-  /**
-   * @method Add.add
-   * @param {unknown[]} items
-   * @return {Add}
-   */
   public static add(...items: unknown[]): Add {
     return new Add(items);
   }
 
-  /**
-   * @method Add.sub
-   * @param {unknown[]} items
-   * @return {Add}
-   */
   public static sub(...items: unknown[]): Add {
     const l: number = items.length;
     if (l === 0) {
@@ -58,18 +37,10 @@ export class Add {
     return new Add(n);
   }
 
-  /**
-   * @method Add#toString
-   * @return {string}
-   */
   public toString(): string {
     return `add(${this._items})`;
   }
 
-  /**
-   * @method Add#calc
-   * @return {Rational}
-   */
   public calc(): Rational {
     let v: Rational = Rational.zero;
     for (const item of this._items) {
@@ -82,10 +53,6 @@ export class Add {
     return v;
   }
 
-  /**
-   * @method Add#clone
-   * @return {Add}
-   */
   public clone(): Add {
     const a: any[] = [];
     for (const item of this._items) {
@@ -95,10 +62,6 @@ export class Add {
     return new Add(a);
   }
 
-  /**
-   * @method Add#neg
-   * @return {Add}
-   */
   public neg(): Add {
     const a: unknown[] = [];
     for (const item of this._items) {

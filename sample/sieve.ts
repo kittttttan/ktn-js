@@ -5,13 +5,13 @@
  * node --prof-process isolate-xxxxx-xxxx-v8.log > isolate.txt
  */
 import {timeit} from "../src/utils";
-import {Primality} from '../src/math';
+import {sieveA, sieveE, primes} from '../src/math';
 // import {memoryUsage} from '../node/memory';
 
 const n = 1 << 22;
 console.log(`sieveA(${n})`);
 timeit(() => {
-    const ps = Primality.sieveA(n);
+    const ps = sieveA(n);
     let c = 0;
     for (const p of ps) {
         // console.log(p);
@@ -29,7 +29,7 @@ timeit(() => {
 
 console.log(`\nsieveE(${n})`);
 timeit(() => {
-    const ps = Primality.sieveE(n);
+    const ps = sieveE(n);
     let c = 0;
     for (const p of ps) {
         // console.log(p);
@@ -43,7 +43,7 @@ timeit(() => {
     console.log(`\ngenerate`);
     let c = 0;
     timeit(() => {
-        for (const p of Primality.generate()) {
+        for (const p of primes()) {
             if (p > n) {
                 break;
             }

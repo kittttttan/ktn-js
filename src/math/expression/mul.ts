@@ -1,48 +1,27 @@
 /**
  * Mul
  */
-'use strict';
 
-/**
- * @private
- * @requires Rational
- */
 import {Rational} from '../rational';
 
 /**
  * Mul
- * @class Mul
- * @property {any[]} _items
  */
 export class Mul {
   protected _items: any[];
 
-  /**
-   * @param {any[]} items
-   */
   constructor(items: any[]) {
     this._items = items;
   }
 
-  /**
-   * @static
-   * @param {...?} items
-   * @return {Mul}
-   */
   public static mul(...items: any[]): Mul {
     return new Mul(items);
   }
 
-  /**
-   * @return {string}
-   */
   public toString(): string {
     return `mul(${this._items})`;
   }
 
-  /**
-   * @return {Rational}
-   */
   public calc(): Rational {
     let v: Rational = Rational.one;
     for (const item of this._items) {
@@ -55,9 +34,6 @@ export class Mul {
     return v;
   }
 
-  /**
-   * @retrun {Mul}
-   */
   public clone(): Mul {
     const a: any[] = [];
     for (const item of this._items) {
@@ -67,9 +43,6 @@ export class Mul {
     return new Mul(a);
   }
 
-  /**
-   * @return {Mul}
-   */
   public neg(): Mul {
     const a: any[] = [];
     let isFirst = true;
@@ -86,9 +59,6 @@ export class Mul {
     return new Mul(a);
   }
 
-  /**
-   * @return {Mul}
-   */
   public inv(): Mul {
     const a: any[] = [];
     for (const item of this._items) {

@@ -1,29 +1,27 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>websocket</title>
-    <style>
-#p{width: 100px; text-align: right;}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>websocket</title>
+<style>
+#p{width: 60px; text-align: right;}
 #l{width: 90%; height: 320px; max-height: 80%;}
-    </style>
-</head>
-<body>
-    <h1>Ktn</h1>
-    <nav><a href="/">index</a></nav>
-    <h2>WebSocket</h2>
-    <div>
-        <input type="number" id="p" value="3000" min="0">
-        <button id="b">connect/disconnect</button>
-        <input type="text" id="m" placeholder="message">
-        <button id="s">send</button>
-    </div>
-    <div>
-        <textarea id="l" readonly></textarea>
-    </div>
-    <script>
+</style>
+
+<h1>Ktn</h1>
+<nav><a href="/">index</a></nav>
+<h2>WebSocket</h2>
+<div>
+    ws://127.0.0.1:<input type="number" id="p" value="3000" min="0">
+    <button id="b">connect/disconnect</button>
+    <input type="text" id="m" placeholder="message">
+    <button id="s">send</button>
+</div>
+<div>
+    <textarea id="l" readonly></textarea>
+</div>
+
+<script>
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOMContentLoaded');
     let conn = null;
@@ -81,6 +79,4 @@ window.addEventListener('DOMContentLoaded', (event) => {
         conn.send(message);
     });
 }, false);
-    </script>
-</body>
-</html>
+</script>

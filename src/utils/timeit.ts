@@ -1,4 +1,4 @@
-export function timeit(f, tag = 'timeit') {
+export function timeit(f: () => unknown, tag = 'timeit') {
     console.time(tag);
     f();
     console.timeEnd(tag);

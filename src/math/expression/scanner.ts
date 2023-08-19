@@ -1,43 +1,21 @@
-'use strict';
-
-/**
- * @private
- * @type string
- */
 const NUM_CHARAS = '0123456789.';
-/**
- * @private
- * @type string
- */
 const OPE_CHARAS = '+-*/^()';
 
-/**
- * @class Scanner
- * @property {string} _src
- * @property {number} _index
- */
 export class Scanner {
   protected _src: string;
   protected _index: number;
 
-  /**
-   * @param {string} src
-   */
   constructor(src: string) {
     this._src = src;
     this._index = 0;
   }
 
-  /**
-   * @return {boolean}
-   */
   public eof(): boolean {
     return this._index >= this._src.length;
   }
 
   /**
    * parse comments, spaces, linebrakes, etc.
-   * @return {string}
    */
   public comment(): string {
     while (!this.eof()) {
@@ -57,7 +35,6 @@ export class Scanner {
 
   /**
    * tokenize top
-   * @return {string}
    */
   public lex(): string|null {
     if (this.eof()) {
@@ -73,7 +50,6 @@ export class Scanner {
 
   /**
    * tokenize number
-   * @return {string}
    */
   public num(): string {
     let n: string = this._src[this._index++];
@@ -90,7 +66,6 @@ export class Scanner {
 
   /**
    * tokenize punctuator
-   * @return {string}
    */
   public punctuator(): string {
     const s: string = this._src[this._index];

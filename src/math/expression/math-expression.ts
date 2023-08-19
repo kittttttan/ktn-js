@@ -1,5 +1,3 @@
-'use strict';
-
 import {Tokenizer} from './tokenizer';
 import {Parser, Ast} from './parser';
 import {Add} from './add';
@@ -8,29 +6,12 @@ import {Div} from './div';
 import {Pow} from './pow';
 import {Trigon, Sin, Cos, Tan} from './trigon';
 
-/**
- * @private
- */
 const add: (...items: any[]) => Add = Add.add;
-/**
- * @private
- */
 const sub: (...items: any[]) => Add = Add.sub;
-/**
- * @private
- */
 const mul: (...items: any[]) => Mul = Mul.mul;
-/**
- * @private
- */
 const div: (...items: any[]) => Div = Div.div;
-/**
- * @private
- */
 const pow: (a: any, p: any) => Pow = Pow.pow;
-/**
- * @private
- */
+
 function neg(a: any): any {
   if (typeof (a.neg) === 'function') {
     return a.neg();
@@ -38,25 +19,12 @@ function neg(a: any): any {
   return -a;
 }
 
-/**
- * @private
- */
 const sin: (a: any) => Sin = Trigon.sin;
-/**
- * @private
- */
 const cos: (a: any) => Cos = Trigon.cos;
-/**
- * @private
- */
 const tan: (a: any) => Tan = Trigon.tan;
 
 /**
  * MathExpression
- * @class MathExpression
- * @property {string[]} _tokens
- * @property {Tokenizer} _t
- * @property {Parser} _p
  */
 export class MathExpression {
   protected _ast: Ast|null;
@@ -64,32 +32,18 @@ export class MathExpression {
   protected _p: Parser|null;
   protected _t: Tokenizer;
 
-  /**
-   * @static
-   * @param {string} str
-   * @return {MathExpression}
-   */
   public static create(str: string): MathExpression {
     return new MathExpression(str);
   }
 
-  /**
-   * @return {string[]}
-   */
   get tokens(): string[] {
     return this._tokens;
   }
 
-  /**
-   * @return {Ast}
-   */
   get ast(): Ast|null {
     return this._ast;
   }
 
-  /**
-   * @param {string} src
-   */
   constructor(src: string) {
     this._t = new Tokenizer(src);
     this._p = null;
@@ -97,9 +51,6 @@ export class MathExpression {
     this._ast = null;
   }
 
-  /**
-   * @return {Ast}
-   */
   public parse(): Ast {
     if (this._tokens.length === 0) {
       this._tokens = this.tokenize();
@@ -113,19 +64,12 @@ export class MathExpression {
     return this._ast;
   }
 
-  /**
-   * @return {any}
-   */
   public eval(): any {
     const ast: Ast = this.parse();
     if (ast === null) return null;
     return this._parseAst(ast);
   }
 
-  /**
-   * @param {Ast} ast
-   * @return {any}
-   */
   private _parseAst(ast: Ast|undefined): any {
     if (ast === undefined) return null;
 
@@ -173,9 +117,6 @@ export class MathExpression {
     }
   }
 
-  /**
-   * @return {string[]}
-   */
   private tokenize(): string[] {
     const tokens: string[] = this._tokens;
     if (tokens.length > 0) {

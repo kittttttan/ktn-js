@@ -10,10 +10,6 @@ export class BitArray {
     this._a = new Uint32Array((this._l >> BitArray.BIT) + (!r ? 0 : 1));
   }
 
-  /**
-   * @param i
-   * @return
-   */
   public get(i: number): boolean {
     const arrayIndex = i >> BitArray.BIT;
     const bitIndex = i & ((1 << BitArray.BIT) - 1);
@@ -21,12 +17,7 @@ export class BitArray {
     return ((v >> bitIndex) & 1) === 1;
   }
 
-  /**
-   * @param i
-   * @param v
-   * @return
-   */
-  public set(i: number, v: boolean) {
+  public set(i: number, v: boolean): void {
     const arrayIndex = i >> BitArray.BIT;
     const bitIndex = i & ((1 << BitArray.BIT) - 1);
     if (v) {
@@ -37,11 +28,7 @@ export class BitArray {
     this._a[arrayIndex] &= ~(1 << bitIndex);
   }
 
-  /**
-   * @param v
-   * @return
-   */
-   public fill(v: boolean) {
+   public fill(v: boolean): void {
     if (v) {
       const arrayIndex = (this._l - 1) >> BitArray.BIT;
       const bitIndex = (this._l - 1) & ((1 << BitArray.BIT) - 1);
@@ -53,20 +40,13 @@ export class BitArray {
     this._a.fill(0);
   }
 
-  /**
-   * @param i
-   * @return
-   */
-   public toggle(i: number) {
+   public toggle(i: number): void {
     const arrayIndex = i >> BitArray.BIT;
     const bitIndex = i & ((1 << BitArray.BIT) - 1);
 
     this._a[arrayIndex] ^= (1 << bitIndex);
   }
 
-  /**
-   * @return
-   */
   public toString(): string {
     let s = '';
     const length = 1 << BitArray.BIT;

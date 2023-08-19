@@ -1,6 +1,5 @@
 import * as fs from "fs";
-import {DateUtil} from "../index";
-const dateFormat = DateUtil.format;
+import {format as dateFormat} from "../index";
 const domain = 'https://kittttttan.info';
 let out = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n' +
     '<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n';

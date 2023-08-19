@@ -1,7 +1,6 @@
 import {BitArray} from '../../src/utils/bitarray';
 
 describe("bitarray", ()=> {
-
   it("bitarray", ()=> {
     const a = new BitArray(64);
     expect('0'.repeat(64)).toBe(a.toString());
@@ -38,5 +37,4 @@ describe("bitarray", ()=> {
     expect(false).toBe(a.get(63));
     expect('0'.repeat(64)).toBe(a.toString());
   });
-
 });

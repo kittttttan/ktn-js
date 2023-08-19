@@ -8,65 +8,32 @@
  *   (r.real2() * 7 | 0) + 1; // 1 to 7
  */
 
-/**
- * @private
- * @private
- * @type number
- */
 const N = 624;
-
-/**
- * @private
- * @const
- * @type number
- */
 const M = 397;
-
-/**
- * constant vector a
- * @private
- * @const
- * @type number
- */
 const MATRIX_A = 0x9908b0df;
 
 /**
  * most significant w-r bits
- * @private
- * @const
- * @type number
  */
 const UPPER_MASK = 0x80000000;
 
 /**
  * least significant r bits
- * @private
- * @const
- * @type number
  */
 const LOWER_MASK = 0x7fffffff;
 
 /**
  * 2^32
- * @private
- * @const
- * @type number
  */
 const REV32 = 1.0 / 4294967296.0;
 
 /**
  * 2^32-1
- * @private
- * @const
- * @type number
  */
 const REV32_1 = 1.0 / 4294967295.0;
 
 /**
  * Random
- * @class Random
- * @property {Uint32Array} Random#_mt
- * @property {number} Random#_mti
  */
 export class Random {
   protected _mt: Uint32Array;
@@ -76,16 +43,10 @@ export class Random {
    * Initialize
    */
   constructor() {
-    /**
-     * @private
-     * @property {Uint32Array} Random#mt
-     */
     this._mt = new Uint32Array(N);
 
     /**
      * mti==N+1 means mt[N] is not initialized
-     * @private
-     * @property {number} Random#mti
      */
     this._mti = N + 1;
 
@@ -96,7 +57,6 @@ export class Random {
 
   /**
    * initializes mt[N] with a seed
-   * @param {number} seed
    */
   public init(seed: number): void {
     seed = seed | 0;
@@ -117,7 +77,7 @@ export class Random {
 
   /**
    * initialize by an array with array-length
-   * @param {Array<number>} initKey the array for initializing keys
+   * @param initKey the array for initializing keys
    */
   public initByArray(initKey: number[]): void {
     this.init(19650218);
@@ -155,7 +115,7 @@ export class Random {
   }
 
   /**
-   * @return {number} a random number on [0,0xffffffff]-interval
+   * @return a random number on [0,0xffffffff]-interval
    */
   public int32(): number {
     const mag01: number[] = [];
@@ -199,28 +159,28 @@ export class Random {
   }
 
   /**
-   * @return {number} a random number on [0,0x7fffffff]-interval
+   * @return a random number on [0,0x7fffffff]-interval
    */
   public int31(): number {
     return (this.int32() >>> 1);
   }
 
   /**
-   * @return {number} a random number on [0,1]-real-interval
+   * @return a random number on [0,1]-real-interval
    */
   public real1(): number {
     return this.int32() * REV32_1;
   }
 
   /**
-   * @return {number} a random number on [0,1)-real-interval
+   * @return a random number on [0,1)-real-interval
    */
   public real2(): number {
     return this.int32() * REV32;
   }
 
   /**
-   * @return {number} a random number on (0,1)-real-interval
+   * @return a random number on (0,1)-real-interval
    */
   public real3(): number {
     return (this.int32() + 0.5) * REV32;

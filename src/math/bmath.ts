@@ -2,23 +2,10 @@ export function abs(a: bigint): bigint {
   return a < 0n ? -a : a;
 }
 
-export function gcd(a: bigint, b: bigint): bigint {
-  if (a < 0n) {
-    throw new RangeError('a < 0');
-  }
-  if (b < 0n) {
-    throw new RangeError('b < 0');
-  }
-  if (a == 0n && b == 0n) {
-    throw new RangeError('a = 0 and b = 0');
-  }
+export function gcd(...args: bigint[]): bigint {
+  const f = (x: bigint, y: bigint) => y ? f(y, x % y) : x;
 
-  function impl(a: bigint, b: bigint): bigint {
-    if (b == 0n) { return a; }
-    return impl(b, a % b);
-  }
-
-  return a < b ? impl(b, a) : impl(a, b);
+  return args.reduce(f);
 }
 
 export function isqrt(a: bigint): bigint {

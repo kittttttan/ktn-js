@@ -1,5 +1,11 @@
 import {timeit} from "../src/utils";
-import {bmrpt, rho} from "../src/math";
+import {primes, bmrpt, rho} from "../src/math";
+import {take} from "../src/utils/iter";
+
+timeit(() => {
+    console.log('first 10th prime numbers');
+    console.log([...take(primes(), 10)]);
+});
 
 timeit(() => {
     console.log('メルセンヌ数 Mn = 2^n - 1');

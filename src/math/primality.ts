@@ -5,29 +5,23 @@
 import { isqrt } from './bmath';
 import { BitArray } from '../utils/bitarray';
 
-export function* primes(): IterableIterator<number> {
-  const list: number[] = [
-    2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
-    31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
-    73, 79, 83, 89, 97,
-  ];
-  yield* list;
+export function* primes(): Generator<number> {
+  yield 2;
+  yield 3;
 
-  const len: number = list.length;
-  const init: number = list[len - 1] + 2;
-  for (let i: number = init; ; i += 2) {
-    let f = false;
-    for (let j = 1, lj: number; (lj = list[j]) * lj <= i; ++j) {
-      f = true;
-      if (i % lj === 0) {
-        f = false;
-        break;
-      }
-    }
-    if (f) {
-      list.push(i);
+  for (let i: number = 5; ;) {
+    // 6n-1
+    if (isPrime(i)) {
       yield i;
     }
+    i += 2;
+
+    // 6n+1
+    if (isPrime(i)) {
+      yield i;
+    }
+    // 6n+3 is not prime
+    i += 4;
   }
 }
 
@@ -203,8 +197,11 @@ export function isPrime(a: number): boolean {
   if (!(a & 1) || !(a % 3)) {
     return false;
   }
+
   const sq: number = (Math.sqrt(a) | 0);
   let i = 5;
+  if (i > sq) { return true; }
+
   for (; ;) {
     if (!(a % i)) {
       return false;

@@ -8,9 +8,11 @@ describe('bmath', ()=> {
   });
 
   it('gcd', ()=> {
+    expect(2n).toBe(gcd(2n));
     expect(4n).toBe(gcd(12n, 8n));
     expect(3n).toBe(gcd(123n, 321n));
     expect(10n).toBe(gcd(10n ** 64n, 1234567890n));
+    expect(6n).toBe(gcd(12n, 42n, 60n));
   });
 
   it('isqrt', ()=> {

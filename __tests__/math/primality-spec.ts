@@ -1,4 +1,5 @@
-import {sieveA, sieveE, isPrime, isBigPrime, factorization} from '../../src/math/primality';
+import {primes, sieveA, sieveE, isPrime, isBigPrime, factorization} from '../../src/math/primality';
+import {take, takeWhile} from '../../src/utils/iter';
 
 describe('primality', ()=> {
   const expects = [
@@ -6,23 +7,24 @@ describe('primality', ()=> {
     31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
     73, 79, 83, 89, 97,
   ];
-  // it('top', ()=> {
-  //   let index = 0;
-  //   for (let p of top(7)) {
-  //     expect(p).toBe(expects[index]);
-  //     ++index;
-  //   }
-  //   expect(index).toBe(7);
-  // });
 
-  // it('max', ()=> {
-  //   let index = 0;
-  //   for (let p of max(100)) {
-  //     expect(p).toBe(expects[index]);
-  //     ++index;
-  //   }
-  //   expect(index).toBe(25);
-  // });
+  it('take', ()=> {
+    let index = 0;
+    for (let p of take(primes(), 7)) {
+      expect(p).toBe(expects[index]);
+      ++index;
+    }
+    expect(index).toBe(7);
+  });
+
+  it('takeWhile', ()=> {
+    let index = 0;
+    for (let p of takeWhile(primes(), (n) => n < 100)) {
+      expect(p).toBe(expects[index]);
+      ++index;
+    }
+    expect(index).toBe(25);
+  });
 
   it('sieve', ()=> {
     let index = 0;

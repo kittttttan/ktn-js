@@ -3,6 +3,7 @@ export * from './math/complex';
 export * from './math/expression/math-expression';
 export * from './math/fft';
 export * from './math/matrix';
+export * from './math/perfect';
 export * from './math/primality';
 export * from './math/quaternion';
 export * from './math/rational';

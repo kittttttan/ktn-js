@@ -5,14 +5,15 @@
  * F1 = 1
  * Fn+2 = Fn + Fn-1 (n >= 0)
  */
+import type {uint} from '../types';
 
 /**
  * generate Fibonacci numbers
  */
-export function* fibonacci(): Generator<number> {
+export function* fibonacci(): Generator<uint> {
   yield 0;
 
-  let [a, b]: number[] = [1, 0];
+  let [a, b] = [1, 0];
   while (true) {
     yield a;
     [a, b] = [a + b, a];
@@ -22,7 +23,7 @@ export function* fibonacci(): Generator<number> {
 export function* bigFibonacci(): Generator<bigint> {
   yield 0n;
 
-  let [a, b]: bigint[] = [1n, 0n];
+  let [a, b] = [1n, 0n];
   while (true) {
     yield a;
     [a, b] = [a + b, a];
@@ -34,12 +35,12 @@ export function* bigFibonacci(): Generator<bigint> {
  * |   | x |   | = |           |
  * |b c|   |e f|   |bd+ce be+cf|
  */
-function mmul(a: number[], b: number[]): number[] {
-  const ad: number = a[0] * b[0];
-  const be: number = a[1] * b[1];
-  const bd: number = a[1] * b[0];
-  const ce: number = a[2] * b[1];
-  const cf: number = a[2] * b[2];
+function mmul(a: uint[], b: uint[]): uint[] {
+  const ad = a[0] * b[0];
+  const be = a[1] * b[1];
+  const bd = a[1] * b[0];
+  const ce = a[2] * b[1];
+  const cf = a[2] * b[2];
   return [ad + be, bd + ce, be + cf];
 }
 
@@ -50,12 +51,12 @@ function mmul(a: number[], b: number[]): number[] {
  * |   |   = |         |
  * |1 0|     |Fn   Fn-1|
  */
-export function fib(n: number): number {
+export function fib(n: uint): uint {
   if (n < 1) {
     return 0;
   }
-  let a: number[] = [1, 1, 0];
-  let b: number[] = [1, 1, 0];
+  let a = [1, 1, 0];
+  let b = [1, 1, 0];
   --n;
   while (n > 0) {
     if (n & 1) {
@@ -68,11 +69,11 @@ export function fib(n: number): number {
 }
 
 function bmmul(a: bigint[], b: bigint[]): bigint[] {
-  const ad: bigint = a[0] * b[0];
-  const be: bigint = a[1] * b[1];
-  const bd: bigint = a[1] * b[0];
-  const ce: bigint = a[2] * b[1];
-  const cf: bigint = a[2] * b[2];
+  const ad = a[0] * b[0];
+  const be = a[1] * b[1];
+  const bd = a[1] * b[0];
+  const ce = a[2] * b[1];
+  const cf = a[2] * b[2];
   return [ad + be, bd + ce, be + cf];
 }
 
@@ -80,8 +81,8 @@ export function bigFib(n: bigint): bigint {
   if (n < 1) {
     return 0n;
   }
-  let a: bigint[] = [1n, 1n, 0n];
-  let b: bigint[] = [1n, 1n, 0n];
+  let a = [1n, 1n, 0n];
+  let b = [1n, 1n, 0n];
   --n;
   while (n > 0n) {
     if (n & 1n) {

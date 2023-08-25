@@ -1,9 +1,11 @@
+import type {float} from '../types';
+
 /**
  * Complex
  */
 export class Complex {
-  protected _r: number;
-  protected _i: number;
+  protected _r: float;
+  protected _i: float;
 
   constructor(r = 0, i = 0) {
     this._r = +r;
@@ -24,19 +26,19 @@ export class Complex {
     return new Complex(1);
   }
 
-  get real(): number {
+  get real(): float {
     return this._r;
   }
 
-  set real(real: number) {
+  set real(real: float) {
     this._r = real;
   }
 
-  get imag(): number {
+  get imag(): float {
     return this._i;
   }
 
-  set imag(imag: number) {
+  set imag(imag: float) {
     this._i = imag;
   }
 
@@ -48,7 +50,7 @@ export class Complex {
     return new Complex(this._r, this._i);
   }
 
-  public scale(a: number): Complex {
+  public scale(a: float): Complex {
     a = +a;
     return new Complex(this._r * a, this._i * a);
   }

@@ -1,4 +1,6 @@
-export function* collatz(n: number): Generator<number> {
+import type {uint} from '../types';
+
+export function* collatz(n: uint): Generator<uint> {
     for (; ;) {
         yield n;
         if ((n & 1) === 0) {

@@ -1,7 +1,9 @@
+import type {Np, float} from '../types';
+
 /**
  * range like python3
  */
-export function* range(start: number, end?: number, step?: number): Generator<number> {
+export function* range(start: float, end?: float, step?: float): Generator<number> {
   if (step === 0) {
     throw new Error('range() arg 3 must not be zero');
   }
@@ -52,7 +54,7 @@ export function* zip(...iterables: Generator<any>[]): Generator<any> {
   }
 }
 
-export function* take<T>(g: Generator<T>, n: number, offset = 0): Generator<T> {
+export function* take<T>(g: Generator<T>, n: Np, offset = 0): Generator<T> {
   for (const v of g) {
     if (n-- <= 0) {
       return;

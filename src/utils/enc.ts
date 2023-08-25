@@ -1,4 +1,6 @@
-export function encodeUnary(n: number, alt = false): string {
+import type {uint} from '../types';
+
+export function encodeUnary(n: uint, alt = false): string {
   if (n < 0) { throw new Error(`unary(n, alt): n=${n} must >= 0`); }
 
   let former: string;
@@ -14,27 +16,27 @@ export function encodeUnary(n: number, alt = false): string {
   return former.repeat(n) + latter;
 }
 
-export function encodeEliasGamma(n: number): string {
+export function encodeEliasGamma(n: uint): string {
   if (n < 1) { throw new Error(`eliasGamma(n): n=${n} must >= 1`); }
 
-  const bin: string = n.toString(2);
+  const bin = n.toString(2);
   return '0'.repeat(bin.length - 1) + bin;
 }
 
-export function encodeEliasDelta(n: number): string {
+export function encodeEliasDelta(n: uint): string {
   if (n < 1) { throw new Error(`eliasDelta(n): n=${n} must >= 1`); }
 
-  const bin: string = n.toString(2);
-  const gamma: string = encodeEliasGamma(bin.length);
+  const bin = n.toString(2);
+  const gamma = encodeEliasGamma(bin.length);
   return gamma + bin.substring(1);
 }
 
-export function encodeEliasOmega(n: number): string {
+export function encodeEliasOmega(n: uint): string {
   if (n < 1) { throw new Error(`eliasOmega(n): n=${n} must >= 1`); }
 
   let res = '0';
   while (n > 1) {
-    const bin: string = n.toString(2);
+    const bin = n.toString(2);
     res = bin + res;
     n = bin.length - 1;
   }
@@ -42,19 +44,19 @@ export function encodeEliasOmega(n: number): string {
   return res;
 }
 
-export function encodeGolomb(n: number, m = 8): string {
+export function encodeGolomb(n: uint, m = 8): string {
   if (n < 0) { throw new Error(`golomb(n, m): n=${n} must >= 0`); }
 
   m = (m | 0) || 8;
   if (m < 1) { throw new Error(`golomb(n, m): m=${m} must >= 1`); }
 
-  const q: number = n / m | 0;
-  const r: number = n % m;
-  const bin: string = m.toString(2);
-  let b: number = bin.length - 1;
-  const isBin: boolean = (b !== 1) && !(b & (b - 1));
+  const q = n / m | 0;
+  const r = n % m;
+  const bin = m.toString(2);
+  let b = bin.length - 1;
+  const isBin = (b !== 1) && !(b & (b - 1));
 
-  let res: string = encodeUnary(q, true);
+  let res = encodeUnary(q, true);
   if (isBin) {
     res += ('0'.repeat(b) + r.toString(2)).slice(-b);
   } else {
@@ -86,7 +88,7 @@ export function decodeUnary(str: string, alt = false): number[] {
   }
 
   let cnt = 0;
-  const l: number = str.length;
+  const l = str.length;
   for (let i = 0; i < l; ++i) {
     switch (str.charAt(i)) {
       case former:
@@ -104,11 +106,11 @@ export function decodeUnary(str: string, alt = false): number[] {
   return res;
 }
 
-export function decodeEliasGamma(str: string): number[] {
-  const res: number[] = [];
+export function decodeEliasGamma(str: string): uint[] {
+  const res: uint[] = [];
   if (!str) { return res; }
 
-  const l: number = str.length;
+  const l = str.length;
   let cnt = 0;
   let bin = '';
   for (let i = 0; i < l; ++i) {
@@ -128,14 +130,14 @@ export function decodeEliasGamma(str: string): number[] {
   return res;
 }
 
-export function decodeEliasDelta(str: string): number[] {
-  const res: number[] = [];
+export function decodeEliasDelta(str: string): uint[] {
+  const res: uint[] = [];
   if (!str) { return res; }
 
-  const l: number = str.length;
+  const l = str.length;
   let cnt = 0;
   let bin = '';
-  let gamma: number;
+  let gamma: uint;
   for (let i = 0; i < l; ++i) {
     if (str.charAt(i) === '0') {
       ++cnt;
@@ -158,11 +160,11 @@ export function decodeEliasDelta(str: string): number[] {
   return res;
 }
 
-export function decodeEliasOmega(str: string): number[] {
-  const res: number[] = [];
+export function decodeEliasOmega(str: string): uint[] {
+  const res: uint[] = [];
   if (!str) { return res; }
 
-  const l: number = str.length;
+  const l = str.length;
   let n = 1;
   let bin = '';
   for (let i = 0; i < l; ++i) {

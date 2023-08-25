@@ -1,6 +1,7 @@
+import type {uint} from '../types';
 import {isBigPrime} from '../math/primality';
 
-export function divisors(n: number): number[] {
+export function divisors(n: uint): number[] {
   n = n | 0;
   const as = [1];
   const sq = Math.sqrt(n) | 0;
@@ -19,7 +20,7 @@ export function divisors(n: number): number[] {
   return as;
 }
 
-export function isPerfect(n: number): boolean {
+export function isPerfect(n: uint): boolean {
   let s = 0;
   for (const d of divisors(n)) {
     s += d;
@@ -28,7 +29,7 @@ export function isPerfect(n: number): boolean {
   return s === 2 * n;
 }
 
-export function* perfects() {
+export function* perfects(): Generator<uint> {
   for (let i = 2; i < Number.MAX_SAFE_INTEGER; i++) {
     if (isPerfect(i)) {
       yield i;
@@ -36,7 +37,7 @@ export function* perfects() {
   }
 }
 
-export function* evenPerfects() {
+export function* evenPerfects(): Generator<bigint> {
   for (let i = 1n; i < Number.MAX_SAFE_INTEGER; i++) {
     const mp = (2n ** i) - 1n;
     if (isBigPrime(mp)) {

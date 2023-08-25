@@ -1,15 +1,15 @@
 /**
  * Generate Prime Number List in JavaScript
  */
-
+import type {uint, Np} from '../types';
 import { isqrt } from './bmath';
 import { BitArray } from '../utils/bitarray';
 
-export function* primes(): Generator<number> {
+export function* primes(): Generator<uint> {
   yield 2;
   yield 3;
 
-  for (let i: number = 5; ;) {
+  for (let i = 5; ;) {
     // 6n-1
     if (isPrime(i)) {
       yield i;
@@ -31,16 +31,16 @@ export function* primes(): Generator<number> {
  * @param n
  * @return
  */
-export function* sieveE_(n: number): Generator<number> {
+export function* sieveE_(n: uint): Generator<uint> {
   if (n < 2) { return; }
-  const s: boolean[] = [false, false];
-  const sqrtn: number = Math.sqrt(n) | 0;
+  const s = [false, false];
+  const sqrtn = Math.sqrt(n) | 0;
   for (let i = 2; i < n + 1; ++i) {
     s[i] = true;
   }
   for (let i = 2; i < sqrtn + 1; ++i) {
     if (s[i]) {
-      for (let j: number = i * i; j < n + 1; j += i) {
+      for (let j = i * i; j < n + 1; j += i) {
         s[j] = false;
       }
     }
@@ -58,16 +58,16 @@ export function* sieveE_(n: number): Generator<number> {
  * @param n
  * @return
  */
-export function* sieveE(n: number): Generator<number> {
+export function* sieveE(n: uint): Generator<uint> {
   if (n < 2) { return; }
-  const s: BitArray = new BitArray(n);
-  const sqrtn: number = Math.sqrt(n) | 0;
+  const s = new BitArray(n);
+  const sqrtn = Math.sqrt(n) | 0;
   for (let i = 2; i < n + 1; ++i) {
     s.set(i, true);
   }
   for (let i = 2; i < sqrtn + 1; ++i) {
     if (s.get(i)) {
-      for (let j: number = i * i; j < n + 1; j += i) {
+      for (let j = i * i; j < n + 1; j += i) {
         s.set(j, false);
       }
     }
@@ -84,12 +84,12 @@ export function* sieveE(n: number): Generator<number> {
  * @param n
  * @return
  */
-export function* sieveA(n: number): Generator<number> {
+export function* sieveA(n: uint): Generator<uint> {
   if (n < 2) { return; }
 
-  const s: BitArray = new BitArray(n);
-  const upper: number = n + 1;
-  const upperSqrt: number = (Math.sqrt(n) | 0) + 1;
+  const s = new BitArray(n);
+  const upper = n + 1;
+  const upperSqrt = (Math.sqrt(n) | 0) + 1;
 
   for (let z = 1; z < 6; z += 4) {
     for (let y = z; y < upperSqrt; y += 6) {
@@ -162,7 +162,7 @@ export function* sieveA(n: number): Generator<number> {
  * @param n 
  * @returns 
  */
-export function* factorization(n: number): Generator<number> {
+export function* factorization(n: Np): Generator<Np> {
   if (n < 1) {
     throw new RangeError('n < 1');
   }
@@ -187,7 +187,7 @@ export function* factorization(n: number): Generator<number> {
  * @param a 
  * @return
  */
-export function isPrime(a: number): boolean {
+export function isPrime(a: uint): boolean {
   if (a < 2) {
     return false;
   }
@@ -198,7 +198,7 @@ export function isPrime(a: number): boolean {
     return false;
   }
 
-  const sq: number = (Math.sqrt(a) | 0);
+  const sq = (Math.sqrt(a) | 0);
   let i = 5;
   if (i > sq) { return true; }
 
@@ -234,7 +234,7 @@ export function isBigPrime(a: bigint): boolean {
   if (!(a & 1n) || !(a % 3n)) {
     return false;
   }
-  const sq: bigint = isqrt(a);
+  const sq = isqrt(a);
   let i = 5n;
   for (; ;) {
     if (!(a % i)) {
@@ -259,7 +259,7 @@ export function isBigPrime(a: bigint): boolean {
  * @param mod
  * @return
  */
-export function modMathPow(base: number, power: number, mod: number): number {
+export function modMathPow(base: uint, power: uint, mod: uint): uint {
   let result = 1;
   while (power > 0) {
     if (power & 1) {
@@ -276,7 +276,7 @@ export function modMathPow(base: number, power: number, mod: number): number {
  * @param n
  * @return true if probably prime
  */
-export function mrpt(n: number): boolean {
+export function mrpt(n: uint): boolean {
   if (isNaN(n) || n < 2) {
     return false;
   }
@@ -287,15 +287,15 @@ export function mrpt(n: number): boolean {
     return false;
   }
 
-  let d: number = n - 1;
+  let d = n - 1;
   while (!(d & 1)) {
     d >>= 1;
   }
   let i = 20;
   while (i--) {
-    const a: number = (Math.random() * (n - 2) | 0) + 1;
-    let t: number = d;
-    let y: number = modMathPow(a, t, n);
+    const a = (Math.random() * (n - 2) | 0) + 1;
+    let t = d;
+    let y = modMathPow(a, t, n);
     while (t !== n - 1 && y !== 1 && y !== n - 1) {
       y = (y * y) % n;
       t <<= 1;
@@ -341,17 +341,17 @@ export function bmrpt(n: bigint): boolean {
     return false;
   }
 
-  let d: bigint = n - 1n;
+  let d = n - 1n;
   while (!(d & 1n)) {
     d >>= 1n;
   }
   let i = 20;
-  const max: number = BigInt(Number.MAX_SAFE_INTEGER) > n - 2n ?
+  const max = BigInt(Number.MAX_SAFE_INTEGER) > n - 2n ?
     Number(n - 2n) : Number.MAX_SAFE_INTEGER;
   while (i--) {
-    const a: bigint = BigInt(Math.random() * max | 0) + 1n;
-    let t: bigint = d;
-    let y: bigint = bmodMathPow(a, t, n);
+    const a = BigInt(Math.random() * max | 0) + 1n;
+    let t = d;
+    let y = bmodMathPow(a, t, n);
     while (t != n - 1n && y != 1n && y != n - 1n) {
       y = (y * y) % n;
       t <<= 1n;

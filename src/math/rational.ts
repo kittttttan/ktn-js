@@ -56,17 +56,17 @@ export class Rational {
    * @param a ex.'-1/2', '0.1/1.02'.
    */
   public static str(a: string): Rational {
-    const as: string[] = a.split('/');
+    const as = a.split('/');
     as[1] = as[1] || '1';
 
     // sign
-    const [s1, s2]: boolean[] = [as[0][0] === '-', as[1][0] === '-'];
+    const [s1, s2] = [as[0][0] === '-', as[1][0] === '-'];
     as[0] = as[0].replace(/[-+]/g, '');
     as[1] = as[1].replace(/[-+]/g, '');
 
     // dot
-    const [d1, d2]: number[] = [as[0].indexOf('.'), as[1].indexOf('.')];
-    const [l1, l2]: number[] = [d1 < 0 ? 0 : as[0].length - d1 - 1, d2 < 0 ? 0 : as[1].length - d2 - 1];
+    const [d1, d2] = [as[0].indexOf('.'), as[1].indexOf('.')];
+    const [l1, l2] = [d1 < 0 ? 0 : as[0].length - d1 - 1, d2 < 0 ? 0 : as[1].length - d2 - 1];
     as[0] = as[0].replace('.', '').replace(/^0*(\d+)$/, '$1');
     as[1] = as[1].replace('.', '').replace(/^0*(\d+)$/, '$1');
     if (l1 > l2) {
@@ -104,7 +104,7 @@ export class Rational {
   }
 
   public static cancel(a: bigint, b: bigint): bigint[] {
-    const g: bigint = gcd(abs(a), abs(b));
+    const g = gcd(abs(a), abs(b));
     a /= g;
     b /= g;
     if (b < 0n) {
@@ -138,7 +138,7 @@ export class Rational {
   }
 
   public abs(): Rational {
-    const n: bigint = this._n < 0n ? -this._n : this._n;
+    const n = this._n < 0n ? -this._n : this._n;
     return new Rational(n, this._d, true);
   }
 
@@ -179,8 +179,8 @@ export class Rational {
   }
 
   public inv(): Rational {
-    const n: bigint = this._n;
-    const d: bigint = this._d;
+    const n = this._n;
+    const d = this._d;
     if (n == 0n) {
       throw new Error('zero division');
     }

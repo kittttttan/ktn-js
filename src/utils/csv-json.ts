@@ -17,10 +17,10 @@ export interface ToCsvOpt {
  * CSV to JSON
  */
 export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): string {
-  const sep: string = opt.sep || '\t';
+  const sep = opt.sep || '\t';
 
-  const colLength: number = column.length;
-  const lines: string[] = s.split(/[\r\n]+/);
+  const colLength = column.length;
+  const lines = s.split(/[\r\n]+/);
   let json: Record<string, any> = {};
   const items: Record<string, any>[] = [];
   for (const line of lines) {
@@ -28,7 +28,7 @@ export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): str
       continue;
     }
     const item: Record<string, any> = {};
-    const words: string[] = line.split(sep);
+    const words = line.split(sep);
     for (let i = 0; i < colLength; ++i) {
       if (!column[i]) {
         throw new Error('Invalid CSV');
@@ -38,16 +38,16 @@ export function csvToJson(s: string, column: string[], opt: ToJsonOpt = {}): str
       let leaf: Record<string, any> = item;
       let doParseInt = false;
       let doParseFloat = false;
-      const clTypeArr: string[] = column[i].split(':');
-      const clType: string = clTypeArr.length > 1 ? clTypeArr[1] : '';
+      const clTypeArr = column[i].split(':');
+      const clType = clTypeArr.length > 1 ? clTypeArr[1] : '';
       if (clType === 'i') {
         doParseInt = true;
       } else if (clType === 'n') {
         doParseFloat = true;
       }
 
-      const com: string[] = clTypeArr[0].split('.');
-      const cl: number = com.length;
+      const com = clTypeArr[0].split('.');
+      const cl = com.length;
       let k = 0;
       while (k < cl - 1) {
         if (typeof leaf[com[k]] === 'undefined') {
@@ -103,7 +103,7 @@ function addValue(val: any[], item: any): void {
  * JSON to CSV
  */
 export function jsonToCsv(s: string, opt: ToCsvOpt = {}): string {
-  const sep: string = opt.sep || '\t';
+  const sep = opt.sep || '\t';
   const json: any = JSON.parse(s);
   // console.debug(json);
 
@@ -111,7 +111,7 @@ export function jsonToCsv(s: string, opt: ToCsvOpt = {}): string {
   const labels: string[] = [];
   addLabel(labels, [], items[0]);
   // console.debug(labels);
-  let csv: string = labels.join(sep);
+  let csv = labels.join(sep);
   csv += '\r\n';
   for (const item of items) {
     const val: any[] = [];

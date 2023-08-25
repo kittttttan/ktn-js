@@ -1,3 +1,4 @@
+import type {float} from '../types';
 import {Complex} from './complex';
 
 const cos: (x: number) => number = Math.cos;
@@ -12,9 +13,9 @@ export class Fft {
   /**
    * convert Array<number> to Array<Complex>.
    */
-  public static fl2Comp(x: number[]): Complex[] {
+  public static fl2Comp(x: float[]): Complex[] {
     const c: Complex[] = [];
-    const l: number = x.length;
+    const l = x.length;
     for (let i = 0; i < l; ++i) {
       c[i] = new Complex(x[i], 0.0);
     }
@@ -48,10 +49,10 @@ export class Fft {
    * transform
    */
   protected static _fft(x: Complex[]): Complex[] {
-    const N: number = x.length;
+    const N = x.length;
     if (N === 4) { return this._fft4(x); }
 
-    const N2: number = N >> 1;
+    const N2 = N >> 1;
     const even: Complex[] = [];
     // const odd = [];
     for (let k = 0; k < N2; ++k) {
@@ -68,7 +69,7 @@ export class Fft {
     }
     const r: Complex[] = this._fft(odd);
 
-    const th: number = PI2 / N;
+    const th = PI2 / N;
     const y: Complex[] = [];
     let kth = 0.0;
     let wk: Complex = r[0].mul(new Complex(1, 0));
@@ -89,7 +90,7 @@ export class Fft {
    * Fast Fourier transform
    */
   public static fft(x: Complex[]): Complex[] {
-    const N: number = x.length;
+    const N = x.length;
     if (N < 1 || (N & (N - 1))) {
       throw new Error('length of data must be a power of 2.');
     }
@@ -102,7 +103,7 @@ export class Fft {
    * inverse
    */
   public static ifft(x: Complex[]): Complex[] {
-    const N: number = x.length;
+    const N = x.length;
     let y: Complex[] = [];
     for (let i = 0; i < N; ++i) {
       y[i] = x[i].conj();
@@ -110,7 +111,7 @@ export class Fft {
 
     y = this.fft(y);
 
-    const div: number = 1.0 / N;
+    const div = 1.0 / N;
     for (const yi of y) {
       yi.real *= div;
       yi.imag *= -div;
@@ -119,11 +120,11 @@ export class Fft {
     return y;
   }
 
-  public static fftFloat(x: number[]): Complex[] {
+  public static fftFloat(x: float[]): Complex[] {
     return this.fft(this.fl2Comp(x));
   }
 
-  public static ifftFloat(x: number[]): Complex[] {
+  public static ifftFloat(x: float[]): Complex[] {
     return this.ifft(this.fl2Comp(x));
   }
 }

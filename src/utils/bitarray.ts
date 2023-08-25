@@ -1,23 +1,25 @@
+import type {uint} from '../types';
+
 export class BitArray {
   protected static BIT = 5;
 
   protected _a: Uint32Array;
-  protected _l: number;
+  protected _l: uint;
 
-  constructor(n: number) {
+  constructor(n: uint) {
     this._l = n | 0;
     const r = this._l & ((1 << BitArray.BIT) - 1);
     this._a = new Uint32Array((this._l >> BitArray.BIT) + (!r ? 0 : 1));
   }
 
-  public get(i: number): boolean {
+  public get(i: uint): boolean {
     const arrayIndex = i >> BitArray.BIT;
     const bitIndex = i & ((1 << BitArray.BIT) - 1);
     const v = this._a[arrayIndex];
     return ((v >> bitIndex) & 1) === 1;
   }
 
-  public set(i: number, v: boolean): void {
+  public set(i: uint, v: boolean): void {
     const arrayIndex = i >> BitArray.BIT;
     const bitIndex = i & ((1 << BitArray.BIT) - 1);
     if (v) {
@@ -40,7 +42,7 @@ export class BitArray {
     this._a.fill(0);
   }
 
-   public toggle(i: number): void {
+   public toggle(i: uint): void {
     const arrayIndex = i >> BitArray.BIT;
     const bitIndex = i & ((1 << BitArray.BIT) - 1);
 

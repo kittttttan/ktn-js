@@ -1,27 +1,51 @@
 import {timeit} from "../src/utils";
-import {primes, bmrpt, rho} from "../src/math";
+import {primes, bmrpt, rho, sieveA, pi, mersennePrimes, fermat} from "../src/math";
 import {take} from "../src/utils/iter";
+import primeLists from "../json/prime-static-1e7.json";
 
 timeit(() => {
     console.log('first 10th prime numbers');
     console.log([...take(primes(), 10)]);
 });
+console.log();
+
+timeit(() => {
+    const n = 1e5;
+    console.log(`prime numbers <= ${n}`);
+    let i = 0;
+    for (const p of sieveA(n)) {
+        if (p !== primeLists[i]) {
+            console.error(`${i} ${p} ${primeLists[i]}`);
+            break;
+        }
+        i++;
+    }
+
+    const p = pi(n);
+    console.log(`estimate: ${p}, count: ${i}`);
+});
+console.log();
 
 timeit(() => {
     console.log('メルセンヌ数 Mn = 2^n - 1');
-    for (let i = 1n; i < 21n; i++) {
-        const m = (1n << i) - 1n;
-        console.log(m.toString(), bmrpt(m));
+    console.log('n Mn');
+    for (const [p, mp] of take(mersennePrimes(), 10)) {
+        console.log(`${p} ${mp}`);
     }
 });
+console.log();
 
 timeit(() => {
     console.log('フェルマー数 Fn = 2^{2^n} + 1');
-    for (let i = 1n; i < 8n; i++) {
-        const m = (1n << (1n << i)) + 1n;
-        console.log(m.toString(), bmrpt(m));
+    let i = 0;
+    for (const f of take(fermat(), 6)) {
+        if (bmrpt(f)) {
+            console.log(`${i} ${f}`);
+        }
+        i++;
     }
 });
+console.log();
 
 timeit(() => {
     console.log('ρ(ロー)法');

@@ -1,4 +1,4 @@
-import {fibonacci} from '../../src/math/fib';
+import {fibonacci} from '../../src/math/sequence/fib';
 import {take, takeWhile} from '../../src/utils/iter';
 
 describe("Fibonacci", ()=> {

@@ -1,12 +1,12 @@
-import type {int, Np} from '../types';
-import {abs} from './bmath';
+import type { int, Np } from '../types';
+import { abs } from './bmath';
 
-type Option = {precision?: Np};
+type Option = { precision?: Np };
 let precision: Np = 20;
 
 type BICParam = Parameters<BigIntConstructor>[0];
 
-export function dec(n: BICParam = 0n, e: string|number = 0): Decimal {
+export function dec(n: BICParam = 0n, e: string | number = 0): Decimal {
   if (typeof n !== 'bigint') {
     n = BigInt(n);
   }
@@ -55,6 +55,9 @@ export class Decimal {
 
   toString(): string {
     if (this.e > 0) {
+      if (this.d === 0n) {
+        return '0';
+      }
       return `${this.d}${'0'.repeat(this.e)}`;
     }
     if (this.e < 0) {
@@ -69,16 +72,34 @@ export class Decimal {
     return `${this.d}`;
   }
 
-  norm(): void {
+  norm(): this {
     while (this.d % 10n === 0n) {
       this.d /= 10n;
       this.e++;
     }
+
+    return this;
   }
 
-  scale(n: number): void {
+  scale(n: number): this {
     this.d *= 10n ** BigInt(n);
     this.e -= n;
+
+    return this;
+  }
+
+  floor(n: number): this {
+    let de = n - this.e;
+    while (de-- > 0) {
+      if (abs(this.d) === 0n) {
+        break;
+      }
+
+      this.d /= 10n;
+      this.e++;
+  }
+
+    return this;
   }
 
   neg(): Decimal {
@@ -124,15 +145,15 @@ export class Decimal {
   }
 
   pow(a: int): Decimal {
+    if (a < 0) {
+      throw new RangeError('negative pow is not implemented');
+    }
     let d = abs(this.d) ** BigInt(a);
     if (this.d < 0) {
       d = -d;
     }
 
-    let e = Math.abs(this.e) ** a;
-    if (this.e < 0) {
-      e = -e;
-    }
+    const e = this.e * a;
 
     return new Decimal(d, e);
   }

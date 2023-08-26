@@ -27,34 +27,6 @@ export function* primes(): Generator<uint> {
 
 /**
  * Sieve of Eratosthenes
- * with array
- * @param n
- * @return
- */
-export function* sieveE_(n: uint): Generator<uint> {
-  if (n < 2) { return; }
-  const s = [false, false];
-  const sqrtn = Math.sqrt(n) | 0;
-  for (let i = 2; i < n + 1; ++i) {
-    s[i] = true;
-  }
-  for (let i = 2; i < sqrtn + 1; ++i) {
-    if (s[i]) {
-      for (let j = i * i; j < n + 1; j += i) {
-        s[j] = false;
-      }
-    }
-  }
-  for (let i = 0; i < n + 1; ++i) {
-    if (s[i]) {
-      yield i;
-    }
-  }
-}
-
-/**
- * Sieve of Eratosthenes
- * with BitArray
  * @param n
  * @return
  */
@@ -361,4 +333,32 @@ export function bmrpt(n: bigint): boolean {
     }
   }
   return true;
+}
+
+export function pi(n: uint): uint {
+  return Math.round(n / Math.log(n));
+}
+
+export function lucasLehmerTest(p: bigint): boolean {
+  let s = 4n;
+  const m = (1n << p) - 1n;
+  for (let n = 2n; n < p; n++) {
+    const s2 = s * s;
+    s = (s2 & m) + (s2 >> p);
+    if (s >= m) {
+      s -= m;
+    }
+    s -= 2n;
+  }
+
+  return s === 0n;
+}
+
+export function* mersennePrimes(): Generator<bigint[]> {
+  for (const p of primes()) {
+    const bp = BigInt(p);
+    if (lucasLehmerTest(bp)) {
+      yield [bp, (1n << bp) - 1n];
+    }
+  }
 }

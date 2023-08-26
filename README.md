@@ -9,5 +9,5 @@ npm test
 ```
 
 ```sh
-npm run ts-node sample/primes.ts
+npm run tsx sample/primes.ts
 ```

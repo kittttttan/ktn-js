@@ -1,5 +1,8 @@
 import type {uint} from '../types';
 
+/**
+ * https://en.wikipedia.org/wiki/Unary_coding
+ */
 export function encodeUnary(n: uint, alt = false): string {
   if (n < 0) { throw new Error(`unary(n, alt): n=${n} must >= 0`); }
 
@@ -16,6 +19,9 @@ export function encodeUnary(n: uint, alt = false): string {
   return former.repeat(n) + latter;
 }
 
+/**
+ * https://en.wikipedia.org/wiki/Elias_gamma_coding
+ */
 export function encodeEliasGamma(n: uint): string {
   if (n < 1) { throw new Error(`eliasGamma(n): n=${n} must >= 1`); }
 
@@ -23,6 +29,9 @@ export function encodeEliasGamma(n: uint): string {
   return '0'.repeat(bin.length - 1) + bin;
 }
 
+/**
+ * https://en.wikipedia.org/wiki/Elias_delta_coding
+ */
 export function encodeEliasDelta(n: uint): string {
   if (n < 1) { throw new Error(`eliasDelta(n): n=${n} must >= 1`); }
 
@@ -31,6 +40,9 @@ export function encodeEliasDelta(n: uint): string {
   return gamma + bin.substring(1);
 }
 
+/**
+ * https://en.wikipedia.org/wiki/Elias_omega_coding
+ */
 export function encodeEliasOmega(n: uint): string {
   if (n < 1) { throw new Error(`eliasOmega(n): n=${n} must >= 1`); }
 

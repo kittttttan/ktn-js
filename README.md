@@ -6,6 +6,7 @@
 
 ```sh
 npm test
+npm run coverage
 ```
 
 ```sh

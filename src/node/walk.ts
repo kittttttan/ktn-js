@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-export function walk(p, fileCallback, errCallback) {
+export function walk(p, fileCallback: (filepath: string) => unknown, errCallback: (err: NodeJS.ErrnoException) => unknown) {
     fs.readdir(p, (err, files) => {
         if (err) {
             errCallback(err);
@@ -16,9 +16,9 @@ export function walk(p, fileCallback, errCallback) {
             }
         });
     });
-};
+}
 
-export async function* walkAsync(dir) {
+export async function* walkAsync(dir: string) {
     for await (const d of await fs.promises.opendir(dir)) {
         const entry = path.join(dir, d.name);
         if (d.isDirectory()) {

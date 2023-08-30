@@ -1,2 +1,1 @@
-export * from './src/math/';
-export * from './src/utils/';
+export * from './src/';

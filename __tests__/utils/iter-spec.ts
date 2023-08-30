@@ -1,7 +1,10 @@
 import {
-  range, zip,
-  take, takeWhile,
-  filter, map
+  range, string, stringRange,
+  zip, chain, chunk,
+  take, takeWhile, skip,
+  filter, map, each, enumerate,
+  fold, reduce, sum,
+  any, all,
 } from '../../src/utils/iter';
 
 describe("iter", () => {
@@ -25,10 +28,11 @@ describe("iter", () => {
     }
     expect(-1).toBe(index);
 
-    expect([...range(1, 0)]).toStrictEqual([]);
+    expect([...range(1)]).toStrictEqual([0]);
+    expect([...range(1, 0)]).toStrictEqual([1]);
+    expect([...range(1, 0, 1)]).toStrictEqual([]);
     expect([...range(0, 1, -1)]).toStrictEqual([]);
-
-    expect(() => [...range(0, 1, 0)]).toThrow(new Error('range() arg 3 must not be zero'));
+    expect([...range(undefined, 1)]).toStrictEqual([0]);
   });
 
   it("zip", () => {
@@ -47,7 +51,7 @@ describe("iter", () => {
 
   it("take", () => {
     let i = 0;
-    for (let n of take(range(10), 3)) {
+    for (let n of take(range(), 3)) {
       expect(n).toBe(i);
       i++;
     }
@@ -59,6 +63,15 @@ describe("iter", () => {
       i++;
     }
     expect(i).toBe(3);
+  });
+
+  it("skip", () => {
+    let i = 10;
+    for (let n of take(skip(range(), 10), 3)) {
+      expect(n).toBe(i);
+      i++;
+    }
+    expect(i).toBe(13);
   });
 
   it("filter", () => {
@@ -90,5 +103,106 @@ describe("iter", () => {
       expect(n).toBe(b[i]);
       i++;
     }
+  });
+
+  it("each", () => {
+    function* a() {
+      yield* [1, 3, 5];
+    }
+    const b = [1, 3, 5];
+    const c = [0, 1, 2];
+    each(a(), (n, i) => {
+      expect(n).toBe(b[i]);
+      expect(i).toBe(c[i]);
+    });
+  });
+
+  it("enumerate", () => {
+    const a = [1, 3, 5];
+    let i = 0;
+    for (let [index, n] of enumerate(range(1, 7, 2))) {
+      expect(index).toBe(i);
+      expect(n).toBe(a[i]);
+      i++;
+    }
+  });
+
+  it("chain", () => {
+    const a = [0, 1, 2, 3, 2, 1];
+    let i = 0;
+    for (const n of chain(range(0, 3, 1), range(3, 0, -1))) {
+      expect(n).toBe(a[i]);
+      i++;
+    }
+  });
+
+  it("chunk", () => {
+    const a = [[0, 1], [2, 3], [4]];
+    let i = 0;
+    for (const n of chunk(range(5), 2)) {
+      expect(n).toStrictEqual(a[i]);
+      i++;
+    }
+
+    expect([...chunk(range(5), 0)]).toStrictEqual([]);
+  });
+
+  it("string", () => {
+    const a = ['a', 'b', 'c'];
+    let i = 0;
+    for (const c of string('abc')) {
+      expect(c).toBe(a[i]);
+      i++;
+    }
+  });
+
+  it("stringRange", () => {
+    const a = ['a', 'b', 'c'];
+    let i = 0;
+    for (const c of stringRange('a', 'c')) {
+      expect(c).toBe(a[i]);
+      i++;
+    }
+  });
+
+  it("any", () => {
+    function* a() {
+      yield* [false, 0, ''];
+    }
+    expect(any(a())).toBe(false);
+
+    function* b() {
+      yield* [false, 0, '', 1];
+    }
+    expect(any(b())).toBe(true);
+  });
+
+  it("all", () => {
+    function* a() {
+      yield* [false, 0, ''];
+    }
+    expect(all(a())).toBe(false);
+
+    function* b() {
+      yield* [false, 0, '', 1];
+    }
+    expect(all(b())).toBe(false);
+
+    function* c() {
+      yield* [true, -1, 'a', 1.23];
+    }
+    expect(all(c())).toBe(true);
+  });
+
+  it("fold", () => {
+    expect(fold(10, range(3), (a, v) => a - v)).toBe(7);
+  });
+
+  it("reduce", () => {
+    expect(reduce(range(3), (a, v) => a - v)).toBe(-3);
+  });
+
+  it("sum", () => {
+    expect(sum(range(3))).toBe(3);
   });
 });

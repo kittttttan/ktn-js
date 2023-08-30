@@ -1,8 +1,12 @@
-import type {uint} from '../types';
+import type {Np, uint} from '../types';
 import {isBigPrime} from '../math/primality';
 
-export function divisors(n: uint): number[] {
+export function divisors(n: Np): number[] {
   n = n | 0;
+  if (n < 1) {
+    throw new RangeError();
+  }
+
   const as = [1];
   const sq = Math.sqrt(n) | 0;
   for (let i = 2; i < sq + 1; i++) {
@@ -15,7 +19,9 @@ export function divisors(n: uint): number[] {
     }
   }
   as.sort((a, b) => a - b);
-  as.push(n);
+  if (n > 1) {
+    as.push(n);
+  }
 
   return as;
 }

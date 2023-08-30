@@ -1,5 +1,5 @@
 import {timeit} from "../src/utils";
-import {primes, bmrpt, rho, sieveA, pi, mersennePrimes, fermat} from "../src/math";
+import {primes, bmrpt, pollardsRho, sieveA, pi, mersennePrimes, fermat} from "../src/math";
 import {take} from "../src/utils/iter";
 import primeLists from "../json/prime-static-1e7.json";
 
@@ -54,6 +54,6 @@ timeit(() => {
         Number(n - 2n) : Number.MAX_SAFE_INTEGER;
     for (let i = 0; i < 3; i++) {
         const r = BigInt((Math.random() * max | 0) + 1);
-        console.log(`${rho(n, r)} | ${n.toString()}`);
+        console.log(`${pollardsRho(n, r)} | ${n.toString()}`);
     }
 });

@@ -75,7 +75,7 @@ export function* takeWhile<T>(g: Generator<T>, f: (a: T) => boolean): Generator<
   }
 }
 
-export function* filter<T>(g: Generator<T>, f: (a: T) => boolean): Generator<any> {
+export function* filter<T>(g: Generator<T>, f: (a: T) => boolean = (a) => !!a): Generator<T> {
   for (const v of g) {
     if (f(v)) {
       yield v;

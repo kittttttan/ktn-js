@@ -55,22 +55,22 @@ describe('primality', ()=> {
   });
 
   it('isPrime', ()=> {
-    expect(false).toBe(isPrime(0));
-    expect(true).toBe(isPrime(2));
-    expect(true).toBe(isPrime(103));
-    expect(false).toBe(isPrime(1681));
-    expect(true).toBe(isPrime(65537));
+    expect(isPrime(0)).toBe(false);
+    expect(isPrime(2)).toBe(true);
+    expect(isPrime(103)).toBe(true);
+    expect(isPrime(1681)).toBe(false);
+    expect(isPrime(65537)).toBe(true);
   });
 
   it('isBigPrime', ()=> {
-    expect(false).toBe(isBigPrime(4294967297n));
-    expect(true).toBe(isBigPrime((1n << 31n) - 1n));
+    expect(isBigPrime(4294967297n)).toBe(false);
+    expect(isBigPrime((1n << 31n) - 1n)).toBe(true);
   });
 
   it('factorization', ()=> {
-    expect([]).toStrictEqual([...factorization(1)]);
-    expect([2]).toStrictEqual([...factorization(2)]);
-    expect([2, 2, 2, 2]).toStrictEqual([...factorization(1 << 4)]);
-    expect([17, 59, 997]).toStrictEqual([...factorization(999991)]);
+    expect([...factorization(1)]).toStrictEqual([]);
+    expect([...factorization(2)]).toStrictEqual([2]);
+    expect([...factorization(1 << 4)]).toStrictEqual([2, 2, 2, 2]);
+    expect([...factorization(999991)]).toStrictEqual([17, 59, 997]);
   });
 });

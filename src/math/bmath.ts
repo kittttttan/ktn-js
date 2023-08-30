@@ -54,13 +54,13 @@ export function rootNth(value: bigint, k = 2n): bigint {
   return x;
 }
 
-export function log(a: bigint): number {
+export function log10(a: bigint): number {
   if (a < 0n) {
     throw new RangeError('a < 0');
   }
   const s = a.toString();
   const order = s.length;
-  return order * Math.log(10) + Math.log(parseFloat('0.' + s));
+  return order * Math.log10(10) + Math.log10(parseFloat('0.' + s));
 }
 
 export function log2(a: bigint): number {
@@ -72,7 +72,7 @@ export function log2(a: bigint): number {
   return order * Math.log2(10) + Math.log2(parseFloat('0.' + s));
 }
 
-export function rho(n: bigint, r: bigint): bigint {
+export function pollardsRho(n: bigint, r: bigint): bigint {
   function rand(x: bigint, n: bigint, c: bigint): bigint {
     return (x * x + c) % n;
   }

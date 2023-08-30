@@ -1,27 +1,30 @@
 /**
  * Generate Prime Number List in JavaScript
  */
-import type {uint, Np} from '../types';
+import type { uint, Np } from '../types';
 import { isqrt } from './bmath';
 import { BitArray } from '../utils/bitarray';
 
 export function* primes(): Generator<uint> {
   yield 2;
   yield 3;
+  yield 5;
+  yield 7;
+  yield 11;
+  yield 13;
+  yield 17;
+  yield 19;
+  yield 23;
+  yield 29;
 
-  for (let i = 5; ;) {
-    // 6n-1
-    if (isPrime(i)) {
-      yield i;
+  const wheel = [6,4,2,4,2,4,4,2,2];
+  for (let i = 31; ;) {
+    for (const w of wheel) {
+      if (isPrime(i)) {
+        yield i;
+      }
+      i += w;
     }
-    i += 2;
-
-    // 6n+1
-    if (isPrime(i)) {
-      yield i;
-    }
-    // 6n+3 is not prime
-    i += 4;
   }
 }
 
@@ -32,7 +35,7 @@ export function* primes(): Generator<uint> {
  */
 export function* sieveE(n: uint): Generator<uint> {
   if (n < 2) { return; }
-  const s = new BitArray(n);
+  const s = new BitArray(n + 1);
   const sqrtn = Math.sqrt(n) | 0;
   for (let i = 2; i < n + 1; ++i) {
     s.set(i, true);
@@ -59,7 +62,7 @@ export function* sieveE(n: uint): Generator<uint> {
 export function* sieveA(n: uint): Generator<uint> {
   if (n < 2) { return; }
 
-  const s = new BitArray(n);
+  const s = new BitArray(Math.max(n + 1, 4));
   const upper = n + 1;
   const upperSqrt = (Math.sqrt(n) | 0) + 1;
 
@@ -175,12 +178,14 @@ export function isPrime(a: uint): boolean {
   if (i > sq) { return true; }
 
   for (; ;) {
+    // 6n-1
     if (!(a % i)) {
       return false;
     }
     i += 2;
     if (i > sq) { break; }
 
+    // 6n+1
     if (!(a % i)) {
       return false;
     }

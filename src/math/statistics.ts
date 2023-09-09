@@ -1,4 +1,4 @@
-import type {int, uint, float} from '../types';
+import type {int, uint, float} from '../types.ts';
 
 /**
  * factorial

@@ -1,7 +1,7 @@
 /**
  * Add
  */
-import {Rational} from '../rational';
+import {Rational} from '../rational.ts';
 
 /**
  * Add

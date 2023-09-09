@@ -1,9 +1,9 @@
 /**
  * Generate Prime Number List in JavaScript
  */
-import type { uint, Np } from '../types';
-import { isqrt } from './bmath';
-import { BitArray } from '../utils/bitarray';
+import type { uint, Np } from '../types.ts';
+import { isqrt } from './bmath.ts';
+import { BitArray } from '../utils/bitarray.ts';
 
 export function* primes(): Generator<uint> {
   yield 2;

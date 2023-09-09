@@ -1,10 +1,10 @@
-import {Tokenizer} from './tokenizer';
-import {Parser, Ast} from './parser';
-import {Add} from './add';
-import {Mul} from './mul';
-import {Div} from './div';
-import {Pow} from './pow';
-import {Trigon, Sin, Cos, Tan} from './trigon';
+import {Tokenizer} from './tokenizer.ts';
+import {Parser, Ast} from './parser.ts';
+import {Add} from './add.ts';
+import {Mul} from './mul.ts';
+import {Div} from './div.ts';
+import {Pow} from './pow.ts';
+import {Trigon, Sin, Cos, Tan} from './trigon.ts';
 
 const add: (...items: any[]) => Add = Add.add;
 const sub: (...items: any[]) => Add = Add.sub;

@@ -1,4 +1,4 @@
-import type { float } from '../types';
+import type { float } from '../types.ts';
 
 export function* range(start?: float, end?: float, step?: float): Generator<number> {
   if (typeof end === 'undefined') {

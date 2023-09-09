@@ -1,4 +1,4 @@
-import type {float} from '../types';
+import type {float} from '../types.ts';
 const _sqrt: (x: number) => number = Math.sqrt;
 
 /**

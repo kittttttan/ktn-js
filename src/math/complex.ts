@@ -1,4 +1,4 @@
-import type {float} from '../types';
+import type {float} from '../types.ts';
 
 /**
  * Complex

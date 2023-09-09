@@ -1,4 +1,4 @@
-import {wget} from '../node/wget';
+import {wget} from '../src/node/wget.ts';
 
 function main() {
     const argv = process.argv;

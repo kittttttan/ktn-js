@@ -1,11 +1,11 @@
-export * from './add';
-export * from './div';
-export * from './mul';
-export * from './pow';
+export * from './add.ts';
+export * from './div.ts';
+export * from './mul.ts';
+export * from './pow.ts';
 
-export * from './trigon';
+export * from './trigon.ts';
 
-export * from './parser';
-export * from './scanner';
-export * from './tokenizer';
-export * from './math-expression';
+export * from './parser.ts';
+export * from './scanner.ts';
+export * from './tokenizer.ts';
+export * from './math-expression.ts';

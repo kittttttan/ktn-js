@@ -1,4 +1,4 @@
-import type {float} from '../../types';
+import type {float} from '../../types.ts';
 
 export function* geometric(r: float, a = 1): Generator<float> {
   let n = a;

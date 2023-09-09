@@ -5,7 +5,7 @@
  * F1 = 1
  * Fn+2 = Fn + Fn-1 (n >= 0)
  */
-import type {uint} from '../../types';
+import type {uint} from '../../types.ts';
 
 /**
  * generate Fibonacci numbers

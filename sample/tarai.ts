@@ -1,4 +1,4 @@
-import {timeit} from "../src/utils";
+import {timeit} from "../src/utils/timeit.ts";
 
 function tarai(x, y, z) {
     if (x <= y) {

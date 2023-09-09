@@ -1,4 +1,4 @@
-import type {float} from '../types';
+import type {float} from '../types.ts';
 
 const _sqrt: (x: number) => number = Math.sqrt;
 const _cos: (x: number) => number = Math.cos;

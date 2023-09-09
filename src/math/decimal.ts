@@ -1,5 +1,5 @@
-import type { int, Np } from '../types';
-import { abs } from './bmath';
+import type { int, Np } from '../types.ts';
+import { abs } from './bmath.ts';
 
 type Option = { precision?: Np };
 let precision: Np = 20;

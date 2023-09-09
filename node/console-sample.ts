@@ -1,5 +1,5 @@
-import {moveLinetop, clearRight, clear, moveTo, moveLineUp, moveRight} from '../src/node/console-ansi';
-import {red, color} from '../src/node/console-color';
+import {moveLinetop, clearRight, clear, moveTo, moveLineUp, moveRight} from '../src/node/console-ansi.ts';
+import {red, color} from '../src/node/console-color.ts';
 
 clear();
 moveTo();

@@ -1,4 +1,4 @@
-import type {uint} from '../types';
+import type {uint} from '../types.ts';
 
 /**
  * @param y year

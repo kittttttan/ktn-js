@@ -1,5 +1,5 @@
-import type {Np, uint} from '../types';
-import {isBigPrime} from '../math/primality';
+import type {Np, uint} from '../types.ts';
+import {isBigPrime} from '../math/primality.ts';
 
 export function divisors(n: Np): number[] {
   n = n | 0;

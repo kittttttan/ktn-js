@@ -1,6 +1,6 @@
-export * from './collatz';
-export * from './fib';
-export * from './geometric';
+export * from './collatz.ts';
+export * from './fib.ts';
+export * from './geometric.ts';
 
-export * from './fermat';
-export * from './mersenne';
+export * from './fermat.ts';
+export * from './mersenne.ts';

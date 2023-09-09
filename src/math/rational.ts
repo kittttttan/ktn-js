@@ -2,7 +2,7 @@
  * Rational
  */
 
-import {abs, gcd} from './bmath';
+import {abs, gcd} from './bmath.ts';
 
 /**
  * Rational

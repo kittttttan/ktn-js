@@ -9,6 +9,22 @@ npm test
 npm run coverage
 ```
 
+[Deno](https://deno.com/)
 ```sh
-npm run tsx sample/primes.ts
+deno run sample/primes.ts
+```
+
+```sh
+npm run build:sample
+node build/sample/sieve.js
+```
+
+```sh
+npm run build:node
+node build/node/sieve.js
+```
+
+```sh
+npm run build
+# open build/index.html
 ```

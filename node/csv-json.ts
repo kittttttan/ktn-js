@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import {csvToJson} from "../src/utils";
+import {csvToJson} from "../src/utils/index.ts";
 try {
     const argv = process.argv;
     if (argv.length <= 2) {

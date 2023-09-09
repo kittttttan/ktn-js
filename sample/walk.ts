@@ -1,4 +1,4 @@
-import {walk, walkAsync} from '../node/walk';
+import {walk, walkAsync} from '../src/node/walk.ts';
 
 async function main() {
     const argv = process.argv;

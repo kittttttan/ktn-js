@@ -1,4 +1,4 @@
-import type {uint} from '../types';
+import type {uint} from '../types.ts';
 
 /**
  * https://en.wikipedia.org/wiki/Unary_coding

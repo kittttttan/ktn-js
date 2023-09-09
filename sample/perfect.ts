@@ -1,15 +1,12 @@
-import {timeit} from "../src/utils";
-import {divisors, isPerfect, perfects, evenPerfects} from "../src/math/perfect";
-import {take} from "../src/utils/iter";
+import {divisors, isPerfect, perfects, evenPerfects} from "../src/math/perfect.ts";
+import {take} from "../src/utils/iter.ts";
 
-timeit(() => {
-    for (const n of [1,2,3,4,5,6,60]) {
-        console.log(n, divisors(n), isPerfect(n));
-    }
+for (const n of [1,2,3,4,5,6,60]) {
+    console.log(n, divisors(n), isPerfect(n));
+}
 
-    const m = 3;
-    console.log(`first ${m}th perfect number`, [...take(perfects(), 3)]);
+const m = 3;
+console.log(`first ${m}th perfect number`, [...take(perfects(), 3)]);
 
-    const n = 7;
-    console.log(`first ${n}th even perfect number`, [...take(evenPerfects(), n)]);
-});
+const n = 7;
+console.log(`first ${n}th even perfect number`, [...take(evenPerfects(), n)]);

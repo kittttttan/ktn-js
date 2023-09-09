@@ -2,8 +2,8 @@
  * Pow
  */
 
-import {Rational} from '../rational';
-import {isInt} from '../is-int';
+import {Rational} from '../rational.ts';
+import {isInt} from '../is-int.ts';
 
 /**
  * Pow

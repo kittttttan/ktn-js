@@ -1,5 +1,5 @@
-import type {float} from '../types';
-import {Complex} from './complex';
+import type {float} from '../types.ts';
+import {Complex} from './complex.ts';
 
 const cos: (x: number) => number = Math.cos;
 const sin: (x: number) => number = Math.sin;

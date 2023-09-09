@@ -2,7 +2,7 @@
  * Div
  */
 
-import {Rational} from '../rational';
+import {Rational} from '../rational.ts';
 
 /**
  * Div

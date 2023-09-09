@@ -1,4 +1,4 @@
-import {Scanner} from './scanner';
+import {Scanner} from './scanner.ts';
 
 export class Tokenizer {
   protected _scanner: Scanner;

@@ -1,4 +1,4 @@
-import type {uint} from '../../types';
+import type {uint} from '../../types.ts';
 
 export function* collatz(n: uint): Generator<uint> {
     for (; ;) {

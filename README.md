@@ -14,6 +14,11 @@ npm run coverage
 deno run sample/primes.ts
 ```
 
+[Bun](https://bun.sh/)
+```sh
+bun run sample/primes.ts
+```
+
 ```sh
 npm run build:sample
 node build/sample/sieve.js
@@ -21,7 +26,7 @@ node build/sample/sieve.js
 
 ```sh
 npm run build:node
-node build/node/sieve.js
+node build/node/console-sample.js
 ```
 
 ```sh

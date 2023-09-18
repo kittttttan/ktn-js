@@ -8,6 +8,7 @@ export * from './heapq.ts';
 export * from './iter.ts';
 export * from './random.ts';
 export * from './regexp.ts';
+export * from './shuffle.ts';
 export * from './strconv.ts';
 export * from './string.ts';
 export * from './timeit.ts';

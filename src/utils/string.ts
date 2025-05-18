@@ -2,7 +2,6 @@
  * sprintf
  */
 export function format(str: string, ...argv: any[]): string {
-  // const argv = arguments;
   let index = 0;
   return str.replace(
     /%([+\-#0])?(\d+)?(?:\.(\d+))?([%defoxs])/g,

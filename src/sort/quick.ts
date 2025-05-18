@@ -5,7 +5,7 @@ export function quickSort(a: number[]) {
 function quickImpl(a: number[], first: number, last: number) {
     let i = first;
     let j = last;
-    let filter = (a[i] + a[j]) / 2;
+    const filter = (a[i] + a[j]) / 2;
     while (i < j) {
         while (a[i] < filter) { i++; }
         while (a[j] > filter) { j--; }

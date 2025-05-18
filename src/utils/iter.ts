@@ -185,17 +185,17 @@ export function fold<T>(init: T, g: Generator<T>, f: (a: T, v: T) => T): T {
   return a;
 }
 
-export function reduce<T>(g: Generator<T>, f: (a: T, v: T) => T): T | void {
+export function reduce<T>(g: Generator<T>, f: (a: T, v: T) => T): T {
   const h = g.next();
   if (h.done) {
-    return;
+    return h.value;
   }
 
   const init = h.value;
   return fold(init, g, f);
 }
 
-export function sum(g: Generator<any>): any {
+export function sum(g: Generator<number>): number {
   return reduce(g, (a, b) => a + b);
 }
 

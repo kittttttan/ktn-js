@@ -3,15 +3,15 @@ export function mergeSort<T>(a: T[], compare: (a: T, b: T) => number = (a: T, b:
         return a;
     }
   
-    let middle = a.length >> 1;
-    let left = a.slice(0, middle);
-    let right = a.slice(middle);
+    const middle = a.length >> 1;
+    const left = a.slice(0, middle);
+    const right = a.slice(middle);
   
     return merge(mergeSort(left), mergeSort(right), compare);
   }
   
   function merge<T>(left: T[], right: T[], compare: (a: T, b: T) => number): T[] {
-    let result: T[] = [];
+    const result: T[] = [];
     let i = 0;
     let j = 0;
     while (i < left.length && j < right.length) {

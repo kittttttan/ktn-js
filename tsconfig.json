@@ -4,7 +4,8 @@
         "target": "es2020",
         "module": "ESNext",
         "lib": [
-            "es2020"
+            "ESNext",
+            "DOM"
         ],
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,

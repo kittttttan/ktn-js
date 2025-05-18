@@ -36,7 +36,7 @@ export class Scanner {
   /**
    * tokenize top
    */
-  public lex(): string|null {
+  public lex(): string | null {
     if (this.eof()) {
       return null;
     }
@@ -45,6 +45,7 @@ export class Scanner {
     if (NUM_CHARAS.includes(ch)) {
       return this.num();
     }
+
     return this.punctuator();
   }
 
@@ -75,12 +76,27 @@ export class Scanner {
       return s;
     }
 
-    const ss: string = this._src.substr(this._index, 2);
+    const ss: string = this._src.substring(this._index, this._index + 2);
     if (ss === '**') {
       this._index += 2;
       return '^';
     }
 
-    return s;
+    let s3 = '';
+    let ch = this._src[this._index];
+    while (
+      (ch >= 'A' && ch <= 'z')
+      || (ch >= '0' && ch <= '9')
+    ) {
+      s3 += ch;
+      ch = this._src[++this._index];
+    }
+
+    if (s3.length < 1) {
+      ++this._index;
+      return s;
+    }
+
+    return s3;
   }
 }

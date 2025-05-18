@@ -34,6 +34,13 @@ function func(name: string, a: Ast): Ast {
   };
 }
 
+function constant(name: string): Ast {
+  return {
+    name: name,
+    type: 'Const',
+  };
+}
+
 export class Parser {
   protected _tokens: string[];
   protected _index: number;
@@ -66,10 +73,10 @@ export class Parser {
       type: 'Int',
       value: token,
     };
-    if (token === '$p') {
-      // ast = Const.PI;
-    } else if (token === '$e') {
-      // ast = Const.E;
+    if (token === 'pi') {
+      ast = constant('pi');
+    } else if (token === 'e') {
+      ast = constant('e');
     }/* else if (isNaN(+ans)) {
       ans = vari(ans);
     }*/
@@ -88,10 +95,10 @@ export class Parser {
 
   private factor(): Ast {
     let funcName = '';
-    if (this._tokens[this._index] === '$sin'
-        || this._tokens[this._index] === '$cos'
-        || this._tokens[this._index] === '$tan') {
-      funcName = this._tokens[this._index].substring(1);
+    if (this._tokens[this._index] === 'sin'
+        || this._tokens[this._index] === 'cos'
+        || this._tokens[this._index] === 'tan') {
+      funcName = this._tokens[this._index];
       this._index += 1;
     }
     if (this._tokens[this._index] === '(') {
@@ -137,7 +144,12 @@ export class Parser {
 
   private expression(): Ast {
     let ast: Ast = this.term();
-    for (;;) {
+
+    const limit = 1000;
+    for (let i = 0; ; i++) {
+      if (i > limit) {
+        throw new Error(`too long loop: limit=${limit}`);
+      }
       if (this._tokens[this._index] === '+') {
         this._index += 1;
         ast = binary('+', ast, this.term());

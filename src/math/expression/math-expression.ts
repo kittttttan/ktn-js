@@ -5,6 +5,7 @@ import {Mul} from './mul.ts';
 import {Div} from './div.ts';
 import {Pow} from './pow.ts';
 import {Trigon, Sin, Cos, Tan} from './trigon.ts';
+import {PI,E} from '../const.ts';
 
 const add: (...items: any[]) => Add = Add.add;
 const sub: (...items: any[]) => Add = Add.sub;
@@ -77,6 +78,15 @@ export class MathExpression {
       return ast.value;
     }
 
+    if (ast.type === 'Const') {
+      if (ast.name === 'pi') {
+        return PI();
+      }
+      if (ast.name === 'e') {
+        return E();
+      }
+    }
+
     if (ast.type === 'Unary') {
       if (ast.operator === '-') {
         return neg(this._parseAst(ast.argument));
@@ -123,7 +133,11 @@ export class MathExpression {
       return tokens;
     }
 
-    for (;;) {
+    const limit = 1000;
+    for (let i = 0; ; i++) {
+      if (i > limit) {
+        throw new Error(`too long loop: limit=${limit}`);
+      }
       const token: string = this._t.next();
       // console.log(`token ${token}`);
       if (!token) {

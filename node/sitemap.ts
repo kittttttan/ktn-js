@@ -1,5 +1,7 @@
 import * as fs from "fs";
-import {format as dateFormat} from "../index.ts";
+import {ktn} from "../index.ts";
+
+const dateFormat = ktn.utils.format;
 const domain = 'https://kittttttan.info';
 let out = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n' +
     '<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n';

@@ -77,3 +77,18 @@ test("+-*/^", () => {
     expect(p.calc().toString()).toBe(i[2]);
   }
 });
+
+test("trigon", () => {
+  const a = [
+    ['sin(0)', ['sin','(','0',')'], 'sin(0)', '0'],
+    ['cos(0)', ['cos','(','0',')'], 'cos(0)', '1'],
+    ['tan(0)', ['tan','(','0',')'], 'tan(0)', '0'],
+  ];
+  for (const i of a) {
+    const me = MathExpression.create(i[0] as string);
+    const p = me.eval();
+    expect(me.tokens).toEqual(i[1]);
+    expect(p.toString()).toBe(i[2]);
+    expect(p.calc().toString()).toBe(i[3]);
+  }
+});
